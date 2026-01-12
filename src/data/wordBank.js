@@ -185,7 +185,7 @@ export const engWords = [
     { char: "總共", target: "共", pinyin: "ㄍㄨㄥˋ", english: "Total" },
     { char: "公共", target: "共", pinyin: "ㄍㄨㄥˋ", english: "Public" },
     { char: "孔雀", target: "孔", pinyin: "ㄎㄨㄥˇ", english: "Peacock" },
-    { char: "有些", target: "空", pinyin: "ㄎㄨㄥˋ", english: "Free time" }, // 4th tone
+    { char: "有空", target: "空", pinyin: "ㄎㄨㄥˋ", english: "Free time" }, // 4th tone
     { char: "空白", target: "空", pinyin: "ㄎㄨㄥˋ", english: "Blank" }, // 4th tone
     { char: "控制", target: "控", pinyin: "ㄎㄨㄥˋ", english: "Control" },
     { char: "遙控", target: "控", pinyin: "ㄎㄨㄥˋ", english: "Remote" },
