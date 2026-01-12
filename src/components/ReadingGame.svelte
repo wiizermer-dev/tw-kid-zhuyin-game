@@ -46,6 +46,8 @@
   
   function clearProgress() {
     localStorage.removeItem('zhuyin_level_progress');
+    localStorage.removeItem('zhuyin_total_stars');
+    localStorage.removeItem('zhuyin_max_level');
   }
 
   function tryLoadProgress() {
