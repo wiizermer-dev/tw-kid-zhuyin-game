@@ -1,0 +1,91 @@
+// 基礎詞彙庫 - ㄣ (en) Group
+export const enWords = [
+    // 單字 (Single Chars) - Default target is the char itself
+    { char: "人", pinyin: "ㄖㄣˊ", english: "Person" },
+    { char: "心", pinyin: "ㄒㄧㄣ", english: "Heart" },
+    { char: "金", pinyin: "ㄐㄧㄣ", english: "Gold" },
+    { char: "分", pinyin: "ㄈㄣ", english: "Score/Divide" },
+    { char: "深", pinyin: "ㄕㄣ", english: "Deep" },
+    
+    // 詞語 (Phrases) - Explicit target char
+    { char: "門把", target: "門", pinyin: "ㄇㄣˊ", english: "Door Knob" },
+    { char: "大門", target: "門", pinyin: "ㄇㄣˊ", english: "Gate" },
+    { char: "開門", target: "門", pinyin: "ㄇㄣˊ", english: "Open Door" },
+    { char: "我們", target: "們", pinyin: "˙ㄇㄣ", english: "We/Us" },
+    { char: "他們", target: "們", pinyin: "˙ㄇㄣ", english: "They" },
+    { char: "人們", target: "們", pinyin: "˙ㄇㄣ", english: "People" },
+    { char: "身體", target: "身", pinyin: "ㄕㄣ", english: "Body" },
+    { char: "身上", target: "身", pinyin: "ㄕㄣ", english: "On Body" },
+    { char: "森林", target: "森", pinyin: "ㄙㄣ", english: "Forest" },
+    { char: "真正", target: "真", pinyin: "ㄓㄣ", english: "Real" },
+    { char: "認真", target: "真", pinyin: "ㄓㄣ", english: "Serious" },
+    { char: "跟隨", target: "跟", pinyin: "ㄍㄣ", english: "Follow" },
+    { char: "腳跟", target: "跟", pinyin: "ㄍㄣ", english: "Heel" },
+    { char: "很好", target: "很", pinyin: "ㄏㄣˇ", english: "Very Good" },
+    { char: "很多", target: "很", pinyin: "ㄏㄣˇ", english: "Many" },
+    { char: "課本", target: "本", pinyin: "ㄅㄣˇ", english: "Textbook" },
+    { char: "本來", target: "本", pinyin: "ㄅㄣˇ", english: "Originally" },
+    { char: "臉盆", target: "盆", pinyin: "ㄆㄣˊ", english: "Washbasin" },
+    { char: "盆栽", target: "盆", pinyin: "ㄆㄣˊ", english: "Potted Plant" },
+    { char: "因為", target: "因", pinyin: "ㄧㄣ", english: "Because" },
+    { char: "原因", target: "因", pinyin: "ㄧㄣ", english: "Reason" },
+    { char: "拼圖", target: "拼", pinyin: "ㄆㄧㄣ", english: "Puzzle" },
+    { char: "音樂", target: "音", pinyin: "ㄧㄣ", english: "Music" },
+    { char: "聲音", target: "音", pinyin: "ㄧㄣ", english: "Sound" },
+    { char: "現在", target: "今", pinyin: "ㄐㄧㄣ", english: "Now (Today)" } 
+];
+
+// 基礎詞彙庫 - ㄥ (eng) Group
+export const engWords = [
+    // 單字
+    { char: "燈", pinyin: "ㄉㄥ", english: "Lamp" },
+    { char: "冷", pinyin: "ㄌㄥˇ", english: "Cold" },
+    { char: "更", pinyin: "ㄍㄥˋ", english: "More" },
+
+    // 詞語
+    { char: "電燈", target: "燈", pinyin: "ㄉㄥ", english: "Electric Light" },
+    { char: "檯燈", target: "燈", pinyin: "ㄉㄥ", english: "Desk Lamp" },
+    { char: "紅燈", target: "燈", pinyin: "ㄉㄥ", english: "Red Light" },
+    { char: "吹風", target: "風", pinyin: "ㄈㄥ", english: "Blowing Wind" },
+    { char: "颱風", target: "風", pinyin: "ㄈㄥ", english: "Typhoon" },
+    { char: "放風箏", target: "風", pinyin: "ㄈㄥ", english: "Kite Flying" }, 
+    { char: "做夢", target: "夢", pinyin: "ㄇㄥˋ", english: "Dreaming" },
+    { char: "惡夢", target: "夢", pinyin: "ㄇㄥˋ", english: "Nightmare" },
+    { char: "朋友", target: "朋", pinyin: "ㄆㄥˊ", english: "Friend" },
+    { char: "小朋友", target: "朋", pinyin: "ㄆㄥˊ", english: "Kid" },
+    { char: "碰面", target: "碰", pinyin: "ㄆㄥˋ", english: "Meet" },
+    { char: "等等", target: "等", pinyin: "ㄉㄥˇ", english: "Wait" },
+    { char: "能夠", target: "能", pinyin: "ㄋㄥˊ", english: "Able To" },
+    { char: "可能", target: "能", pinyin: "ㄋㄥˊ", english: "Possible" },
+    { char: "正確", target: "正", pinyin: "ㄓㄥˋ", english: "Correct" },
+    { char: "真正", target: "正", pinyin: "ㄓㄥˋ", english: "Real" },
+    { char: "成功", target: "成", pinyin: "ㄔㄥˊ", english: "Success" },
+    { char: "成長", target: "成", pinyin: "ㄔㄥˊ", english: "Growth" },
+    { char: "城市", target: "城", pinyin: "ㄔㄥˊ", english: "City" },
+    { char: "城堡", target: "城", pinyin: "ㄔㄥˊ", english: "Castle" },
+    { char: "生氣", target: "生", pinyin: "ㄕㄥ", english: "Angry" },
+    { char: "生日", target: "生", pinyin: "ㄕㄥ", english: "Birthday" },
+    { char: "花生", target: "生", pinyin: "ㄕㄥ", english: "Peanut" },
+    { char: "聲音", target: "聲", pinyin: "ㄕㄥ", english: "Voice/Sound" },
+    { char: "大聲", target: "聲", pinyin: "ㄕㄥ", english: "Loud" },
+    { char: "上升", target: "升", pinyin: "ㄕㄥ", english: "Rise" },
+    { char: "直升機", target: "升", pinyin: "ㄕㄥ", english: "Helicopter" },
+    { char: "星星", target: "星", pinyin: "ㄒㄧㄥ", english: "Star" },
+    { char: "星期", target: "星", pinyin: "ㄒㄧㄥ", english: "Week" },
+    { char: "高興", target: "興", pinyin: "ㄒㄧㄥˋ", english: "Happy" },
+    { char: "這裡", target: "裡", pinyin: "ㄌㄧˇ", english: "Here" }, // oops, not en/eng
+    { char: "風景", target: "景", pinyin: "ㄐㄧㄥˇ", english: "Scenery" },
+    { char: "眼睛", target: "睛", pinyin: "ㄐㄧㄥ", english: "Eyes" },
+    { char: "鏡子", target: "鏡", pinyin: "ㄐㄧㄥˋ", english: "Mirror" },
+    { char: "眼鏡", target: "鏡", pinyin: "ㄐㄧㄥˋ", english: "Glasses" },
+    { char: "電影", target: "影", pinyin: "ㄧㄥˇ", english: "Movie" },
+    { char: "影子", target: "影", pinyin: "ㄧㄥˇ", english: "Shadow" },
+    { char: "紅色", target: "紅", pinyin: "ㄏㄨㄥˊ", english: "Red" }, // ong
+    { char: "彩虹", target: "虹", pinyin: "ㄏㄨㄥˊ", english: "Rainbow" },
+    { char: "天空", target: "空", pinyin: "ㄎㄨㄥ", english: "Sky" },
+    { char: "空氣", target: "空", pinyin: "ㄎㄨㄥ", english: "Air" },
+    { char: "工作", target: "工", pinyin: "ㄍㄨㄥ", english: "Work" },
+    { char: "工人", target: "工", pinyin: "ㄍㄨㄥ", english: "Worker" },
+    { char: "中間", target: "中", pinyin: "ㄓㄨㄥ", english: "Middle" },
+    { char: "冬天", target: "冬", pinyin: "ㄉㄨㄥ", english: "Winter" }
+];
