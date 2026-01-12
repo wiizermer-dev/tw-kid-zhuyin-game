@@ -11,19 +11,91 @@
   let totalScore = 0; 
   let showFeedback = false;
   let isCorrect = false;
-  let gameState = 'start'; // 'start', 'playing', 'level_complete', 'milestone'
+  let gameState = 'loading'; // 'loading', 'welcome', 'playing', 'level_complete', 'milestone'
+  
+  // Player
+  let playerName = '';
+  let inputName = ''; // Temp storage for typing
+  let showNameModal = false;
+  let showConfirmModal = false;
   
   // Confetti helper
   let confettiParticles = [];
 
-  const QUESTIONS_PER_LEVEL = 10; // Reduced for quicker testing/gameplay flow, usually 20
+  const QUESTIONS_PER_LEVEL = 10; 
 
   function initLevel(level) {
     currentLevel = level;
     questions = generateLevelData(level, QUESTIONS_PER_LEVEL);
-    currentIndex = 0;
-    score = 0;
+    currentIndex = 0; // Reset index
+    score = 0; // Reset level score
     gameState = 'playing';
+    
+    saveProgress();
+  }
+
+  function saveProgress() {
+    const progress = {
+      level: currentLevel,
+      questions: questions,
+      currentIndex: currentIndex,
+      score: score
+    };
+    localStorage.setItem('zhuyin_level_progress', JSON.stringify(progress));
+  }
+  
+  function clearProgress() {
+    localStorage.removeItem('zhuyin_level_progress');
+  }
+
+  function tryLoadProgress() {
+    try {
+      const saved = localStorage.getItem('zhuyin_level_progress');
+      if (saved) {
+        const p = JSON.parse(saved);
+        // Validate if it matches current max level logic or just trust it?
+        // Let's trust it if the player matches.
+        if (p.level && p.questions && typeof p.currentIndex === 'number') {
+           currentLevel = p.level;
+           questions = p.questions;
+           currentIndex = p.currentIndex;
+           score = p.score || 0;
+           gameState = 'playing';
+           return true;
+        }
+      }
+    } catch (e) {
+      console.error("Failed to load progress", e);
+    }
+    return false;
+  }
+
+  function handleNameSubmit() {
+    if (!inputName.trim()) return;
+    playerName = inputName.trim();
+    localStorage.setItem('zhuyin_player_name', playerName);
+    showNameModal = false;
+    
+    // Check if we should resume or start fresh
+    if (!tryLoadProgress()) {
+      initLevel(currentLevel);
+    }
+  }
+  
+  function confirmIdentity(isMe) {
+    showConfirmModal = false;
+    if (isMe) {
+      if (!tryLoadProgress()) {
+        initLevel(currentLevel);
+      }
+    } else {
+      // Reset
+      playerName = '';
+      inputName = '';
+      localStorage.removeItem('zhuyin_player_name');
+      clearProgress(); // Clear any stale progress for previous user
+      showNameModal = true;
+    }
   }
 
   function handleAnswer(option) {
@@ -33,14 +105,27 @@
     if (isCorrect) {
       score += 1;
       totalScore += 1;
+      // Autosave stars immediately
+      localStorage.setItem('zhuyin_total_stars', totalScore.toString());
     }
     
     showFeedback = true;
+    
+    // Save progress AFTER score update but BEFORE index increment? 
+    // Actually we wait for timeout to increment index. 
+    // BUT if user refreshes during feedback, they should probably re-do the question or be at next?
+    // Let's save CURRENT state (with updated score). If they refresh, they will replay this question? 
+    // No, if isCorrect, score is up. If they replay, they might get score again?
+    // FIX: If we save 'score' but not 'index increment', they can farm stars by refreshing!
+    // COMPLEXITY: We need to handle this.
+    // OPTION: Move saveProgress to AFTER/during the transition or when index changes.
+    // Let's update save logic inside the setTimeout.
 
     setTimeout(() => {
       showFeedback = false;
       if (currentIndex < questions.length - 1) {
         currentIndex += 1;
+        saveProgress(); // Checking point: New index, updated score
       } else {
         finishLevel();
       }
@@ -48,6 +133,8 @@
   }
 
   function finishLevel() {
+    clearProgress(); // Clear progress on finish
+
     // Unlock logic
     const maxLevel = parseInt(localStorage.getItem('zhuyin_max_level') || '1');
     if (currentLevel >= maxLevel) {
@@ -76,12 +163,13 @@
     if (currentLevel < 100) {
       initLevel(currentLevel + 1);
     } else {
-      alert("恭喜你破完全部 100 關！太神啦！");
+      alert(`恭喜 ${playerName} 破完全部 100 關！太神啦！`);
       initLevel(1);
     }
   }
 
   function retryLevel() {
+    clearProgress(); // Explicitly clear to ensure fresh start
     initLevel(currentLevel);
   }
 
@@ -101,8 +189,6 @@
       }
     };
     
-    // Resize on content change (mutation observer ideal, but resize observer on parent works too)
-    // For now, just call it immediately and on window resize
     resize();
     window.addEventListener('resize', resize);
     
@@ -116,9 +202,17 @@
   onMount(() => {
      const savedLevel = parseInt(localStorage.getItem('zhuyin_max_level') || '1');
      const savedStars = parseInt(localStorage.getItem('zhuyin_total_stars') || '0');
+     const savedName = localStorage.getItem('zhuyin_player_name');
+     
      totalScore = savedStars;
      currentLevel = savedLevel;
-     initLevel(currentLevel);
+
+     if (savedName) {
+       playerName = savedName;
+       showConfirmModal = true;
+     } else {
+       showNameModal = true;
+     }
   });
 </script>
 
@@ -127,12 +221,54 @@
     
     <!-- HEADER -->
     <div class="game-header">
-      <div class="badge level">LV {currentLevel}</div>
+      <div class="left-badges">
+         <div class="badge level">LV {currentLevel}</div>
+         {#if playerName && !showNameModal && !showConfirmModal}<div class="badge name">👤 {playerName}</div>{/if}
+      </div>
       <div class="badge stars">🌟 {totalScore}</div>
     </div>
 
     <!-- MAIN GAME AREA -->
     <div class="game-content">
+    
+      <!-- MODAL: PLAYER NAME INPUT -->
+      {#if showNameModal}
+        <div class="modal-overlay" transition:fade>
+          <div class="modal-card" in:scale>
+            <h1>👋 哩賀 / 你好！</h1>
+            <p>請問你的名字是？</p>
+            <input 
+              type="text" 
+              placeholder="輸入名字" 
+              bind:value={inputName} 
+              on:keydown={(e) => e.key === 'Enter' && handleNameSubmit()}
+            />
+            <button class="start-btn" on:click={handleNameSubmit} disabled={!inputName.trim()}>
+               開始遊戲 🚀
+            </button>
+          </div>
+        </div>
+      {/if}
+
+      <!-- MODAL: CONFIRM IDENTITY -->
+      {#if showConfirmModal}
+        <div class="modal-overlay" transition:fade>
+          <div class="modal-card" in:scale>
+            <h1>🤔 請問是...</h1>
+            <p class="confirm-name">{playerName} 嗎？</p>
+            <div class="action-buttons-col">
+              <button class="start-btn" on:click={() => confirmIdentity(true)}>
+                 沒錯，是我！😎
+              </button>
+              <button class="retry-btn" on:click={() => confirmIdentity(false)}>
+                 不是，我是別人
+              </button>
+            </div>
+          </div>
+        </div>
+      {/if}
+
+      <!-- GAME CONTENT -->
       {#if gameState === 'playing'}
         {#if questions.length > 0}
           {@const currentQuestion = questions[currentIndex]}
@@ -185,7 +321,7 @@
 
       {:else if gameState === 'level_complete'}
         <div class="result-card" in:scale>
-          <h1>🎉 過關！</h1>
+          <h1>🎉 {playerName} 好棒！</h1>
           <p class="score-summary">本關星星：{score} / {QUESTIONS_PER_LEVEL}</p>
           <div class="action-buttons">
             <button class="retry-btn" on:click={retryLevel}>重玩</button>
@@ -201,7 +337,7 @@
             {/each}
           </div>
           <h1>🏆 里程碑達成！</h1>
-          <p class="milestone-text">恭喜通過第 {currentLevel} 關！<br>你是注音小天才！</p>
+          <p class="milestone-text">恭喜 <strong>{playerName}</strong><br>通過第 {currentLevel} 關！<br>你是注音小天才！</p>
           <button class="next-btn big" on:click={nextLevel}>繼續挑戰！🚀</button>
         </div>
       {/if}
@@ -297,18 +433,19 @@
   }
 
   .chinese-word {
-    font-size: 6rem;
+    font-size: 5rem;
     line-height: 1;
     margin: 0;
     color: #2d3748;
   }
 
   .english-word {
-    font-size: 5rem;
+    font-size: 3rem;
     color: #ed8936; /* Orange for English */
     margin: 0.5rem 0 0 0;
     font-family: 'Segoe UI', sans-serif;
     font-weight: 700;
+    word-break: break-all;
   }
 
   /* OPTIONS */
@@ -338,8 +475,10 @@
     white-space: nowrap; /* No wrapping */
   }
 
-  .option-btn:hover:not(:disabled) {
-    background: #e6fffa;
+  @media (hover: hover) {
+    .option-btn:hover:not(:disabled) {
+      background: #e6fffa;
+    }
   }
 
   .option-btn:active:not(:disabled) {
@@ -395,5 +534,98 @@
   @keyframes fall {
     0% { transform: translateY(0) rotate(0deg); opacity: 1; }
     100% { transform: translateY(800px) rotate(720deg); opacity: 0; }
+  }
+  /* MODAL OVERLAY & CARD */
+  .modal-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
+    width: 100%;
+    height: 100%;
+  }
+
+  .modal-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 30px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    text-align: center;
+    width: 85%;
+    max-width: 380px;
+    border: 4px solid #fff;
+    background: linear-gradient(180deg, #ffffff 0%, #f7fafc 100%);
+  }
+
+  .modal-card h1 { font-size: 2.2rem; margin: 0; color: #2d3748; }
+  .modal-card p { font-size: 1.2rem; color: #718096; margin: 0; }
+  
+  .confirm-name {
+    font-size: 2.5rem !important;
+    font-weight: 800;
+    color: #319795 !important;
+    margin: 1rem 0 !important;
+  }
+
+  .modal-card input {
+    font-size: 1.8rem;
+    padding: 0.8rem 1.5rem;
+    border: 3px solid #e2e8f0;
+    border-radius: 15px;
+    text-align: center;
+    width: 100%;
+    outline: none;
+    color: #2d3748; /* Explicit text color */
+    background: white;
+  }
+  
+  .modal-card input:focus {
+    border-color: #4fd1c5;
+    box-shadow: 0 0 0 3px rgba(79, 209, 197, 0.2);
+  }
+
+  .action-buttons-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+  .action-buttons-col button { width: 100%; }
+
+  .start-btn {
+    font-size: 1.4rem;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, #4fd1c5 0%, #319795 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(50, 151, 149, 0.2);
+    transition: transform 0.1s;
+    width: 100%;
+  }
+  
+  .start-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .start-btn:active:not(:disabled) { transform: scale(0.96); }
+
+  /* UTILS */
+  .left-badges {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  
+  .badge.name {
+    background: #bee3f8;
+    color: #2b6cb0;
   }
 </style>
