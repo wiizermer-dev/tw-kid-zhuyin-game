@@ -277,3 +277,106 @@ export const engWords = [
     { char: "個性", target: "性", pinyin: "ㄒㄧㄥˋ", english: "Personality" },
     { char: "聽話", target: "聽", pinyin: "ㄊㄧㄥ", english: "Obey" } // 1st
 ];
+
+// 高難度詞彙庫 - ㄣ (en) Hard Mode (Mixed: Rare, Confusion, Idioms, Memes)
+export const hardEnWords = [
+    // 生難字詞 & 易混淆 (Rare & Confusing)
+    { char: "分娩", target: "娩", pinyin: "ㄇㄧㄢˇ", english: "Childbirth" },
+    { char: "妊娠", target: "娠", pinyin: "ㄕㄣ", wrong: "ㄔㄣˊ", english: "Pregnancy" }, // Very Hard
+    { char: "蹂躪", target: "躪", pinyin: "ㄌㄧㄣˋ", english: "Trample" },
+    { char: "逡巡", target: "逡", pinyin: "ㄑㄩㄣ", wrong: "ㄑㄩㄣˊ", english: "Hesitate" },
+    { char: "頻繁", target: "頻", pinyin: "ㄆㄧㄣˊ", english: "Frequent" },
+    { char: "瀕臨", target: "瀕", pinyin: "ㄅㄧㄣ", english: "Verge of" },
+    { char: "嬪妃", target: "嬪", pinyin: "ㄆㄧㄣˊ", english: "Concubine" },
+    { char: "租賃", target: "賃", pinyin: "ㄌㄧㄣˋ", english: "Lease" },
+    { char: "吝嗇", target: "吝", pinyin: "ㄌㄧㄣˋ", english: "Stingy" }, // Confusing tone
+    { char: "氤氳", target: "氤", pinyin: "ㄧㄣ", english: "Misty" },
+    { char: "純粹", target: "純", pinyin: "ㄔㄨㄣˊ", english: "Pure" }, // En/Eng swap not applicable, use manual wrong
+    { char: "飲鴆止渴", target: "鴆", pinyin: "ㄓㄣˋ", english: "Poison" },
+    { char: "挑釁", target: "釁", pinyin: "ㄒㄧㄣˋ", english: "Provoke" },
+    { char: "涔涔", target: "涔", pinyin: "ㄘㄣˊ", english: "Sweaty" },
+    { char: "呻吟", target: "呻", pinyin: "ㄕㄣ", english: "Moan" },
+    { char: "人參", target: "參", pinyin: "ㄕㄣ", wrong: "ㄙㄣ", english: "Ginseng" }, // shen vs can
+    { char: "陰霾", target: "陰", pinyin: "ㄧㄣ", english: "Haze" },
+    
+    // 特殊讀音 (Special Tones/Pronunciations)
+    { char: "身分證", target: "分", pinyin: "ㄈㄣˋ", wrong: "ㄈㄣ", english: "ID Card" }, // fèn vs fēn
+    { char: "氣氛", target: "氛", pinyin: "ㄈㄣ", wrong: "ㄈㄣˋ", english: "Atmosphere" }, // fēn vs fèn
+    { char: "強韌", target: "韌", pinyin: "ㄖㄣˋ", english: "Tough" },
+    { char: "混合", target: "混", pinyin: "ㄏㄨㄣˋ", wrong: "ㄏㄨㄣˇ", english: "Mix" }, // hun4 vs hun3
+    { char: "創傷", target: "創", pinyin: "ㄔㄨㄤ", wrong: "ㄔㄨㄤˋ", english: "Trauma" }, // chuang1 vs chuang4
+    
+    // 成語 (Idioms)
+    { char: "諄諄教誨", target: "諄", pinyin: "ㄓㄨㄣ", wrong: "ㄔㄨㄣˊ", english: "Earnest teaching" },
+    { char: "莘莘學子", target: "莘", pinyin: "ㄕㄣ", wrong: "ㄒㄧㄣ", english: "Many students" }, // shen vs xin
+    { char: "參差不齊", target: "參", pinyin: "ㄘㄣ", wrong: "ㄘㄢ", english: "Uneven" }, // cen vs can
+    { char: "飲水思源", target: "飲", pinyin: "ㄧㄣˇ", english: "Grateful" },
+    { char: "囫圇吞棗", target: "圇", pinyin: "ㄌㄨㄣˊ", wrong: "ㄌㄨㄣ", english: "Swallow whole" },
+    { char: "勤能補拙", target: "勤", pinyin: "ㄑㄧㄣˊ", english: "Diligence" },
+    { char: "謹言慎行", target: "慎", pinyin: "ㄕㄣˋ", english: "Cautious" },
+    { char: "忿忿不平", target: "忿", pinyin: "ㄈㄣˋ", wrong: "ㄈㄣ", english: "Indignant" },
+    { char: "彬彬有禮", target: "彬", pinyin: "ㄅㄧㄣ", english: "Polite" },
+    
+    // 時事 & 迷因 (Memes/Current Events)
+    { char: "天選之人", target: "人", pinyin: "ㄖㄣˊ", english: "Chosen One" },
+    { char: "多人運動", target: "運", pinyin: "ㄩㄣˋ", english: "Multiplayer Sport" }, 
+    { char: "暈船", target: "暈", pinyin: "ㄩㄣ", wrong: "ㄩㄣˋ", english: "Crush/Seasick" }, // yun1 vs yun4
+    { char: "本斥但大", target: "本", pinyin: "ㄅㄣˇ", english: "Big..." },
+    { char: "很解", target: "很", pinyin: "ㄏㄣˇ", english: "Turn off" },
+    { char: "森七七", target: "森", pinyin: "ㄙㄣ", wrong: "ㄕㄥ", english: "Angry (Cute)" },
+    { char: "認知作戰", target: "認", pinyin: "ㄖㄣˋ", english: "Cognitive Warfare" },
+    { char: "社群媒體", target: "群", pinyin: "ㄑㄩㄣˊ", english: "Social Media" },
+    { char: "貧富差距", target: "貧", pinyin: "ㄆㄧㄣˊ", english: "Wealth Gap" }
+];
+
+// 高難度詞彙庫 - ㄥ (eng) Hard Mode (Mixed)
+export const hardEngWords = [
+    // 生難字詞 & 易混淆 (Rare & Confusing)
+    { char: "馳騁", target: "騁", pinyin: "ㄔㄥˇ", wrong: "ㄔㄥˊ", english: "Gallop" },
+    { char: "逞強", target: "逞", pinyin: "ㄔㄥˇ", english: "Show off" },
+    { char: "憧憬", target: "憧", pinyin: "ㄔㄨㄥ", wrong: "ㄔㄨㄥˊ", english: "Longing" }, // chong1 vs chong2
+    { char: "痙攣", target: "痙", pinyin: "ㄐㄧㄥˋ", wrong: "ㄐㄧㄥ", english: "Spasm" }, // jing4 vs jing1
+    { char: "脛骨", target: "脛", pinyin: "ㄐㄧㄥˋ", english: "Shin bone" },
+    { char: "親家", target: "親", pinyin: "ㄑㄧㄥˋ", wrong: "ㄑㄧㄣ", english: "In-laws" }, // qing4 vs qin1
+    { char: "內訌", target: "訌", pinyin: "ㄏㄨㄥˋ", wrong: "ㄏㄨㄥ", english: "Infighting" }, // hong4 vs gong1
+    { char: "供給", target: "供", pinyin: "ㄍㄨㄥ", wrong: "ㄍㄨㄥˋ", english: "Supply" }, // gong1 vs gong4
+    { char: "供品", target: "供", pinyin: "ㄍㄨㄥˋ", wrong: "ㄍㄨㄥ", english: "Offering" }, // gong4 vs gong1
+    { char: "巷弄", target: "弄", pinyin: "ㄋㄨㄥˋ", wrong: "ㄌㄨㄥˋ", english: "Alley" }, // nong4 vs long4
+    { char: "弄堂", target: "弄", pinyin: "ㄌㄨㄥˋ", wrong: "ㄋㄨㄥˋ", english: "Alley (Shanghai)" },
+    { char: "慫恿", target: "恿", pinyin: "ㄩㄥˇ", wrong: "ㄩㄥˋ", english: "Incite" }, 
+    { char: "兵馬俑", target: "俑", pinyin: "ㄩㄥˇ", wrong: "ㄩㄥ", english: "Terracotta" },
+    { char: "冗員", target: "冗", pinyin: "ㄖㄨㄥˇ", wrong: "ㄖㄨㄥˊ", english: "Redundant staff" },
+    { char: "炯炯有神", target: "炯", pinyin: "ㄐㄩㄥˇ", wrong: "ㄑㄩㄥ", english: "Bright eyes" },
+    { char: "孑孓", target: "孓", pinyin: "ㄐㄩㄝˊ", wrong: "ㄐㄧㄝˊ", english: "Larva" }, 
+    { char: "強勁", target: "勁", pinyin: "ㄐㄧㄥˋ", english: "Powerful" },
+    { char: "引擎", target: "擎", pinyin: "ㄑㄧㄥˊ", english: "Engine" },
+    { char: "罄竹難書", target: "罄", pinyin: "ㄑㄧㄥˋ", english: "Numerous crimes" },
+    { char: "如履薄冰", target: "冰", pinyin: "ㄅㄧㄥ", english: "Thin ice" },
+    { char: "並駕齊驅", target: "並", pinyin: "ㄅㄧㄥˋ", english: "Neck and neck" },
+
+    // 成語 (Idioms)
+    { char: "屏氣凝神", target: "屏", pinyin: "ㄅㄧㄥˇ", wrong: "ㄆㄧㄥˊ", english: "Hold breath" }, // bing3 vs ping2
+    { char: "鵬程萬里", target: "鵬", pinyin: "ㄆㄥˊ", english: "Bright future" },
+    { char: "興高采烈", target: "興", pinyin: "ㄒㄧㄥˋ", english: "Elated" }, // xing4 vs xing1
+    { char: "驚鴻一瞥", target: "驚", pinyin: "ㄐㄧㄥ", english: "Glance" },
+    { char: "兢兢業業", target: "兢", pinyin: "ㄐㄧㄥ", wrong: "ㄐㄧㄣˋ", english: "Cautious" }, // jing vs ke
+    { char: "毋庸置疑", target: "庸", pinyin: "ㄩㄥ", wrong: "ㄩㄥˋ", english: "No doubt" },
+    { char: "庸人自擾", target: "庸", pinyin: "ㄩㄥ", wrong: "ㄩㄥˋ", english: "Worrywart" },
+    { char: "洶湧澎湃", target: "湧", pinyin: "ㄩㄥˇ", wrong: "ㄩㄥˋ", english: "Surging" },
+    { char: "雷霆萬鈞", target: "霆", pinyin: "ㄊㄧㄥˊ", english: "Thunderous" },
+    { char: "心靈手巧", target: "靈", pinyin: "ㄌㄧㄥˊ", english: "Dexterous" },
+    
+    // 時事 & 迷因 (Memes/Current Events)
+    { char: "校正回歸", target: "正", pinyin: "ㄓㄥˋ", english: "Correction" },
+    { char: "躺平主義", target: "平", pinyin: "ㄆㄧㄥˊ", english: "Lying Flat" },
+    { char: "情緒勒索", target: "情", pinyin: "ㄑㄧㄥˊ", english: "Emotional Blackmail" },
+    { char: "像極了愛情", target: "情", pinyin: "ㄑㄧㄥˊ", english: "Like Love" },
+    { char: "吃瓜群眾", target: "眾", pinyin: "ㄓㄨㄥˋ", english: "Onlookers" },
+    { char: "晶片", target: "晶", pinyin: "ㄐㄧㄥ", english: "Chip" },
+    { char: "通膨", target: "膨", pinyin: "ㄆㄥˊ", english: "Inflation" },
+    { char: "淨零排放", target: "淨", pinyin: "ㄐㄧㄥˋ", english: "Net Zero" },
+    { char: "動態清零", target: "清", pinyin: "ㄑㄧㄥ", english: "Zero Covid" },
+    { char: "蹭熱度", target: "蹭", pinyin: "ㄘㄥˋ", english: " clout chasing" },
+    { char: "硬要", target: "硬", pinyin: "ㄧㄥˋ", english: "Insist" },
+    { char: "更正", target: "更", pinyin: "ㄍㄥ", english: "Correction" }
+];

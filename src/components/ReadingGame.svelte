@@ -18,15 +18,26 @@
   let inputName = ''; // Temp storage for typing
   let showNameModal = false;
   let showConfirmModal = false;
+  let showUnlockHardModeModal = false;
+
+  // Hard Mode
+  let isHardModeUnlocked = false;
+  let isHardMode = false;
   
   // Confetti helper
   let confettiParticles = [];
 
+  // Hard Mode State
+  let hardModeScore = 0;
+  let hardModeHighScore = 0;
+
   const QUESTIONS_PER_LEVEL = 10; 
+  const HARD_MODE_QUESTIONS = 100; 
 
   function initLevel(level) {
     currentLevel = level;
-    questions = generateLevelData(level, QUESTIONS_PER_LEVEL);
+    const qCount = isHardMode ? HARD_MODE_QUESTIONS : QUESTIONS_PER_LEVEL;
+    questions = generateLevelData(level, qCount, isHardMode);
     currentIndex = 0; // Reset index
     score = 0; // Reset level score
     gameState = 'playing';
@@ -39,15 +50,29 @@
       level: currentLevel,
       questions: questions,
       currentIndex: currentIndex,
-      score: score
+      score: score,
+      isHardMode: isHardMode,
+      hardModeScore: hardModeScore
     };
     localStorage.setItem('zhuyin_level_progress', JSON.stringify(progress));
   }
   
-  function clearProgress() {
+  function clearLevelProgress() {
+    localStorage.removeItem('zhuyin_level_progress');
+  }
+
+  function resetUserData() {
     localStorage.removeItem('zhuyin_level_progress');
     localStorage.removeItem('zhuyin_total_stars');
     localStorage.removeItem('zhuyin_max_level');
+    localStorage.removeItem('zhuyin_hard_mode_unlocked');
+    
+    // Reset local state
+    currentLevel = 1;
+    score = 0;
+    totalScore = 0;
+    isHardModeUnlocked = false;
+    isHardMode = false;
   }
 
   function tryLoadProgress() {
@@ -61,7 +86,10 @@
            currentLevel = p.level;
            questions = p.questions;
            currentIndex = p.currentIndex;
+           currentIndex = p.currentIndex;
            score = p.score || 0;
+           isHardMode = p.isHardMode || false;
+           hardModeScore = p.hardModeScore || 0;
            gameState = 'playing';
            return true;
         }
@@ -95,7 +123,7 @@
       playerName = '';
       inputName = '';
       localStorage.removeItem('zhuyin_player_name');
-      clearProgress(); // Clear any stale progress for previous user
+      resetUserData(); // Full reset for new user
       showNameModal = true;
     }
   }
@@ -135,13 +163,36 @@
   }
 
   function finishLevel() {
-    clearProgress(); // Clear progress on finish
+    clearLevelProgress(); // Clear level progress only
 
-    // Unlock logic
+    if (isHardMode) {
+        // Hard Mode Finish Logic
+        if (score > hardModeHighScore) {
+            hardModeHighScore = score;
+            localStorage.setItem('zhuyin_hard_high_score', hardModeHighScore.toString());
+        }
+        gameState = 'level_complete'; // Reuse or create new state? Reuse for now and handle UI in template.
+        return;
+    }
+
+    // Normal Mode Logic
     const maxLevel = parseInt(localStorage.getItem('zhuyin_max_level') || '1');
     if (currentLevel >= maxLevel) {
       localStorage.setItem('zhuyin_max_level', (currentLevel + 1).toString());
     }
+    
+    // Hard Mode Unlock Check (Only in Normal Mode)
+    if (!isHardModeUnlocked && score === QUESTIONS_PER_LEVEL) {
+        // Unlock Hard Mode!
+        isHardModeUnlocked = true;
+        localStorage.setItem('zhuyin_hard_mode_unlocked', 'true');
+        showUnlockHardModeModal = true;
+        // Don't show regular level complete if unlocking
+        gameState = 'playing'; // Stay in playing but show modal overlay? Or just use overlay on top of level complete?
+        // Let's use a specific state or overlay. 
+        // Using `showUnlockHardModeModal` overlay is better.
+    }
+    
     localStorage.setItem('zhuyin_total_stars', totalScore.toString());
 
     // Check Milestones
@@ -162,6 +213,14 @@
   }
 
   function nextLevel() {
+    if (isHardMode) {
+       // In hard mode, "next level" essentially means replay or go back?
+       // Actually user might want to retry.
+       // Let's just re-init hard mode (new set of 100).
+       initLevel(currentLevel); 
+       return;
+    }
+
     if (currentLevel < 100) {
       initLevel(currentLevel + 1);
     } else {
@@ -171,7 +230,7 @@
   }
 
   function retryLevel() {
-    clearProgress(); // Explicitly clear to ensure fresh start
+    clearLevelProgress(); // Clear level progress only
     initLevel(currentLevel);
   }
 
@@ -204,6 +263,11 @@
   onMount(() => {
      const savedLevel = parseInt(localStorage.getItem('zhuyin_max_level') || '1');
      const savedStars = parseInt(localStorage.getItem('zhuyin_total_stars') || '0');
+     // Hard Mode
+     const savedHardUnlock = localStorage.getItem('zhuyin_hard_mode_unlocked') === 'true';
+     isHardModeUnlocked = savedHardUnlock;
+     hardModeHighScore = parseInt(localStorage.getItem('zhuyin_hard_high_score') || '0');
+     
      const savedName = localStorage.getItem('zhuyin_player_name');
      
      totalScore = savedStars;
@@ -224,10 +288,12 @@
     <!-- HEADER -->
     <div class="game-header">
       <div class="left-badges">
-         <div class="badge level">LV {currentLevel}</div>
-         {#if playerName && !showNameModal && !showConfirmModal}<div class="badge name">👤 {playerName}</div>{/if}
+         {#if !isHardMode}<div class="badge level">LV {currentLevel}</div>{/if}
+         {#if isHardMode}<div class="badge hard-mode">🔥 困難挑戰 (最高: {hardModeHighScore})</div>{/if}
+         {#if playerName && !showNameModal && !showConfirmModal && !showUnlockHardModeModal}<div class="badge name">👤 {playerName}</div>{/if}
       </div>
-      <div class="badge stars">🌟 {totalScore}</div>
+      {#if !isHardMode}<div class="badge stars">🌟 {totalScore}</div>{/if}
+      {#if isHardMode}<div class="badge stars">💯 {score}</div>{/if}
     </div>
 
     <!-- MAIN GAME AREA -->
@@ -248,6 +314,15 @@
             <button class="start-btn" on:click={handleNameSubmit} disabled={!inputName.trim()}>
                開始遊戲 🚀
             </button>
+            
+            {#if isHardModeUnlocked}
+                 <div class="hard-mode-toggle">
+                    <label>
+                        <input type="checkbox" bind:checked={isHardMode}>
+                        <span>開啟困難模式 🔥</span>
+                    </label>
+                 </div>
+            {/if}
           </div>
         </div>
       {/if}
@@ -270,6 +345,32 @@
         </div>
       {/if}
 
+      <!-- MODAL: HARD MODE UNLOCKED -->
+      {#if showUnlockHardModeModal}
+        <div class="modal-overlay" transition:fade>
+          <div class="modal-card" in:scale>
+            <h1>🔥 困難模式解鎖！</h1>
+            <p>太厲害了！你獲得了滿分！<br>想要現在就挑戰更難的題目嗎？</p>
+            <div class="action-buttons-col">
+              <button class="start-btn hard" on:click={() => {
+                  showUnlockHardModeModal = false;
+                  isHardMode = true;
+                  nextLevel();
+              }}>
+                 😈 挑戰困難模式
+              </button>
+              <button class="retry-btn" on:click={() => {
+                  showUnlockHardModeModal = false;
+                  isHardMode = false;
+                  nextLevel();
+              }}>
+                 😌 繼續普通模式
+              </button>
+            </div>
+          </div>
+        </div>
+      {/if}
+
       <!-- GAME CONTENT -->
       {#if gameState === 'playing'}
         {#if questions.length > 0}
@@ -277,7 +378,7 @@
 
           <!-- PROGRESS -->
           <div class="progress-info">
-            題目 {currentIndex + 1} / {QUESTIONS_PER_LEVEL}
+            題目 {currentIndex + 1} / {isHardMode ? HARD_MODE_QUESTIONS : QUESTIONS_PER_LEVEL}
           </div>
 
           <!-- CARD -->
@@ -323,11 +424,26 @@
 
       {:else if gameState === 'level_complete'}
         <div class="result-card" in:scale>
-          <h1>🎉 {playerName} 好棒！</h1>
-          <p class="score-summary">本關星星：{score} / {QUESTIONS_PER_LEVEL}</p>
+          <h1>
+            {#if isHardMode}
+                🔥 挑戰結束！
+            {:else}
+                🎉 {playerName} 好棒！
+            {/if}
+          </h1>
+          <p class="score-summary">
+            {#if isHardMode}
+                本次得分：{score} / 100
+                {#if score >= 90}<br>太強了吧！？🙀{/if}
+            {:else}
+                本關星星：{score} / {QUESTIONS_PER_LEVEL}
+            {/if}
+          </p>
           <div class="action-buttons">
             <button class="retry-btn" on:click={retryLevel}>重玩</button>
-            <button class="next-btn" on:click={nextLevel}>下一關 ➡️</button>
+            <button class="next-btn" on:click={nextLevel}>
+                {#if isHardMode}再來一局 😈{:else}下一關 ➡️{/if}
+            </button>
           </div>
         </div>
 
@@ -394,6 +510,7 @@
     letter-spacing: 1px;
   }
   .badge.level { background: #2d3748; color: white; }
+  .badge.hard-mode { background: #e53e3e; color: white; }
   .badge.stars { background: #ecc94b; color: #744210; }
 
   /* CONTENT AREA */
@@ -629,5 +746,22 @@
   .badge.name {
     background: #bee3f8;
     color: #2b6cb0;
+  }
+  
+  .hard-mode-toggle {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    color: #e53e3e;
+    font-weight: bold;
+  }
+  .hard-mode-toggle input {
+      width: auto !important;
+      margin-right: 0.5rem;
+      transform: scale(1.5);
+  }
+  
+  .start-btn.hard {
+      background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+      box-shadow: 0 4px 6px rgba(197, 48, 48, 0.2);
   }
 </style>
