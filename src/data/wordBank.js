@@ -338,7 +338,7 @@ export const hardEngWords = [
     { char: "痙攣", target: "痙", pinyin: "ㄐㄧㄥˋ", wrong: "ㄐㄧㄥ", english: "Spasm" }, // jing4 vs jing1
     { char: "脛骨", target: "脛", pinyin: "ㄐㄧㄥˋ", english: "Shin bone" },
     { char: "親家", target: "親", pinyin: "ㄑㄧㄥˋ", wrong: "ㄑㄧㄣ", english: "In-laws" }, // qing4 vs qin1
-    { char: "內訌", target: "訌", pinyin: "ㄏㄨㄥˋ", wrong: "ㄏㄨㄥ", english: "Infighting" }, // hong4 vs gong1
+    { char: "內訌", target: "訌", pinyin: "ㄏㄨㄥˊ", wrong: "ㄏㄨㄥˋ", english: "Infighting" }, // hong4 vs gong1
     { char: "供給", target: "供", pinyin: "ㄍㄨㄥ", wrong: "ㄍㄨㄥˋ", english: "Supply" }, // gong1 vs gong4
     { char: "供品", target: "供", pinyin: "ㄍㄨㄥˋ", wrong: "ㄍㄨㄥ", english: "Offering" }, // gong4 vs gong1
     { char: "巷弄", target: "弄", pinyin: "ㄋㄨㄥˋ", wrong: "ㄌㄨㄥˋ", english: "Alley" }, // nong4 vs long4
