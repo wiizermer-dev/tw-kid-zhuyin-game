@@ -37,6 +37,9 @@
   let playerId = null;
   let showLeaderboard = false;
   let wrongRateMessage = '';  // 答錯時顯示統計訊息
+  
+  // Stats
+  let comboCount = 0;
 
   const QUESTIONS_PER_LEVEL = 10; 
   const HARD_MODE_QUESTIONS = 100; 
@@ -157,8 +160,11 @@
     if (isCorrect) {
       score += 1;
       totalScore += 1;
+      comboCount += 1;
       // Autosave stars immediately
       localStorage.setItem('zhuyin_total_stars', totalScore.toString());
+    } else {
+      comboCount = 0;
     }
     
     showFeedback = true;
@@ -278,6 +284,7 @@
 
   function retryLevel() {
     clearLevelProgress(); // Clear level progress only
+    comboCount = 0;
     initLevel(currentLevel);
   }
 
@@ -432,6 +439,20 @@
             題目 {currentIndex + 1} / {isHardMode ? HARD_MODE_QUESTIONS : QUESTIONS_PER_LEVEL}
           </div>
 
+          <!-- STATS BOARD -->
+          <div class="stats-board" in:fade>
+            <div class="stat-pill">
+              <span class="stat-label">🌟</span>
+              <span class="stat-value">{totalScore}</span>
+            </div>
+            {#if comboCount > 1}
+              <div class="stat-pill combo" in:scale>
+                <span class="stat-label">🔥 COMBO</span>
+                <span class="stat-value">{comboCount}</span>
+              </div>
+            {/if}
+          </div>
+
           <!-- CARD -->
           {#key currentQuestion.id}
             <div class="question-card" in:fly={{ y: 20, duration: 200 }}>
@@ -517,15 +538,11 @@
       {/if}
     </div>
 
-    <!-- FLOATING SCORE & LEADERBOARD -->
+    <!-- FLOATING LEADERBOARD -->
     {#if !showNameModal && !showConfirmModal && !showUnlockHardModeModal && gameState === 'playing'}
       <button class="floating-status" on:click={() => showLeaderboard = true} transition:fade>
         <span class="float-icon">🏆</span>
-        {#if !isHardMode}
-          <span class="float-score">🌟 {totalScore}</span>
-        {:else}
-          <span class="float-score">💯 {score}</span>
-        {/if}
+        <span class="float-text">排行榜</span>
       </button>
     {/if}
   </div>
@@ -645,10 +662,54 @@
     font-size: 1.4rem;
   }
 
-  .float-score {
+  .float-text {
     font-weight: 800;
-    font-size: 1.1rem;
-    color: #d97706;
+    font-size: 1rem;
+    color: #475569;
+  }
+
+  /* STATS BOARD */
+  .stats-board {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    height: 40px; /* Space reserved */
+  }
+
+  .stat-pill {
+    background: white;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border: 2px solid #f1f5f9;
+  }
+
+  .stat-pill.combo {
+    background: linear-gradient(135deg, #fff5f5 0%, #fff 100%);
+    border-color: #feb2b2;
+    animation: pulse 1s infinite;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+
+  .stat-label {
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: #e53e3e;
+  }
+
+  .stat-value {
+    font-weight: 900;
+    font-size: 1.2rem;
+    color: #2d3748;
   }
 
   /* CONTENT AREA */
