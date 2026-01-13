@@ -660,8 +660,8 @@
     line-height: 1;
     margin: 0;
     color: #000000;
-    font-family: "DFKai-SB", "BiauKai", "標楷體", "PMingLiU", serif;
-    font-weight: bold;
+    font-family: "Noto Serif TC", "DFKai-SB", "BiauKai", "標楷體", serif;
+    font-weight: 700;
   }
 
   .english-word {
@@ -698,8 +698,8 @@
   
   .option-btn span {
     white-space: nowrap;
-    font-family: "DFKai-SB", "BiauKai", "標楷體", "PMingLiU", serif;
-    font-weight: bold;
+    font-family: "Noto Serif TC", "DFKai-SB", "BiauKai", "標楷體", serif;
+    font-weight: 700;
     color: #000000;
   }
 
