@@ -243,6 +243,7 @@
         font-size: 1.2rem;
         min-width: 2rem;
         text-align: center;
+        color: #2d3748;
     }
     
     .name {

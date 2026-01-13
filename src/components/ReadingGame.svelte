@@ -18,7 +18,7 @@
   // Player
   let playerName = '';
   let inputName = ''; // Temp storage for typing
-  let showNameModal = false;
+  let showNameModal = true;
   let showConfirmModal = false;
   let showUnlockHardModeModal = false;
 
@@ -344,14 +344,6 @@
            <span class="player-name">{playerName}</span>
          {/if}
       </div>
-      <div class="right-info">
-        <button class="leaderboard-btn" on:click={() => showLeaderboard = true}>🏆</button>
-        {#if !isHardMode}
-          <span class="score-text">🌟 {totalScore}</span>
-        {:else}
-          <span class="score-text">💯 {score}</span>
-        {/if}
-      </div>
     </div>
 
     <!-- MAIN GAME AREA -->
@@ -361,7 +353,8 @@
       {#if showNameModal}
         <div class="modal-overlay" transition:fade>
           <div class="modal-card" in:scale>
-            <h1>👋 哩賀 / 你好！</h1>
+            <h1>👋哩賀逮灣郎</h1>
+            <h2>歡迎來到注音台挑戰小遊戲</h2>
             <p>請問你的名字是？</p>
             <input 
               type="text" 
@@ -523,6 +516,18 @@
         </div>
       {/if}
     </div>
+
+    <!-- FLOATING SCORE & LEADERBOARD -->
+    {#if !showNameModal && !showConfirmModal && !showUnlockHardModeModal && gameState === 'playing'}
+      <button class="floating-status" on:click={() => showLeaderboard = true} transition:fade>
+        <span class="float-icon">🏆</span>
+        {#if !isHardMode}
+          <span class="float-score">🌟 {totalScore}</span>
+        {:else}
+          <span class="float-score">💯 {score}</span>
+        {/if}
+      </button>
+    {/if}
   </div>
 </div>
 
@@ -578,8 +583,8 @@
 
   .level-text {
     font-weight: 700;
-    font-size: 1rem;
-    color: #2d3748;
+    font-size: 1.5rem;
+    color: #222;
   }
 
   .hard-mode-text {
@@ -589,9 +594,13 @@
   }
 
   .player-name {
-    font-weight: 500;
-    font-size: 0.9rem;
-    color: #64748b;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #efb814;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 200px;
   }
 
   .score-text {
@@ -601,20 +610,45 @@
   }
 
   .leaderboard-btn {
-    background: none;
-    border: none;
-    font-size: 1.3rem;
+    display: none; /* Removed from header */
+  }
+
+  /* FLOATING STATUS */
+  .floating-status {
+    position: absolute;
+    bottom: 30px;
+    right: 20px;
+    background: white;
+    padding: 0.6rem 1rem;
+    border-radius: 50px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 3px solid #f0f4f8;
     cursor: pointer;
-    padding: 0.3rem;
-    transition: transform 0.15s;
+    z-index: 100;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
-  .leaderboard-btn:hover {
-    transform: scale(1.15);
+  .floating-status:hover {
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    border-color: #e2e8f0;
   }
 
-  .leaderboard-btn:active {
+  .floating-status:active {
     transform: scale(0.95);
+  }
+
+  .float-icon {
+    font-size: 1.4rem;
+  }
+
+  .float-score {
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #d97706;
   }
 
   /* CONTENT AREA */
@@ -822,7 +856,8 @@
     background: linear-gradient(180deg, #ffffff 0%, #f7fafc 100%);
   }
 
-  .modal-card h1 { font-size: 2.2rem; margin: 0; color: #2d3748; }
+  .modal-card h1 { font-size: 32px; margin: 0; color: #2d3748; }
+  .modal-card h2 { font-size: 24px; margin: 0; color: #2d3748; }
   .modal-card p { font-size: 1.2rem; color: #718096; margin: 0; }
   
   .confirm-name {
