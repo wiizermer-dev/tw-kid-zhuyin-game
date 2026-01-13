@@ -2,6 +2,8 @@
   import { generateLevelData } from '../lib/questionGenerator.js';
   import { fade, fly, scale } from 'svelte/transition';
   import { onMount, tick } from 'svelte';
+  import { upsertPlayer, updateScore, recordQuestionAttempt, getQuestionStats, calculateWrongRate } from '../lib/supabase.js';
+  import Leaderboard from './Leaderboard.svelte';
 
   // Game State
   let currentLevel = 1;
@@ -30,6 +32,11 @@
   // Hard Mode State
   let hardModeScore = 0;
   let hardModeHighScore = 0;
+
+  // Supabase Integration
+  let playerId = null;
+  let showLeaderboard = false;
+  let wrongRateMessage = '';  // 答錯時顯示統計訊息
 
   const QUESTIONS_PER_LEVEL = 10; 
   const HARD_MODE_QUESTIONS = 100; 
@@ -100,11 +107,17 @@
     return false;
   }
 
-  function handleNameSubmit() {
+  async function handleNameSubmit() {
     if (!inputName.trim()) return;
     playerName = inputName.trim();
     localStorage.setItem('zhuyin_player_name', playerName);
     showNameModal = false;
+    
+    // 註冊/更新玩家到 Supabase
+    const player = await upsertPlayer(playerName);
+    if (player) {
+      playerId = player.id;
+    }
     
     // Check if we should resume or start fresh
     if (!tryLoadProgress()) {
@@ -112,9 +125,15 @@
     }
   }
   
-  function confirmIdentity(isMe) {
+  async function confirmIdentity(isMe) {
     showConfirmModal = false;
     if (isMe) {
+      // 更新 Supabase 玩家資料
+      const player = await upsertPlayer(playerName);
+      if (player) {
+        playerId = player.id;
+      }
+      
       if (!tryLoadProgress()) {
         initLevel(currentLevel);
       }
@@ -128,10 +147,13 @@
     }
   }
 
-  function handleAnswer(option) {
+  async function handleAnswer(option) {
     if (showFeedback) return; 
 
+    const currentQuestion = questions[currentIndex];
     isCorrect = option.isCorrect;
+    wrongRateMessage = '';  // 重置訊息
+    
     if (isCorrect) {
       score += 1;
       totalScore += 1;
@@ -141,28 +163,41 @@
     
     showFeedback = true;
     
-    // Save progress AFTER score update but BEFORE index increment? 
-    // Actually we wait for timeout to increment index. 
-    // BUT if user refreshes during feedback, they should probably re-do the question or be at next?
-    // Let's save CURRENT state (with updated score). If they refresh, they will replay this question? 
-    // No, if isCorrect, score is up. If they replay, they might get score again?
-    // FIX: If we save 'score' but not 'index increment', they can farm stars by refreshing!
-    // COMPLEXITY: We need to handle this.
-    // OPTION: Move saveProgress to AFTER/during the transition or when index changes.
-    // Let's update save logic inside the setTimeout.
+    // 記錄答題統計到 Supabase（背景執行）
+    const questionId = `${currentQuestion.word}_${currentQuestion.target || currentQuestion.word}`;
+    const correctPinyin = currentQuestion.options.find(o => o.isCorrect)?.pinyin || '';
+    recordQuestionAttempt(
+      questionId,
+      currentQuestion.word,
+      currentQuestion.target || currentQuestion.word,
+      correctPinyin,
+      isCorrect
+    );
+    
+    // 如果答錯，取得並顯示統計
+    if (!isCorrect) {
+      const stats = await getQuestionStats(questionId);
+      if (stats && stats.total_attempts > 5) {
+        const rate = calculateWrongRate(stats);
+        if (rate > 30) {
+          wrongRateMessage = `這題有 ${rate}% 的人答錯！`;
+        }
+      }
+    }
 
     setTimeout(() => {
       showFeedback = false;
+      wrongRateMessage = '';
       if (currentIndex < questions.length - 1) {
         currentIndex += 1;
         saveProgress(); // Checking point: New index, updated score
       } else {
         finishLevel();
       }
-    }, 800);
+    }, 1200);  // 稍微延長以顯示統計訊息
   }
 
-  function finishLevel() {
+  async function finishLevel() {
     clearLevelProgress(); // Clear level progress only
 
     if (isHardMode) {
@@ -171,7 +206,13 @@
             hardModeHighScore = score;
             localStorage.setItem('zhuyin_hard_high_score', hardModeHighScore.toString());
         }
-        gameState = 'level_complete'; // Reuse or create new state? Reuse for now and handle UI in template.
+        gameState = 'level_complete';
+        
+        // 同步成績到 Supabase
+        if (playerId) {
+          const maxLevel = parseInt(localStorage.getItem('zhuyin_max_level') || '1');
+          await updateScore(playerId, totalScore, maxLevel, hardModeHighScore);
+        }
         return;
     }
 
@@ -194,6 +235,12 @@
     }
     
     localStorage.setItem('zhuyin_total_stars', totalScore.toString());
+    
+    // 同步成績到 Supabase
+    if (playerId) {
+      const maxLevel = parseInt(localStorage.getItem('zhuyin_max_level') || '1');
+      await updateScore(playerId, totalScore, maxLevel, hardModeHighScore);
+    }
 
     // Check Milestones
     if ([10, 50, 100].includes(currentLevel)) {
@@ -287,13 +334,24 @@
     
     <!-- HEADER -->
     <div class="game-header">
-      <div class="left-badges">
-         {#if !isHardMode}<div class="badge level">LV {currentLevel}</div>{/if}
-         {#if isHardMode}<div class="badge hard-mode">🔥 困難挑戰 (最高: {hardModeHighScore})</div>{/if}
-         {#if playerName && !showNameModal && !showConfirmModal && !showUnlockHardModeModal}<div class="badge name">👤 {playerName}</div>{/if}
+      <div class="left-info">
+         {#if !isHardMode}
+           <span class="level-text">Lv.{currentLevel}</span>
+         {:else}
+           <span class="hard-mode-text">🔥 困難 (最高:{hardModeHighScore})</span>
+         {/if}
+         {#if playerName && !showNameModal && !showConfirmModal && !showUnlockHardModeModal}
+           <span class="player-name">{playerName}</span>
+         {/if}
       </div>
-      {#if !isHardMode}<div class="badge stars">🌟 {totalScore}</div>{/if}
-      {#if isHardMode}<div class="badge stars">💯 {score}</div>{/if}
+      <div class="right-info">
+        <button class="leaderboard-btn" on:click={() => showLeaderboard = true}>🏆</button>
+        {#if !isHardMode}
+          <span class="score-text">🌟 {totalScore}</span>
+        {:else}
+          <span class="score-text">💯 {score}</span>
+        {/if}
+      </div>
     </div>
 
     <!-- MAIN GAME AREA -->
@@ -417,6 +475,11 @@
               <div class="feedback-icon" transition:scale>
                 {#if isCorrect}⭕️{:else}❌{/if}
               </div>
+              {#if wrongRateMessage}
+                <div class="wrong-rate-message" in:fly={{ y: 20 }}>
+                  {wrongRateMessage}
+                </div>
+              {/if}
             </div>
           {/if}
 
@@ -463,6 +526,11 @@
   </div>
 </div>
 
+<!-- LEADERBOARD MODAL -->
+{#if showLeaderboard}
+  <Leaderboard onClose={() => showLeaderboard = false} />
+{/if}
+
 <style>
   /* GLOBAL LAYOUT */
   .app-layout {
@@ -492,26 +560,62 @@
 
   /* HEADER */
   .game-header {
-    height: 60px;
+    height: 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 1.5rem;
+    padding: 0 1rem;
     background: #f7fafc;
-    border-bottom: 2px solid #edf2f7;
+    border-bottom: 1px solid #e2e8f0;
     flex-shrink: 0;
   }
 
-  .badge {
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-weight: 800;
-    font-size: 1rem;
-    letter-spacing: 1px;
+  .left-info, .right-info {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
   }
-  .badge.level { background: #2d3748; color: white; }
-  .badge.hard-mode { background: #e53e3e; color: white; }
-  .badge.stars { background: #ecc94b; color: #744210; }
+
+  .level-text {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #2d3748;
+  }
+
+  .hard-mode-text {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #dc2626;
+  }
+
+  .player-name {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #64748b;
+  }
+
+  .score-text {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #d97706;
+  }
+
+  .leaderboard-btn {
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    padding: 0.3rem;
+    transition: transform 0.15s;
+  }
+
+  .leaderboard-btn:hover {
+    transform: scale(1.15);
+  }
+
+  .leaderboard-btn:active {
+    transform: scale(0.95);
+  }
 
   /* CONTENT AREA */
   .game-content {
@@ -555,16 +659,17 @@
     font-size: 5rem;
     line-height: 1;
     margin: 0;
-    color: #2d3748;
+    color: #000000;
+    font-family: "DFKai-SB", "BiauKai", "標楷體", "PMingLiU", serif;
+    font-weight: bold;
   }
 
   .english-word {
-    font-size: 3rem;
-    color: #ed8936; /* Orange for English */
+    font-size: 1.8rem;
+    color: #6b7280;
     margin: 0.5rem 0 0 0;
-    font-family: 'Segoe UI', sans-serif;
-    font-weight: 700;
-    word-break: break-all;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-weight: 600;
   }
 
   /* OPTIONS */
@@ -576,27 +681,34 @@
   }
 
   .option-btn {
-    height: 120px; /* Fixed height! */
+    height: 120px;
     background: white;
-    border: 3px solid #4fd1c5;
-    color: #2c7a7b;
+    border: 3px solid #d1d5db;
+    color: #000000;
     border-radius: 20px;
     cursor: pointer;
-    transition: transform 0.1s;
+    transition: all 0.15s ease;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0.5rem;
-    overflow: hidden; /* Hide overflow */
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
   }
   
   .option-btn span {
-    white-space: nowrap; /* No wrapping */
+    white-space: nowrap;
+    font-family: "DFKai-SB", "BiauKai", "標楷體", "PMingLiU", serif;
+    font-weight: bold;
+    color: #000000;
   }
 
   @media (hover: hover) {
     .option-btn:hover:not(:disabled) {
-      background: #e6fffa;
+      background: #f9fafb;
+      border-color: #9ca3af;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
   }
 
@@ -604,19 +716,45 @@
     transform: scale(0.98);
   }
 
-  .option-btn.correct { background: #48bb78; color: white; border-color: #38a169; }
-  .option-btn.wrong { background: #e53e3e; color: white; border-color: #c53030; }
+  .option-btn.correct { 
+    background: #10b981; 
+    color: white; 
+    border-color: #059669; 
+  }
+  .option-btn.correct span { color: white; }
+  
+  .option-btn.wrong { 
+    background: #ef4444; 
+    color: white; 
+    border-color: #dc2626; 
+  }
+  .option-btn.wrong span { color: white; }
 
   /* FEEDBACK */
   .feedback-overlay {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     z-index: 10;
+    gap: 1rem;
   }
   .feedback-icon { font-size: 8rem; filter: drop-shadow(0 0 20px white); }
+  
+  .wrong-rate-message {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    color: #92400e;
+    padding: 0.8rem 1.5rem;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  /* (moved to header section) */
 
   /* RESULT & MILESTONE */
   .result-card {
