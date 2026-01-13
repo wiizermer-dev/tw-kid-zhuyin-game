@@ -660,7 +660,7 @@
     line-height: 1;
     margin: 0;
     color: #000000;
-    font-family: "Noto Serif TC", "DFKai-SB", "BiauKai", "標楷體", serif;
+    font-family: "TW-Kai", "DFKai-SB", "BiauKai", "標楷體", serif;
     font-weight: 700;
   }
 
@@ -698,7 +698,7 @@
   
   .option-btn span {
     white-space: nowrap;
-    font-family: "Noto Serif TC", "DFKai-SB", "BiauKai", "標楷體", serif;
+    font-family: "TW-Kai", "DFKai-SB", "BiauKai", "標楷體", serif;
     font-weight: 700;
     color: #000000;
   }
