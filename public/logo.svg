@@ -1,4 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" fill="white"/>
-  <text x="50%" y="50%" dominant-baseline="central" text-anchor="middle" font-size="300" font-family="system-ui, -apple-system, sans-serif" font-weight="bold" fill="black">ㄥㄣ</text>
+  <rect x="0" y="0" width="512" height="512" fill="white"/>
+  <rect x="10" y="10" width="492" height="492" fill="none" stroke="black" stroke-width="20"/>
+  <line x1="256" y1="10" x2="256" y2="502" stroke="black" stroke-width="10"/>
+  <line x1="10" y1="256" x2="502" y2="256" stroke="black" stroke-width="10"/>
+  <g font-family="system-ui, -apple-system, sans-serif" font-weight="900" text-anchor="middle" dominant-baseline="central">
+    <text x="133" y="133" font-size="160">ㄣ</text>
+    <text x="379" y="133" font-size="160">ㄥ</text>
+    <text x="133" y="379" font-size="160">ㄢ</text>
+    <text x="379" y="379" font-size="160">ㄤ</text>
+  </g>
 </svg>
