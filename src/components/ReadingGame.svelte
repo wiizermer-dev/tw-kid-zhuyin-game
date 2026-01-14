@@ -778,6 +778,7 @@
   .stat-label {
     font-size: 0.9rem;
     font-weight: 800;
+    color: #2d3748;
   }
 
   .timer-display {
