@@ -5,12 +5,19 @@
     
     export let onClose = () => {};
     
-    let activeTab = 'stars';  // 'stars' | 'hard_mode' | 'hardest'
+    let activeTab = 'stars';  // 'stars' | 'hard_mode' | 'hardest' | 'combo' | 'fastest'
     let leaderboard = [];
     let hardestQuestions = [];
     let loading = true;
     let currentBrowserId = '';
     let myRank = null;  // 目前用戶排名
+    
+    function formatTime(seconds) {
+        if (!seconds) return '--:--';
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
     
     onMount(async () => {
         currentBrowserId = getBrowserId();
@@ -45,16 +52,24 @@
         <h1>🏆 排行榜</h1>
         
         <!-- TABS -->
-        <div class="tabs">
-            <button class:active={activeTab === 'stars'} on:click={() => switchTab('stars')}>
-                🌟 總星星
-            </button>
-            <button class:active={activeTab === 'hard_mode'} on:click={() => switchTab('hard_mode')}>
-                🔥 困難模式
-            </button>
-            <button class:active={activeTab === 'hardest'} on:click={() => switchTab('hardest')}>
-                💀 魔王題
-            </button>
+        <div class="tabs-scroll">
+            <div class="tabs">
+                <button class:active={activeTab === 'stars'} on:click={() => switchTab('stars')}>
+                    🌟 星星
+                </button>
+                <button class:active={activeTab === 'hard_mode'} on:click={() => switchTab('hard_mode')}>
+                    🔥 困難
+                </button>
+                <button class:active={activeTab === 'combo'} on:click={() => switchTab('combo')}>
+                    ☄️ 連擊
+                </button>
+                <button class:active={activeTab === 'fastest'} on:click={() => switchTab('fastest')}>
+                    ⚡️ 競速
+                </button>
+                <button class:active={activeTab === 'hardest'} on:click={() => switchTab('hardest')}>
+                    💀 魔王
+                </button>
+            </div>
         </div>
         
         <!-- CONTENT -->
@@ -86,13 +101,17 @@
                             </span>
                             <span class="name">
                                 {entry.players?.name || '???'}
-                                {#if isMe}<span class="me-tag">← 你</span>{/if}
+                                {#if isMe}<span class="me-tag">你</span>{/if}
                             </span>
                             <span class="score">
                                 {#if activeTab === 'stars'}
                                     🌟 {entry.total_stars}
-                                {:else}
+                                {:else if activeTab === 'hard_mode'}
                                     💯 {entry.hard_mode_high_score}
+                                {:else if activeTab === 'combo'}
+                                    🔥 {entry.max_combo}
+                                {:else if activeTab === 'fastest'}
+                                    ⏱️ {formatTime(entry.hard_mode_fastest_time)}
                                 {/if}
                             </span>
                         </div>
@@ -164,10 +183,29 @@
         color: #2d3748;
     }
     
+    .tabs-scroll {
+        overflow-x: auto;
+        padding-bottom: 5px;
+        margin-bottom: 1rem;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .tabs-scroll::-webkit-scrollbar {
+        height: 4px;
+    }
+
+    .tabs-scroll::-webkit-scrollbar-thumb {
+        background: #e2e8f0;
+        border-radius: 10px;
+    }
+
     .tabs {
         display: flex;
-        gap: 0.5rem;
-        margin-bottom: 1rem;
+        gap: 0.4rem;
+        background: #f1f5f9;
+        padding: 4px;
+        border-radius: 16px;
+        min-width: max-content;
     }
     
     .tabs button {

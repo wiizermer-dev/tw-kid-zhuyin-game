@@ -71,28 +71,40 @@ export async function upsertPlayer(name, roomCode = null) {
  * @param {number} totalStars - 總星星數
  * @param {number} maxLevel - 最高關卡
  * @param {number} hardModeHighScore - 困難模式最高分
+ * @param {number} maxCombo - 最高連擊
+ * @param {number|null} hardModeTime - 困難模式最快時間（秒）
  */
-export async function updateScore(playerId, totalStars, maxLevel, hardModeHighScore) {
+export async function updateScore(playerId, totalStars, maxLevel, hardModeHighScore, maxCombo = 0, hardModeTime = null) {
     if (!playerId || !supabase) return;
     
     try {
         // 先檢查是否已有成績記錄
         const { data: existing } = await supabase
             .from('scores')
-            .select('id')
+            .select('*')
             .eq('player_id', playerId)
             .single();
+        
+        const updateData = {
+            total_stars: Math.max(totalStars, existing?.total_stars || 0),
+            max_level: Math.max(maxLevel, existing?.max_level || 1),
+            hard_mode_high_score: Math.max(hardModeHighScore, existing?.hard_mode_high_score || 0),
+            max_combo: Math.max(maxCombo, existing?.max_combo || 0),
+            updated_at: new Date().toISOString()
+        };
+
+        // 競速時間：只有在這次有成績且比舊紀錄快（更小）時才更新
+        if (hardModeTime !== null) {
+            if (!existing?.hard_mode_fastest_time || hardModeTime < existing.hard_mode_fastest_time) {
+                updateData.hard_mode_fastest_time = hardModeTime;
+            }
+        }
         
         if (existing) {
             // 更新現有記錄
             const { error } = await supabase
                 .from('scores')
-                .update({ 
-                    total_stars: totalStars, 
-                    max_level: maxLevel,
-                    hard_mode_high_score: hardModeHighScore,
-                    updated_at: new Date().toISOString()
-                })
+                .update(updateData)
                 .eq('player_id', playerId);
             
             if (error) console.error('Update score error:', error);
@@ -102,9 +114,7 @@ export async function updateScore(playerId, totalStars, maxLevel, hardModeHighSc
                 .from('scores')
                 .insert({ 
                     player_id: playerId, 
-                    total_stars: totalStars, 
-                    max_level: maxLevel,
-                    hard_mode_high_score: hardModeHighScore
+                    ...updateData
                 });
             
             if (error) console.error('Insert score error:', error);
@@ -116,7 +126,7 @@ export async function updateScore(playerId, totalStars, maxLevel, hardModeHighSc
 
 /**
  * 取得排行榜
- * @param {'stars'|'hard_mode'} type - 排行榜類型
+ * @param {'stars'|'hard_mode'|'combo'|'fastest'} type - 排行榜類型
  * @param {number} limit - 筆數限制
  * @param {string|null} roomCode - 房間代碼過濾
  * @returns {Promise<Array>} 排行榜資料
@@ -137,6 +147,11 @@ export async function getLeaderboard(type = 'stars', limit = 20, roomCode = null
             query = query.order('total_stars', { ascending: false });
         } else if (type === 'hard_mode') {
             query = query.order('hard_mode_high_score', { ascending: false });
+        } else if (type === 'combo') {
+            query = query.order('max_combo', { ascending: false });
+        } else if (type === 'fastest') {
+            query = query.order('hard_mode_fastest_time', { ascending: true })
+                      .not('hard_mode_fastest_time', 'is', null);
         }
         
         const { data, error } = await query.limit(limit);
@@ -154,7 +169,7 @@ export async function getLeaderboard(type = 'stars', limit = 20, roomCode = null
 
 /**
  * 取得目前用戶的排名
- * @param {'stars'|'hard_mode'} type - 排行榜類型
+ * @param {'stars'|'hard_mode'|'combo'|'fastest'} type - 排行榜類型
  * @returns {Promise<number|null>} 排名（1-based），未找到則為 null
  */
 export async function getMyRank(type = 'stars') {
@@ -172,6 +187,11 @@ export async function getMyRank(type = 'stars') {
             query = query.order('total_stars', { ascending: false });
         } else if (type === 'hard_mode') {
             query = query.order('hard_mode_high_score', { ascending: false });
+        } else if (type === 'combo') {
+            query = query.order('max_combo', { ascending: false });
+        } else if (type === 'fastest') {
+            query = query.order('hard_mode_fastest_time', { ascending: true })
+                      .not('hard_mode_fastest_time', 'is', null);
         }
         
         const { data, error } = await query;

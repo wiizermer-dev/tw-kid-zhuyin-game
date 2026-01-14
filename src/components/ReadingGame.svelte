@@ -40,6 +40,8 @@
   
   // Stats
   let comboCount = 0;
+  let sessionMaxCombo = 0;
+  let hardModeStartTime = null;
 
   const QUESTIONS_PER_LEVEL = 10; 
   const HARD_MODE_QUESTIONS = 100; 
@@ -50,6 +52,13 @@
     questions = generateLevelData(level, qCount, isHardMode);
     currentIndex = 0; // Reset index
     score = 0; // Reset level score
+    comboCount = 0;
+    
+    if (isHardMode) {
+      hardModeStartTime = Date.now();
+      sessionMaxCombo = 0;
+    }
+    
     gameState = 'playing';
     
     saveProgress();
@@ -161,6 +170,9 @@
       score += 1;
       totalScore += 1;
       comboCount += 1;
+      if (comboCount > sessionMaxCombo) {
+        sessionMaxCombo = comboCount;
+      }
       // Autosave stars immediately
       localStorage.setItem('zhuyin_total_stars', totalScore.toString());
     } else {
@@ -217,7 +229,13 @@
         // 同步成績到 Supabase
         if (playerId) {
           const maxLevel = parseInt(localStorage.getItem('zhuyin_max_level') || '1');
-          await updateScore(playerId, totalScore, maxLevel, hardModeHighScore);
+          
+          let fastestTime = null;
+          if (hardModeStartTime) {
+            fastestTime = (Date.now() - hardModeStartTime) / 1000;
+          }
+          
+          await updateScore(playerId, totalScore, maxLevel, hardModeHighScore, sessionMaxCombo, fastestTime);
         }
         return;
     }
@@ -245,7 +263,7 @@
     // 同步成績到 Supabase
     if (playerId) {
       const maxLevel = parseInt(localStorage.getItem('zhuyin_max_level') || '1');
-      await updateScore(playerId, totalScore, maxLevel, hardModeHighScore);
+      await updateScore(playerId, totalScore, maxLevel, hardModeHighScore, sessionMaxCombo);
     }
 
     // Check Milestones
