@@ -1,4 +1,4 @@
-import { enWords, engWords, hardEnWords, hardEngWords, hardAnAngWords, hardZhiChiWords } from '../data/wordBank.js';
+import { enWords, engWords, hardEnWords, hardEngWords, hardAnAngWords, hardZhiChiWords, hardRiLiWords, hardFuHuWords, hardNaLiWords, hardZiZhiWords, hardWoOWords, hardEEiWords } from '../data/wordBank.js';
 
 function shuffle(array) {
   let currentIndex = array.length, randomIndex;
@@ -24,8 +24,8 @@ function generateWrongPinyin(originalPinyin, type, manualWrong) {
     'eng': (p) => p.includes('ㄥ') ? p.replace('ㄥ', 'ㄣ') : p,
     'an': (p) => p.includes('ㄢ') ? p.replace('ㄢ', 'ㄤ') : p,
     'ang': (p) => p.includes('ㄤ') ? p.replace('ㄤ', 'ㄢ') : p,
-    'zhi': (p) => p.includes('ㄓ') ? p.replace('ㄓ', 'ㄔ') : p,
-    'chi': (p) => p.includes('ㄔ') ? p.replace('ㄔ', 'ㄓ') : p
+    'zhi': (p) => p.includes('ㄓ') ? p.replace('ㄓ', 'ㄗ') : p,
+    'chi': (p) => p.includes('ㄔ') ? p.replace('ㄔ', 'ㄘ') : p
   };
 
   if (rules[type]) {
@@ -44,7 +44,13 @@ export function generateLevelData(levelNumber, questionsCount = 20, isHardMode =
        ...hardEnWords.map(w => ({ ...w, type: 'en' })),
        ...hardEngWords.map(w => ({ ...w, type: 'eng' })),
        ...hardAnAngWords.map(w => ({ ...w, type: w.pinyin.includes('ㄢ') ? 'an' : 'ang' })),
-       ...hardZhiChiWords.map(w => ({ ...w, type: w.pinyin.includes('ㄓ') ? 'zhi' : 'chi' }))
+       ...hardZhiChiWords.map(w => ({ ...w, type: w.pinyin.includes('ㄓ') ? 'zhi' : 'chi' })),
+       ...hardRiLiWords.map(w => ({ ...w, type: 'manual' })),
+       ...hardFuHuWords.map(w => ({ ...w, type: 'manual' })),
+       ...hardNaLiWords.map(w => ({ ...w, type: 'manual' })),
+       ...hardZiZhiWords.map(w => ({ ...w, type: 'manual' })),
+       ...hardWoOWords.map(w => ({ ...w, type: 'manual' })),
+       ...hardEEiWords.map(w => ({ ...w, type: 'manual' }))
      ];
      
      allWords = shuffle(allWords);

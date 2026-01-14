@@ -29,7 +29,8 @@
         myRank = null;
         try {
             if (activeTab === 'hardest') {
-                hardestQuestions = await getHardestQuestions(10);
+                const raw = await getHardestQuestions(20);
+                hardestQuestions = raw.filter(q => q.wrong_attempts > 0);
             } else {
                 leaderboard = await getLeaderboard(activeTab);
                 myRank = await getMyRank(activeTab);
@@ -71,6 +72,9 @@
                 </button>
             </div>
         </div>
+        {#if activeTab === 'fastest'}
+            <div class="tab-note">💡 溫馨提醒：需刷完困難一百題才會記錄紀錄</div>
+        {/if}
         
         <!-- CONTENT -->
         <div class="content">
@@ -367,4 +371,16 @@
         font-size: 1.3rem;
         color: #b45309;
     }
+
+    .tab-note {
+        font-size: 0.8rem;
+        color: #718096;
+        background: #f7fafc;
+        padding: 0.4rem 0.8rem;
+        border-radius: 8px;
+        margin-bottom: 0.8rem;
+        text-align: center;
+        border-left: 3px solid #63b3ed;
+    }
 </style>
+

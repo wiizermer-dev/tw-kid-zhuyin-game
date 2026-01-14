@@ -66,6 +66,31 @@ export async function upsertPlayer(name, roomCode = null) {
 }
 
 /**
+ * 取得目前玩家資料
+ * @returns {Promise<Object|null>} 玩家資料
+ */
+export async function getPlayer() {
+    if (!supabase) return null;
+    const browserId = getBrowserId();
+    try {
+        const { data, error } = await supabase
+            .from('players')
+            .select('*')
+            .eq('browser_id', browserId)
+            .single();
+        
+        if (error && error.code !== 'PGRST116') {
+            console.error('Get player error:', error);
+            return null;
+        }
+        return data;
+    } catch (e) {
+        console.error('Get player exception:', e);
+        return null;
+    }
+}
+
+/**
  * 更新玩家成績
  * @param {string} playerId - 玩家 ID
  * @param {number} totalStars - 總星星數

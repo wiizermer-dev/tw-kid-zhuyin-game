@@ -73,8 +73,13 @@ export const hardAnAngWords = [
     { char: "骯髒", target: "骯", pinyin: "ㄤ", english: "Dirty" },
     { char: "燦爛", target: "燦", pinyin: "ㄘㄢˋ", english: "Brilliant" },
     { char: "商場", target: "商", pinyin: "ㄕㄤ", english: "Mall" },
-    { char: "彷彿", target: "彷", pinyin: "ㄈㄤˇ", english: "As if" },
-    { char: "徜徉", target: "徜", pinyin: "ㄔㄤˊ", english: "Wander" },
+    { char: "強悍", target: "悍", pinyin: "ㄏㄢˋ", wrong: "ㄍㄢˇ", english: "Tough" },
+    { char: "尷尬", target: "尷", pinyin: "ㄍㄢ", wrong: "ㄐㄧㄢ", english: "Awkward" },
+    { char: "粗獷", target: "獷", pinyin: "ㄍㄨㄤˇ", wrong: "ㄎㄨㄤˋ", english: "Rugged" },
+    { char: "渲染", target: "渲", pinyin: "ㄒㄩㄢˋ", wrong: "ㄒㄩㄢ", english: "Exaggerate" },
+    { char: "豢養", target: "豢", pinyin: "ㄏㄨㄢˋ", wrong: "ㄑㄩㄢˋ", english: "Raise" },
+    { char: "沆瀣一氣", target: "沆", pinyin: "ㄏㄤˋ", wrong: "ㄏㄢˋ", english: "Collude" },
+    { char: "徜徉", target: "徜", pinyin: "ㄔㄤˊ", wrong: "ㄊㄤˊ", english: "Wander" },
     { char: "坦克", target: "坦", pinyin: "ㄊㄢˇ", english: "Tank" },
     { char: "延宕", target: "宕", pinyin: "ㄉㄤˋ", english: "Delay" },
     { char: "昂首闊步", target: "昂", pinyin: "ㄤˊ", english: "Stride" },
@@ -116,7 +121,9 @@ export const hardAnAngWords = [
     { char: "綻放", target: "綻", pinyin: "ㄓㄢˋ", english: "Bloom" },
     { char: "蒼生", target: "蒼", pinyin: "ㄘㄤ", english: "People" },
     { char: "嚷嚷", target: "嚷", pinyin: "ㄖㄤˇ", english: "Shout" },
-    { char: "螳臂擋車", target: "螳", pinyin: "ㄊㄤˊ", english: "Overestimate" }
+    { char: "螳臂擋車", target: "螳", pinyin: "ㄊㄤˊ", english: "Overestimate" },
+    { char: "除法", target: "除", pinyin: "ㄔㄨˊ", english: "Division" },
+    { char: "貯存", target: "貯", pinyin: "ㄓㄨˇ", english: "Store" }
 ];
 
 // 高難度詞彙庫 - ㄓ/ㄔ (zhi/chi) Hard Mode
@@ -132,47 +139,96 @@ export const hardZhiChiWords = [
     { char: "熾熱", target: "熾", pinyin: "ㄔˋ", english: "Red hot" },
     { char: "矗立", target: "矗", pinyin: "ㄔㄨˋ", english: "Tower over" },
     { char: "住宅", target: "住", pinyin: "ㄓㄨˋ", wrong: "ㄗㄨˋ", english: "Residence" },
-    { char: "櫥窗", target: "櫥", pinyin: "ㄔㄨˊ", wrong: "ㄘㄨˊ", english: "Showcase" },
-    { char: "支撐", target: "支", pinyin: "ㄓ", english: "Support" },
-    { char: "制度", target: "制", pinyin: "ㄓˋ", english: "System" },
-    { char: "知覺", target: "知", pinyin: "ㄓ", english: "Perception" },
-    { char: "直覺", target: "直", pinyin: "ㄓˊ", english: "Intuition" },
-    { char: "蜘蛛", target: "蛛", pinyin: "ㄓㄨ", english: "Spider" },
-    { char: "職位", target: "職", pinyin: "ㄓˊ", english: "Position" },
-    { char: "值日生", target: "值", pinyin: "ㄓˊ", english: "Monitor" },
-    { char: "執著", target: "執", pinyin: "ㄓˊ", english: "Persistent" },
-    { char: "指導", target: "指", pinyin: "ㄓˇ", english: "Guide" },
-    { char: "只是", target: "只", pinyin: "ㄓˇ", english: "Only" },
-    { char: "治癒", target: "治", pinyin: "ㄓˋ", english: "Heal" },
-    { char: "秩序", target: "秩", pinyin: "ㄓˋ", english: "Order" },
-    { char: "致力", target: "致", pinyin: "ㄓˋ", english: "Dedicate" },
-    { char: "智商", target: "智", pinyin: "ㄓˋ", english: "IQ" },
-    { char: "珍珠", target: "珍", pinyin: "ㄓㄣ", english: "Pearl" },
-    { char: "正直", target: "直", pinyin: "ㄓˊ", english: "Honest" },
-    { char: "宗旨", target: "旨", pinyin: "ㄓˇ", english: "Purpose" },
-    { char: "翅膀", target: "翅", pinyin: "ㄔˋ", english: "Wing" },
-    { char: "痴迷", target: "痴", pinyin: "ㄔ", english: "Obsessed" },
-    { char: "遲到", target: "遲", pinyin: "ㄔˊ", english: "Late" },
-    { char: "馳名", target: "馳", pinyin: "ㄔˊ", english: "Famous" },
-    { char: "持續", target: "持", pinyin: "ㄔˊ", english: "Continue" },
-    { char: "尺寸", target: "尺", pinyin: "ㄔˇ", english: "Size" },
-    { char: "侈談", target: "侈", pinyin: "ㄔˇ", english: "Talk big" },
-    { char: "恥笑", target: "恥", pinyin: "ㄔˇ", english: "Mock" },
-    { char: "熾烈", target: "熾", pinyin: "ㄔˋ", english: "Blazing" },
-    { char: "敕令", target: "敕", pinyin: "ㄔˋ", english: "Imperial decree" },
-    { char: "嘗試", target: "嘗", pinyin: "ㄔㄤˊ", english: "Try" },
-    { char: "吃虧", target: "吃", pinyin: "ㄔ", english: "Suffer loss" },
-    { char: "赤裸", target: "赤", pinyin: "ㄔˋ", english: "Naked" },
-    { char: "斥責", target: "斥", pinyin: "ㄔˋ", english: "Rebuke" },
-    { char: "吹牛", target: "吹", pinyin: "ㄔㄨㄟ", english: "Boast" },
-    { char: "垂直", target: "垂", pinyin: "ㄔㄨㄟˊ", english: "Vertical" },
-    { char: "抽籤", target: "抽", pinyin: "ㄔㄡ", english: "Draw straws" },
-    { char: "忠誠", target: "忠", pinyin: "ㄓㄨㄥ", english: "Loyal" },
-    { char: "重建", target: "重", pinyin: "ㄔㄨㄥˊ", english: "Rebuild" },
-    { char: "酬勞", target: "酬", pinyin: "ㄔㄡˊ", english: "Reward" },
-    { char: "出色", target: "出", pinyin: "ㄔㄨ", english: "Excellent" },
-    { char: "除法", target: "除", pinyin: "ㄔㄨˊ", english: "Division" },
-    { char: "貯存", target: "貯", pinyin: "ㄓㄨˇ", english: "Store" }
+    { char: "櫥窗", target: "櫥", pinyin: "ㄔㄨˊ", wrong: "ㄘㄨˊ", english: "Showcase" }
+];
+
+// 高難度詞彙庫 - ㄖ/ㄌ (ri/li) Confusion
+export const hardRiLiWords = [
+    { char: "肌肉", target: "肉", pinyin: "ㄖㄡˋ", wrong: "ㄌㄡˋ", english: "Muscle" },
+    { char: "容易", target: "容", pinyin: "ㄖㄨㄥˊ", wrong: "ㄌㄨㄥˊ", english: "Easy" },
+    { char: "融入", target: "融", pinyin: "ㄖㄨㄥˊ", wrong: "ㄌㄨㄥˊ", english: "Integrate" },
+    { char: "瑞雪", target: "瑞", pinyin: "ㄖㄨㄟˋ", wrong: "ㄌㄟˋ", english: "Auspicious snow" },
+    { char: "惹人厭", target: "惹", pinyin: "ㄖㄜˇ", wrong: "ㄌㄜˇ", english: "Annoying" },
+    { char: "熱情", target: "熱", pinyin: "ㄖㄜˋ", wrong: "ㄌㄜˋ", english: "Passion" },
+    { char: "人民", target: "人", pinyin: "ㄖㄣˊ", wrong: "ㄌㄨㄣˊ", english: "People" },
+    { char: "祥瑞", target: "瑞", pinyin: "ㄖㄨㄟˋ", wrong: "ㄌㄟˋ", english: "Auspicious" },
+    { char: "蹂躪", target: "蹂", pinyin: "ㄖㄡˊ", wrong: "ㄌㄡˊ", english: "Trample" },
+    { char: "若有似無", target: "若", pinyin: "ㄖㄨㄛˋ", wrong: "ㄌㄨㄛˋ", english: "Faint" },
+    { char: "乳酪", target: "乳", pinyin: "ㄖㄨˇ", wrong: "ㄌㄨˇ", english: "Cheese" },
+    { char: "入獄", target: "入", pinyin: "ㄖㄨˋ", wrong: "ㄌㄨˋ", english: "Imprisoned" }
+];
+
+// 高難度詞彙庫 - ㄈ/ㄏ (fu/hu) Confusion
+export const hardFuHuWords = [
+    { char: "飛行", target: "飛", pinyin: "ㄈㄟ", wrong: "ㄏㄨㄟ", english: "Flying" },
+    { char: "光輝", target: "輝", pinyin: "ㄏㄨㄟ", wrong: "ㄈㄟ", english: "Glory" },
+    { char: "腐敗", target: "腐", pinyin: "ㄈㄨˇ", wrong: "ㄏㄨˇ", english: "Corrupt" },
+    { char: "老虎", target: "虎", pinyin: "ㄏㄨˇ", wrong: "ㄈㄨˇ", english: "Tiger" },
+    { char: "房子", target: "房", pinyin: "ㄈㄤˊ", wrong: "ㄏㄨㄤˊ", english: "House" },
+    { char: "黃金", target: "黃", pinyin: "ㄏㄨㄤˊ", wrong: "ㄈㄤˊ", english: "Gold" },
+    { char: "彷彿", target: "彷", pinyin: "ㄈㄤˇ", wrong: "ㄏㄨㄤˇ", english: "As if" },
+    { char: "彷徨", target: "徨", pinyin: "ㄏㄨㄤˊ", wrong: "ㄈㄤˊ", english: "Doubtful" },
+    { char: "複賽", target: "複", pinyin: "ㄈㄨˋ", wrong: "ㄏㄨˋ", english: "Semi-finals" },
+    { char: "保護", target: "護", pinyin: "ㄏㄨˋ", wrong: "ㄈㄨˋ", english: "Protect" },
+    { char: "復活", target: "復", pinyin: "ㄈㄨˋ", wrong: "ㄏㄨˋ", english: "Resurrection" },
+    { char: "回覆", target: "覆", pinyin: "ㄈㄨˋ", wrong: "ㄏㄨˋ", english: "Reply" },
+    { char: "幸福", target: "福", pinyin: "ㄈㄨˊ", wrong: "ㄏㄨˊ", english: "Happiness" }
+];
+
+// 高難度詞彙庫 - ㄋ/ㄌ (na/li) Confusion
+export const hardNaLiWords = [
+    { char: "男生", target: "男", pinyin: "ㄋㄢˊ", wrong: "ㄌㄢˊ", english: "Boy" },
+    { char: "藍色", target: "藍", pinyin: "ㄌㄢˊ", wrong: "ㄋㄢˊ", english: "Blue" },
+    { char: "女人", target: "女", pinyin: "ㄋㄩˇ", wrong: "ㄌㄩˇ", english: "Woman" },
+    { char: "內容", target: "內", pinyin: "ㄋㄟˋ", wrong: "ㄌㄟˋ", english: "Content" },
+    { char: "累了", target: "累", pinyin: "ㄌㄟˋ", wrong: "ㄋㄟˋ", english: "Tired" },
+    { char: "困難", target: "難", pinyin: "ㄋㄢˊ", wrong: "ㄌㄢˊ", english: "Difficult" },
+    { char: "蘭花", target: "蘭", pinyin: "ㄌㄢˊ", wrong: "ㄋㄢˊ", english: "Orchid" },
+    { char: "奶油", target: "奶", pinyin: "ㄋㄞˇ", wrong: "ㄌㄞˇ", english: "Butter" },
+    { char: "今年", target: "年", pinyin: "ㄋㄧㄢˊ", wrong: "ㄌㄧㄢˊ", english: "Year" },
+    { char: "憐憫", target: "憐", pinyin: "ㄌㄧㄢˊ", wrong: "ㄋㄧㄢˊ", english: "Pity" },
+    { char: "落單", target: "落", pinyin: "ㄌㄨㄛˋ", wrong: "ㄋㄨㄛˋ", english: "Left alone" },
+    { char: "懦弱", target: "懦", pinyin: "ㄋㄨㄛˋ", wrong: "ㄌㄨㄛˋ", english: "Weak" }
+];
+
+// 高難度詞彙庫 - ㄗㄘㄙ / ㄓㄔㄕ (Mixed)
+export const hardZiZhiWords = [
+    { char: "早餐", target: "早", pinyin: "ㄗㄠˇ", wrong: "ㄓㄠˇ", english: "Breakfast" },
+    { char: "找出", target: "找", pinyin: "ㄓㄠˇ", wrong: "ㄗㄠˇ", english: "Find" },
+    { char: "自私", target: "自", pinyin: "ㄗˋ", wrong: "ㄓˋ", english: "Selfish" },
+    { char: "治病", target: "治", pinyin: "ㄓˋ", wrong: "ㄗˋ", english: "Heal" },
+    { char: "辭職", target: "辭", pinyin: "ㄘˊ", wrong: "ㄔˊ", english: "Resign" },
+    { char: "支持", target: "持", pinyin: "ㄔˊ", wrong: "ㄘˊ", english: "Support" },
+    { char: "思考", target: "思", pinyin: "ㄙ", wrong: "ㄕ", english: "Think" },
+    { char: "老師", target: "師", pinyin: "ㄕ", wrong: "ㄙ", english: "Teacher" },
+    { char: "雖然", target: "雖", pinyin: "ㄙㄨㄟ", wrong: "ㄕㄨㄟ", english: "Although" },
+    { char: "也是", target: "是", pinyin: "ㄕˋ", wrong: "ㄙˋ", english: "Also is" },
+    { char: "設施", target: "設", pinyin: "ㄕㄜˋ", wrong: "ㄙㄜˋ", english: "Facilities" },
+    { char: "層次", target: "次", pinyin: "ㄘˋ", wrong: "ㄔˋ", english: "Layers" },
+    { char: "挫折", target: "挫", pinyin: "ㄘㄨㄛˋ", wrong: "ㄔㄨㄛˋ", english: "Frustration" }
+];
+
+// 高難度詞彙庫 - ㄛ/ㄨㄛ (o/wo) Confusion
+export const hardWoOWords = [
+    { char: "玻璃", target: "玻", pinyin: "ㄅㄛ", wrong: "ㄅㄨㄛ", english: "Glass" },
+    { char: "摩托車", target: "摩", pinyin: "ㄇㄛˊ", wrong: "ㄇㄨㄛˊ", english: "Motorcycle" },
+    { char: "菠菜", target: "菠", pinyin: "ㄅㄛ", wrong: "ㄅㄨㄛ", english: "Spinach" },
+    { char: "老婆", target: "婆", pinyin: "ㄆㄛˊ", wrong: "ㄆㄨㄛˊ", english: "Wife" },
+    { char: "波浪", target: "波", pinyin: "ㄅㄛ", wrong: "ㄅㄨㄛ", english: "Wave" },
+    { char: "鸚鵡", target: "鸚", pinyin: "ㄧㄥ", english: "Parrot" }, // Mixed in
+    { char: "倭寇", target: "倭", pinyin: "ㄨㄛ", wrong: "ㄛ", english: "Wako" },
+    { char: "窩囊", target: "窩", pinyin: "ㄨㄛ", wrong: "ㄛ", english: "Cowardly" }
+];
+
+// 高難度詞彙庫 - ㄝ/ㄟ (e/ei) Confusion
+export const hardEEiWords = [
+    { char: "台北", target: "北", pinyin: "ㄅㄟˇ", wrong: "ㄅㄝˇ", english: "Taipei" },
+    { char: "飛機", target: "飛", pinyin: "ㄈㄟ", wrong: "ㄈㄝ", english: "Airplane" },
+    { char: "水杯", target: "杯", pinyin: "ㄅㄟ", wrong: "ㄅㄝ", english: "Cup" },
+    { char: "謝謝", target: "謝", pinyin: "ㄒㄧㄝˋ", wrong: "ㄒㄧㄟˋ", english: "Thanks" },
+    { char: "畢業", target: "業", pinyin: "ㄧㄝˋ", wrong: "ㄧㄟˋ", english: "Graduate" },
+    { char: "野餐", target: "野", pinyin: "ㄧㄝˇ", wrong: "ㄧㄟˇ", english: "Picnic" },
+    { char: "因為", target: "為", pinyin: "ㄨㄟˋ", wrong: "ㄨㄝˋ", english: "Because" }
 ];
 
 // 高難度詞彙庫 - ㄣ (en) Hard Mode (Mixed: Rare, Confusion, Idioms, Memes)
@@ -201,10 +257,12 @@ export const hardEnWords = [
     { char: "氣氛", target: "氛", pinyin: "ㄈㄣ", wrong: "ㄈㄣˋ", english: "Atmosphere" }, // fēn vs fèn
     { char: "強韌", target: "韌", pinyin: "ㄖㄣˋ", english: "Tough" },
     { char: "混合", target: "混", pinyin: "ㄏㄨㄣˋ", wrong: "ㄏㄨㄣˇ", english: "Mix" }, // hun4 vs hun3
+    { char: "噴嚏", target: "噴", pinyin: "ㄆㄣˋ", wrong: "ㄆㄣˇ", english: "Sneeze" },
+    { char: "分量", target: "分", pinyin: "ㄈㄣˋ", wrong: "ㄈㄣ", english: "Weight/Amount" },
     { char: "創傷", target: "創", pinyin: "ㄔㄨㄤ", wrong: "ㄔㄨㄤˋ", english: "Trauma" }, // chuang1 vs chuang4
     
     // 成語 (Idioms)
-    { char: "諄諄教誨", target: "諄", pinyin: "ㄓㄨㄣ", wrong: "ㄔㄨㄣˊ", english: "Earnest teaching" },
+    { char: "諄諄教誨", target: "諄", pinyin: "ㄓㄨㄣ", wrong: "ㄉㄨㄣ", english: "Earnest teaching" },
     { char: "莘莘學子", target: "莘", pinyin: "ㄕㄣ", wrong: "ㄒㄧㄣ", english: "Many students" }, // shen vs xin
     { char: "參差不齊", target: "參", pinyin: "ㄘㄣ", wrong: "ㄘㄢ", english: "Uneven" }, // cen vs can
     { char: "飲水思源", target: "飲", pinyin: "ㄧㄣˇ", english: "Grateful" },
@@ -215,11 +273,7 @@ export const hardEnWords = [
     { char: "彬彬有禮", target: "彬", pinyin: "ㄅㄧㄣ", english: "Polite" },
     
     // 時事 & 迷因 (Memes/Current Events)
-    { char: "天選之人", target: "人", pinyin: "ㄖㄣˊ", english: "Chosen One" },
-    { char: "多人運動", target: "運", pinyin: "ㄩㄣˋ", english: "Multiplayer Sport" }, 
     { char: "暈船", target: "暈", pinyin: "ㄩㄣ", wrong: "ㄩㄣˋ", english: "Crush/Seasick" }, // yun1 vs yun4
-    { char: "本斥但大", target: "本", pinyin: "ㄅㄣˇ", english: "Big..." },
-    { char: "很解", target: "很", pinyin: "ㄏㄣˇ", english: "Turn off" },
     { char: "森七七", target: "森", pinyin: "ㄙㄣ", wrong: "ㄕㄥ", english: "Angry (Cute)" },
     { char: "認知作戰", target: "認", pinyin: "ㄖㄣˋ", english: "Cognitive Warfare" },
     { char: "社群媒體", target: "群", pinyin: "ㄑㄩㄣˊ", english: "Social Media" },
@@ -239,10 +293,14 @@ export const hardEnWords = [
     { char: "勤勞", target: "勤", pinyin: "ㄑㄧㄣˊ", english: "Diligent" },
     { char: "森嚴", target: "森", pinyin: "ㄙㄣ", english: "Strict" },
     { char: "真心", target: "真", pinyin: "ㄓㄣ", english: "Sincere" },
-    { char: "呻吟", target: "呻", pinyin: "ㄕㄣ", english: "Moan" },
     { char: "焚燒", target: "焚", pinyin: "ㄈㄣˊ", english: "Burn" },
     { char: "紛紛", target: "紛", pinyin: "ㄈㄣ", english: "One after another" },
-    { char: "認真", target: "認", pinyin: "ㄖㄣˋ", english: "Serious" }
+    { char: "認真", target: "認", pinyin: "ㄖㄣˋ", english: "Serious" },
+    { char: "暴殄天物", target: "殄", pinyin: "ㄊㄧㄢˇ", wrong: "ㄓㄣˇ", english: "Waste" },
+    { char: "鍥而不捨", target: "鍥", pinyin: "ㄑㄧㄝˋ", wrong: "ㄑㄧˋ", english: "Perseverance" },
+    { char: "鏗鏘有力", target: "鏗", pinyin: "ㄎㄥ", wrong: "ㄎㄣ", english: "Sonorous" },
+    { char: "自怨自艾", target: "艾", pinyin: "ㄧˋ", wrong: "ㄞˋ", english: "Self-pity" },
+    { char: "角色", target: "角", pinyin: "ㄐㄩㄝˊ", wrong: "ㄐㄧㄠˇ", english: "Role" }
 ];
 
 // 高難度詞彙庫 - ㄥ (eng) Hard Mode (Mixed)
@@ -313,5 +371,10 @@ export const hardEngWords = [
     { char: "性情", target: "情", pinyin: "ㄑㄧㄥˊ", english: "Temperament" },
     { char: "菁英", target: "菁", pinyin: "ㄐㄧㄥ", english: "Elite" },
     { char: "營造", target: "營", pinyin: "ㄧㄥˊ", english: "Build" },
-    { char: "硬漢", target: "硬", pinyin: "ㄧㄥˋ", english: "Tough guy" }
+    { char: "硬漢", target: "硬", pinyin: "ㄧㄥˋ", english: "Tough guy" },
+    { char: "整潔", target: "整", pinyin: "ㄓㄥˇ", wrong: "ㄓㄣˇ", english: "Clean" },
+    { char: "承認", target: "認", pinyin: "ㄖㄣˋ", wrong: "ㄖㄥˋ", english: "Admit" },
+    { char: "燈泡", target: "燈", pinyin: "ㄉㄥ", wrong: "ㄉㄣ", english: "Light bulb" },
+    { char: "噴水", target: "噴", pinyin: "ㄆㄣ", wrong: "ㄆㄥ", english: "Spray" },
+    { char: "競爭", target: "競", pinyin: "ㄐㄧㄥˋ", wrong: "ㄐㄧㄣˋ", english: "Competition" }
 ];

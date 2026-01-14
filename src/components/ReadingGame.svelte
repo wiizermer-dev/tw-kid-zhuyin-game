@@ -2,8 +2,14 @@
   import { generateLevelData } from '../lib/questionGenerator.js';
   import { fade, fly, scale } from 'svelte/transition';
   import { onMount, tick } from 'svelte';
-  import { upsertPlayer, updateScore, recordQuestionAttempt, getQuestionStats, calculateWrongRate } from '../lib/supabase.js';
+  import { upsertPlayer, updateScore, recordQuestionAttempt, getQuestionStats, calculateWrongRate, getPlayer } from '../lib/supabase.js';
   import Leaderboard from './Leaderboard.svelte';
+
+  function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  }
 
   // Game State
   let currentLevel = 1;
@@ -42,6 +48,8 @@
   let comboCount = 0;
   let sessionMaxCombo = 0;
   let hardModeStartTime = null;
+  let timerInterval = null;
+  let elapsedTime = 0;
 
   const QUESTIONS_PER_LEVEL = 10; 
   const HARD_MODE_QUESTIONS = 100; 
@@ -52,11 +60,19 @@
     questions = generateLevelData(level, qCount, isHardMode);
     currentIndex = 0; // Reset index
     score = 0; // Reset level score
-    comboCount = 0;
     
     if (isHardMode) {
       hardModeStartTime = Date.now();
+      elapsedTime = 0;
       sessionMaxCombo = 0;
+      
+      // Start Timer
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        elapsedTime = Math.floor((Date.now() - hardModeStartTime) / 1000);
+      }, 1000);
+    } else {
+      if (timerInterval) clearInterval(timerInterval);
     }
     
     gameState = 'playing';
@@ -71,13 +87,15 @@
       currentIndex: currentIndex,
       score: score,
       isHardMode: isHardMode,
-      hardModeScore: hardModeScore
+      hardModeScore: hardModeScore,
+      elapsedTime: elapsedTime
     };
     localStorage.setItem('zhuyin_level_progress', JSON.stringify(progress));
   }
   
   function clearLevelProgress() {
     localStorage.removeItem('zhuyin_level_progress');
+    localStorage.removeItem('zhuyin_combo_count');
   }
 
   function resetUserData() {
@@ -85,11 +103,13 @@
     localStorage.removeItem('zhuyin_total_stars');
     localStorage.removeItem('zhuyin_max_level');
     localStorage.removeItem('zhuyin_hard_mode_unlocked');
+    localStorage.removeItem('zhuyin_combo_count');
     
     // Reset local state
     currentLevel = 1;
     score = 0;
     totalScore = 0;
+    comboCount = 0;
     isHardModeUnlocked = false;
     isHardMode = false;
   }
@@ -105,10 +125,17 @@
            currentLevel = p.level;
            questions = p.questions;
            currentIndex = p.currentIndex;
-           currentIndex = p.currentIndex;
            score = p.score || 0;
            isHardMode = p.isHardMode || false;
            hardModeScore = p.hardModeScore || 0;
+           if (isHardMode) {
+             elapsedTime = p.elapsedTime || 0;
+             hardModeStartTime = Date.now() - elapsedTime * 1000;
+             if (timerInterval) clearInterval(timerInterval);
+             timerInterval = setInterval(() => {
+               elapsedTime = Math.floor((Date.now() - hardModeStartTime) / 1000);
+             }, 1000);
+           }
            gameState = 'playing';
            return true;
         }
@@ -159,6 +186,7 @@
     }
   }
 
+
   async function handleAnswer(option) {
     if (showFeedback) return; 
 
@@ -173,10 +201,12 @@
       if (comboCount > sessionMaxCombo) {
         sessionMaxCombo = comboCount;
       }
-      // Autosave stars immediately
+      // Autosave stars & combo immediately
       localStorage.setItem('zhuyin_total_stars', totalScore.toString());
+      localStorage.setItem('zhuyin_combo_count', comboCount.toString());
     } else {
       comboCount = 0;
+      localStorage.setItem('zhuyin_combo_count', '0');
     }
     
     showFeedback = true;
@@ -219,6 +249,7 @@
     clearLevelProgress(); // Clear level progress only
 
     if (isHardMode) {
+        if (timerInterval) clearInterval(timerInterval);
         // Hard Mode Finish Logic
         if (score > hardModeHighScore) {
             hardModeHighScore = score;
@@ -332,24 +363,38 @@
     };
   }
 
-  onMount(() => {
+  onMount(async () => {
      const savedLevel = parseInt(localStorage.getItem('zhuyin_max_level') || '1');
      const savedStars = parseInt(localStorage.getItem('zhuyin_total_stars') || '0');
      // Hard Mode
      const savedHardUnlock = localStorage.getItem('zhuyin_hard_mode_unlocked') === 'true';
      isHardModeUnlocked = savedHardUnlock;
      hardModeHighScore = parseInt(localStorage.getItem('zhuyin_hard_high_score') || '0');
-     
-     const savedName = localStorage.getItem('zhuyin_player_name');
+     const savedCombo = parseInt(localStorage.getItem('zhuyin_combo_count') || '0');
      
      totalScore = savedStars;
      currentLevel = savedLevel;
+     comboCount = savedCombo;
 
+     const savedName = localStorage.getItem('zhuyin_player_name');
+     
+     // 1. 先從 LocalStorage 找
      if (savedName) {
        playerName = savedName;
-       showConfirmModal = true;
+       showNameModal = false;
+       showConfirmModal = true; // 顯示確認視窗
      } else {
-       showNameModal = true;
+       // 2. 如果 LocalStorage 沒有，嘗試從 Supabase 找 (透過 browser_id)
+       const player = await getPlayer();
+       if (player && player.name) {
+         playerName = player.name;
+         playerId = player.id;
+         showNameModal = false;
+         showConfirmModal = true; // 顯示確認視窗
+       } else {
+         // 3. 都沒有才顯示輸入框
+         showNameModal = true;
+       }
      }
   });
 </script>
@@ -369,6 +414,14 @@
            <span class="player-name">{playerName}</span>
          {/if}
       </div>
+
+      <!-- TOP RIGHT LEADERBOARD BUTTON -->
+      {#if !showNameModal && !showConfirmModal && !showUnlockHardModeModal && gameState === 'playing'}
+        <button class="header-leaderboard" on:click={() => showLeaderboard = true} transition:fade>
+          <span class="header-lb-icon">🏆</span>
+          <span class="header-lb-text">排行榜</span>
+        </button>
+      {/if}
     </div>
 
     <!-- MAIN GAME AREA -->
@@ -402,6 +455,7 @@
           </div>
         </div>
       {/if}
+
 
       <!-- MODAL: CONFIRM IDENTITY -->
       {#if showConfirmModal}
@@ -459,14 +513,23 @@
 
           <!-- STATS BOARD -->
           <div class="stats-board" in:fade>
-            <div class="stat-pill">
-              <span class="stat-label">🌟</span>
-              <span class="stat-value">{totalScore}</span>
+            <div class="stats-row">
+              <div class="stat-pill">
+                <span class="stat-label">🌟</span>
+                <span class="stat-value">{totalScore}</span>
+              </div>
+              {#if comboCount > 1}
+                <div class="stat-pill combo" in:scale>
+                  <span class="stat-label">🔥 COMBO</span>
+                  <span class="stat-value">{comboCount}</span>
+                </div>
+              {/if}
             </div>
-            {#if comboCount > 1}
-              <div class="stat-pill combo" in:scale>
-                <span class="stat-label">🔥 COMBO</span>
-                <span class="stat-value">{comboCount}</span>
+
+            {#if isHardMode && (elapsedTime > 0 || gameState === 'playing')}
+              <div class="timer-display" in:fade>
+                <span class="timer-icon">⏱️</span>
+                <span class="timer-text">{formatTime(elapsedTime)}</span>
               </div>
             {/if}
           </div>
@@ -555,14 +618,6 @@
         </div>
       {/if}
     </div>
-
-    <!-- FLOATING LEADERBOARD -->
-    {#if !showNameModal && !showConfirmModal && !showUnlockHardModeModal && gameState === 'playing'}
-      <button class="floating-status" on:click={() => showLeaderboard = true} transition:fade>
-        <span class="float-icon">🏆</span>
-        <span class="float-text">排行榜</span>
-      </button>
-    {/if}
   </div>
 </div>
 
@@ -648,51 +703,53 @@
     display: none; /* Removed from header */
   }
 
-  /* FLOATING STATUS */
-  .floating-status {
-    position: absolute;
-    bottom: 30px;
-    right: 20px;
+  /* HEADER LEADERBOARD BUTTON */
+  .header-leaderboard {
     background: white;
-    padding: 0.6rem 1rem;
-    border-radius: 50px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    border: 3px solid #f0f4f8;
+    gap: 0.4rem;
+    border: 2px solid #edf2f7;
     cursor: pointer;
-    z-index: 100;
-    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: all 0.2s;
   }
 
-  .floating-status:hover {
-    transform: scale(1.05) translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+  .header-leaderboard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
     border-color: #e2e8f0;
   }
 
-  .floating-status:active {
+  .header-leaderboard:active {
     transform: scale(0.95);
   }
 
-  .float-icon {
-    font-size: 1.4rem;
+  .header-lb-icon {
+    font-size: 1.1rem;
   }
 
-  .float-text {
-    font-weight: 800;
-    font-size: 1rem;
-    color: #475569;
+  .header-lb-text {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #4a5568;
   }
 
   /* STATS BOARD */
   .stats-board {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .stats-row {
+    display: flex;
     justify-content: center;
     gap: 1rem;
-    margin-bottom: 1rem;
-    height: 40px; /* Space reserved */
   }
 
   .stat-pill {
@@ -721,7 +778,29 @@
   .stat-label {
     font-size: 0.9rem;
     font-weight: 800;
-    color: #e53e3e;
+  }
+
+  .timer-display {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: #fff5f5;
+    padding: 0.3rem 1.2rem;
+    border-radius: 12px;
+    border: 2.5px solid #feb2b2;
+    box-shadow: 0 4px 12px rgba(229, 62, 62, 0.1);
+  }
+
+  .timer-icon {
+    font-size: 1.1rem;
+  }
+
+  .timer-text {
+    font-size: 1.4rem;
+    font-weight: 850;
+    color: #c53030;
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: 1px;
   }
 
   .stat-value {
