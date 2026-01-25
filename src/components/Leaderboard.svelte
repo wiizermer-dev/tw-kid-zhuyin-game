@@ -193,7 +193,8 @@
         background: white;
         width: 92%;
         max-width: 420px;
-        max-height: 85vh;
+        max-height: 90vh;
+        min-height: 300px;
         border-radius: 24px;
         padding: 1.25rem;
         position: relative;
@@ -276,8 +277,8 @@
     .content {
         flex: 1;
         overflow-y: auto;
-        min-height: 250px;
-        max-height: 400px;
+        min-height: 150px;
+        max-height: 50vh;
     }
 
     .loading,
@@ -430,7 +431,8 @@
         .leaderboard-card {
             width: 95%;
             padding: 1rem;
-            max-height: 90vh;
+            max-height: 92vh;
+            min-height: 280px;
         }
         
         h1 {
@@ -445,6 +447,11 @@
         .tabs button {
             padding: 0.5rem 0.25rem;
             font-size: 0.8rem;
+        }
+        
+        .content {
+            min-height: 120px;
+            max-height: 45vh;
         }
         
         .rank-item,
@@ -471,6 +478,7 @@
         .leaderboard-card {
             width: 98%;
             padding: 0.875rem;
+            min-height: 250px;
         }
         
         h1 {
@@ -482,6 +490,11 @@
             font-size: 0.75rem;
         }
         
+        .content {
+            min-height: 100px;
+            max-height: 40vh;
+        }
+        
         .rank {
             font-size: 1rem;
             min-width: 1.75rem;
@@ -489,6 +502,69 @@
         
         .name {
             font-size: 0.875rem;
+        }
+    }
+    
+    /* 極低高度視窗優化 */
+    @media (max-height: 600px) {
+        .leaderboard-card {
+            max-height: 95vh;
+            min-height: 250px;
+            padding: 0.875rem;
+        }
+        
+        h1 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tabs-scroll {
+            margin-bottom: 0.5rem;
+        }
+        
+        .content {
+            min-height: 100px;
+            max-height: 35vh;
+        }
+        
+        .loading,
+        .empty {
+            padding: 2rem 1rem;
+            font-size: 1rem;
+        }
+    }
+    
+    @media (max-height: 500px) {
+        .leaderboard-card {
+            max-height: 98vh;
+            min-height: 200px;
+            padding: 0.75rem;
+        }
+        
+        h1 {
+            font-size: 1.2rem;
+            margin-bottom: 0.4rem;
+        }
+        
+        .tabs button {
+            padding: 0.4rem 0.25rem;
+            font-size: 0.75rem;
+        }
+        
+        .content {
+            min-height: 80px;
+            max-height: 30vh;
+        }
+        
+        .rank-item,
+        .hardest-item {
+            padding: 0.5rem 0.6rem;
+        }
+        
+        .loading,
+        .empty {
+            padding: 1.5rem 0.5rem;
+            font-size: 0.9rem;
         }
     }
 </style>

@@ -8,20 +8,29 @@ export const chapters = [
     color: "#4A90E2",
     description: "從繁華的台北出發，開始你的注音冒險！",
     landmark: "台北101",
-    levels: Array.from({ length: 10 }, (_, i) => ({
+    levels: Array.from({ length: 8 }, (_, i) => ({
       level: i + 1,
-      name: `第 ${i + 1} 關`,
+      name: i === 3 ? `第 4 關 👹 小BOSS` : i === 7 ? `第 8 關 👹 大BOSS` : `第 ${i + 1} 關`,
       questionsCount: 10,
-      difficulty: "easy",
-      focusType: "basic", // 基礎聲韻母
-      unlocked: i === 0, // 第一關預設解鎖
+      difficulty: i < 3 ? "medium" : i === 3 ? "hard" : i < 7 ? "hard" : "expert",
+      focusType: "basic",
+      unlocked: i === 0,
+      isBoss: i === 3 || i === 7, // 第 4 關和第 8 關為 BOSS
     })),
-    boss: {
-      level: 10,
-      name: "101 登頂挑戰",
-      description: "快速答題，挑戰最高層！",
-      specialRule: "限時模式"
-    }
+    boss: [
+      {
+        level: 4,
+        name: "捷運音韻守護者",
+        description: "掌握基礎注音的小考驗！",
+        specialRule: "易混淆字加強"
+      },
+      {
+        level: 8,
+        name: "101 登頂挑戰",
+        description: "征服台北，成為注音達人！",
+        specialRule: "生難字詞挑戰"
+      }
+    ]
   },
   {
     id: 2,
@@ -31,20 +40,29 @@ export const chapters = [
     color: "#6FCF97",
     description: "探索山城美景，學習 ㄣ/ㄥ 的奧秘",
     landmark: "新竹城隍廟",
-    levels: Array.from({ length: 10 }, (_, i) => ({
-      level: 11 + i,
-      name: `第 ${11 + i} 關`,
+    levels: Array.from({ length: 8 }, (_, i) => ({
+      level: 9 + i,
+      name: i === 3 ? `第 ${9 + i} 關 👹 小BOSS` : i === 7 ? `第 ${9 + i} 關 👹 大BOSS` : `第 ${9 + i} 關`,
       questionsCount: 10,
-      difficulty: i < 5 ? "easy" : "medium",
-      focusType: "en_eng", // ㄣ/ㄥ 混淆
+      difficulty: i < 3 ? "medium" : i === 3 ? "hard" : i < 7 ? "hard" : "expert",
+      focusType: "en_eng",
       unlocked: false,
+      isBoss: i === 3 || i === 7,
     })),
-    boss: {
-      level: 20,
-      name: "山城音韻師",
-      description: "分辨 ㄣ/ㄥ 的終極考驗",
-      specialRule: "全都是 ㄣ/ㄥ 題型"
-    }
+    boss: [
+      {
+        level: 12,
+        name: "客家音韻挑戰",
+        description: "ㄣ/ㄥ 的中階考驗",
+        specialRule: "易錯字加強"
+      },
+      {
+        level: 16,
+        name: "山城音韻師",
+        description: "分辨 ㄣ/ㄥ 的終極考驗",
+        specialRule: "全都是 ㄣ/ㄥ 題型"
+      }
+    ]
   },
   {
     id: 3,
@@ -54,20 +72,29 @@ export const chapters = [
     color: "#FFB84D",
     description: "在盆地中央，挑戰 ㄢ/ㄤ 的分辨力",
     landmark: "逢甲夜市",
-    levels: Array.from({ length: 10 }, (_, i) => ({
-      level: 21 + i,
-      name: `第 ${21 + i} 關`,
+    levels: Array.from({ length: 8 }, (_, i) => ({
+      level: 17 + i,
+      name: i === 3 ? `第 ${17 + i} 關 👹 小BOSS` : i === 7 ? `第 ${17 + i} 關 👹 大BOSS` : `第 ${17 + i} 關`,
       questionsCount: 10,
-      difficulty: "medium",
-      focusType: "an_ang", // ㄢ/ㄤ 混淆
+      difficulty: i < 3 ? "medium" : i === 3 ? "hard" : i < 7 ? "hard" : "expert",
+      focusType: "an_ang",
       unlocked: false,
+      isBoss: i === 3 || i === 7,
     })),
-    boss: {
-      level: 30,
-      name: "夜市美食王",
-      description: "答對才能品嚐美食！",
-      specialRule: "連續答對獲得小吃"
-    }
+    boss: [
+      {
+        level: 20,
+        name: "小吃攤主",
+        description: "ㄢ/ㄤ 的美食挑戰",
+        specialRule: "答對獲得小吃"
+      },
+      {
+        level: 24,
+        name: "夜市美食王",
+        description: "征服逢甲的終極考驗！",
+        specialRule: "成語與生難字"
+      }
+    ]
   },
   {
     id: 4,
@@ -77,20 +104,29 @@ export const chapters = [
     color: "#A78BFA",
     description: "高山上的挑戰，學習平翹舌音",
     landmark: "日月潭",
-    levels: Array.from({ length: 10 }, (_, i) => ({
-      level: 31 + i,
-      name: `第 ${31 + i} 關`,
+    levels: Array.from({ length: 8 }, (_, i) => ({
+      level: 25 + i,
+      name: i === 3 ? `第 ${25 + i} 關 👹 小BOSS` : i === 7 ? `第 ${25 + i} 關 👹 大BOSS` : `第 ${25 + i} 關`,
       questionsCount: 10,
-      difficulty: "medium",
-      focusType: "zhi_zi", // ㄓㄔㄕ/ㄗㄘㄙ 混淆
+      difficulty: i < 3 ? "medium" : i === 3 ? "hard" : i < 7 ? "hard" : "expert",
+      focusType: "zhi_zi",
       unlocked: false,
+      isBoss: i === 3 || i === 7,
     })),
-    boss: {
-      level: 40,
-      name: "日月潭守護者",
-      description: "在湖畔挑戰平翹舌極限",
-      specialRule: "答錯會扣星星"
-    }
+    boss: [
+      {
+        level: 28,
+        name: "湖畔守衛",
+        description: "平翹舌的小挑戰",
+        specialRule: "易混淆字加強"
+      },
+      {
+        level: 32,
+        name: "日月潭守護者",
+        description: "在湖畔挑戰平翹舌極限",
+        specialRule: "生難字詞大考驗"
+      }
+    ]
   },
   {
     id: 5,
@@ -100,20 +136,29 @@ export const chapters = [
     color: "#F4D03F",
     description: "廣闊的平原，綜合前面所學",
     landmark: "嘉義阿里山",
-    levels: Array.from({ length: 10 }, (_, i) => ({
-      level: 41 + i,
-      name: `第 ${41 + i} 關`,
+    levels: Array.from({ length: 8 }, (_, i) => ({
+      level: 33 + i,
+      name: i === 3 ? `第 ${33 + i} 關 👹 小BOSS` : i === 7 ? `第 ${33 + i} 關 👹 大BOSS` : `第 ${33 + i} 關`,
       questionsCount: 10,
-      difficulty: i < 5 ? "medium" : "hard",
-      focusType: "mixed", // 綜合混合
+      difficulty: i < 3 ? "medium" : i === 3 ? "hard" : i < 7 ? "hard" : "expert",
+      focusType: "mixed",
       unlocked: false,
+      isBoss: i === 3 || i === 7,
     })),
-    boss: {
-      level: 50,
-      name: "阿里山日出",
-      description: "在日出前完成挑戰！",
-      specialRule: "限時 5 分鐘"
-    }
+    boss: [
+      {
+        level: 36,
+        name: "平原守衛",
+        description: "綜合測試你的實力",
+        specialRule: "混合題型"
+      },
+      {
+        level: 40,
+        name: "阿里山日出",
+        description: "在日出前完成挑戰！",
+        specialRule: "成語與生難字混合"
+      }
+    ]
   },
   {
     id: 6,
@@ -123,20 +168,29 @@ export const chapters = [
     color: "#E74C3C",
     description: "古色古香的府城，學習成語諺語",
     landmark: "赤崁樓",
-    levels: Array.from({ length: 10 }, (_, i) => ({
-      level: 51 + i,
-      name: `第 ${51 + i} 關`,
+    levels: Array.from({ length: 8 }, (_, i) => ({
+      level: 41 + i,
+      name: i === 3 ? `第 ${41 + i} 關 👹 小BOSS` : i === 7 ? `第 ${41 + i} 關 👹 大BOSS` : `第 ${41 + i} 關`,
       questionsCount: 10,
-      difficulty: "hard",
-      focusType: "idioms", // 成語與諺語
+      difficulty: i < 3 ? "hard" : i === 3 ? "expert" : i < 7 ? "expert" : "master",
+      focusType: "idioms",
       unlocked: false,
+      isBoss: i === 3 || i === 7,
     })),
-    boss: {
-      level: 60,
-      name: "古都文學士",
-      description: "挑戰成語大師之路",
-      specialRule: "全都是成語題"
-    }
+    boss: [
+      {
+        level: 44,
+        name: "府城秀才",
+        description: "成語的小考驗",
+        specialRule: "常用成語精選"
+      },
+      {
+        level: 48,
+        name: "古都文學士",
+        description: "挑戰成語大師之路",
+        specialRule: "全都是成語題"
+      }
+    ]
   },
   {
     id: 7,
@@ -146,20 +200,29 @@ export const chapters = [
     color: "#3498DB",
     description: "繁忙的港口，學習時事新詞",
     landmark: "愛河",
-    levels: Array.from({ length: 10 }, (_, i) => ({
-      level: 61 + i,
-      name: `第 ${61 + i} 關`,
+    levels: Array.from({ length: 8 }, (_, i) => ({
+      level: 49 + i,
+      name: i === 3 ? `第 ${49 + i} 關 👹 小BOSS` : i === 7 ? `第 ${49 + i} 關 👹 大BOSS` : `第 ${49 + i} 關`,
       questionsCount: 10,
-      difficulty: "hard",
-      focusType: "modern", // 時事詞彙
+      difficulty: i < 3 ? "hard" : i === 3 ? "expert" : i < 7 ? "expert" : "master",
+      focusType: "modern",
       unlocked: false,
+      isBoss: i === 3 || i === 7,
     })),
-    boss: {
-      level: 70,
-      name: "港都新聞王",
-      description: "掌握最新流行用語",
-      specialRule: "全都是時事詞彙"
-    }
+    boss: [
+      {
+        level: 52,
+        name: "愛河詩人",
+        description: "現代詞彙挑戰",
+        specialRule: "時事與生活用語"
+      },
+      {
+        level: 56,
+        name: "港都新聞王",
+        description: "掌握最新流行用語",
+        specialRule: "全都是時事詞彙"
+      }
+    ]
   },
   {
     id: 8,
@@ -169,20 +232,29 @@ export const chapters = [
     color: "#1ABC9C",
     description: "南國風情，挑戰生難字詞",
     landmark: "墾丁海灘",
-    levels: Array.from({ length: 10 }, (_, i) => ({
-      level: 71 + i,
-      name: `第 ${71 + i} 關`,
+    levels: Array.from({ length: 8 }, (_, i) => ({
+      level: 57 + i,
+      name: i === 3 ? `第 ${57 + i} 關 👹 小BOSS` : i === 7 ? `第 ${57 + i} 關 👹 大BOSS` : `第 ${57 + i} 關`,
       questionsCount: 10,
-      difficulty: "expert",
-      focusType: "rare", // 生難字詞
+      difficulty: i < 3 ? "hard" : i === 3 ? "expert" : i < 7 ? "expert" : "master",
+      focusType: "rare",
       unlocked: false,
+      isBoss: i === 3 || i === 7,
     })),
-    boss: {
-      level: 80,
-      name: "南灣衝浪王",
-      description: "乘風破浪，挑戰罕見詞彙",
-      specialRule: "無提示模式"
-    }
+    boss: [
+      {
+        level: 60,
+        name: "海角守衛",
+        description: "生難字詞小考驗",
+        specialRule: "罕見字詞挑戰"
+      },
+      {
+        level: 64,
+        name: "南灣衝浪王",
+        description: "乘風破浪，挑戰罕見詞彙",
+        specialRule: "無提示模式"
+      }
+    ]
   },
   {
     id: 9,
@@ -192,43 +264,61 @@ export const chapters = [
     color: "#16A085",
     description: "太平洋畔，綜合所有挑戰",
     landmark: "太魯閣峽谷",
-    levels: Array.from({ length: 10 }, (_, i) => ({
-      level: 81 + i,
-      name: `第 ${81 + i} 關`,
+    levels: Array.from({ length: 8 }, (_, i) => ({
+      level: 65 + i,
+      name: i === 3 ? `第 ${65 + i} 關 👹 小BOSS` : i === 7 ? `第 ${65 + i} 關 👹 大BOSS` : `第 ${65 + i} 關`,
       questionsCount: 10,
-      difficulty: "expert",
-      focusType: "comprehensive", // 綜合挑戰
+      difficulty: i < 3 ? "expert" : i === 3 ? "master" : i < 7 ? "master" : "master",
+      focusType: "comprehensive",
       unlocked: false,
+      isBoss: i === 3 || i === 7,
     })),
-    boss: {
-      level: 90,
-      name: "峽谷回音王",
-      description: "回音測試你的注音功力",
-      specialRule: "聽力題為主"
-    }
+    boss: [
+      {
+        level: 68,
+        name: "海岸巡守者",
+        description: "綜合挑戰你的實力",
+        specialRule: "混合高難度題型"
+      },
+      {
+        level: 72,
+        name: "峽谷回音王",
+        description: "回音測試你的注音功力",
+        specialRule: "答錯重來"
+      }
+    ]
   },
   {
     id: 10,
-    name: "離島之旅",
+    name: "離島挑戰",
     region: "islands",
     icon: "🏝️",
     color: "#9B59B6",
-    description: "前往離島，完成最終試煉",
-    landmark: "澎湖跨海大橋",
-    levels: Array.from({ length: 10 }, (_, i) => ({
-      level: 91 + i,
-      name: `第 ${91 + i} 關`,
-      questionsCount: 15,
-      difficulty: "master",
-      focusType: "ultimate", // 終極試煉
+    description: "最終試煉，征服所有注音難題",
+    landmark: "綠島、蘭嶼、澎湖",
+    levels: Array.from({ length: 8 }, (_, i) => ({
+      level: 73 + i,
+      name: i === 3 ? `第 ${73 + i} 關 👹 小BOSS` : i === 7 ? `第 ${73 + i} 關 ⚡ 終極BOSS` : `第 ${73 + i} 關`,
+      questionsCount: 10,
+      difficulty: i < 3 ? "expert" : i === 3 ? "master" : i < 7 ? "master" : "master",
+      focusType: "ultimate",
       unlocked: false,
+      isBoss: i === 3 || i === 7,
     })),
-    boss: {
-      level: 100,
-      name: "環島大師戰",
-      description: "證明你是真正的注音大師！",
-      specialRule: "所有題型混合，無提示"
-    }
+    boss: [
+      {
+        level: 76,
+        name: "離島守護神",
+        description: "最後關卡前的試煉",
+        specialRule: "全難度混合"
+      },
+      {
+        level: 80,
+        name: "注音大師",
+        description: "終極BOSS，證明你的實力！",
+        specialRule: "隨機綜合題型，無失誤完成"
+      }
+    ]
   }
 ];
 

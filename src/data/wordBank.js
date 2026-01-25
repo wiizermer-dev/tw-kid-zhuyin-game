@@ -1,4 +1,4 @@
-// 基礎詞彙庫 - ㄣ (en) Group
+// 基礎詞彙庫 - ㄣ (en) Group (增加難度)
 export const enWords = [
     // ㄨㄣ (un) 題型
     { char: "文字", target: "文", pinyin: "ㄨㄣˊ", english: "Text" },

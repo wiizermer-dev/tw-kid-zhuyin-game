@@ -249,7 +249,7 @@
       } else {
         finishLevel();
       }
-    }, 1200); // 稍微延長以顯示統計訊息
+    }, 500); // Speed run 模式：快速切換
   }
 
   async function finishLevel() {

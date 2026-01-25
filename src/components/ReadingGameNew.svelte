@@ -72,6 +72,7 @@
     
     showFeedback = true;
     
+    // Speed run 模式：快速切換到下一題
     setTimeout(() => {
       showFeedback = false;
       if (currentIndex < questions.length - 1) {
@@ -80,7 +81,7 @@
       } else {
         finishLevel();
       }
-    }, 1200);
+    }, 500); // 從 1200ms 降至 500ms，加快 speed run 節奏
   }
   
   function finishLevel() {
