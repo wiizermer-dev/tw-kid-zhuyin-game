@@ -1,5 +1,5 @@
 <script>
-  import { generateLevelData } from "../lib/questionGenerator.js";
+  import { generateLevelData } from "../../lib/questionGenerator.js";
   import { fade, fly, scale } from "svelte/transition";
   import { onMount, tick } from "svelte";
   import {
@@ -9,7 +9,7 @@
     getQuestionStats,
     calculateWrongRate,
     getPlayer,
-  } from "../lib/supabase.js";
+  } from "../../lib/supabase.js";
   import Leaderboard from "./Leaderboard.svelte";
 
   function formatTime(seconds) {

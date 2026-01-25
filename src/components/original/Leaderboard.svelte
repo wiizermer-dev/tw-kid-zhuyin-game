@@ -7,7 +7,7 @@
         getHardestQuestions,
         calculateWrongRate,
         getMyRank,
-    } from "../lib/supabase.js";
+    } from "../../lib/supabase.js";
 
     export let onClose = () => {};
 
@@ -191,11 +191,11 @@
 
     .leaderboard-card {
         background: white;
-        width: 92%;
-        max-width: 420px;
-        max-height: 85vh;
+        width: 90%;
+        max-width: 400px;
+        max-height: 80vh;
         border-radius: 24px;
-        padding: 1.25rem;
+        padding: 1.5rem;
         position: relative;
         display: flex;
         flex-direction: column;
@@ -423,72 +423,5 @@
         margin-bottom: 0.8rem;
         text-align: center;
         border-left: 3px solid #63b3ed;
-    }
-    
-    /* 響應式 */
-    @media (max-width: 640px) {
-        .leaderboard-card {
-            width: 95%;
-            padding: 1rem;
-            max-height: 90vh;
-        }
-        
-        h1 {
-            font-size: 1.5rem;
-            margin-bottom: 0.75rem;
-        }
-        
-        .tabs {
-            padding: 3px;
-        }
-        
-        .tabs button {
-            padding: 0.5rem 0.25rem;
-            font-size: 0.8rem;
-        }
-        
-        .rank-item,
-        .hardest-item {
-            padding: 0.6rem 0.75rem;
-            gap: 0.6rem;
-        }
-        
-        .name {
-            font-size: 0.95rem;
-        }
-        
-        .score {
-            font-size: 1rem;
-        }
-        
-        .my-rank-bar {
-            padding: 0.6rem 0.75rem;
-            font-size: 0.9rem;
-        }
-    }
-    
-    @media (max-width: 380px) {
-        .leaderboard-card {
-            width: 98%;
-            padding: 0.875rem;
-        }
-        
-        h1 {
-            font-size: 1.3rem;
-        }
-        
-        .tabs button {
-            padding: 0.45rem 0.2rem;
-            font-size: 0.75rem;
-        }
-        
-        .rank {
-            font-size: 1rem;
-            min-width: 1.75rem;
-        }
-        
-        .name {
-            font-size: 0.875rem;
-        }
     }
 </style>
