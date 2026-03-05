@@ -1,5 +1,5 @@
 <script>
-  import { generateLevelData } from "../lib/questionGenerator.js";
+  import { generateLevelData } from "../lib/newQuestionGenerator.js";
   import { fade, fly, scale } from "svelte/transition";
   import { onMount, tick } from "svelte";
   import {
