@@ -55,7 +55,14 @@
 
 <div class="leaderboard-overlay" transition:fade on:click|self={onClose}>
     <div class="leaderboard-card" in:fly={{ y: 50 }}>
-        <button class="close-btn" on:click={onClose}>✕</button>
+        <button
+            class="close-btn"
+            on:click={onClose}
+            aria-label="關閉排行榜"
+            title="關閉排行榜"
+        >
+            ✕
+        </button>
         <h1>🏆 排行榜</h1>
 
         <!-- TABS -->
@@ -215,8 +222,12 @@
         transition: color 0.2s;
     }
 
-    .close-btn:hover {
+    .close-btn:hover,
+    .close-btn:focus-visible {
         color: #2d3748;
+        outline: 2px solid #4fd1c5;
+        outline-offset: 2px;
+        border-radius: 4px;
     }
 
     h1 {

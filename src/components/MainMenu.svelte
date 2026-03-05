@@ -47,6 +47,8 @@
     class="version-switch"
     on:click={() => showModeSwitch = !showModeSwitch}
     transition:fade
+    aria-label="遊戲設定與版本切換"
+    title="遊戲設定與版本切換"
   >
     ⚙️
   </button>
@@ -56,7 +58,12 @@
       <button class="classic-mode-btn" on:click={onSwitchToClassic}>
         📖 切換到經典模式
       </button>
-      <button class="close-switch" on:click={() => showModeSwitch = false}>
+      <button
+        class="close-switch"
+        on:click={() => showModeSwitch = false}
+        aria-label="關閉設定"
+        title="關閉設定"
+      >
         ✕
       </button>
     </div>
@@ -170,9 +177,12 @@
     padding: 16px;
   }
   
-  .version-switch:hover {
+  .version-switch:hover,
+  .version-switch:focus-visible {
     transform: rotate(90deg) scale(1.1);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    outline: 2px solid #4a90e2;
+    outline-offset: 2px;
   }
   
   .mode-switch-panel {
@@ -216,8 +226,11 @@
     transition: background 0.2s;
   }
   
-  .close-switch:hover {
+  .close-switch:hover,
+  .close-switch:focus-visible {
     background: #e2e8f0;
+    outline: 2px solid #4a90e2;
+    outline-offset: 2px;
   }
   
   /* 標題區 */
