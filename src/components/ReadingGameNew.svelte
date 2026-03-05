@@ -72,7 +72,7 @@
       }
       
       gameState = "playing";
-      showScenario = true;
+      showScenario = true; // 強制顯示簡報
       startTime = Date.now();
       questionTimes = [];
     }

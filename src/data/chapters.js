@@ -55,7 +55,7 @@ export const chapters = [
       focusType: "en_eng",
       unlocked: false,
       isBoss: i === 3 || i === 7,
-      scenario: i === 0 ? "聽聽茶園裡的採茶歌，找出錯誤的注音。" : i === 3 ? "城隍廟前的石獅子不讓你過去，必須答對它的難題！" : i === 7 ? "驅散山城魔霧，還原優美的山歌。"
+      scenario: i === 0 ? "聽聽茶園裡的採茶歌，找出錯誤的注音。" : i === 3 ? "城隍廟前的石獅子不讓你過去，必須答對它的難題！" : i === 7 ? "驅散山城魔霧，還原優美的山歌。" : "繼續修補山城的音韻。"
     })),
     boss: [
       {
@@ -245,6 +245,7 @@ export const chapters = [
       focusType: "modern",
       unlocked: false,
       isBoss: i === 3 || i === 7,
+      scenario: i === 3 ? "引導信號塔進入正確頻率！" : "協助導航員辨識新時代語彙。"
     })),
     boss: [
       {
@@ -282,6 +283,7 @@ export const chapters = [
       focusType: "rare",
       unlocked: false,
       isBoss: i === 3 || i === 7,
+      scenario: i === 3 ? "找出瓶中信裡最古老的祕密！" : "在南國暖風中修復生難字標本。"
     })),
     boss: [
       {
@@ -319,6 +321,7 @@ export const chapters = [
       focusType: "comprehensive",
       unlocked: false,
       isBoss: i === 3 || i === 7,
+      scenario: i === 3 ? "峽谷迴聲的試煉開始了！" : "在太平洋的海風中迎接最終綜合挑戰。"
     })),
     boss: [
       {
@@ -356,6 +359,7 @@ export const chapters = [
       focusType: "ultimate",
       unlocked: false,
       isBoss: i === 3 || i === 7,
+      scenario: i === 7 ? "挑戰注音之巔，成為真正的傳奇！" : "橫跨離島，完成最後的冒險之旅。"
     })),
     boss: [
       {
@@ -377,104 +381,6 @@ export const chapters = [
     ]
   }
 ];
-
-// 難度定義
-export const difficulties = {
-  easy: {
-    name: "簡單",
-    color: "#6FCF97",
-    icon: "🟢",
-    description: "適合初學者",
-    timePerQuestion: 15,
-    hintsAvailable: 3,
-  },
-  medium: {
-    name: "普通",
-    color: "#FFB84D",
-    icon: "🟡",
-    description: "有一定挑戰性",
-    timePerQuestion: 12,
-    hintsAvailable: 2,
-  },
-  hard: {
-    name: "困難",
-    color: "#E74C3C",
-    icon: "🔴",
-    description: "需要熟練掌握",
-    timePerQuestion: 10,
-    hintsAvailable: 1,
-  },
-  expert: {
-    name: "專家",
-    color: "#9B59B6",
-    icon: "🟣",
-    description: "高手挑戰",
-    timePerQuestion: 8,
-    hintsAvailable: 0,
-  },
-  master: {
-    name: "大師",
-    color: "#34495E",
-    icon: "⚫",
-    description: "注音大師級別",
-    timePerQuestion: 6,
-    hintsAvailable: 0,
-  }
-};
-
-// 題型焦點
-export const focusTypes = {
-  basic: {
-    name: "基礎聲韻",
-    description: "學習基本的聲母和韻母",
-    wordBanks: ["enWords", "engWords"]
-  },
-  en_eng: {
-    name: "ㄣ/ㄥ 辨音",
-    description: "分辨 ㄣ 和 ㄥ 的差異",
-    wordBanks: ["enWords", "engWords"]
-  },
-  an_ang: {
-    name: "ㄢ/ㄤ 辨音",
-    description: "分辨 ㄢ 和 ㄤ 的差異",
-    wordBanks: ["hardAnAngWords"]
-  },
-  zhi_zi: {
-    name: "平翹舌音",
-    description: "分辨 ㄓㄔㄕ 和 ㄗㄘㄙ",
-    wordBanks: ["hardZhiChiWords", "hardZiZhiWords"]
-  },
-  mixed: {
-    name: "綜合練習",
-    description: "混合各種易混淆音",
-    wordBanks: ["enWords", "engWords", "hardAnAngWords", "hardZhiChiWords"]
-  },
-  idioms: {
-    name: "成語諺語",
-    description: "學習成語中的注音",
-    wordBanks: ["hardEnWords", "hardEngWords"]
-  },
-  modern: {
-    name: "時事詞彙",
-    description: "掌握現代流行用語",
-    wordBanks: ["hardEnWords", "hardEngWords"]
-  },
-  rare: {
-    name: "生難字詞",
-    description: "挑戰罕見詞彙",
-    wordBanks: ["hardRiLiWords", "hardFuHuWords", "hardNaLiWords"]
-  },
-  comprehensive: {
-    name: "全面挑戰",
-    description: "綜合所有類型",
-    wordBanks: ["hardEnWords", "hardEngWords", "hardAnAngWords", "hardZhiChiWords", "hardRiLiWords"]
-  },
-  ultimate: {
-    name: "終極試煉",
-    description: "最高難度綜合測試",
-    wordBanks: ["hardEnWords", "hardEngWords", "hardAnAngWords", "hardZhiChiWords", "hardRiLiWords", "hardFuHuWords", "hardNaLiWords", "hardZiZhiWords", "hardWoOWords", "hardEEiWords"]
-  }
-};
 
 // 獲取章節資訊
 export function getChapterById(chapterId) {

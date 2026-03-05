@@ -117,7 +117,7 @@
           {@const unlocked = isLevelUnlocked(level.level, completedLevels)}
           {@const completed = completedLevels.includes(level.level)}
           {@const stars = getStarsForLevel(level.level)}
-          {@const isBoss = level.level === selectedChapter.boss.level}
+          {@const isBoss = selectedChapter.boss.some(b => b.level === level.level)}
           
           <button
             class="level-card"
@@ -130,7 +130,7 @@
             in:scale={{ delay: (level.level % 10) * 30 }}
           >
             {#if isBoss}
-              <div class="boss-badge">👑 BOSS</div>
+              <div class="boss-badge">👺 BOSS</div>
             {/if}
             
             <div class="level-number">{level.level}</div>
@@ -153,13 +153,17 @@
       </div>
       
       <!-- Boss 資訊 -->
-      {#if selectedChapter.boss}
-        <div class="boss-info postcard" in:fade={{ delay: 300 }}>
-          <h3>👑 章節 BOSS：{selectedChapter.boss.name}</h3>
-          <p>{selectedChapter.boss.description}</p>
-          <div class="boss-rule">
-            ⚡ 特殊規則：{selectedChapter.boss.specialRule}
-          </div>
+      {#if selectedChapter.boss && selectedChapter.boss.length > 0}
+        <div class="boss-list" in:fade={{ delay: 300 }}>
+          {#each selectedChapter.boss as boss}
+            <div class="boss-info postcard">
+              <h3>👺 {boss.name} (第 {boss.level} 關)</h3>
+              <p>{boss.description}</p>
+              <div class="boss-rule">
+                ⚡ 特殊規則：{boss.specialRule}
+              </div>
+            </div>
+          {/each}
         </div>
       {/if}
     </div>
@@ -470,9 +474,16 @@
     margin: 0;
   }
   
+  .boss-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    padding: 0 1rem;
+  }
+  
   .boss-info {
-    margin: 2rem auto;
-    max-width: 600px;
+    width: 100%;
     padding: 2rem;
   }
   
@@ -549,7 +560,6 @@
     }
     
     .boss-info {
-      margin: 1.5rem 0.5rem;
       padding: 1.5rem;
     }
   }
