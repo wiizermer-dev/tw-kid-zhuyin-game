@@ -256,6 +256,3 @@ export function previewQuestions(category, count = 5) {
     return questions.slice(0, count);
 }
 
-// 顯示統計
-console.log('📚 題庫載入完成！');
-console.log('統計:', getAllBankStats());
