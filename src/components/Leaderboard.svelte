@@ -38,8 +38,10 @@
                 const raw = await getHardestQuestions(20);
                 hardestQuestions = raw.filter((q) => q.wrong_attempts > 0);
             } else {
-                leaderboard = await getLeaderboard(activeTab);
-                myRank = await getMyRank(activeTab);
+                [leaderboard, myRank] = await Promise.all([
+                    getLeaderboard(activeTab),
+                    getMyRank(activeTab),
+                ]);
             }
         } catch (e) {
             console.error("Load data error:", e);
