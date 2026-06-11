@@ -133,8 +133,8 @@
       <div class="card lobby">
         <b>房裡的人（{players.length}）</b>
         <div class="chips">
-          {#each players as p}
-            <span class="chip pop-in">{p}</span>
+          {#each players as p (p.id)}
+            <span class="chip pop-in">{p.name}</span>
           {:else}
             <span class="waiting">等朋友進房中…</span>
           {/each}
