@@ -6,31 +6,33 @@ import { supabase } from './backend.js';
 /**
  * 加入房間頻道。
  * @param {string} code 注音房號（如 ㄅㄅㄇㄇ）
- * @param {string} name 玩家名
- * @param {Object} handlers { onPlayers(names[]), onStart(payload), onProgress(payload) }
+ * @param {{id: string, name: string}} me 玩家（穩定 id + 名字）
+ * @param {Object} handlers { onPlayers(players[]), onStart(payload), onProgress(payload) }
  * @returns {Object|null} { start(payload), progress(payload), leave() }；無雲端時回傳 null
  */
-export function joinLiveRoom(code, name, handlers = {}) {
+export function joinLiveRoom(code, me, handlers = {}) {
   if (!supabase) return null;
 
-  const key = crypto.randomUUID();
   const channel = supabase.channel(`bpmf-room-${code}`, {
-    config: { presence: { key }, broadcast: { self: false } }
+    config: { presence: { key: me.id }, broadcast: { self: false } }
   });
 
   channel.on('presence', { event: 'sync' }, () => {
-    const players = Object.values(channel.presenceState())
-      .flat()
-      .map((p) => p.name)
-      .filter(Boolean);
-    handlers.onPlayers?.(players);
+    // 以 id 去重（同一人多個 tab 只算一個）
+    const seen = new Map();
+    for (const metas of Object.values(channel.presenceState())) {
+      for (const m of metas) {
+        if (m.id && m.name) seen.set(m.id, { id: m.id, name: m.name });
+      }
+    }
+    handlers.onPlayers?.([...seen.values()]);
   });
   channel.on('broadcast', { event: 'start' }, ({ payload }) => handlers.onStart?.(payload));
   channel.on('broadcast', { event: 'progress' }, ({ payload }) => handlers.onProgress?.(payload));
 
   channel.subscribe(async (status) => {
     if (status === 'SUBSCRIBED') {
-      try { await channel.track({ name }); } catch (e) { console.error('presence track:', e); }
+      try { await channel.track({ id: me.id, name: me.name }); } catch (e) { console.error('presence track:', e); }
     }
   });
 

@@ -12,8 +12,10 @@
   import { storage } from './core/storage.js';
   import { dailySeed } from './core/rng.js';
   import { parseChallengeFromUrl, clearChallengeFromUrl } from './lib/challenge.js';
-  import { submitRun } from './lib/backend.js';
+  import { submitRun, browserId } from './lib/backend.js';
   import { joinLiveRoom } from './lib/live.js';
+
+  const myId = browserId();
 
   let screen = $state('home');
   let modeKey = $state('');
@@ -76,11 +78,14 @@
     duelRoom = code;
     duelSeed = `room-${code}`;
     if (liveChannel) { liveChannel.leave(); liveChannel = null; }
-    liveState = { players: [], progress: {} };
-    liveChannel = joinLiveRoom(code, storage.getPlayerName() || '無名氏', {
+    // 原地清空，保持 liveState 物件參照穩定（Play/Result 持有同一個 proxy）
+    liveState.players = [];
+    liveState.progress = {};
+    const myName = storage.getPlayerName() || '無名氏';
+    liveChannel = joinLiveRoom(code, { id: myId, name: myName }, {
       onPlayers: (players) => { liveState.players = players; },
       onStart: () => { if (screen === 'duel') startDuelPlay(code, false); },
-      onProgress: (p) => { if (p?.name) liveState.progress[p.name] = p; }
+      onProgress: (p) => { if (p?.id) liveState.progress[p.id] = p; }
     });
   }
 
@@ -91,12 +96,20 @@
     level = null;
     duelRoom = code;
     duelSeed = `room-${code}`;
+    // 重新開打前清掉上一場的進度，但保留房裡成員
+    liveState.progress = {};
     playConfig = MODES.duel.config(duelSeed);
     playMeta = {
       modeName: MODES.duel.name,
+      myId,
       liveState: liveChannel ? liveState : null,
+      // 每答一題：自己存本地（自己也進排行榜）+ 廣播給其他人
       onProgress: liveChannel
-        ? (snap) => liveChannel.progress({ name: storage.getPlayerName() || '無名氏', ...snap })
+        ? (snap) => {
+            const mine = { id: myId, name: storage.getPlayerName() || '無名氏', ...snap };
+            liveState.progress[myId] = mine;
+            liveChannel.progress(mine);
+          }
         : null
     };
     screen = 'play';
@@ -105,7 +118,8 @@
   function leaveRoom() {
     if (liveChannel) { liveChannel.leave(); liveChannel = null; }
     duelRoom = null;
-    liveState = { players: [], progress: {} };
+    liveState.players = [];
+    liveState.progress = {};
   }
 
   function startLevel(lv) {
@@ -243,6 +257,7 @@
     {level}
     challenge={modeKey === 'duel' && challenge?.score != null ? challenge : null}
     liveState={modeKey === 'duel' && liveChannel ? liveState : null}
+    {myId}
     {duelSeed}
     onReplay={replay}
     onHome={goHome}

@@ -1,7 +1,8 @@
 <script>
-  import { onDestroy, untrack } from 'svelte';
+  import { onMount, onDestroy, untrack } from 'svelte';
   import { QuizSession } from '../../core/session.svelte.js';
   import ZhuyinCol from '../components/ZhuyinCol.svelte';
+  import LiveBoard from '../components/LiveBoard.svelte';
   import { playCorrectSound, playWrongSound, playComboSound, playLevelUpSound } from '../../lib/audio.js';
 
   let { config: configProp, meta, onFinish, onQuit } = $props();
@@ -89,6 +90,11 @@
     if (session.finished) done();
   });
 
+  // 掛載即廣播一次，讓同房對手立刻在排行榜看到你（第 1 題、0 分）
+  onMount(() => {
+    if (!showIntro) reportProgress(false);
+  });
+
   function quit() {
     if (!session.finished && session.attempted > 0) {
       if (!confirm('確定要離開嗎？這局進度不會保留喔')) return;
@@ -140,18 +146,9 @@
     <div class="combo pop-in">🔥 連擊 ×{session.combo}</div>
   {/if}
 
-  {#if meta.liveState && Object.keys(meta.liveState.progress).length > 0}
-    <div class="rivals">
-      {#each Object.values(meta.liveState.progress) as r (r.name)}
-        <span class="rival card" class:done={r.finished}>
-          <b>{r.name}</b>
-          {#if r.finished}
-            完賽 {r.score} 分・{r.elapsedSec}s
-          {:else}
-            第 {r.index}/{r.total} 題・{r.attempted ? Math.round((r.correct / r.attempted) * 100) : 0}%
-          {/if}
-        </span>
-      {/each}
+  {#if meta.liveState}
+    <div class="live-wrap">
+      <LiveBoard progress={meta.liveState.progress} myId={meta.myId} variant="play" />
     </div>
   {/if}
 
@@ -280,24 +277,7 @@
     animation: flame-flicker 0.6s ease-in-out infinite;
   }
 
-  .rivals {
-    display: flex;
-    gap: 0.45rem;
-    margin-top: 0.7rem;
-    overflow-x: auto;
-    padding-bottom: 0.2rem;
-  }
-  .rival {
-    padding: 0.35rem 0.7rem;
-    font-size: 0.78rem;
-    white-space: nowrap;
-    color: var(--ink-soft);
-    display: inline-flex;
-    gap: 0.35rem;
-    align-items: center;
-  }
-  .rival b { color: var(--ink); }
-  .rival.done { box-shadow: 0 0 0 2px var(--leaf), var(--shadow-card); }
+  .live-wrap { margin-top: 0.7rem; }
 
   .boss-panel { margin-top: 0.8rem; padding: 0.8rem 1rem; }
   .boss-row { display: flex; justify-content: space-between; font-weight: 800; margin-bottom: 0.4rem; }

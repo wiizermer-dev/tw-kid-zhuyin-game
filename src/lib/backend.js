@@ -7,7 +7,7 @@ const key = import.meta.env.VITE_SUPABASE_ANON_KEY;
 export const supabase = url && key ? createClient(url, key) : null;
 export const hasCloud = !!supabase;
 
-function browserId() {
+export function browserId() {
   let id = localStorage.getItem('bpmf_browser_id');
   if (!id) {
     id = crypto.randomUUID();

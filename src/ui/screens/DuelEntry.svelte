@@ -15,6 +15,11 @@
   let code = $state(initialCode);
   let entered = $state([]);
   let shareState = $state('');
+  let copied = $state(false);
+
+  function inviteUrl() {
+    return buildRoomInviteUrl({ room: code, name: storage.getPlayerName(), live: hasCloud ? 1 : 0 });
+  }
 
   // 從邀請連結直接進房
   $effect(() => {
@@ -44,9 +49,18 @@
 
   async function shareInvite() {
     const name = storage.getPlayerName();
-    const url = buildRoomInviteUrl({ room: code, name, live: hasCloud ? 1 : 0 });
-    const r = await shareText(`${name} 開了注音對戰房「${code}」。少ㄈㄏ（廢話），來ㄉ一場！\n${url}`);
+    const r = await shareText(`${name} 開了注音對戰房「${code}」。少ㄈㄏ（廢話），來ㄉ一場！\n${inviteUrl()}`);
     shareState = r === 'copied' ? '邀請已複製，傳給朋友！' : r === 'shared' ? '邀請已送出！' : '';
+  }
+
+  // 純網址複製：貼上即是連結，不含任何文字
+  async function copyLink() {
+    try {
+      await navigator.clipboard.writeText(inviteUrl());
+      copied = true;
+      shareState = '';
+      setTimeout(() => (copied = false), 1800);
+    } catch { /* clipboard 不可用時靜默 */ }
   }
 </script>
 
@@ -109,7 +123,10 @@
       {/each}
     </div>
 
-    <button class="btn invite" onclick={shareInvite}>傳邀請給朋友</button>
+    <div class="invite-row">
+      <button class="btn invite" onclick={shareInvite}>傳邀請給朋友</button>
+      <button class="btn mint copy" onclick={copyLink}>{copied ? '已複製 ✓' : '複製連結'}</button>
+    </div>
     {#if shareState}<p class="share-state pop-in">{shareState}</p>{/if}
 
     {#if hasCloud}
@@ -202,7 +219,8 @@
   .dot.g2 { background: #bdeee6; }
   .dot.g3 { background: #f6dcae; }
 
-  .invite { margin: 1.2rem auto 0; display: flex; }
+  .invite-row { display: flex; gap: 0.6rem; justify-content: center; margin-top: 1.2rem; flex-wrap: wrap; }
+  .invite-row .btn { flex: 0 1 auto; }
   .share-state { text-align: center; color: var(--mint-deep); font-weight: 700; margin: 0.5rem 0 0; }
 
   .lobby { margin-top: 1.2rem; padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: 0.5rem; }

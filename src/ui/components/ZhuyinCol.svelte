@@ -32,13 +32,14 @@
     font-size: var(--zy-size);
   }
   .sym { display: block; }
-  /* 調號用圓體+橘色：與對錯的紅綠語意區隔，楷體的「ˇ」會畫成不對稱小勾太像 ✓ */
+  /* 調號與注音同為深墨色、放大加粗，清楚可辨（對錯回饋是綠/紅外框，不會混淆） */
   .tone {
-    font-family: var(--font-round);
-    font-size: calc(var(--zy-size) * 0.78);
-    color: var(--sun);
+    font-family: var(--font-kai);
+    font-size: calc(var(--zy-size) * 1.05);
+    color: var(--ink);
     font-weight: 900;
+    line-height: 0.8;
   }
-  .tone.side { margin-left: 0.08em; align-self: center; }
-  .tone.neutral { position: absolute; top: -0.9em; left: 50%; transform: translateX(-50%); }
+  .tone.side { margin-left: 0.06em; align-self: center; }
+  .tone.neutral { position: absolute; top: -0.75em; left: 50%; transform: translateX(-50%); }
 </style>

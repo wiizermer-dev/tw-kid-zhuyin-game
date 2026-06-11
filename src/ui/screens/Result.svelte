@@ -5,9 +5,10 @@
   import { buildScoreChallengeUrl } from '../../lib/challenge.js';
   import { randomZhuyinCode } from '../../lib/live.js';
   import { dailySeed } from '../../core/rng.js';
+  import LiveBoard from '../components/LiveBoard.svelte';
 
   let { summary, modeKey, modeName, level = null, challenge = null, duelSeed = null,
-        liveState = null, onReplay, onHome, onBoard, onNextLevel = null, onLevels = null } = $props();
+        liveState = null, myId = null, onReplay, onHome, onBoard, onNextLevel = null, onLevels = null } = $props();
 
   const name = storage.getPlayerName();
   // 衝刺模式稱號需要量：少於 10 題不能只靠正確率封神
@@ -38,13 +39,11 @@
 
   let wrongOnes = $derived(summary.questions.filter((q, i) => !summary.results[i]));
 
-  // 即時房排名：對手進度（含未完賽）+ 自己
-  let standings = $derived.by(() => {
-    if (!liveState) return null;
-    const rows = Object.values(liveState.progress).map((p) => ({ ...p }));
-    rows.push({ name, score: summary.score, finished: true, elapsedSec: summary.elapsedSec, me: true });
-    return rows.sort((a, b) => (b.finished - a.finished) || (b.score - a.score) || (a.elapsedSec ?? 1e9) - (b.elapsedSec ?? 1e9));
-  });
+  // 同房是否全部完賽（決定要不要顯示「等其他人完成中」）
+  let allFinished = $derived(
+    liveState ? Object.values(liveState.progress).every((p) => p.finished) : true
+  );
+
   // 闖關星等：BOSS 關沒打贏一律 0 星
   let levelStars = $derived(level?.boss && !summary.won ? 0 : stars);
   let remainMistakes = $derived(Object.keys(storage.getMistakes()).length);
@@ -100,20 +99,10 @@
   <h2 class="title bounce-in">{title.title}</h2>
   <p class="quip">{title.quip}</p>
 
-  {#if standings && standings.length > 1}
-    <div class="card live-board pop-in">
-      <b>本房戰況</b>
-      <ol>
-        {#each standings as row, i}
-          <li class:me={row.me}>
-            <span class="lb-rank" class:top={i === 0}>{i + 1}</span>
-            <span class="lb-name">{row.name}{row.me ? '（你）' : ''}</span>
-            <span class="lb-info">
-              {#if row.finished}{row.score} 分・{row.elapsedSec}s{:else}還在打（{row.correct}/{row.attempted}）{/if}
-            </span>
-          </li>
-        {/each}
-      </ol>
+  {#if liveState}
+    <div class="live-final pop-in">
+      <LiveBoard progress={liveState.progress} {myId} variant="result" />
+      {#if !allFinished}<p class="waiting-note">等其他人完成中…（會即時更新）</p>{/if}
     </div>
   {/if}
 
@@ -211,14 +200,8 @@
 
   .duel { padding: 1rem 1.3rem; margin-bottom: 1rem; font-size: 1.05rem; }
 
-  .live-board { width: 100%; padding: 0.9rem 1.1rem; margin-bottom: 1rem; text-align: left; }
-  .live-board ol { list-style: none; margin: 0.5rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
-  .live-board li { display: flex; align-items: center; gap: 0.5rem; }
-  .live-board li.me { font-weight: 800; }
-  .lb-rank { width: 1.6rem; text-align: center; font-weight: 900; color: var(--ink-soft); }
-  .lb-rank.top { color: var(--sun); }
-  .lb-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .lb-info { color: var(--ink-soft); font-size: 0.88rem; }
+  .live-final { width: 100%; margin-bottom: 1rem; }
+  .waiting-note { text-align: center; color: var(--ink-soft); font-size: 0.82rem; margin: 0.5rem 0 0; }
 
   .stars { display: flex; gap: 0.5rem; font-size: 3rem; margin: 0.3rem 0 0.5rem; }
   .star { color: #e3d7ca; animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
