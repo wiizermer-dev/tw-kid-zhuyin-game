@@ -30,14 +30,14 @@
 <div class="screen">
   <header class="top">
     <button class="back" onclick={onHome} aria-label="返回">←</button>
-    <h2>🏅 排行榜</h2>
-    <span class="scope">{hasCloud ? '🌐 全球' : '📱 本機'}</span>
+    <h2>排行榜</h2>
+    <span class="scope">{hasCloud ? '全球榜' : '本機榜'}</span>
   </header>
 
   <div class="tabs">
     {#each Object.values(MODES) as m}
       <button class="tab" class:on={tab === m.key} onclick={() => (tab = m.key)}>
-        {m.icon} {m.name}
+        {m.name}
       </button>
     {/each}
   </div>
@@ -45,7 +45,7 @@
   {#if loading}
     <p class="empty">載入中…</p>
   {:else if rows.length === 0}
-    <p class="empty">還沒有人上榜，現在去玩就是第一名 😎</p>
+    <p class="empty">還沒有人上榜，現在去玩就是第一名</p>
   {:else}
     <ol class="list">
       {#each rows as r, i}
@@ -53,7 +53,7 @@
           <span class="rank">{MEDALS[i] ?? i + 1}</span>
           <span class="name">{r.name}</span>
           {#if (r.maxCombo ?? r.max_combo) > 0}
-            <span class="combo" title="最高連擊">🔥×{r.maxCombo ?? r.max_combo}</span>
+            <span class="combo" title="最高連擊">連擊 ×{r.maxCombo ?? r.max_combo}</span>
           {/if}
           <span class="pts">{r.score}</span>
         </li>
@@ -62,7 +62,7 @@
   {/if}
 
   {#if !hasCloud}
-    <p class="note">目前是這台裝置的排行榜，想跟朋友比就傳戰帖吧 ⚔️</p>
+    <p class="note">目前是這台裝置的排行榜，想跟朋友比就開房對戰吧</p>
   {/if}
 </div>
 

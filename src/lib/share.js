@@ -53,7 +53,7 @@ export async function renderShareCard(d) {
   ctx.fillText('ㄅㄆㄇ你會唸嗎？', W / 2, 180);
   ctx.font = `34px ${round}`;
   ctx.fillStyle = '#8a7a72';
-  ctx.fillText(`—— ${d.modeName} ——`, W / 2, 248);
+  ctx.fillText(d.modeName, W / 2, 248);
 
   // 中央卡片
   const cardX = 90, cardY = 330, cardW = W - 180, cardH = 980, r = 48;

@@ -41,8 +41,8 @@ export function joinLiveRoom(code, name, handlers = {}) {
   };
 }
 
-/** 隨機注音房號：4 碼聲母組合，如 ㄅㄆㄇㄈ */
-const CODE_CHARS = [...'ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙ'];
+/** 隨機注音房號：4 碼，全 37 個注音符號（37^4 ≈ 187 萬組合，由系統產生給房長） */
+const CODE_CHARS = [...'ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄧㄨㄩㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦ'];
 export function randomZhuyinCode() {
   let code = '';
   for (let i = 0; i < 4; i++) code += CODE_CHARS[Math.floor(Math.random() * CODE_CHARS.length)];

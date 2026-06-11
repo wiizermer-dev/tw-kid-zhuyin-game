@@ -110,7 +110,6 @@
   {#if showIntro}
     <div class="intro-overlay">
       <div class="card intro pop-in">
-        <div class="intro-icon">⚔️</div>
         <p class="intro-text">{meta.intro}</p>
         <button class="btn" onclick={() => (showIntro = false)}>開打！</button>
         <button class="btn ghost intro-leave" onclick={onQuit}>先溜了</button>
@@ -122,7 +121,7 @@
 
     {#if isSprint}
       <div class="timer" class:urgent={session.timeLeft <= 10}>
-        ⏱ {Math.ceil(session.timeLeft)}s
+        {Math.ceil(session.timeLeft)}<small>s</small>
       </div>
     {:else}
       <div class="progress-wrap">
@@ -147,7 +146,7 @@
         <span class="rival card" class:done={r.finished}>
           <b>{r.name}</b>
           {#if r.finished}
-            🏁 {r.score} 分・{r.elapsedSec}s
+            完賽 {r.score} 分・{r.elapsedSec}s
           {:else}
             第 {r.index}/{r.total} 題・{r.attempted ? Math.round((r.correct / r.attempted) * 100) : 0}%
           {/if}
@@ -169,7 +168,7 @@
         {/each}
         {#if session.answered === null && config.perQuestionSeconds}
           <span class="qtimer" class:urgent={session.questionTimeLeft <= 3}>
-            ⏱ {Math.ceil(session.questionTimeLeft)}s
+            {Math.ceil(session.questionTimeLeft)}<small>s</small>
           </span>
         {/if}
       </div>
@@ -205,7 +204,7 @@
         {#if showFeedback}
           <div class="feedback card bounce-in" class:good={lastCorrect}>
             <p class="fb-head">
-              {#if session.answered === -1}⏰ 時間到！正解是「{q.zhuyin}」
+              {#if session.answered === -1}時間到！正解是「{q.zhuyin}」
               {:else if lastCorrect}🎉 答對了！
               {:else}💥 唸錯啦！正解是「{q.zhuyin}」
               {/if}
@@ -225,7 +224,7 @@
 </div>
 
 <style>
-  .play { padding-top: 0.9rem; }
+  .play { padding-top: calc(env(safe-area-inset-top, 0px) + 0.9rem); }
   .wrong-flash { animation: shake 0.4s ease; }
 
   .intro-overlay {
@@ -307,7 +306,8 @@
   .hearts .lost { opacity: 0.5; }
   .qtimer { margin-left: auto; font-weight: 900; font-size: 1.35rem; }
 
-  .qarea { display: flex; flex-direction: column; flex: 1; margin-top: 1rem; }
+  /* 題目區在剩餘空間垂直置中，避免底部大片留白 */
+  .qarea { display: flex; flex-direction: column; flex: 1; margin-top: 1rem; justify-content: center; padding-bottom: 8vh; }
 
   .qcard { padding: 1.4rem 1.2rem; text-align: center; }
   .qprompt { margin: 0 0 0.6rem; color: var(--ink-soft); font-size: 1rem; }

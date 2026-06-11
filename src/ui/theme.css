@@ -144,17 +144,27 @@ button {
   user-select: none;
 }
 
-/* 畫面容器 */
+/* 畫面容器：safe-area 防瀏海/底部手勢條，內容垂直均衡不再死貼頂 */
 .screen {
   position: relative;
   z-index: 1;
   max-width: 520px;
   margin: 0 auto;
-  padding: 1.25rem 1.25rem 3rem;
+  padding: calc(env(safe-area-inset-top, 0px) + 1rem) 1.25rem
+           calc(env(safe-area-inset-bottom, 0px) + 1.5rem);
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
 }
+
+/* 內容少的畫面垂直置中（內容超過一屏時 spacer 自動歸零，不影響長列表） */
+.screen:not(.play)::before,
+.screen:not(.play)::after {
+  content: '';
+  flex: 1 1 0;
+  min-height: 0;
+}
+.screen:not(.play)::before { max-height: 8vh; }
 
 /* 進度條 */
 .meter {

@@ -1,33 +1,38 @@
 /** 模式設定 — 玩法只是引擎的不同參數 */
 import { dailySeed } from './core/rng.js';
 
+// icon 為注音符號（以 ZhuyinGlyph SVG 呈現），tint 對應 theme.css 色票
 export const MODES = {
   daily: {
     key: 'daily',
     name: '每日挑戰',
-    icon: '📅',
+    icon: 'ㄖ',
+    tint: 'sun',
     blurb: '全世界今天同一份考卷',
     config: () => ({ count: 10, seed: dailySeed(), minDifficulty: 1, maxDifficulty: 5 })
   },
   sprint: {
     key: 'sprint',
     name: '限時衝刺',
-    icon: '⚡',
+    icon: 'ㄔ',
+    tint: 'berry',
     blurb: '60 秒，能答幾題是幾題',
     config: () => ({ count: 60, timeLimit: 60, minDifficulty: 1, maxDifficulty: 4 })
   },
   levels: {
     key: 'levels',
     name: '闖關冒險',
-    icon: '🏯',
+    icon: 'ㄍ',
+    tint: 'mint',
     blurb: '一路打到辭典魔王',
     config: null // 由關卡決定
   },
   duel: {
     key: 'duel',
     name: '好友對戰',
-    icon: '⚔️',
-    blurb: '開房發連結，同題組拚輸贏',
+    icon: 'ㄉ',
+    tint: 'grape',
+    blurb: '開房邀朋友，同題組拚輸贏',
     config: (seed, count = 10) => ({ count, seed, minDifficulty: 1, maxDifficulty: 5 })
   }
 };

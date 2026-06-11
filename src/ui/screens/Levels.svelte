@@ -26,7 +26,7 @@
 <div class="screen">
   <header class="top">
     <button class="back" onclick={onHome} aria-label="返回">←</button>
-    <h2>🏯 闖關冒險</h2>
+    <h2>闖關冒險</h2>
   </header>
   <p class="hint">每關拿 1 星以上解鎖下一關，BOSS 關有血條跟限時！</p>
 

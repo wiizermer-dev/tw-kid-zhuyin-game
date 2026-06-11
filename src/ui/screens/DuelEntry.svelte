@@ -53,18 +53,18 @@
 <div class="screen">
   <header class="top">
     <button class="back" onclick={onHome} aria-label="返回">←</button>
-    <h2>⚔️ 好友對戰</h2>
+    <h2>好友對戰</h2>
   </header>
 
   {#if view === 'pick'}
     <div class="picks">
       <button class="card pick bounce-in" onclick={host}>
-        <span class="pick-icon">🏠</span>
+        <span class="pick-icon grape"><ZhuyinGlyph char="ㄎ" size={30} color="var(--grape)" /></span>
         <b>我來開房</b>
-        <small>產生注音房號，邀朋友進來拚同一組題</small>
+        <small>系統發你一組注音房號，邀朋友進來拚同一組題</small>
       </button>
       <button class="card pick bounce-in" style:animation-delay="0.07s" onclick={() => { entered = []; view = 'enter'; }}>
-        <span class="pick-icon">🎟️</span>
+        <span class="pick-icon mint"><ZhuyinGlyph char="ㄇ" size={30} color="var(--mint-deep)" /></span>
         <b>輸入邀請碼</b>
         <small>朋友報給你的四碼注音，按出來就進房</small>
       </button>
@@ -80,12 +80,25 @@
       <button class="back-key" onclick={backspace} disabled={entered.length === 0} aria-label="刪除一碼">⌫</button>
     </div>
     <div class="keypad">
-      {#each CODE_CHARS as ch}
-        <button class="key card" onclick={() => tap(ch)} aria-label="注音 {ch}">
-          <ZhuyinGlyph char={ch} size={34} color="var(--ink)" />
+      {#each CODE_CHARS as ch, i}
+        <button
+          class="key"
+          class:g1={i < 21}
+          class:g2={i >= 21 && i < 24}
+          class:g3={i >= 24}
+          style:--tilt="{((i * 7) % 5) - 2}deg"
+          onclick={() => tap(ch)}
+          aria-label="注音 {ch}"
+        >
+          <ZhuyinGlyph char={ch} size={30} color="currentColor" />
         </button>
       {/each}
     </div>
+    <p class="key-legend">
+      <span class="dot g1"></span>聲母
+      <span class="dot g2"></span>介音
+      <span class="dot g3"></span>韻母
+    </p>
   {:else}
     <p class="hint">房號（唸出來給朋友，或直接傳邀請）：</p>
     <div class="slots big">
@@ -96,7 +109,7 @@
       {/each}
     </div>
 
-    <button class="btn invite" onclick={shareInvite}>🔗 傳邀請給朋友</button>
+    <button class="btn invite" onclick={shareInvite}>傳邀請給朋友</button>
     {#if shareState}<p class="share-state pop-in">{shareState}</p>{/if}
 
     {#if hasCloud}
@@ -112,10 +125,10 @@
         <small>人到齊後任何人按開始，全房同時開打！</small>
       </div>
     {:else}
-      <p class="note">大家輸入同一個房號就會拿到同一組題目，各自打完比分數；唸錯的請喝飲料 🧋</p>
+      <p class="note">大家輸入同一個房號就會拿到同一組題目，各自打完比分數；唸錯的請喝飲料</p>
     {/if}
 
-    <button class="btn mint start" onclick={() => onPlay(code)}>🚀 開始對戰</button>
+    <button class="btn mint start" onclick={() => onPlay(code)}>開始對戰</button>
   {/if}
 </div>
 
@@ -129,8 +142,14 @@
   .hint { color: var(--ink-soft); margin: 1rem 0 0.8rem; }
 
   .picks { display: flex; flex-direction: column; gap: 0.9rem; margin-top: 1.2rem; }
-  .pick { padding: 1.4rem; display: flex; flex-direction: column; gap: 0.3rem; align-items: center; text-align: center; }
-  .pick-icon { font-size: 2.2rem; }
+  .pick { padding: 1.4rem; display: flex; flex-direction: column; gap: 0.4rem; align-items: center; text-align: center; }
+  .pick-icon {
+    width: 56px; height: 56px;
+    display: grid; place-items: center;
+    border-radius: 18px;
+  }
+  .pick-icon.grape { background: color-mix(in srgb, var(--grape) 14%, white); }
+  .pick-icon.mint { background: color-mix(in srgb, var(--mint) 16%, white); }
   .pick b { font-size: 1.15rem; }
   .pick small { color: var(--ink-soft); }
 
@@ -151,16 +170,37 @@
   .keypad {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 0.45rem;
+    gap: 0.5rem;
     margin-top: 1rem;
   }
+  /* 糖果按鍵：分組粉彩 + 厚底陰影 + 手作感微旋轉，按下去會「咬」一下 */
   .key {
     aspect-ratio: 1;
     display: grid; place-items: center;
     padding: 0;
-    transition: transform 0.1s ease;
+    border-radius: 18px;
+    transform: rotate(var(--tilt, 0deg));
+    transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
-  .key:active { transform: scale(0.88); background: var(--paper); }
+  .key.g1 { background: #fff; color: var(--ink); box-shadow: 0 3px 0 #ecdfd2, var(--shadow-card); }
+  .key.g2 { background: #e9fbf8; color: var(--mint-deep); box-shadow: 0 3px 0 #c4ebe5, var(--shadow-card); }
+  .key.g3 { background: #fff4e3; color: #c77f1b; box-shadow: 0 3px 0 #f3ddb9, var(--shadow-card); }
+  .key:active { transform: rotate(var(--tilt, 0deg)) scale(0.85) translateY(2px); }
+  .key:hover { transform: rotate(0deg) scale(1.08); }
+
+  .key-legend {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    color: var(--ink-soft);
+    font-size: 0.78rem;
+    margin-top: 0.8rem;
+  }
+  .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-left: 0.5rem; }
+  .dot.g1 { background: #fff; box-shadow: inset 0 0 0 2px #ecdfd2; }
+  .dot.g2 { background: #bdeee6; }
+  .dot.g3 { background: #f6dcae; }
 
   .invite { margin: 1.2rem auto 0; display: flex; }
   .share-state { text-align: center; color: var(--mint-deep); font-weight: 700; margin: 0.5rem 0 0; }

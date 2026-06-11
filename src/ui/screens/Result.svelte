@@ -100,11 +100,11 @@
 
   {#if standings && standings.length > 1}
     <div class="card live-board pop-in">
-      <b>🏟 本房戰況</b>
+      <b>本房戰況</b>
       <ol>
         {#each standings as row, i}
           <li class:me={row.me}>
-            <span class="lb-rank">{['🥇', '🥈', '🥉'][i] ?? i + 1}</span>
+            <span class="lb-rank" class:top={i === 0}>{i + 1}</span>
             <span class="lb-name">{row.name}{row.me ? '（你）' : ''}</span>
             <span class="lb-info">
               {#if row.finished}{row.score} 分・{row.elapsedSec}s{:else}還在打（{row.correct}/{row.attempted}）{/if}
@@ -118,11 +118,11 @@
   {#if duelOutcome}
     <div class="card duel pop-in">
       {#if duelOutcome === 'win'}
-        🏆 你贏了 <b>{challenge.name || '對手'}</b>！（{summary.score} vs {challenge.score}）
+        你贏了 <b>{challenge.name || '對手'}</b>！（{summary.score} vs {challenge.score}）
       {:else if duelOutcome === 'lose'}
-        😤 輸給 <b>{challenge.name || '對手'}</b>（{summary.score} vs {challenge.score}）— 再戰一場？
+        輸給 <b>{challenge.name || '對手'}</b>（{summary.score} vs {challenge.score}），再戰一場？
       {:else}
-        🤝 跟 <b>{challenge.name || '對手'}</b> 平手！（{summary.score} 分）
+        跟 <b>{challenge.name || '對手'}</b> 平手！（{summary.score} 分）
       {/if}
     </div>
   {/if}
@@ -137,12 +137,12 @@
       <p class="boss-result">{summary.won ? `👹 ${level.bossName} 被你打爆了！` : `👹 ${level.bossName}：就這？`}</p>
     {/if}
     {#if levelStars === 0}
-      <p class="fail-note">這關還沒過——拿到 1 顆星（答對 6 成）才能解鎖下一關，再衝一次！</p>
+      <p class="fail-note">這關還沒過，拿到 1 顆星（答對 6 成）就能解鎖下一關，再衝一次！</p>
     {/if}
   {/if}
 
   {#if modeKey === 'practice'}
-    <p class="avenge pop-in">⚔️ 雪恥成功 {summary.correct} 個字{remainMistakes > 0 ? `，還有 ${remainMistakes} 個等你復仇` : '，錯題本清空了，太神啦！'}</p>
+    <p class="avenge pop-in">雪恥成功 {summary.correct} 個字{remainMistakes > 0 ? `，還有 ${remainMistakes} 個等你復仇` : '，錯題本清空了，太神啦！'}</p>
   {/if}
 
   <div class="card stats bounce-in">
@@ -157,7 +157,7 @@
 
   {#if wrongOnes.length > 0}
     <details class="card review bounce-in">
-      <summary>📖 錯題回顧（{wrongOnes.length} 題）— 看完再走，下次就會了</summary>
+      <summary>錯題回顧（{wrongOnes.length} 題）看完再走，下次就會了</summary>
       <ul>
         {#each wrongOnes as q}
           <li>
@@ -172,13 +172,13 @@
 
   <div class="actions">
     {#if modeKey === 'daily'}
-      <button class="btn" onclick={doShareDaily}>📋 分享今日成績</button>
+      <button class="btn" onclick={doShareDaily}>分享今日成績</button>
     {/if}
     {#if modeKey === 'duel' || challenge}
-      <button class="btn" onclick={doShareChallenge}>⚔️ 把戰帖傳出去</button>
+      <button class="btn" onclick={doShareChallenge}>把戰帖傳出去</button>
     {/if}
     <button class="btn mint" onclick={doShareCard} disabled={busy}>
-      {busy ? '製作中…' : '📸 產生限動成績卡'}
+      {busy ? '製作中…' : '存成限動成績卡'}
     </button>
     {#if shareState}<p class="share-state pop-in">{shareState}</p>{/if}
 
@@ -186,13 +186,13 @@
       <button class="btn" onclick={onNextLevel}>下一關 →</button>
     {/if}
     {#if modeKey !== 'daily' && !(modeKey === 'practice' && remainMistakes === 0)}
-      <button class="btn ghost" onclick={onReplay}>🔄 再玩一次</button>
+      <button class="btn ghost" onclick={onReplay}>再玩一次</button>
     {/if}
     {#if modeKey === 'levels' && onLevels}
-      <button class="btn ghost" onclick={onLevels}>🗺 回關卡列表</button>
+      <button class="btn ghost" onclick={onLevels}>回關卡列表</button>
     {/if}
-    <button class="btn ghost" onclick={onBoard}>🏅 排行榜</button>
-    <button class="btn ghost" onclick={onHome}>🏠 回首頁</button>
+    <button class="btn ghost" onclick={onBoard}>排行榜</button>
+    <button class="btn ghost" onclick={onHome}>回首頁</button>
   </div>
 </div>
 
@@ -213,7 +213,8 @@
   .live-board ol { list-style: none; margin: 0.5rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
   .live-board li { display: flex; align-items: center; gap: 0.5rem; }
   .live-board li.me { font-weight: 800; }
-  .lb-rank { width: 1.6rem; text-align: center; }
+  .lb-rank { width: 1.6rem; text-align: center; font-weight: 900; color: var(--ink-soft); }
+  .lb-rank.top { color: var(--sun); }
   .lb-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .lb-info { color: var(--ink-soft); font-size: 0.88rem; }
 
