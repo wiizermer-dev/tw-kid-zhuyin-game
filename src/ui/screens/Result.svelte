@@ -66,7 +66,7 @@
         combo: summary.maxCombo, modeName, name,
         hardest: hardest ? { text: hardest.text, zhuyin: hardest.zhuyin } : null
       });
-      const text = `我在「ㄅㄆㄇ你會唸嗎？」拿到 ${summary.score} 分，獲得稱號【${title.title}】！這題你會唸嗎：「${hardest?.text ?? ''}」`;
+      const text = `我在「你ㄅㄆㄇ有ㄅ級分ㄇ」拿到 ${summary.score} 分，獲得稱號【${title.title}】！這題你會唸嗎：「${hardest?.text ?? ''}」`;
       const r = await shareCard(blob, text, challengeUrl ?? location.origin);
       shareState = r === 'downloaded' ? '圖片已下載！'
         : r === 'shared' ? '已分享！'
@@ -81,7 +81,7 @@
       room: duelRoomCode ?? randomZhuyinCode(),
       score: summary.score, name, count: summary.total
     });
-    const r = await shareText(`${name} 在「ㄅㄆㄇ你會唸嗎？」轟出 ${summary.score} 分。少ㄈㄏ（廢話），來ㄉ一場！\n${url}`);
+    const r = await shareText(`${name} 在「你ㄅㄆㄇ有ㄅ級分ㄇ」轟出 ${summary.score} 分。少ㄈㄏ，來ㄉ一場！\n${url}`);
     shareState = r === 'copied' ? '連結已複製，傳給朋友吧！' : r === 'shared' ? '戰帖已送出！' : '';
   }
 
@@ -89,7 +89,7 @@
     const grid = emojiGrid(summary.results);
     const streak = storage.getDailyStreak();
     const r = await shareText(
-      `ㄅㄆㄇ你會唸嗎？每日挑戰 ${dailySeed().replace('daily-', '')}\n${grid}\n${summary.correct}/${summary.total}・${summary.score} 分・🔥連續 ${streak.count} 天\n${location.origin}`
+      `你ㄅㄆㄇ有ㄅ級分ㄇ每日挑戰 ${dailySeed().replace('daily-', '')}\n${grid}\n${summary.correct}/${summary.total}・${summary.score} 分・🔥連續 ${streak.count} 天\n${location.origin}`
     );
     shareState = r === 'copied' ? '成績已複製，去貼吧！' : r === 'shared' ? '已分享！' : '';
   }

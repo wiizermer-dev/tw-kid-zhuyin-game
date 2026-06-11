@@ -1,4 +1,4 @@
--- ㄅㄆㄇ你會唸嗎？v2 雲端排行榜 schema
+-- 你ㄅㄆㄇ有ㄅ級分ㄇv2 雲端排行榜 schema
 -- 在 Supabase SQL Editor 執行
 
 create table if not exists runs (

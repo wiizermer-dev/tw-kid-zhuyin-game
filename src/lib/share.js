@@ -50,7 +50,7 @@ export async function renderShareCard(d) {
   // 頂部品牌
   ctx.font = `bold 64px ${kai}`;
   ctx.fillStyle = PALETTE.ink;
-  ctx.fillText('ㄅㄆㄇ你會唸嗎？', W / 2, 180);
+  ctx.fillText('你ㄅㄆㄇ有ㄅ級分ㄇ', W / 2, 180);
   ctx.font = `34px ${round}`;
   ctx.fillStyle = '#8a7a72';
   ctx.fillText(d.modeName, W / 2, 248);
