@@ -182,7 +182,7 @@ export default [
     id: 'md-026', text: '帥到分泌', target: '泌', zhuyin: 'ㄇㄧˋ',
     distractors: ['ㄅㄧˋ', 'ㄇㄧˊ'],
     meaning: '網路梗「帥到分泌（費洛蒙）」；泌指腺體釋出物質',
-    fun: '台灣標準唸ㄇㄧˋ。對岸唸ㄅㄧˋ，所以看陸劇學注音會被當',
+    fun: '分泌唸「ㄈㄣ ㄇㄧˋ」。內分泌失調的人很多，讀音失調的人更多',
     tags: ['梗', '日常'], difficulty: 2, era: 'meme'
   },
   {

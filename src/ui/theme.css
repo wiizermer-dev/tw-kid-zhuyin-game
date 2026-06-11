@@ -121,6 +121,14 @@ button {
 .bounce-in { animation: bounce-in 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
 .shake { animation: shake 0.4s ease both; }
 
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 /* 漂浮注音背景 */
 .floaty {
   position: fixed;

@@ -32,11 +32,12 @@
     font-size: var(--zy-size);
   }
   .sym { display: block; }
-  /* 與符號同色，避免紅色「ˇ」被誤認成勾勾正解標記 */
+  /* 調號用圓體+橘色：與對錯的紅綠語意區隔，楷體的「ˇ」會畫成不對稱小勾太像 ✓ */
   .tone {
-    font-size: calc(var(--zy-size) * 0.85);
-    color: inherit;
-    font-weight: bold;
+    font-family: var(--font-round);
+    font-size: calc(var(--zy-size) * 0.78);
+    color: var(--sun);
+    font-weight: 900;
   }
   .tone.side { margin-left: 0.08em; align-self: center; }
   .tone.neutral { position: absolute; top: -0.9em; left: 50%; transform: translateX(-50%); }

@@ -6,7 +6,7 @@
   import { dailySeed } from '../../core/rng.js';
 
   let { summary, modeKey, modeName, level = null, challenge = null, duelSeed = null,
-        onReplay, onHome, onBoard, onNextLevel = null, onLevels = null } = $props();
+        liveState = null, onReplay, onHome, onBoard, onNextLevel = null, onLevels = null } = $props();
 
   const name = storage.getPlayerName();
   // 衝刺模式稱號需要量：少於 10 題不能只靠正確率封神
@@ -36,6 +36,14 @@
   let busy = $state(false);
 
   let wrongOnes = $derived(summary.questions.filter((q, i) => !summary.results[i]));
+
+  // 即時房排名：對手進度（含未完賽）+ 自己
+  let standings = $derived.by(() => {
+    if (!liveState) return null;
+    const rows = Object.values(liveState.progress).map((p) => ({ ...p }));
+    rows.push({ name, score: summary.score, finished: true, elapsedSec: summary.elapsedSec, me: true });
+    return rows.sort((a, b) => (b.finished - a.finished) || (b.score - a.score) || (a.elapsedSec ?? 1e9) - (b.elapsedSec ?? 1e9));
+  });
   // 闖關星等：BOSS 關沒打贏一律 0 星
   let levelStars = $derived(level?.boss && !summary.won ? 0 : stars);
   let remainMistakes = $derived(Object.keys(storage.getMistakes()).length);
@@ -89,6 +97,23 @@
   <div class="trophy pop-in">{title.emoji}</div>
   <h2 class="title bounce-in">{title.title}</h2>
   <p class="quip">{title.quip}</p>
+
+  {#if standings && standings.length > 1}
+    <div class="card live-board pop-in">
+      <b>🏟 本房戰況</b>
+      <ol>
+        {#each standings as row, i}
+          <li class:me={row.me}>
+            <span class="lb-rank">{['🥇', '🥈', '🥉'][i] ?? i + 1}</span>
+            <span class="lb-name">{row.name}{row.me ? '（你）' : ''}</span>
+            <span class="lb-info">
+              {#if row.finished}{row.score} 分・{row.elapsedSec}s{:else}還在打（{row.correct}/{row.attempted}）{/if}
+            </span>
+          </li>
+        {/each}
+      </ol>
+    </div>
+  {/if}
 
   {#if duelOutcome}
     <div class="card duel pop-in">
@@ -160,7 +185,7 @@
     {#if modeKey === 'levels' && onNextLevel && levelStars > 0}
       <button class="btn" onclick={onNextLevel}>下一關 →</button>
     {/if}
-    {#if modeKey !== 'daily'}
+    {#if modeKey !== 'daily' && !(modeKey === 'practice' && remainMistakes === 0)}
       <button class="btn ghost" onclick={onReplay}>🔄 再玩一次</button>
     {/if}
     {#if modeKey === 'levels' && onLevels}
@@ -183,6 +208,14 @@
   .quip { color: var(--ink-soft); margin: 0.3rem 0 1rem; }
 
   .duel { padding: 1rem 1.3rem; margin-bottom: 1rem; font-size: 1.05rem; }
+
+  .live-board { width: 100%; padding: 0.9rem 1.1rem; margin-bottom: 1rem; text-align: left; }
+  .live-board ol { list-style: none; margin: 0.5rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
+  .live-board li { display: flex; align-items: center; gap: 0.5rem; }
+  .live-board li.me { font-weight: 800; }
+  .lb-rank { width: 1.6rem; text-align: center; }
+  .lb-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .lb-info { color: var(--ink-soft); font-size: 0.88rem; }
 
   .stars { display: flex; gap: 0.5rem; font-size: 3rem; margin: 0.3rem 0 0.5rem; }
   .star { color: #e3d7ca; animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both; }

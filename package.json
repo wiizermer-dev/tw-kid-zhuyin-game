@@ -10,6 +10,7 @@
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^5.0.0",
+    "opentype.js": "^2.0.0",
     "svelte": "^5.43.8",
     "vite": "^6.0.0"
   },

@@ -3,7 +3,7 @@
   import { storage } from '../../core/storage.js';
   import { dailySeed } from '../../core/rng.js';
 
-  let { onPlay, onLevels, onBoard, challenge = null, onAcceptChallenge, onDeclineChallenge } = $props();
+  let { onPlay, onLevels, onBoard, challenge = null, invalidChallenge = false, onAcceptChallenge, onDeclineChallenge } = $props();
 
   let name = $state(storage.getPlayerName());
   let editingName = $state(!storage.getPlayerName());
@@ -37,6 +37,18 @@
     if (modeKey === 'levels') onLevels();
     else onPlay(modeKey);
   }
+
+  // 應戰也要先取名，否則反向戰帖會掛空白名
+  function accept() {
+    if (!storage.getPlayerName() && !saveName()) {
+      editingName = true;
+      nameShake = true;
+      setTimeout(() => (nameShake = false), 500);
+      document.querySelector('.name-edit input')?.focus();
+      return;
+    }
+    onAcceptChallenge();
+  }
 </script>
 
 <div class="screen">
@@ -51,13 +63,19 @@
   {#if challenge}
     <div class="card challenge pop-in">
       <div class="challenge-emoji">⚔️</div>
-      <p><b>{challenge.name || '神祕對手'}</b> 向你下戰帖！</p>
-      <p class="challenge-score">對方拿了 <b>{challenge.score}</b> 分</p>
+      {#if challenge.room}
+        <p><b>{challenge.name || '神祕對手'}</b> 邀你進對戰房「{challenge.room}」！</p>
+      {:else}
+        <p><b>{challenge.name || '神祕對手'}</b> 向你下戰帖！</p>
+        <p class="challenge-score">對方拿了 <b>{challenge.score}</b> 分</p>
+      {/if}
       <div class="challenge-actions">
-        <button class="btn" onclick={onAcceptChallenge}>應戰！</button>
+        <button class="btn" onclick={accept}>{challenge.room ? '進房！' : '應戰！'}</button>
         <button class="btn ghost" onclick={onDeclineChallenge}>先溜了</button>
       </div>
     </div>
+  {:else if invalidChallenge}
+    <p class="bad-link pop-in">🤔 這張戰帖怪怪的（可能被改過），已自動忽略</p>
   {/if}
 
   <div class="card name-row bounce-in" class:shake={nameShake} style:animation-delay="0.05s">
@@ -167,6 +185,7 @@
   .challenge-emoji { font-size: 2.2rem; }
   .challenge-score { color: var(--ink-soft); }
   .challenge-actions { display: flex; gap: 0.75rem; justify-content: center; margin-top: 0.8rem; }
+  .bad-link { text-align: center; color: var(--ink-soft); font-size: 0.88rem; margin: 0 0 0.8rem; }
 
   .name-row {
     display: flex;

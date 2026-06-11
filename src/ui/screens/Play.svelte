@@ -22,6 +22,20 @@
   // 衝刺模式答完自動快轉；其他模式等玩家看完回饋
   let autoTimer = null;
   let reported = false;
+  const mountTime = performance.now();
+
+  // 即時房：每答一題回報進度給同房對手
+  function reportProgress(finished = false) {
+    meta.onProgress?.({
+      index: Math.min(session.index + 1, session.total),
+      total: session.total,
+      attempted: session.attempted,
+      correct: session.correctCount,
+      score: session.score,
+      finished,
+      elapsedSec: Math.round((performance.now() - mountTime) / 1000)
+    });
+  }
 
   function choose(i) {
     if (session.answered !== null || session.finished) return;
@@ -36,6 +50,8 @@
       wrongFlash = true;
       setTimeout(() => (wrongFlash = false), 450);
     }
+
+    reportProgress(false);
 
     if (session.finished) return done();
 
@@ -54,6 +70,7 @@
   function done() {
     if (reported) return;
     reported = true;
+    reportProgress(true);
     if (isBoss && session.won) playLevelUpSound();
     onFinish({
       score: session.score,
@@ -62,7 +79,8 @@
       maxCombo: session.maxCombo,
       results: [...session.results],
       questions: session.questions.slice(0, session.attempted),
-      won: session.won
+      won: session.won,
+      elapsedSec: Math.round((performance.now() - mountTime) / 1000)
     });
   }
 
@@ -123,6 +141,21 @@
     <div class="combo pop-in">🔥 連擊 ×{session.combo}</div>
   {/if}
 
+  {#if meta.liveState && Object.keys(meta.liveState.progress).length > 0}
+    <div class="rivals">
+      {#each Object.values(meta.liveState.progress) as r (r.name)}
+        <span class="rival card" class:done={r.finished}>
+          <b>{r.name}</b>
+          {#if r.finished}
+            🏁 {r.score} 分・{r.elapsedSec}s
+          {:else}
+            第 {r.index}/{r.total} 題・{r.attempted ? Math.round((r.correct / r.attempted) * 100) : 0}%
+          {/if}
+        </span>
+      {/each}
+    </div>
+  {/if}
+
   {#if isBoss}
     <div class="boss-panel card">
       <div class="boss-row">
@@ -161,6 +194,7 @@
               class="opt card"
               class:right={showFeedback && opt.correct}
               class:picked-wrong={showFeedback && session.answered === i && !opt.correct}
+              aria-label="注音選項 {opt.zhuyin}"
               onclick={() => choose(i)}
             >
               <ZhuyinCol zhuyin={opt.zhuyin} size="1.7rem" />
@@ -246,6 +280,25 @@
     color: var(--berry-deep);
     animation: flame-flicker 0.6s ease-in-out infinite;
   }
+
+  .rivals {
+    display: flex;
+    gap: 0.45rem;
+    margin-top: 0.7rem;
+    overflow-x: auto;
+    padding-bottom: 0.2rem;
+  }
+  .rival {
+    padding: 0.35rem 0.7rem;
+    font-size: 0.78rem;
+    white-space: nowrap;
+    color: var(--ink-soft);
+    display: inline-flex;
+    gap: 0.35rem;
+    align-items: center;
+  }
+  .rival b { color: var(--ink); }
+  .rival.done { box-shadow: 0 0 0 2px var(--leaf), var(--shadow-card); }
 
   .boss-panel { margin-top: 0.8rem; padding: 0.8rem 1rem; }
   .boss-row { display: flex; justify-content: space-between; font-weight: 800; margin-bottom: 0.4rem; }
