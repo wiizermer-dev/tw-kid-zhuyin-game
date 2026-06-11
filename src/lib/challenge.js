@@ -1,6 +1,12 @@
 /** 挑戰連結 — 無後端的好友對戰核心。
- * URL: ?c=<base64url(JSON)>，內容 { v, seed, mode, score, name, count }
+ * URL: ?c=<base64url(JSON)>，內容 { v, seed, mode, score, name, count, k }
+ * k 為簡易 checksum，防手改分數（非密碼學防護，休閒嚇阻用）
  */
+import { hashSeed } from '../core/rng.js';
+
+function checksum({ seed, score, name, count }) {
+  return hashSeed(`${seed}|${score}|${name}|${count}|ㄅㄆㄇ`) % 46656; // 36^3
+}
 
 function b64uEncode(obj) {
   const json = JSON.stringify(obj);
@@ -20,7 +26,7 @@ function b64uDecode(str) {
 
 /** 產生挑戰連結（開房者打完分數後呼叫） */
 export function buildChallengeUrl({ seed, mode, score, name, count }) {
-  const payload = { v: 1, seed, mode, score, name, count };
+  const payload = { v: 1, seed, mode, score, name, count, k: checksum({ seed, score, name, count }) };
   const url = new URL(location.href);
   url.search = '';
   url.hash = '';
@@ -35,6 +41,7 @@ export function parseChallengeFromUrl() {
   if (!raw) return null;
   const data = b64uDecode(raw);
   if (!data || data.v !== 1 || !data.seed) return null;
+  if (data.k !== checksum(data)) return null; // 被竄改的戰帖直接忽略
   return data;
 }
 

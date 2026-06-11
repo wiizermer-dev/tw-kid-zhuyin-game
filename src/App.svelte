@@ -121,7 +121,8 @@
       }
     }
 
-    if (modeKey !== 'practice') {
+    // 0 分（如 BOSS 戰秒敗）不寫榜，避免弄髒排行榜
+    if (modeKey !== 'practice' && s.score > 0) {
       storage.addLocalScore({ name, score: s.score, mode: modeKey, maxCombo: s.maxCombo });
       submitRun({
         name, score: s.score, mode: modeKey,
@@ -179,6 +180,7 @@
     onHome={goHome}
     onBoard={() => (screen = 'board')}
     onNextLevel={modeKey === 'levels' && level && level.n < LEVELS.length ? nextLevel : null}
+    onLevels={modeKey === 'levels' ? () => (screen = 'levels') : null}
   />
 {:else if screen === 'board'}
   <Board onHome={goHome} initialTab={MODES[modeKey] ? modeKey : 'sprint'} />

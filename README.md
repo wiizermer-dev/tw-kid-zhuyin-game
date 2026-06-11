@@ -1,43 +1,69 @@
-# Svelte + Vite
+# ㄅㄆㄇ你會唸嗎？
 
-This template should help get you started developing with Svelte in Vite.
+> 生難字注音對決 — 唸錯的人請喝飲料 🧋
 
-## Recommended IDE Setup
+蝸牛的「蝸」、骰子的「骰」、莘莘學子的「莘」——這些字你會唸嗎？
+一個活潑可愛的台灣注音問答遊戲：精選易讀錯字、破音字、生僻字、成語難讀字和現代梗，
+全部依教育部《重編國語辭典修訂本》審訂音出題。
 
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
+## 玩法
 
-## Need an official Svelte framework?
+| 模式 | 說明 |
+|------|------|
+| 📅 每日挑戰 | 日期種子，全世界今天同一份考卷。連續天數 streak + Wordle 式 emoji 方格分享 |
+| ⚡ 限時衝刺 | 60 秒能答幾題是幾題，連擊加成衝高分 |
+| 🏯 闖關冒險 | 10 關難度爬升，第 5、10 關是 BOSS 戰（血條、生命、單題限時） |
+| ⚔️ 好友對戰 | 開房產生挑戰連結，朋友拿到一模一樣的題組拚分數 — **不需要任何後端** |
+| 📖 錯題特訓 | 答錯的字會進錯題本，等你復仇 |
 
-Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also powered by Vite. Deploy anywhere with its serverless-first approach and adapt to various platforms, with out of the box support for TypeScript, SCSS, and Less, and easily-added support for mdsvex, GraphQL, PostCSS, Tailwind CSS, and more.
+流程：玩 → 計分（連擊/加速加成）→ 賽果（稱號 + 分享）→ 排行榜。
 
-## Technical considerations
+## 病毒機制
 
-**Why use this over SvelteKit?**
+- **稱號系統**：從「注音之神」到「菜，就多練」，印在分享卡上
+- **限動成績卡**：Canvas 產生 9:16 圖卡，Web Share API 直接傳 IG/LINE
+- **挑戰連結**：`?c=` 帶種子與分數，朋友點開即應戰，無後端勝負判定
+- **每日 emoji 方格**：🟩🟥🟥🟩 一鍵複製
 
-- It brings its own routing solution which might not be preferable for some users.
-- It is first and foremost a framework that just happens to use Vite under the hood, not a Vite app.
+## 開發
 
-This template contains as little as possible to get started with Vite + Svelte, while taking into account the developer experience with regards to HMR and intellisense. It demonstrates capabilities on par with the other `create-vite` templates and is a good starting point for beginners dipping their toes into a Vite + Svelte project.
+```bash
+npm install
+npm run dev          # 開發伺服器
+npm run build        # 產出 dist/
+node scripts/validate-bank.mjs   # 題庫驗證（schema、注音字元、錯項合法性）
+```
 
-Should you later need the extended capabilities and extensibility provided by SvelteKit, the template has been structured similarly to SvelteKit so that it is easy to migrate.
+### 架構
 
-**Why include `.vscode/extensions.json`?**
+```
+src/
+├── core/          # 引擎：種子RNG、選題器、回合狀態機(runes)、計分稱號、儲存
+├── data/bank/     # 題庫：單一扁平 schema，5 類 170+ 題，玩法無關
+├── modes.js       # 模式只是引擎參數（含 10 關闖關設定）
+├── lib/           # 分享卡、挑戰連結、音效、可選 Supabase
+└── ui/            # theme.css 設計系統 + 5 個 screen + 元件
+```
 
-Other templates indirectly recommend extensions via the README, but this file allows VS Code to prompt the user to install the recommended extension upon opening the project.
-
-**Why enable `checkJs` in the JS template?**
-
-It is likely that most cases of changing variable types in runtime are likely to be accidental, rather than deliberate. This provides advanced typechecking out of the box. Should you like to take advantage of the dynamically-typed nature of JavaScript, it is trivial to change the configuration.
-
-**Why is HMR not preserving my local component state?**
-
-HMR state preservation comes with a number of gotchas! It has been disabled by default in both `svelte-hmr` and `@sveltejs/vite-plugin-svelte` due to its often surprising behavior. You can read the details [here](https://github.com/sveltejs/svelte-hmr/tree/master/packages/svelte-hmr#preservation-of-local-state).
-
-If you have state that's important to retain within a component, consider creating an external store which would not be replaced by HMR.
+題目 schema（所有玩法共用，新增玩法不用動題庫）：
 
 ```js
-// store.js
-// An extremely simple external store
-import { writable } from 'svelte/store'
-export default writable(0)
+{
+  id: 'tk-001', text: '莘莘學子', target: '莘', zhuyin: 'ㄕㄣ',
+  distractors: ['ㄒㄧㄣ', 'ㄕㄥ'],          // 真實混淆音，禁止湊數
+  meaning: '形容眾多的學生',
+  fun: '唸成「辛辛學子」的人，本身就是辛辛學子',  // 答題回饋的靈魂
+  tags: ['易讀錯'], difficulty: 2, era: 'classic'
+}
 ```
+
+### 雲端排行榜（可選）
+
+預設純本地即可完整遊玩。要開全球榜：
+
+1. 在 Supabase 執行 `supabase-setup-v2.sql`
+2. 設定 `.env`：`VITE_SUPABASE_URL`、`VITE_SUPABASE_ANON_KEY`（見 `.env.example`）
+
+## 字型
+
+教育部標準楷書（edukai，`public/fonts/`），注音直書排版 + 聲調標號。

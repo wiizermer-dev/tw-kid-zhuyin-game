@@ -95,6 +95,7 @@
         <div class="intro-icon">⚔️</div>
         <p class="intro-text">{meta.intro}</p>
         <button class="btn" onclick={() => (showIntro = false)}>開打！</button>
+        <button class="btn ghost intro-leave" onclick={onQuit}>先溜了</button>
       </div>
     </div>
   {/if}
@@ -135,7 +136,7 @@
         {/each}
         {#if session.answered === null && config.perQuestionSeconds}
           <span class="qtimer" class:urgent={session.questionTimeLeft <= 3}>
-            {Math.ceil(session.questionTimeLeft)}s
+            ⏱ {Math.ceil(session.questionTimeLeft)}s
           </span>
         {/if}
       </div>
@@ -206,6 +207,7 @@
   .intro { padding: 1.6rem 1.4rem; text-align: center; max-width: 340px; }
   .intro-icon { font-size: 2.6rem; }
   .intro-text { margin: 0.8rem 0 1.1rem; line-height: 1.6; }
+  .intro-leave { margin-left: 0.6rem; }
 
   .hud { display: flex; align-items: center; gap: 0.8rem; }
   .quit {
@@ -250,7 +252,7 @@
   .boss-hp-num { color: var(--berry-deep); }
   .hearts { display: flex; gap: 0.2rem; margin-top: 0.5rem; align-items: center; }
   .hearts .lost { opacity: 0.5; }
-  .qtimer { margin-left: auto; font-weight: 900; font-size: 1.05rem; }
+  .qtimer { margin-left: auto; font-weight: 900; font-size: 1.35rem; }
 
   .qarea { display: flex; flex-direction: column; flex: 1; margin-top: 1rem; }
 

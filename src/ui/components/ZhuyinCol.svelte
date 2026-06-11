@@ -32,9 +32,10 @@
     font-size: var(--zy-size);
   }
   .sym { display: block; }
+  /* 與符號同色，避免紅色「ˇ」被誤認成勾勾正解標記 */
   .tone {
-    font-size: calc(var(--zy-size) * 0.8);
-    color: var(--berry-deep);
+    font-size: calc(var(--zy-size) * 0.85);
+    color: inherit;
     font-weight: bold;
   }
   .tone.side { margin-left: 0.08em; align-self: center; }

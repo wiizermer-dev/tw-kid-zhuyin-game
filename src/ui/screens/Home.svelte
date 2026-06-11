@@ -15,15 +15,25 @@
   let totalStars = $derived(Object.values(levelStars).reduce((a, b) => a + b, 0));
   let mistakeCount = $derived(Object.keys(storage.getMistakes()).length);
 
+  let nameShake = $state(false);
+
   function saveName() {
     name = name.trim().slice(0, 12);
-    if (!name) name = '無名氏' + Math.floor(Math.random() * 100);
+    if (!name) return false;
     storage.setPlayerName(name);
     editingName = false;
+    return true;
   }
 
   function pick(modeKey) {
-    if (!storage.getPlayerName()) saveName();
+    if (!storage.getPlayerName() && !saveName()) {
+      // 名字會印在戰帖跟成績卡上，開玩前一定要取
+      editingName = true;
+      nameShake = true;
+      setTimeout(() => (nameShake = false), 500);
+      document.querySelector('.name-edit input')?.focus();
+      return;
+    }
     if (modeKey === 'levels') onLevels();
     else onPlay(modeKey);
   }
@@ -50,7 +60,7 @@
     </div>
   {/if}
 
-  <div class="card name-row bounce-in" style:animation-delay="0.05s">
+  <div class="card name-row bounce-in" class:shake={nameShake} style:animation-delay="0.05s">
     {#if editingName}
       <div class="name-edit">
         <input
@@ -60,7 +70,7 @@
           placeholder="輸入你的稱號…"
           onkeydown={(e) => e.key === 'Enter' && saveName()}
         />
-        <small class="name-hint">名字會印在戰帖跟限動成績卡上，取個帥的</small>
+        <small class="name-hint" class:hot={nameShake}>名字會印在戰帖跟限動成績卡上，取個帥的再開玩！</small>
       </div>
       <button class="btn mint" onclick={saveName}>OK</button>
     {:else}
@@ -177,6 +187,7 @@
   }
   .name-edit input:focus { border-color: var(--mint); }
   .name-hint { color: var(--ink-soft); font-size: 0.72rem; padding-left: 0.2rem; }
+  .name-hint.hot { color: var(--berry-deep); font-weight: 800; }
   .practice { margin-top: 0.8rem; border: 2.5px dashed var(--grape); }
   .hello { flex: 1; font-size: 1.05rem; }
   .edit { background: none; font-size: 1.1rem; }

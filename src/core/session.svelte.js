@@ -44,7 +44,8 @@ export class QuizSession {
       categories: config.categories,
       minDifficulty: config.minDifficulty,
       maxDifficulty: config.maxDifficulty,
-      excludeIds: config.excludeIds
+      excludeIds: config.excludeIds,
+      onlyIds: config.onlyIds
     });
     this.index = 0;
     this.score = 0;

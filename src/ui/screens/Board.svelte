@@ -62,7 +62,7 @@
   {/if}
 
   {#if !hasCloud}
-    <p class="note">想跟全世界比？由站長設定 Supabase 後即開啟全球榜。</p>
+    <p class="note">目前是這台裝置的排行榜，想跟朋友比就傳戰帖吧 ⚔️</p>
   {/if}
 </div>
 
