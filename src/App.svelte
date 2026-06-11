@@ -119,15 +119,16 @@
 
   function acceptChallenge() {
     clearChallengeFromUrl();
-    if (challenge.room) {
-      // 進房邀請 → 進大廳（同房同時開打）
+    if (challenge.score === null) {
+      // 進房邀請（無分數）→ 進大廳（同房同時開打）
       screen = 'duel';
       return;
     }
-    // 非同步戰帖 → 直接打同題組比分
+    // 戰帖（帶分數）→ 直接打同題組比分
     modeKey = 'duel';
     level = null;
     duelSeed = challenge.seed;
+    duelRoom = challenge.room;
     playConfig = MODES.duel.config(challenge.seed, challenge.count ?? 10);
     playMeta = { modeName: '好友對戰' };
     screen = 'play';
@@ -240,7 +241,7 @@
     {modeKey}
     modeName={playMeta.modeName ?? MODES[modeKey]?.name ?? ''}
     {level}
-    challenge={modeKey === 'duel' && challenge && !challenge.room ? challenge : null}
+    challenge={modeKey === 'duel' && challenge?.score != null ? challenge : null}
     liveState={modeKey === 'duel' && liveChannel ? liveState : null}
     {duelSeed}
     onReplay={replay}

@@ -3,7 +3,7 @@
   import ZhuyinGlyph from '../components/ZhuyinGlyph.svelte';
   import { CODE_CHARS, randomZhuyinCode } from '../../lib/live.js';
   import { hasCloud } from '../../lib/backend.js';
-  import { buildChallengeUrl } from '../../lib/challenge.js';
+  import { buildRoomInviteUrl } from '../../lib/challenge.js';
   import { shareText } from '../../lib/share.js';
   import { storage } from '../../core/storage.js';
   import { playClickSound } from '../../lib/audio.js';
@@ -44,8 +44,8 @@
 
   async function shareInvite() {
     const name = storage.getPlayerName();
-    const url = buildChallengeUrl({ seed: `room-${code}`, mode: 'duel', score: 0, name, count: 10, room: code, live: hasCloud ? 1 : 0 });
-    const r = await shareText(`⚔️ ${name} 開了一間注音對戰房「${code}」，進來唸錯的請喝飲料！\n${url}`);
+    const url = buildRoomInviteUrl({ room: code, name, live: hasCloud ? 1 : 0 });
+    const r = await shareText(`${name} 開了注音對戰房「${code}」。少ㄈㄏ（廢話），來ㄉ一場！\n${url}`);
     shareState = r === 'copied' ? '邀請已複製，傳給朋友！' : r === 'shared' ? '邀請已送出！' : '';
   }
 </script>

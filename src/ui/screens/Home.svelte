@@ -65,14 +65,14 @@
 
   {#if challenge}
     <div class="card challenge pop-in">
-      {#if challenge.room}
+      {#if challenge.score === null}
         <p><b>{challenge.name || '神祕對手'}</b> 邀你進對戰房「{challenge.room}」！</p>
       {:else}
         <p><b>{challenge.name || '神祕對手'}</b> 向你下戰帖！</p>
         <p class="challenge-score">對方拿了 <b>{challenge.score}</b> 分</p>
       {/if}
       <div class="challenge-actions">
-        <button class="btn" onclick={accept}>{challenge.room ? '進房！' : '應戰！'}</button>
+        <button class="btn" onclick={accept}>{challenge.score === null ? '進房！' : '應戰！'}</button>
         <button class="btn ghost" onclick={onDeclineChallenge}>先溜了</button>
       </div>
     </div>
@@ -100,9 +100,22 @@
   </div>
 
   <nav class="modes">
-    <p class="group-label">一個人練</p>
+    <p class="group-label friends">揪朋友一起</p>
 
-    <button class="card mode bounce-in" style:animation-delay="0.1s" onclick={() => pick('daily')}>
+    <button class="card mode duel bounce-in" style:animation-delay="0.08s" onclick={() => pick('duel')}>
+      <span class="mode-icon" style:background="color-mix(in srgb, {TINT_COLOR.grape} 16%, white)">
+        <ZhuyinGlyph char={MODES.duel.icon} size={26} color={TINT_COLOR.grape} />
+      </span>
+      <span class="mode-body">
+        <b>{MODES.duel.name}</b>
+        <small>{MODES.duel.blurb}</small>
+      </span>
+      <span class="mode-badge hot">2 人起</span>
+    </button>
+
+    <p class="group-label solo">一個人練</p>
+
+    <button class="card mode bounce-in" style:animation-delay="0.12s" onclick={() => pick('daily')}>
       <span class="mode-icon" style:background="color-mix(in srgb, {TINT_COLOR.sun} 18%, white)">
         <ZhuyinGlyph char={MODES.daily.icon} size={26} color={TINT_COLOR.sun} />
       </span>
@@ -149,18 +162,6 @@
       </button>
     {/if}
 
-    <p class="group-label friends">揪朋友一起</p>
-
-    <button class="card mode duel bounce-in" style:animation-delay="0.28s" onclick={() => pick('duel')}>
-      <span class="mode-icon" style:background="color-mix(in srgb, {TINT_COLOR.grape} 16%, white)">
-        <ZhuyinGlyph char={MODES.duel.icon} size={26} color={TINT_COLOR.grape} />
-      </span>
-      <span class="mode-body">
-        <b>{MODES.duel.name}</b>
-        <small>{MODES.duel.blurb}</small>
-      </span>
-      <span class="mode-badge hot">2 人起</span>
-    </button>
   </nav>
 
   <button class="btn ghost board-btn bounce-in" style:animation-delay="0.32s" onclick={onBoard}>
@@ -239,7 +240,7 @@
     color: var(--ink-soft);
     padding-left: 0.3rem;
   }
-  .group-label.friends { margin-top: 0.7rem; }
+  .group-label.solo { margin-top: 0.7rem; }
   .mode {
     display: flex;
     align-items: center;

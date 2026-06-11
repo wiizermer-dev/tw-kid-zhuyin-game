@@ -1,61 +1,73 @@
 /** 挑戰連結 — 無後端的好友對戰核心。
- * URL: ?c=<base64url(JSON)>，內容 { v, seed, mode, score, name, count, k }
- * k 為簡易 checksum，防手改分數（非密碼學防護，休閒嚇阻用）
+ * 短網址格式（捨棄舊版 base64 整包，縮短 60% 以上）：
+ *   進房邀請：?r=<四碼注音>&n=<名字>&l=1&k=<chk>
+ *   戰帖（帶分數）：?r=<四碼注音>&s=<分數>&q=<題數>&n=<名字>&k=<chk>
+ * k 為簡易 checksum，防手改分數（休閒嚇阻用，非密碼學防護）。
  */
 import { hashSeed } from '../core/rng.js';
 
-function checksum({ seed, score, name, count }) {
-  return hashSeed(`${seed}|${score}|${name}|${count}|ㄅㄆㄇ`) % 46656; // 36^3
+function checksum({ room, score = 0, name = '', count = 10 }) {
+  return (hashSeed(`${room}|${score}|${name}|${count}|ㄅㄆㄇ`) % 46656).toString(36);
 }
 
-function b64uEncode(obj) {
-  const json = JSON.stringify(obj);
-  return btoa(unescape(encodeURIComponent(json)))
-    .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-}
-
-function b64uDecode(str) {
-  try {
-    const b64 = str.replace(/-/g, '+').replace(/_/g, '/');
-    const json = decodeURIComponent(escape(atob(b64)));
-    return JSON.parse(json);
-  } catch {
-    return null;
-  }
-}
-
-/** 產生挑戰連結。
- * 非同步戰帖：帶 score（朋友打同題組比分）。
- * 進房邀請：帶 room（注音房號）與 live（雲端有設定時 1）。
- */
-export function buildChallengeUrl({ seed, mode, score, name, count, room = null, live = 0 }) {
-  const payload = { v: 1, seed, mode, score, name, count, k: checksum({ seed, score, name, count }) };
-  if (room) { payload.room = room; payload.live = live; }
+function baseUrl() {
   const url = new URL(location.href);
   url.search = '';
   url.hash = '';
-  url.searchParams.set('c', b64uEncode(payload));
+  return url;
+}
+
+/** 進房邀請（大廳同打）。live=1 表示有即時連線 */
+export function buildRoomInviteUrl({ room, name, live = 0 }) {
+  const url = baseUrl();
+  url.searchParams.set('r', room);
+  if (name) url.searchParams.set('n', name);
+  if (live) url.searchParams.set('l', '1');
+  url.searchParams.set('k', checksum({ room, name }));
   return url.toString();
 }
 
-/** 讀取目前網址中的挑戰。
- * 回傳 { challenge, invalid }：沒有參數時兩者皆 falsy；
- * 參數存在但解不開/被竄改時 invalid = true（讓 UI 能提示「戰帖怪怪的」）。
- */
-export function parseChallengeFromUrl() {
-  const params = new URLSearchParams(location.search);
-  const raw = params.get('c');
-  if (!raw) return { challenge: null, invalid: false };
-  const data = b64uDecode(raw);
-  if (!data || data.v !== 1 || !data.seed || data.k !== checksum(data)) {
-    return { challenge: null, invalid: true };
-  }
-  return { challenge: data, invalid: false };
+/** 戰帖：打完同題組比分 */
+export function buildScoreChallengeUrl({ room, score, name, count }) {
+  const url = baseUrl();
+  url.searchParams.set('r', room);
+  url.searchParams.set('s', String(score));
+  url.searchParams.set('q', String(count));
+  if (name) url.searchParams.set('n', name);
+  url.searchParams.set('k', checksum({ room, score, name, count }));
+  return url.toString();
 }
 
-/** 清掉網址上的挑戰參數（接受挑戰後避免重整重複觸發） */
+/** 讀取網址中的挑戰。
+ * 回傳 { challenge, invalid }；challenge = { room, seed, score?, count, name, live }
+ * score 存在 = 戰帖（直接開打比分）；不存在 = 進房邀請（進大廳）。
+ */
+export function parseChallengeFromUrl() {
+  const p = new URLSearchParams(location.search);
+  const room = p.get('r');
+  if (!room) return { challenge: null, invalid: false };
+
+  const name = p.get('n') ?? '';
+  const score = p.has('s') ? Number(p.get('s')) : null;
+  const count = p.has('q') ? Number(p.get('q')) : 10;
+  const live = p.get('l') === '1';
+
+  const expected = score === null
+    ? checksum({ room, name })
+    : checksum({ room, score, name, count });
+  if (p.get('k') !== expected || (score !== null && !Number.isFinite(score))) {
+    return { challenge: null, invalid: true };
+  }
+
+  return {
+    challenge: { room, seed: `room-${room}`, score, count, name, live },
+    invalid: false
+  };
+}
+
+/** 清掉網址上的挑戰參數（接受後避免重整重複觸發） */
 export function clearChallengeFromUrl() {
   const url = new URL(location.href);
-  url.searchParams.delete('c');
+  for (const key of ['r', 'n', 's', 'q', 'l', 'k', 'c']) url.searchParams.delete(key);
   history.replaceState(null, '', url.toString());
 }

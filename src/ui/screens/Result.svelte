@@ -2,7 +2,8 @@
   import { titleFor, starsFor, emojiGrid } from '../../core/scoring.js';
   import { storage } from '../../core/storage.js';
   import { renderShareCard, shareCard, shareText } from '../../lib/share.js';
-  import { buildChallengeUrl } from '../../lib/challenge.js';
+  import { buildScoreChallengeUrl } from '../../lib/challenge.js';
+  import { randomZhuyinCode } from '../../lib/live.js';
   import { dailySeed } from '../../core/rng.js';
 
   let { summary, modeKey, modeName, level = null, challenge = null, duelSeed = null,
@@ -48,10 +49,11 @@
   let levelStars = $derived(level?.boss && !summary.won ? 0 : stars);
   let remainMistakes = $derived(Object.keys(storage.getMistakes()).length);
 
-  // 對戰連結（自己當開房者，或接受挑戰後回敬）
+  // 對戰連結（自己當開房者，或接受挑戰後回敬）；房號取自 seed 'room-XXXX'
+  let duelRoomCode = $derived(duelSeed?.startsWith('room-') ? duelSeed.slice(5) : null);
   let challengeUrl = $derived(
-    modeKey === 'duel' && duelSeed
-      ? buildChallengeUrl({ seed: duelSeed, mode: 'duel', score: summary.score, name, count: summary.total })
+    modeKey === 'duel' && duelRoomCode
+      ? buildScoreChallengeUrl({ room: duelRoomCode, score: summary.score, name, count: summary.total })
       : null
   );
 
@@ -75,11 +77,11 @@
   }
 
   async function doShareChallenge() {
-    const url = challengeUrl ?? buildChallengeUrl({
-      seed: duelSeed ?? `duel-${Date.now()}`, mode: 'duel',
+    const url = challengeUrl ?? buildScoreChallengeUrl({
+      room: duelRoomCode ?? randomZhuyinCode(),
       score: summary.score, name, count: summary.total
     });
-    const r = await shareText(`⚔️ ${name} 在「ㄅㄆㄇ你會唸嗎？」拿了 ${summary.score} 分，跟你拚同一組題目，敢來嗎？\n${url}`);
+    const r = await shareText(`${name} 在「ㄅㄆㄇ你會唸嗎？」轟出 ${summary.score} 分。少ㄈㄏ（廢話），來ㄉ一場！\n${url}`);
     shareState = r === 'copied' ? '連結已複製，傳給朋友吧！' : r === 'shared' ? '戰帖已送出！' : '';
   }
 
