@@ -79,6 +79,16 @@
 - 路由：單檔狀態機（無 router 依賴），URL query 處理挑戰連結。
 - 舊碼 `src/components`、`src/data/*.js`（舊題庫）、`src/lib/*Generator*` 全刪。
 
+## 六之一、即時連線對戰（2026-06-11 使用者補充需求）
+
+非同步戰帖之外，新增「同房同時開打」模式：
+
+- **看得到對手**：作答時畫面上方顯示同房每位對手的即時狀態——目前在第幾題、答對率；有人完賽時顯示其總耗時秒數。
+- **技術**：Supabase Realtime channel（presence 進房 + broadcast 進度事件），不需資料表、不需登入；`hasCloud` 為 false 時自動隱藏此入口，退回非同步戰帖。
+- **流程**：開房 → 大廳（顯示已加入玩家，房主按開始）→ 同 seed 同題組同時開打 → 即時進度條 → 全員完賽出排名。
+- **進度事件 schema**：`{ name, index, attempted, correct, score, finished, elapsedSec }`，每答一題 broadcast 一次。
+- 邀請沿用 `?c=` 連結，多帶 `live: true` 與 `room`。
+
 ## 七、驗收
 
 1. `npm run build` 通過；`scripts/validate-bank.mjs` 通過。
