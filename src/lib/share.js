@@ -109,7 +109,7 @@ export async function renderShareCard(d) {
 
   ctx.font = `36px ${round}`;
   ctx.fillStyle = '#8a7a72';
-  ctx.fillText('不服來戰 → 挑戰連結在下面', W / 2, 1790);
+  ctx.fillText(`來 ${location.host} 跟我對戰`, W / 2, 1790);
 
   return new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
 }
@@ -124,13 +124,21 @@ function roundRect(ctx, x, y, w, h, r) {
   ctx.closePath();
 }
 
+/** share sheet 偶爾 pending 不回，用 timeout 保護避免按鈕永久卡死 */
+function withTimeout(promise, ms = 12000) {
+  return Promise.race([
+    promise,
+    new Promise((resolve) => setTimeout(() => resolve('timeout'), ms))
+  ]);
+}
+
 /** 分享圖片：行動裝置走 Web Share（可直接傳 IG/LINE），失敗則下載 */
 export async function shareCard(blob, text, url) {
   const file = new File([blob], 'bpmf-score.png', { type: 'image/png' });
   if (navigator.canShare?.({ files: [file] })) {
     try {
-      await navigator.share({ files: [file], text, url });
-      return 'shared';
+      const r = await withTimeout(navigator.share({ files: [file], text, url }));
+      return r === 'timeout' ? 'timeout' : 'shared';
     } catch (e) {
       if (e.name === 'AbortError') return 'cancelled';
     }
@@ -148,8 +156,8 @@ export async function shareCard(blob, text, url) {
 export async function shareText(text) {
   if (navigator.share) {
     try {
-      await navigator.share({ text });
-      return 'shared';
+      const r = await withTimeout(navigator.share({ text }));
+      if (r !== 'timeout') return 'shared';
     } catch (e) {
       if (e.name === 'AbortError') return 'cancelled';
     }

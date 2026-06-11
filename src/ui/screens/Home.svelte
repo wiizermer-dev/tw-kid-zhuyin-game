@@ -13,6 +13,7 @@
   let sprintBest = $derived(storage.getSprintBest());
   let levelStars = $derived(storage.getLevelStars());
   let totalStars = $derived(Object.values(levelStars).reduce((a, b) => a + b, 0));
+  let mistakeCount = $derived(Object.keys(storage.getMistakes()).length);
 
   function saveName() {
     name = name.trim().slice(0, 12);
@@ -51,13 +52,16 @@
 
   <div class="card name-row bounce-in" style:animation-delay="0.05s">
     {#if editingName}
-      <input
-        type="text"
-        bind:value={name}
-        maxlength="12"
-        placeholder="輸入你的稱號…"
-        onkeydown={(e) => e.key === 'Enter' && saveName()}
-      />
+      <div class="name-edit">
+        <input
+          type="text"
+          bind:value={name}
+          maxlength="12"
+          placeholder="輸入你的稱號…"
+          onkeydown={(e) => e.key === 'Enter' && saveName()}
+        />
+        <small class="name-hint">名字會印在戰帖跟限動成績卡上，取個帥的</small>
+      </div>
       <button class="btn mint" onclick={saveName}>OK</button>
     {:else}
       <span class="hello">嗨，<b>{name}</b></span>
@@ -73,7 +77,7 @@
         <small>{MODES.daily.blurb}</small>
       </span>
       <span class="mode-badge">
-        {#if dailyDone}✅ 完成{:else if streak.count > 0}🔥 {streak.count} 天{:else}NEW{/if}
+        {#if dailyDone}✅ 看今日成績{:else if streak.count > 0}🔥 {streak.count} 天{:else}NEW{/if}
       </span>
     </button>
 
@@ -104,6 +108,16 @@
       <span class="mode-badge hot">🔗 開房</span>
     </button>
   </nav>
+
+  {#if mistakeCount >= 3}
+    <button class="card mode practice bounce-in" style:animation-delay="0.28s" onclick={() => pick('practice')}>
+      <span class="mode-icon">📖</span>
+      <span class="mode-body">
+        <b>錯題特訓</b>
+        <small>你還有 {mistakeCount} 個字在等你復仇</small>
+      </span>
+    </button>
+  {/if}
 
   <button class="btn ghost board-btn bounce-in" style:animation-delay="0.3s" onclick={onBoard}>
     🏅 排行榜
@@ -151,9 +165,9 @@
     padding: 0.8rem 1.1rem;
     margin-bottom: 1.1rem;
   }
-  .name-row input {
-    flex: 1;
-    min-width: 0;
+  .name-edit { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.3rem; }
+  .name-edit input {
+    width: 100%;
     border: 2.5px solid #eadfd3;
     border-radius: 14px;
     padding: 0.6rem 0.9rem;
@@ -161,7 +175,9 @@
     font-family: inherit;
     outline: none;
   }
-  .name-row input:focus { border-color: var(--mint); }
+  .name-edit input:focus { border-color: var(--mint); }
+  .name-hint { color: var(--ink-soft); font-size: 0.72rem; padding-left: 0.2rem; }
+  .practice { margin-top: 0.8rem; border: 2.5px dashed var(--grape); }
   .hello { flex: 1; font-size: 1.05rem; }
   .edit { background: none; font-size: 1.1rem; }
 

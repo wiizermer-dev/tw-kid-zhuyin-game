@@ -22,6 +22,8 @@ export class QuizSession {
   #timerId = null;
   #questionStart = 0;
   #config = {};
+  #deadline = 0;          // 全域結束時間戳（performance.now 基準）
+  #questionDeadline = 0;  // 單題結束時間戳
 
   current = $derived(this.questions[this.index] ?? null);
   total = $derived(this.questions.length);
@@ -59,20 +61,24 @@ export class QuizSession {
     this.perQuestionSeconds = config.perQuestionSeconds ?? 0;
     this.questionTimeLeft = this.perQuestionSeconds;
     this.#questionStart = performance.now();
+    this.#deadline = config.timeLimit ? performance.now() + config.timeLimit * 1000 : 0;
+    this.#questionDeadline = this.perQuestionSeconds ? performance.now() + this.perQuestionSeconds * 1000 : 0;
 
     if (config.timeLimit || this.perQuestionSeconds) this.#startTimer();
   }
 
+  // 以時間戳計算剩餘時間，避免 setInterval 漂移（背景分頁節流、低階裝置）
   #startTimer() {
     this.#stopTimer();
     this.#timerId = setInterval(() => {
       if (this.finished) return this.#stopTimer();
-      if (this.#config.timeLimit) {
-        this.timeLeft = Math.max(0, this.timeLeft - 0.1);
+      const now = performance.now();
+      if (this.#deadline) {
+        this.timeLeft = Math.max(0, (this.#deadline - now) / 1000);
         if (this.timeLeft <= 0) return this.end();
       }
-      if (this.perQuestionSeconds && this.answered === null) {
-        this.questionTimeLeft = Math.max(0, this.questionTimeLeft - 0.1);
+      if (this.#questionDeadline && this.answered === null) {
+        this.questionTimeLeft = Math.max(0, (this.#questionDeadline - now) / 1000);
         if (this.questionTimeLeft <= 0) this.timeout();
       }
     }, 100);
@@ -126,6 +132,9 @@ export class QuizSession {
     this.answered = null;
     this.questionTimeLeft = this.perQuestionSeconds;
     this.#questionStart = performance.now();
+    if (this.perQuestionSeconds) {
+      this.#questionDeadline = performance.now() + this.perQuestionSeconds * 1000;
+    }
   }
 
   end() {

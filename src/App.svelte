@@ -39,14 +39,22 @@
         return;
       }
       playConfig = MODES.daily.config();
+    } else if (key === 'practice') {
+      const ids = Object.keys(storage.getMistakes());
+      playConfig = { count: Math.min(10, ids.length), onlyIds: ids };
+      playMeta = { modeName: '錯題特訓' };
+      duelSeed = null;
     } else if (key === 'sprint') {
-      playConfig = MODES.sprint.config();
+      playConfig = { ...MODES.sprint.config(), excludeIds: storage.getRecentIds() };
       playMeta = { modeName: MODES.sprint.name };
       duelSeed = null;
     } else if (key === 'duel') {
       duelSeed = `duel-${randomRoomCode()}-${Date.now().toString(36)}`;
       playConfig = MODES.duel.config(duelSeed);
-      playMeta = { modeName: MODES.duel.name };
+      playMeta = {
+        modeName: MODES.duel.name,
+        intro: '開房成功！先打完你的題目，結果頁就能把戰帖傳給朋友——他們會拿到一模一樣的題組跟你拚分數。'
+      };
     }
     screen = 'play';
   }
@@ -54,7 +62,7 @@
   function startLevel(lv) {
     modeKey = 'levels';
     level = lv;
-    playConfig = { ...levelConfig(lv), seed: undefined };
+    playConfig = { ...levelConfig(lv), excludeIds: storage.getRecentIds() };
     playMeta = { modeName: `第 ${lv.n} 關・${lv.name}`, bossName: lv.bossName };
     duelSeed = null;
     screen = 'play';
@@ -79,10 +87,12 @@
     summary = s;
     const name = storage.getPlayerName() || '無名氏';
 
-    // 錯題本
+    // 錯題本 + 近期題目（避免短時間重複出題）
     s.questions.forEach((q, i) => {
       if (!s.results[i]) storage.addMistake(q.id);
+      else storage.clearMistake(q.id);
     });
+    storage.addRecentIds(s.questions.map((q) => q.id));
 
     // 各模式持久化
     if (modeKey === 'daily') {
@@ -111,12 +121,14 @@
       }
     }
 
-    storage.addLocalScore({ name, score: s.score, mode: modeKey, maxCombo: s.maxCombo });
-    submitRun({
-      name, score: s.score, mode: modeKey,
-      room: modeKey === 'duel' ? duelSeed : null,
-      correct: s.correct, total: s.total, maxCombo: s.maxCombo
-    });
+    if (modeKey !== 'practice') {
+      storage.addLocalScore({ name, score: s.score, mode: modeKey, maxCombo: s.maxCombo });
+      submitRun({
+        name, score: s.score, mode: modeKey,
+        room: modeKey === 'duel' ? duelSeed : null,
+        correct: s.correct, total: s.total, maxCombo: s.maxCombo
+      });
+    }
 
     screen = 'result';
   }
@@ -169,5 +181,5 @@
     onNextLevel={modeKey === 'levels' && level && level.n < LEVELS.length ? nextLevel : null}
   />
 {:else if screen === 'board'}
-  <Board onHome={goHome} />
+  <Board onHome={goHome} initialTab={MODES[modeKey] ? modeKey : 'sprint'} />
 {/if}

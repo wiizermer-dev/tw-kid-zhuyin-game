@@ -50,6 +50,13 @@ export const storage = {
     set('mistakes', m);
   },
 
+  /** 近期出過的題目 id（rolling 60 筆），非種子模式選題時排除 */
+  getRecentIds: () => get('recent_ids', []),
+  addRecentIds: (ids) => {
+    const merged = [...get('recent_ids', []), ...ids];
+    set('recent_ids', merged.slice(-60));
+  },
+
   /** 本地排行榜：[{name, score, mode, date}] 取前 50 */
   getLocalBoard: () => get('local_board', []),
   addLocalScore: (entry) => {

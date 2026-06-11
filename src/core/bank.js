@@ -11,6 +11,7 @@ import { mulberry32, shuffleWith } from './rng.js';
  * @param {number} [opts.maxDifficulty=5]
  * @param {string[]} [opts.categories] 限定類別（bank index 的 key）
  * @param {string[]} [opts.excludeIds] 排除的題目 id
+ * @param {string[]} [opts.onlyIds] 只從這些 id 選（錯題特訓用）
  * @returns 題目陣列，每題含 options（已洗牌，正解標記 correct: true）
  */
 export function selectQuestions({
@@ -19,10 +20,17 @@ export function selectQuestions({
   minDifficulty = 1,
   maxDifficulty = 5,
   categories = null,
-  excludeIds = []
+  excludeIds = [],
+  onlyIds = null
 } = {}) {
   const rand = mulberry32(String(seed));
   const excluded = new Set(excludeIds);
+
+  if (onlyIds) {
+    const wanted = new Set(onlyIds);
+    const pool = BANK.filter(q => wanted.has(q.id));
+    return shuffleWith(rand, pool).slice(0, count).map(q => toQuestion(q, rand));
+  }
 
   let pool = BANK.filter(q =>
     q.difficulty >= minDifficulty &&

@@ -17,12 +17,14 @@
 
   let wrongFlash = $state(false);
   let scorePop = $state(0); // 觸發 +分數 飛出動畫
+  let showIntro = $state(!!meta.intro);
 
   // 衝刺模式答完自動快轉；其他模式等玩家看完回饋
   let autoTimer = null;
+  let reported = false;
 
   function choose(i) {
-    if (session.answered !== null) return;
+    if (session.answered !== null || session.finished) return;
     const beforeScore = session.score;
     const correct = session.answer(i);
     if (correct) {
@@ -38,7 +40,8 @@
     if (session.finished) return done();
 
     if (isSprint) {
-      autoTimer = setTimeout(advance, correct ? 650 : 1600);
+      // 答錯多停一下讓正解至少留個印象，完整解說在結果頁的錯題回顧
+      autoTimer = setTimeout(advance, correct ? 650 : 2200);
     }
   }
 
@@ -49,6 +52,8 @@
   }
 
   function done() {
+    if (reported) return;
+    reported = true;
     if (isBoss && session.won) playLevelUpSound();
     onFinish({
       score: session.score,
@@ -61,12 +66,17 @@
     });
   }
 
-  // 單題倒數歸零（boss 模式）由 session 處理，但畫面需偵測 timeout 進入回饋
+  // 計時歸零（衝刺全域時間到）由 session 內部 end()，這裡監聽收尾
   $effect(() => {
-    if (session.answered === -1 && !session.finished && !isSprint) {
-      // 超時，停在回饋畫面等玩家按下一題
-    }
+    if (session.finished) done();
   });
+
+  function quit() {
+    if (!session.finished && session.attempted > 0) {
+      if (!confirm('確定要離開嗎？這局進度不會保留喔')) return;
+    }
+    onQuit();
+  }
 
   onDestroy(() => {
     clearTimeout(autoTimer);
@@ -79,8 +89,17 @@
 </script>
 
 <div class="screen play" class:wrong-flash={wrongFlash}>
+  {#if showIntro}
+    <div class="intro-overlay">
+      <div class="card intro pop-in">
+        <div class="intro-icon">⚔️</div>
+        <p class="intro-text">{meta.intro}</p>
+        <button class="btn" onclick={() => (showIntro = false)}>開打！</button>
+      </div>
+    </div>
+  {/if}
   <header class="hud">
-    <button class="quit" onclick={onQuit} aria-label="離開">✕</button>
+    <button class="quit" onclick={quit} aria-label="離開">✕</button>
 
     {#if isSprint}
       <div class="timer" class:urgent={session.timeLeft <= 10}>
@@ -104,7 +123,7 @@
   {/if}
 
   {#if isBoss}
-    <div class="boss card">
+    <div class="boss-panel card">
       <div class="boss-row">
         <span class="boss-name">👹 {meta.bossName}</span>
         <span class="boss-hp-num">{session.bossHp}/{session.bossMaxHp}</span>
@@ -151,7 +170,7 @@
         {#if showFeedback}
           <div class="feedback card bounce-in" class:good={lastCorrect}>
             <p class="fb-head">
-              {#if session.answered === -1}⏰ 時間到！
+              {#if session.answered === -1}⏰ 時間到！正解是「{q.zhuyin}」
               {:else if lastCorrect}🎉 答對了！
               {:else}💥 唸錯啦！正解是「{q.zhuyin}」
               {/if}
@@ -173,6 +192,20 @@
 <style>
   .play { padding-top: 0.9rem; }
   .wrong-flash { animation: shake 0.4s ease; }
+
+  .intro-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: grid;
+    place-items: center;
+    background: rgba(61, 44, 41, 0.45);
+    backdrop-filter: blur(4px);
+    padding: 1.5rem;
+  }
+  .intro { padding: 1.6rem 1.4rem; text-align: center; max-width: 340px; }
+  .intro-icon { font-size: 2.6rem; }
+  .intro-text { margin: 0.8rem 0 1.1rem; line-height: 1.6; }
 
   .hud { display: flex; align-items: center; gap: 0.8rem; }
   .quit {
@@ -212,7 +245,7 @@
     animation: flame-flicker 0.6s ease-in-out infinite;
   }
 
-  .boss { margin-top: 0.8rem; padding: 0.8rem 1rem; }
+  .boss-panel { margin-top: 0.8rem; padding: 0.8rem 1rem; }
   .boss-row { display: flex; justify-content: space-between; font-weight: 800; margin-bottom: 0.4rem; }
   .boss-hp-num { color: var(--berry-deep); }
   .hearts { display: flex; gap: 0.2rem; margin-top: 0.5rem; align-items: center; }

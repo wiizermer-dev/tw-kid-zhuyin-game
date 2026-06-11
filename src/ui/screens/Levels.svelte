@@ -5,10 +5,21 @@
   let { onPick, onHome } = $props();
 
   let stars = $derived(storage.getLevelStars());
+  let shakeN = $state(0);
+  let toastMsg = $state('');
+  let toastTimer = null;
 
   function unlocked(level) {
     if (level.n === 1) return true;
     return (stars[level.n - 1] ?? 0) >= 1;
+  }
+
+  function tryPick(level) {
+    if (unlocked(level)) return onPick(level);
+    shakeN = level.n;
+    toastMsg = `先在第 ${level.n - 1} 關拿到 1 顆星！`;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { shakeN = 0; toastMsg = ''; }, 1600);
   }
 </script>
 
@@ -19,6 +30,8 @@
   </header>
   <p class="hint">每關拿 1 星以上解鎖下一關，BOSS 關有血條跟限時！</p>
 
+  {#if toastMsg}<div class="toast pop-in">{toastMsg}</div>{/if}
+
   <div class="path">
     {#each LEVELS as level, i}
       {@const isUnlocked = unlocked(level)}
@@ -27,9 +40,9 @@
         class="card level bounce-in"
         class:boss={level.boss}
         class:locked={!isUnlocked}
+        class:shake={shakeN === level.n}
         style:animation-delay="{i * 0.05}s"
-        disabled={!isUnlocked}
-        onclick={() => onPick(level)}
+        onclick={() => tryPick(level)}
       >
         <span class="ln">{level.boss ? '👹' : level.n}</span>
         <span class="body">
@@ -66,7 +79,21 @@
   }
   .level:hover:not(.locked) { transform: translateY(-2px); }
   .level.boss { border: 3px solid var(--berry); }
-  .level.locked { opacity: 0.55; }
+  .level.locked { opacity: 0.55; cursor: not-allowed; }
+  .toast {
+    position: fixed;
+    top: 1.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 60;
+    background: var(--ink);
+    color: #fff;
+    font-weight: 700;
+    padding: 0.6rem 1.2rem;
+    border-radius: 999px;
+    box-shadow: var(--shadow-pop);
+    white-space: nowrap;
+  }
   .ln {
     width: 44px; height: 44px; flex-shrink: 0;
     display: grid; place-items: center;

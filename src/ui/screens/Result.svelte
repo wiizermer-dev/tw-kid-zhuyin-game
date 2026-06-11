@@ -31,6 +31,8 @@
   let shareState = $state('');
   let busy = $state(false);
 
+  let wrongOnes = $derived(summary.questions.filter((q, i) => !summary.results[i]));
+
   // 對戰連結（自己當開房者，或接受挑戰後回敬）
   let challengeUrl = $derived(
     modeKey === 'duel' && duelSeed
@@ -49,7 +51,9 @@
       });
       const text = `我在「ㄅㄆㄇ你會唸嗎？」拿到 ${summary.score} 分，獲得稱號【${title.title}】！這題你會唸嗎：「${hardest?.text ?? ''}」`;
       const r = await shareCard(blob, text, challengeUrl ?? location.origin);
-      shareState = r === 'downloaded' ? '圖片已下載！' : r === 'shared' ? '已分享！' : '';
+      shareState = r === 'downloaded' ? '圖片已下載！'
+        : r === 'shared' ? '已分享！'
+        : r === 'timeout' ? '分享視窗沒回應，再試一次？' : '';
     } finally {
       busy = false;
     }
@@ -112,6 +116,21 @@
     <div class="grid-line">{emojiGrid(summary.results)}</div>
   {/if}
 
+  {#if wrongOnes.length > 0}
+    <details class="card review bounce-in">
+      <summary>📖 錯題回顧（{wrongOnes.length} 題）— 看完再走，下次就會了</summary>
+      <ul>
+        {#each wrongOnes as q}
+          <li>
+            <span class="rv-word">{q.text}</span>
+            <span class="rv-ans">「{q.target}」唸 <b>{q.zhuyin}</b></span>
+            <small class="rv-fun">{q.fun}</small>
+          </li>
+        {/each}
+      </ul>
+    </details>
+  {/if}
+
   <div class="actions">
     {#if modeKey === 'daily'}
       <button class="btn" onclick={doShareDaily}>📋 分享今日成績</button>
@@ -165,6 +184,19 @@
   .stat small { color: var(--ink-soft); }
 
   .grid-line { font-size: 1.4rem; letter-spacing: 0.1em; margin-bottom: 0.8rem; }
+
+  .review {
+    width: 100%;
+    text-align: left;
+    padding: 0.9rem 1.1rem;
+    margin-bottom: 1rem;
+  }
+  .review summary { font-weight: 800; cursor: pointer; font-size: 0.95rem; }
+  .review ul { list-style: none; padding: 0; margin: 0.6rem 0 0; display: flex; flex-direction: column; gap: 0.7rem; }
+  .review li { display: flex; flex-direction: column; gap: 0.15rem; border-top: 1.5px dashed #f0e4d8; padding-top: 0.6rem; }
+  .rv-word { font-family: var(--font-kai); font-size: 1.25rem; }
+  .rv-ans b { color: var(--berry-deep); font-family: var(--font-kai); }
+  .rv-fun { color: var(--ink-soft); }
 
   .actions { display: flex; flex-direction: column; gap: 0.7rem; width: 100%; max-width: 340px; }
   .share-state { margin: 0; color: var(--mint-deep); font-weight: 700; }

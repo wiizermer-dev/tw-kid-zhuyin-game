@@ -3,9 +3,9 @@
   import { hasCloud, fetchBoard } from '../../lib/backend.js';
   import { MODES } from '../../modes.js';
 
-  let { onHome } = $props();
+  let { onHome, initialTab = 'sprint' } = $props();
 
-  let tab = $state('sprint');
+  let tab = $state(initialTab);
   let cloudRows = $state(null);
   let loading = $state(false);
 
@@ -52,8 +52,8 @@
         <li class="card row pop-in" class:me={r.name === myName} style:animation-delay="{i * 0.03}s">
           <span class="rank">{MEDALS[i] ?? i + 1}</span>
           <span class="name">{r.name}</span>
-          {#if r.maxCombo > 0 || r.max_combo > 0}
-            <span class="combo">×{r.maxCombo ?? r.max_combo}</span>
+          {#if (r.maxCombo ?? r.max_combo) > 0}
+            <span class="combo" title="最高連擊">🔥×{r.maxCombo ?? r.max_combo}</span>
           {/if}
           <span class="pts">{r.score}</span>
         </li>
