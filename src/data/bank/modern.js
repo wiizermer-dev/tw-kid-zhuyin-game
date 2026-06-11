@@ -8,7 +8,7 @@ export default [
     text: "尷尬",
     target: "尷",
     zhuyin: "ㄍㄢ",
-    distractors: ["ㄐㄧㄢ", "ㄎㄢˇ"],
+    distractors: ["ㄐㄧㄢ", "ㄎㄢˇ", "ㄎㄢ"],
     meaning: "處境窘迫，不知所措",
     fun: "不會寫的人都打「監介」，現在連唸法都要被考，真的很監介",
     tags: ["梗", "日常"],
@@ -20,7 +20,7 @@ export default [
     text: "河蚌生珠",
     target: "蚌",
     zhuyin: "ㄅㄤˋ",
-    distractors: ["ㄅㄥˋ", "ㄈㄥ"],
+    distractors: ["ㄅㄥˋ", "ㄈㄥ", "ㄅㄤˊ"],
     meaning: "蚌受刺激分泌物質包覆異物，久了形成珍珠",
     fun: "網路梗「蚌埠住了」把蚌唸成ㄅㄥˋ（諧音繃不住），但教育部辭典裡河蚌的蚌標準唸ㄅㄤˋ，別被梗圖騙了",
     tags: ["梗", "常錯"],
@@ -32,7 +32,7 @@ export default [
     text: "囤貨",
     target: "囤",
     zhuyin: "ㄊㄨㄣˊ",
-    distractors: ["ㄉㄨㄣ", "ㄉㄨㄣˋ"],
+    distractors: ["ㄉㄨㄣ", "ㄉㄨㄣˋ", "ㄊㄨㄣˋ"],
     meaning: "大量購買並儲存物資",
     fun: "疫情時代全民運動。衛生紙囤好了，讀音也要囤對",
     tags: ["時事", "新聞常錯"],
@@ -44,7 +44,7 @@ export default [
     text: "斡旋",
     target: "斡",
     zhuyin: "ㄨㄛˋ",
-    distractors: ["ㄍㄢˋ", "ㄏㄢˋ"],
+    distractors: ["ㄍㄢˋ", "ㄏㄢˋ", "ㄨㄛˊ"],
     meaning: "居中調解爭端",
     fun: "國際新聞高頻字。唸成「幹旋」的話，調解直接破局",
     tags: ["時事", "新聞常錯"],
@@ -56,7 +56,7 @@ export default [
     text: "彆扭",
     target: "彆",
     zhuyin: "ㄅㄧㄝˋ",
-    distractors: ["ㄅㄧㄝ", "ㄆㄧㄝˇ"],
+    distractors: ["ㄅㄧㄝ", "ㄆㄧㄝˇ", "ㄅㄧㄝˊ"],
     meaning: "不順心、不自在，或固執難搞",
     fun: "彆唸四聲。鬧彆扭的時候聲調也跟著鬧，就輸了",
     tags: ["日常"],
@@ -68,7 +68,7 @@ export default [
     text: "打烊",
     target: "烊",
     zhuyin: "ㄧㄤˊ",
-    distractors: ["ㄧㄤˋ"],
+    distractors: ["ㄧㄤˋ", "ㄧㄤ", "ㄧㄤˇ"],
     meaning: "商店結束營業",
     fun: "宵夜場最痛的兩個字。烊唸二聲，老闆說的",
     tags: ["日常", "美食"],
@@ -80,7 +80,7 @@ export default [
     text: "酪梨",
     target: "酪",
     zhuyin: "ㄌㄨㄛˋ",
-    distractors: ["ㄌㄠˋ", "ㄌㄜˋ"],
+    distractors: ["ㄌㄠˋ", "ㄌㄜˋ", "ㄌㄨㄛˊ"],
     meaning: "營養豐富的綠色水果，健身族最愛",
     fun: "健身仔吵了十年的世紀大戰：教育部說唸ㄌㄨㄛˋ，菜市場說隨便",
     tags: ["美食", "梗", "新聞常錯"],
@@ -92,7 +92,7 @@ export default [
     text: "鮪魚肚",
     target: "鮪",
     zhuyin: "ㄨㄟˇ",
-    distractors: ["ㄧㄡˇ", "ㄨㄟˋ"],
+    distractors: ["ㄧㄡˇ", "ㄨㄟˋ", "ㄨㄟˊ"],
     meaning: "中年發福的肚子，原指鮪魚的腹部",
     fun: "鮪唸ㄨㄟˇ。肚子可以有，字不能唸錯",
     tags: ["美食", "日常"],
@@ -104,7 +104,7 @@ export default [
     text: "狙擊手",
     target: "狙",
     zhuyin: "ㄐㄩ",
-    distractors: ["ㄗㄨˇ", "ㄑㄧㄝˇ"],
+    distractors: ["ㄗㄨˇ", "ㄑㄧㄝˇ", "ㄐㄩˇ"],
     meaning: "埋伏遠距離精準射擊的射手",
     fun: "FPS 玩家天天喊的字。唸「阻擊手」的人，已被正版讀音爆頭",
     tags: ["遊戲", "新聞常錯"],
@@ -116,7 +116,7 @@ export default [
     text: "補給品",
     target: "給",
     zhuyin: "ㄐㄧˇ",
-    distractors: ["ㄍㄟˇ"],
+    distractors: ["ㄍㄟˇ", "ㄐㄧˊ", "ㄐㄧˋ"],
     meaning: "補充的物資",
     fun: "遊戲裡撿補給箱前，先把「ㄅㄨˇ ㄐㄧˇ」唸對。給予也是這個音",
     tags: ["遊戲", "破音字"],
@@ -128,7 +128,7 @@ export default [
     text: "發票載具",
     target: "載",
     zhuyin: "ㄗㄞˋ",
-    distractors: ["ㄗㄞˇ"],
+    distractors: ["ㄗㄞˇ", "ㄗㄞˊ", "ㄗㄞ"],
     meaning: "儲存電子發票的工具（如手機條碼）",
     fun: "結帳必聽字。載人載物的載唸四聲，店員每天唸給你聽",
     tags: ["日常", "破音字", "時事"],
@@ -140,7 +140,7 @@ export default [
     text: "老饕",
     target: "饕",
     zhuyin: "ㄊㄠ",
-    distractors: ["ㄏㄠˋ", "ㄊㄠˊ"],
+    distractors: ["ㄏㄠˋ", "ㄊㄠˊ", "ㄊㄠˇ"],
     meaning: "講究美食的行家",
     fun: "美食節目主持人最愛自稱的詞。唸錯就只是愛吃而已",
     tags: ["美食", "生僻字"],
@@ -152,7 +152,7 @@ export default [
     text: "執拗",
     target: "拗",
     zhuyin: "ㄠˋ",
-    distractors: ["ㄋㄧㄡˋ", "ㄠˇ"],
+    distractors: ["ㄋㄧㄡˋ", "ㄠˇ", "ㄠˊ"],
     meaning: "固執己見不肯變通",
     fun: "拗有三種唸法，教育部辭典「執拗」唸ㄠˋ，不是大家以為的ㄋㄧㄡˋ。比天蠍座還難搞的字",
     tags: ["日常", "破音字"],
@@ -164,7 +164,7 @@ export default [
     text: "一鍵截圖",
     target: "截",
     zhuyin: "ㄐㄧㄝˊ",
-    distractors: ["ㄓㄞˊ", "ㄐㄧㄝ"],
+    distractors: ["ㄓㄞˊ", "ㄐㄧㄝ", "ㄐㄧㄝˋ"],
     meaning: "擷取螢幕畫面",
     fun: "截圖唸二聲。對話截圖傳出去之前，先想清楚（讀音跟後果都是）",
     tags: ["日常", "3C"],
@@ -176,7 +176,7 @@ export default [
     text: "骰子",
     target: "骰",
     zhuyin: "ㄊㄡˊ",
-    distractors: ["ㄕㄞˇ", "ㄉㄡˇ"],
+    distractors: ["ㄕㄞˇ", "ㄉㄡˇ", "ㄊㄡˋ"],
     meaning: "桌遊和賭博用的多面體小方塊",
     fun: "正解是ㄊㄡˊ子！全台灣的桌遊店都在唸ㄕㄞˇ子，本題堪稱注音界都市傳說",
     tags: ["遊戲", "梗"],
@@ -188,7 +188,7 @@ export default [
     text: "一蹶不振",
     target: "蹶",
     zhuyin: "ㄐㄩㄝˊ",
-    distractors: ["ㄍㄨㄟˋ", "ㄐㄩㄝˋ"],
+    distractors: ["ㄍㄨㄟˋ", "ㄐㄩㄝˋ", "ㄐㄩㄝ"],
     meaning: "跌倒後爬不起來，比喻失敗後無法重新振作",
     fun: "股票套牢後的散戶日常。蹶唸二聲，跟你攤平的決心一樣",
     tags: ["時事", "成語"],
@@ -200,7 +200,7 @@ export default [
     text: "通貨膨脹",
     target: "脹",
     zhuyin: "ㄓㄤˋ",
-    distractors: ["ㄆㄥˊ", "ㄓㄤ"],
+    distractors: ["ㄆㄥˊ", "ㄓㄤ", "ㄓㄤˊ"],
     meaning: "物價持續上漲、錢變薄",
     fun: "雞排從 35 漲到 90 的元兇。脹唸四聲，跟你的怒氣一樣高",
     tags: ["時事", "新聞常錯"],
@@ -212,7 +212,7 @@ export default [
     text: "紓困方案",
     target: "紓",
     zhuyin: "ㄕㄨ",
-    distractors: ["ㄕㄨˋ", "ㄩˊ"],
+    distractors: ["ㄕㄨˋ", "ㄩˊ", "ㄕㄨˊ"],
     meaning: "緩解困境的措施",
     fun: "紓唸一聲（緩解）。領紓困金之前，先通過讀音審核",
     tags: ["時事", "新聞常錯"],
@@ -224,7 +224,7 @@ export default [
     text: "問題的癥結",
     target: "癥",
     zhuyin: "ㄓㄥ",
-    distractors: ["ㄓㄥˋ", "ㄓㄥˊ"],
+    distractors: ["ㄓㄥˋ", "ㄓㄥˊ", "ㄓㄥˇ"],
     meaning: "事情糾結難解的關鍵",
     fun: "癥唸一聲ㄓㄥ，跟病症的症（ㄓㄥˋ）不同字也不同音，搞錯的人正是問題的癥結",
     tags: ["日常", "破音字", "新聞常錯"],
@@ -236,7 +236,7 @@ export default [
     text: "滑稽",
     target: "稽",
     zhuyin: "ㄐㄧ",
-    distractors: ["ㄑㄧˊ", "ㄐㄧˇ"],
+    distractors: ["ㄑㄧˊ", "ㄐㄧˇ", "ㄐㄧˊ"],
     meaning: "言行引人發笑",
     fun: "稽唸ㄐㄧ。梗圖標配字，唸錯本身就很滑稽",
     tags: ["梗", "日常"],
@@ -248,7 +248,7 @@ export default [
     text: "魷魚遊戲",
     target: "魷",
     zhuyin: "ㄧㄡˊ",
-    distractors: ["ㄐㄧㄡˇ", "ㄧㄡˋ"],
+    distractors: ["ㄐㄧㄡˇ", "ㄧㄡˋ", "ㄧㄡ"],
     meaning: "熱門影集，也是夜市美食",
     fun: "追劇之前先過這關。魷唸二聲，跟你熬夜追完的黑眼圈一樣垂",
     tags: ["時事", "美食"],
@@ -260,7 +260,7 @@ export default [
     text: "炙手可熱",
     target: "炙",
     zhuyin: "ㄓˋ",
-    distractors: ["ㄔˋ", "ㄐㄧㄡˇ"],
+    distractors: ["ㄔˋ", "ㄐㄧㄡˇ", "ㄓˊ"],
     meaning: "形容人氣勢盛、超搶手",
     fun: "炙唸ㄓˋ（烤肉的意思）。炙燒鮭魚壽司的炙，吃貨贏在起跑點",
     tags: ["成語", "美食", "新聞常錯"],
@@ -272,7 +272,7 @@ export default [
     text: "吐司夾蛋",
     target: "夾",
     zhuyin: "ㄐㄧㄚˊ",
-    distractors: ["ㄐㄧㄚ", "ㄐㄧㄚˋ"],
+    distractors: ["ㄐㄧㄚ", "ㄐㄧㄚˋ", "ㄐㄧㄚˇ"],
     meaning: "早餐店經典組合",
     fun: "教育部：夾唸ㄐㄧㄚˊ（二聲）。早餐店阿姨表示不服，但標準就是標準",
     tags: ["美食", "日常", "梗"],
@@ -284,7 +284,7 @@ export default [
     text: "成績斐然",
     target: "斐",
     zhuyin: "ㄈㄟˇ",
-    distractors: ["ㄈㄟ", "ㄅㄟˇ"],
+    distractors: ["ㄈㄟ", "ㄅㄟˇ", "ㄈㄟˊ"],
     meaning: "成果顯著出色",
     fun: "斐唸三聲。履歷上寫「成績斐然」，面試時唸錯就變成績瞎掰",
     tags: ["日常", "新聞常錯"],
@@ -296,7 +296,7 @@ export default [
     text: "蝸牛",
     target: "蝸",
     zhuyin: "ㄍㄨㄚ",
-    distractors: ["ㄨㄛ", "ㄍㄨㄛ"],
+    distractors: ["ㄨㄛ", "ㄍㄨㄛ", "ㄍㄨㄚˇ"],
     meaning: "背著殼的軟體動物",
     fun: "台灣標準唸ㄍㄨㄚ牛。從小唸ㄨㄛ牛的人，你的童年正在崩塌",
     tags: ["日常", "梗"],
@@ -308,7 +308,7 @@ export default [
     text: "帥到分泌",
     target: "泌",
     zhuyin: "ㄇㄧˋ",
-    distractors: ["ㄅㄧˋ", "ㄇㄧˊ"],
+    distractors: ["ㄅㄧˋ", "ㄇㄧˊ", "ㄇㄧˇ"],
     meaning: "網路梗「帥到分泌（費洛蒙）」；泌指腺體釋出物質",
     fun: "分泌唸「ㄈㄣ ㄇㄧˋ」。內分泌失調的人很多，讀音失調的人更多",
     tags: ["梗", "日常"],
@@ -320,7 +320,7 @@ export default [
     text: "大撒幣",
     target: "撒",
     zhuyin: "ㄙㄚˇ",
-    distractors: ["ㄙㄚ"],
+    distractors: ["ㄙㄚ", "ㄙㄚˋ", "ㄙㄚˊ"],
     meaning: "大量發放金錢（時事用語）",
     fun: "撒錢的撒唸三聲。選舉季的高頻詞，聲調跟政見一樣要選對",
     tags: ["時事", "破音字", "梗"],
@@ -332,7 +332,7 @@ export default [
     text: "一袋米要扛幾樓",
     target: "扛",
     zhuyin: "ㄎㄤˊ",
-    distractors: ["ㄍㄤ", "ㄏㄤˊ"],
+    distractors: ["ㄍㄤ", "ㄏㄤˊ", "ㄎㄤˇ"],
     meaning: "《火影忍者》佩恩名台詞空耳梗",
     fun: "扛在肩上唸ㄎㄤˊ。這就是…注音的痛楚！",
     tags: ["梗", "遊戲", "破音字"],
@@ -344,7 +344,7 @@ export default [
     text: "修但幾勒",
     target: "勒",
     zhuyin: "ㄌㄜˋ",
-    distractors: ["ㄌㄟ", "ㄌㄚ"],
+    distractors: ["ㄌㄟ", "ㄌㄚ", "ㄌㄜˊ"],
     meaning: "台語空耳「等一下」，勒字本意是收住韁繩",
     fun: "勒馬的勒唸ㄌㄜˋ，勒住你的答題衝動，想清楚再按",
     tags: ["梗", "破音字"],
@@ -356,7 +356,7 @@ export default [
     text: "是在哈囉",
     target: "哈",
     zhuyin: "ㄏㄚ",
-    distractors: ["ㄏㄚˇ", "ㄏㄜ"],
+    distractors: ["ㄏㄚˇ", "ㄏㄜ", "ㄏㄚˊ"],
     meaning: "流行語，意指「到底在幹嘛」",
     fun: "哈唸一聲。哈巴狗的哈才唸三聲，是在哈囉的人不要連聲調都哈囉",
     tags: ["梗", "日常", "破音字"],
@@ -365,476 +365,476 @@ export default [
   },,
   {
     id: 'md-031', text: '滷肉飯', target: '滷', zhuyin: 'ㄌㄨˇ',
-    distractors: ['ㄌㄨˋ', 'ㄌㄨ'],
+    distractors: ["ㄌㄨˋ", "ㄌㄨ", "ㄌㄨˊ"],
     meaning: '台灣國民美食，醬滷肉末淋白飯',
     fun: '滷唸三聲。南北可以吵肉燥飯還滷肉飯，聲調不准吵',
     tags: ['現代梗', '美食', '日常'], difficulty: 1, era: 'modern'
   },
   {
     id: 'md-032', text: '肉燥飯', target: '燥', zhuyin: 'ㄙㄠˋ',
-    distractors: ['ㄗㄠˋ', 'ㄘㄠˋ'],
+    distractors: ["ㄗㄠˋ", "ㄘㄠˋ", "ㄙㄠˊ"],
     meaning: '剁碎的滷肉末拌飯，南部靈魂主食',
     fun: '教育部辭典：剁碎的肉唸ㄙㄠˋ。全台灣的小吃店都唸ㄗㄠˋ，本題南部人也會跌倒',
     tags: ['現代梗', '美食', '破音字', '梗'], difficulty: 4, era: 'modern'
   },
   {
     id: 'md-033', text: '烘焙坊', target: '焙', zhuyin: 'ㄅㄟˋ',
-    distractors: ['ㄆㄟˊ', 'ㄅㄟ'],
+    distractors: ["ㄆㄟˊ", "ㄅㄟ", "ㄅㄟˊ"],
     meaning: '賣現烤麵包甜點的店',
     fun: '焙唸ㄅㄟˋ不是「陪」。唸錯的話，麵包出爐香味直接減半',
     tags: ['現代梗', '美食', '日常'], difficulty: 2, era: 'modern'
   },
   {
-    id: 'md-034', text: '餛飩麵', target: '飩', zhuyin: 'ㄉㄨㄣ˙',
-    distractors: ['ㄊㄨㄣˊ', 'ㄉㄨㄣˋ'],
+    id: 'md-034', text: '餛飩麵', target: '飩', zhuyin: 'ㄉㄨㄣˋ',
+    distractors: ["ㄊㄨㄣˊ", "ㄉㄨㄣ˙", "ㄉㄨㄣˇ"],
     meaning: '包肉餡的薄皮麵食，配麵是宵夜經典',
-    fun: '教育部辭典：餛飩唸「ㄏㄨㄣˊ ˙ㄉㄨㄣ」輕聲。唸ㄊㄨㄣˊ的請排隊罰站，隊伍很長不孤單',
+    fun: '簡編本「餛飩」唸ㄏㄨㄣˊ ㄉㄨㄣˋ，飩是四聲。唸ㄊㄨㄣˊ的請排隊罰站',
     tags: ['現代梗', '美食', '梗'], difficulty: 4, era: 'modern'
   },
   {
     id: 'md-035', text: '雞胗', target: '胗', zhuyin: 'ㄓㄣ',
-    distractors: ['ㄓㄣˇ', 'ㄑㄧㄣˊ'],
+    distractors: ["ㄓㄣˇ", "ㄑㄧㄣˊ", "ㄓㄣˊ"],
     meaning: '雞的胃，鹽酥雞攤的隱藏人氣品項',
     fun: '胗唸一聲（鳥類的胃）。唸三聲變「疹」，鹽酥雞瞬間變皮膚科',
     tags: ['現代梗', '美食'], difficulty: 3, era: 'modern'
   },
   {
     id: 'md-036', text: '氛圍感', target: '氛', zhuyin: 'ㄈㄣ',
-    distractors: ['ㄈㄣˋ', 'ㄈㄣˊ'],
+    distractors: ["ㄈㄣˋ", "ㄈㄣˊ", "ㄈㄣˇ"],
     meaning: '形容環境的情調與感覺，網路流行詞',
     fun: '氛唸一聲。咖啡廳氛圍感拉滿，你一句「ㄈㄣˋ圍」直接破壞氣氛',
     tags: ['現代梗', '梗', '新聞常錯'], difficulty: 4, era: 'meme'
   },
   {
     id: 'md-037', text: '涮涮鍋', target: '涮', zhuyin: 'ㄕㄨㄢˋ',
-    distractors: ['ㄕㄨㄚ', 'ㄕㄨㄢ'],
+    distractors: ["ㄕㄨㄚ", "ㄕㄨㄢ", "ㄕㄨㄢˊ"],
     meaning: '肉片在湯裡涮幾下就吃的小火鍋',
     fun: '涮唸ㄕㄨㄢˋ。唸成「唰唰鍋」的人，肉片都替你尷尬',
     tags: ['現代梗', '美食', '日常'], difficulty: 2, era: 'modern'
   },
   {
     id: 'md-038', text: '鮭魚之亂', target: '鮭', zhuyin: 'ㄍㄨㄟ',
-    distractors: ['ㄍㄨㄟˇ', 'ㄎㄨㄟˊ'],
+    distractors: ["ㄍㄨㄟˇ", "ㄎㄨㄟˊ", "ㄍㄨㄟˊ"],
     meaning: '2021 年全台改名換免費壽司的社會事件',
     fun: '鮭唸一聲。有人為了壽司改名一輩子，你至少把字唸對一秒鐘',
     tags: ['現代梗', '梗', '時事', '美食'], difficulty: 1, era: 'meme'
   },
   {
     id: 'md-039', text: '焗烤飯', target: '焗', zhuyin: 'ㄐㄩˊ',
-    distractors: ['ㄐㄩˋ', 'ㄐㄩ'],
+    distractors: ["ㄐㄩˋ", "ㄐㄩ", "ㄐㄩˇ"],
     meaning: '鋪滿起司進烤箱烤的飯',
     fun: '焗唸二聲。起司可以牽絲，聲調不能亂牽',
     tags: ['現代梗', '美食'], difficulty: 2, era: 'modern'
   },
   {
     id: 'md-040', text: '烤鯖魚', target: '鯖', zhuyin: 'ㄑㄧㄥ',
-    distractors: ['ㄑㄧㄥˊ', 'ㄓㄥ'],
+    distractors: ["ㄑㄧㄥˊ", "ㄓㄥ", "ㄑㄧㄥˇ"],
     meaning: '定食店人氣烤魚，南方澳名產',
     fun: '鯖唸一聲，跟「青」一樣。唸二聲的人，魚都烤焦了還在查字典',
     tags: ['現代梗', '美食'], difficulty: 3, era: 'modern'
   },
   {
     id: 'md-041', text: '麻糬', target: '糬', zhuyin: 'ㄕㄨˇ',
-    distractors: ['ㄕㄨˊ', 'ㄒㄩˇ'],
+    distractors: ["ㄕㄨˊ", "ㄒㄩˇ", "ㄕㄨˋ"],
     meaning: '軟Q的糯米點心',
     fun: '糬唸三聲。口感可以軟，聲調要硬起來',
     tags: ['現代梗', '美食', '日常'], difficulty: 1, era: 'modern'
   },
   {
     id: 'md-042', text: '黑糖粉粿', target: '粿', zhuyin: 'ㄍㄨㄛˇ',
-    distractors: ['ㄍㄨㄛ', 'ㄎㄜˇ'],
+    distractors: ["ㄍㄨㄛ", "ㄎㄜˇ", "ㄍㄨㄛˋ"],
     meaning: '剉冰上金黃透明的Q彈配料',
     fun: '粿唸三聲。手搖飲料加粉粿之前，先把音加對',
     tags: ['現代梗', '美食'], difficulty: 2, era: 'modern'
   },
   {
     id: 'md-043', text: '生酮飲食', target: '酮', zhuyin: 'ㄊㄨㄥˊ',
-    distractors: ['ㄊㄨㄥ', 'ㄉㄨㄥˋ'],
+    distractors: ["ㄊㄨㄥ", "ㄉㄨㄥˋ", "ㄊㄨㄥˇ"],
     meaning: '高脂低醣的減重飲食法',
     fun: '酮唸二聲，跟「同」一樣。飲食可以斷醣，注音不能斷聲調',
     tags: ['現代梗', '美食', '時事'], difficulty: 2, era: 'modern'
   },
   {
     id: 'md-044', text: '舒芙蕾', target: '蕾', zhuyin: 'ㄌㄟˇ',
-    distractors: ['ㄌㄟˊ', 'ㄌㄟˋ'],
+    distractors: ["ㄌㄟˊ", "ㄌㄟˋ", "ㄌㄟ"],
     meaning: '出爐會塌的法式雲朵甜點',
     fun: '蕾唸三聲，芭蕾的蕾也是。舒芙蕾塌得快，聲調別跟著塌',
     tags: ['現代梗', '美食'], difficulty: 2, era: 'modern'
   },
   {
     id: 'md-045', text: '紅藜飯', target: '藜', zhuyin: 'ㄌㄧˊ',
-    distractors: ['ㄌㄧˋ', 'ㄑㄧˊ'],
+    distractors: ["ㄌㄧˋ", "ㄑㄧˊ", "ㄌㄧˇ"],
     meaning: '台灣原生超級食物，健康便當標配',
     fun: '藜唸二聲。健康餐盒吃起來，讀音也要顧到營養均衡',
     tags: ['現代梗', '美食', '時事'], difficulty: 3, era: 'modern'
   },
   {
     id: 'md-046', text: '麩質過敏', target: '麩', zhuyin: 'ㄈㄨ',
-    distractors: ['ㄈㄨˊ', 'ㄑㄩ'],
+    distractors: ["ㄈㄨˊ", "ㄑㄩ", "ㄈㄨˇ"],
     meaning: '對小麥蛋白過敏，無麩質飲食因此流行',
     fun: '麩唸一聲，跟「夫」一樣。點無麩質餐點之前，先對讀音免敏',
     tags: ['現代梗', '美食', '生僻字'], difficulty: 4, era: 'modern'
   },
   {
     id: 'md-047', text: '韌體更新', target: '韌', zhuyin: 'ㄖㄣˋ',
-    distractors: ['ㄖㄣˊ', 'ㄋㄧㄢˋ'],
+    distractors: ["ㄖㄣˊ", "ㄋㄧㄢˋ", "ㄖㄣˇ"],
     meaning: '3C 裝置內建軟體的升級',
     fun: '韌唸四聲。更新跑 99% 卡住的時候，唸對它說不定會動',
     tags: ['現代梗', '3C'], difficulty: 2, era: 'modern'
   },
   {
     id: 'md-048', text: '哏圖', target: '哏', zhuyin: 'ㄍㄣˊ',
-    distractors: ['ㄍㄥˇ', 'ㄍㄣˇ'],
+    distractors: ["ㄍㄥˇ", "ㄍㄣˇ", "ㄍㄣ"],
     meaning: '梗圖的本字，哏才是「笑點」的正字',
     fun: '驚天大反轉：「梗」其實是寫錯的，本字是哏，唸ㄍㄣˊ二聲。全網都在錯字上玩梗',
     tags: ['現代梗', '梗', '生僻字'], difficulty: 5, era: 'meme'
   },
   {
     id: 'md-049', text: '螢幕烙印', target: '烙', zhuyin: 'ㄌㄠˋ',
-    distractors: ['ㄌㄨㄛˋ', 'ㄌㄠˊ'],
+    distractors: ["ㄌㄨㄛˋ", "ㄌㄠˊ", "ㄌㄠˇ"],
     meaning: 'OLED 螢幕長期顯示同畫面留下的殘影',
     fun: '烙印唸ㄌㄠˋ。烙跑的烙也是這個音，螢幕烙印了就只能烙跑換新機',
     tags: ['現代梗', '3C', '破音字'], difficulty: 3, era: 'modern'
   },
   {
     id: 'md-050', text: '訊號屏蔽', target: '屏', zhuyin: 'ㄆㄧㄥˊ',
-    distractors: ['ㄅㄧㄥˇ', 'ㄆㄧㄥ'],
+    distractors: ["ㄅㄧㄥˇ", "ㄆㄧㄥ", "ㄆㄧㄥˇ"],
     meaning: '遮擋電波讓訊號收不到',
     fun: '屏蔽唸ㄆㄧㄥˊ。電梯裡沒訊號不是你人緣差，是物理問題',
     tags: ['現代梗', '3C', '破音字'], difficulty: 3, era: 'modern'
   },
   {
     id: 'md-051', text: '充電樁', target: '樁', zhuyin: 'ㄓㄨㄤ',
-    distractors: ['ㄓㄨㄤˋ', 'ㄔㄨㄣ'],
+    distractors: ["ㄓㄨㄤˋ", "ㄔㄨㄣ", "ㄓㄨㄤˊ"],
     meaning: '電動車的充電設備',
     fun: '樁唸一聲。唸四聲變「撞」，電動車表示拒載',
     tags: ['現代梗', '3C', '時事'], difficulty: 2, era: 'modern'
   },
   {
     id: 'md-052', text: '詐騙猖獗', target: '獗', zhuyin: 'ㄐㄩㄝˊ',
-    distractors: ['ㄐㄩㄝˋ', 'ㄍㄨㄟˋ'],
+    distractors: ["ㄐㄩㄝˋ", "ㄍㄨㄟˋ", "ㄐㄩㄝ"],
     meaning: '形容囂張橫行，詐騙新聞高頻詞',
     fun: '獗唸二聲。+886 開頭的電話不要接，這題的答案倒是可以接',
     tags: ['現代梗', '時事', '新聞常錯'], difficulty: 3, era: 'modern'
   },
   {
     id: 'md-053', text: '駭客入侵', target: '駭', zhuyin: 'ㄏㄞˋ',
-    distractors: ['ㄏㄞˇ', 'ㄍㄞ'],
+    distractors: ["ㄏㄞˇ", "ㄍㄞ", "ㄏㄞˊ"],
     meaning: '非法入侵電腦系統的人',
     fun: '駭唸四聲。密碼設 1234 的人，沒資格唸錯這個字',
     tags: ['現代梗', '3C', '時事'], difficulty: 1, era: 'modern'
   },
   {
     id: 'md-054', text: '蹭流量', target: '蹭', zhuyin: 'ㄘㄥˋ',
-    distractors: ['ㄘㄥ', 'ㄗㄥˋ'],
+    distractors: ["ㄘㄥ", "ㄗㄥˋ", "ㄘㄥˊ"],
     meaning: '沾別人熱度替自己博取關注',
     fun: '蹭唸四聲。蹭飯蹭流量都可以，蹭錯聲調不行',
     tags: ['現代梗', '梗', '時事'], difficulty: 2, era: 'meme'
   },
   {
     id: 'md-055', text: '戀愛暈船', target: '暈', zhuyin: 'ㄩㄣ',
-    distractors: ['ㄩㄣˋ', 'ㄩㄣˊ'],
+    distractors: ["ㄩㄣˋ", "ㄩㄣˊ", "ㄩㄣˇ"],
     meaning: '對曖昧對象瞬間陷入迷戀，網路流行語',
     fun: '教育部辭典：暈船唸一聲ㄩㄣ。唸四聲的人先別暈，這題暈的是你',
     tags: ['現代梗', '梗', '破音字'], difficulty: 4, era: 'meme'
   },
   {
     id: 'md-056', text: '當我塑膠', target: '塑', zhuyin: 'ㄙㄨˋ',
-    distractors: ['ㄕㄨㄛˋ', 'ㄙㄨㄛˋ'],
+    distractors: ["ㄕㄨㄛˋ", "ㄙㄨㄛˋ", "ㄙㄨˊ"],
     meaning: '流行語「把我當空氣、無視我」',
     fun: '塑唸ㄙㄨˋ。唸成ㄕㄨㄛˋ膠的人，難怪被當塑膠',
     tags: ['現代梗', '梗', '日常'], difficulty: 2, era: 'meme'
   },
   {
     id: 'md-057', text: '應援棒', target: '應', zhuyin: 'ㄧㄥˋ',
-    distractors: ['ㄧㄥ', 'ㄧㄥˊ'],
+    distractors: ["ㄧㄥ", "ㄧㄥˊ", "ㄧㄥˇ"],
     meaning: '演唱會幫偶像打氣的發光道具',
     fun: '應援的應唸四聲（回應支持）。搶票手速再快，聲調錯了照樣出局',
     tags: ['現代梗', '梗', '破音字', '時事'], difficulty: 4, era: 'meme'
   },
   {
     id: 'md-058', text: '寶可夢孵蛋', target: '孵', zhuyin: 'ㄈㄨ',
-    distractors: ['ㄈㄨˊ', 'ㄅㄨ'],
+    distractors: ["ㄈㄨˊ", "ㄅㄨ", "ㄈㄨˇ"],
     meaning: '遊戲裡走路讓蛋孵化的玩法',
     fun: '孵唸一聲。走十公里孵出來的蛋，配錯聲調直接變空蛋',
     tags: ['現代梗', '遊戲'], difficulty: 2, era: 'meme'
   },
   {
     id: 'md-059', text: '角色扮演', target: '角', zhuyin: 'ㄐㄩㄝˊ',
-    distractors: ['ㄐㄧㄠˇ', 'ㄐㄩㄝˋ'],
+    distractors: ["ㄐㄧㄠˇ", "ㄐㄩㄝˋ", "ㄐㄩㄝ"],
     meaning: '扮成動漫遊戲人物，cosplay 的中文',
     fun: '角色唸ㄐㄩㄝˊ色。cos 服可以還原九成像，讀音先還原再說',
     tags: ['現代梗', '遊戲', '破音字'], difficulty: 2, era: 'modern'
   },
   {
     id: 'md-060', text: '發布通緝', target: '緝', zhuyin: 'ㄑㄧˋ',
-    distractors: ['ㄐㄧ', 'ㄑㄧ'],
+    distractors: ["ㄐㄧ", "ㄑㄧ", "ㄑㄧˊ"],
     meaning: '下令追捕在逃嫌犯',
     fun: '緝唸ㄑㄧˋ四聲。新聞主播都唸ㄐㄧ，本題正在通緝唸錯的人',
     tags: ['現代梗', '時事', '新聞常錯'], difficulty: 3, era: 'modern'
   },
   {
     id: 'md-061', text: '收受賄賂', target: '賂', zhuyin: 'ㄌㄨˋ',
-    distractors: ['ㄌㄨㄛˋ', 'ㄍㄜˋ'],
+    distractors: ["ㄌㄨㄛˋ", "ㄍㄜˋ", "ㄌㄨˊ"],
     meaning: '用財物收買他人，弊案新聞高頻詞',
     fun: '賂唸ㄌㄨˋ。收賄會被抓，唸錯會被笑，都別做',
     tags: ['現代梗', '時事', '新聞常錯'], difficulty: 3, era: 'modern'
   },
   {
     id: 'md-062', text: '裁定羈押', target: '羈', zhuyin: 'ㄐㄧ',
-    distractors: ['ㄐㄧˋ', 'ㄐㄩ'],
+    distractors: ["ㄐㄧˋ", "ㄐㄩ", "ㄐㄧˊ"],
     meaning: '法院裁定先把嫌犯關起來',
     fun: '羈唸一聲。社會新聞天天出現，唸錯的人先羈押讀音兩個月',
     tags: ['現代梗', '時事', '新聞常錯'], difficulty: 3, era: 'modern'
   },
   {
     id: 'md-063', text: '輿論壓力', target: '輿', zhuyin: 'ㄩˊ',
-    distractors: ['ㄩˇ', 'ㄒㄧㄥ'],
+    distractors: ["ㄩˇ", "ㄒㄧㄥ", "ㄩˋ"],
     meaning: '社會大眾的意見聲浪',
     fun: '輿唸二聲。風向可以一夜翻轉，聲調最好終身固定',
     tags: ['現代梗', '時事', '新聞常錯'], difficulty: 3, era: 'modern'
   },
   {
     id: 'md-064', text: '強力抨擊', target: '抨', zhuyin: 'ㄆㄥ',
-    distractors: ['ㄆㄧㄥˊ', 'ㄏㄥ'],
+    distractors: ["ㄆㄧㄥˊ", "ㄏㄥ", "ㄆㄥˊ"],
     meaning: '嚴厲批評，政論節目每日一詞',
     fun: '抨唸ㄆㄥ一聲，不是「評」擊。罵人之前先把字唸對，比較有氣勢',
     tags: ['現代梗', '時事', '新聞常錯'], difficulty: 3, era: 'modern'
   },
   {
     id: 'md-065', text: '群起撻伐', target: '撻', zhuyin: 'ㄊㄚˋ',
-    distractors: ['ㄉㄚˊ', 'ㄊㄚ'],
+    distractors: ["ㄉㄚˊ", "ㄊㄚ", "ㄊㄚˊ"],
     meaning: '大家一起出聲討伐',
     fun: '撻唸ㄊㄚˋ，蛋撻的撻也是。網友出征前，先通過讀音安檢',
     tags: ['現代梗', '時事', '成語'], difficulty: 3, era: 'modern'
   },
   {
     id: 'md-066', text: '醞釀罷工', target: '醞', zhuyin: 'ㄩㄣˋ',
-    distractors: ['ㄨㄣ', 'ㄩㄣ'],
+    distractors: ["ㄨㄣ", "ㄩㄣ", "ㄩㄣˊ"],
     meaning: '事情逐漸成形，勞資新聞常用詞',
     fun: '醞唸四聲。罷工可以慢慢醞釀，答案限時三秒',
     tags: ['現代梗', '時事', '新聞常錯'], difficulty: 3, era: 'modern'
   },
   {
     id: 'md-067', text: '挹注資金', target: '挹', zhuyin: 'ㄧˋ',
-    distractors: ['ㄧ', 'ㄖㄨˋ'],
+    distractors: ["ㄧ", "ㄖㄨˋ", "ㄧˊ"],
     meaning: '注入資源或金錢，預算新聞高頻詞',
     fun: '挹唸ㄧˋ四聲。政府挹注幾十億很大方，你只要挹注一個正確聲調',
     tags: ['現代梗', '時事', '新聞常錯', '生僻字'], difficulty: 5, era: 'modern'
   },
   {
     id: 'md-068', text: '互相攻訐', target: '訐', zhuyin: 'ㄐㄧㄝˊ',
-    distractors: ['ㄍㄢ', 'ㄐㄧㄝ'],
+    distractors: ["ㄍㄢ", "ㄐㄧㄝ", "ㄐㄧㄝˋ"],
     meaning: '揭人短處互相攻擊，選舉季日常',
     fun: '訐唸ㄐㄧㄝˊ。唸成那個台語發音的人，恭喜你完成全台灣最經典的誤讀',
     tags: ['現代梗', '時事', '新聞常錯', '梗'], difficulty: 5, era: 'modern'
   },
   {
     id: 'md-069', text: '滯留鋒面', target: '滯', zhuyin: 'ㄓˋ',
-    distractors: ['ㄉㄞˋ', 'ㄓㄜˊ'],
+    distractors: ["ㄉㄞˋ", "ㄓㄜˊ", "ㄓˊ"],
     meaning: '停留不走的鋒面，梅雨季罪魁禍首',
     fun: '滯唸ㄓˋ不是「帶」。雨可以下一週，這題不能想一週',
     tags: ['現代梗', '時事', '新聞常錯'], difficulty: 3, era: 'modern'
   },
   {
     id: 'md-070', text: '醜聞曝光', target: '曝', zhuyin: 'ㄆㄨˋ',
-    distractors: ['ㄅㄠˋ', 'ㄆㄨ'],
+    distractors: ["ㄅㄠˋ", "ㄆㄨ", "ㄆㄨˊ"],
     meaning: '祕密被公開揭露',
     fun: '曝唸ㄆㄨˋ。唸「爆光」的人太多，連這個誤讀本身都曝光了',
     tags: ['現代梗', '時事', '新聞常錯'], difficulty: 3, era: 'modern'
   },
   {
     id: 'md-071', text: '病毒肆虐', target: '虐', zhuyin: 'ㄋㄩㄝˋ',
-    distractors: ['ㄋㄩㄝ', 'ㄌㄩㄝˋ'],
+    distractors: ["ㄋㄩㄝ", "ㄌㄩㄝˋ", "ㄋㄩㄝˊ"],
     meaning: '任意逞凶造成災害',
     fun: '虐唸ㄋㄩㄝˋ。病毒虐待身體，錯字虐待國文老師',
     tags: ['現代梗', '時事', '新聞常錯'], difficulty: 3, era: 'modern'
   },
   {
     id: 'md-072', text: '捲入漩渦', target: '渦', zhuyin: 'ㄨㄛ',
-    distractors: ['ㄍㄨㄛ', 'ㄨㄛˊ'],
+    distractors: ["ㄍㄨㄛ", "ㄨㄛˊ", "ㄨㄛˇ"],
     meaning: '比喻陷入是非紛爭',
     fun: '渦唸ㄨㄛ一聲。捲入八卦漩渦沒關係，捲錯聲調才嚴重',
     tags: ['現代梗', '時事', '破音字'], difficulty: 3, era: 'modern'
   },
   {
     id: 'md-073', text: '疫苗接種', target: '種', zhuyin: 'ㄓㄨㄥˋ',
-    distractors: ['ㄓㄨㄥˇ', 'ㄔㄨㄥˊ'],
+    distractors: ["ㄓㄨㄥˇ", "ㄔㄨㄥˊ", "ㄓㄨㄥˊ"],
     meaning: '注射疫苗產生免疫力',
     fun: '接種的種唸四聲（動詞）。打針前護理師都唸對了，輪到你了',
     tags: ['現代梗', '時事', '破音字'], difficulty: 3, era: 'modern'
   },
   {
     id: 'md-074', text: '悠遊卡儲值', target: '儲', zhuyin: 'ㄔㄨˊ',
-    distractors: ['ㄔㄨˇ', 'ㄔㄨˋ'],
+    distractors: ["ㄔㄨˇ", "ㄔㄨˋ", "ㄔㄨ"],
     meaning: '把錢存進卡片裡',
     fun: '台灣標準讀音儲唸二聲ㄔㄨˊ。全超商都在唸三聲，你逆風唸對一次試試',
     tags: ['現代梗', '日常', '3C'], difficulty: 3, era: 'modern'
   },
   {
     id: 'md-075', text: '優惠券', target: '券', zhuyin: 'ㄑㄩㄢˋ',
-    distractors: ['ㄐㄩㄢˋ', 'ㄑㄩㄢ'],
+    distractors: ["ㄐㄩㄢˋ", "ㄑㄩㄢ", "ㄑㄩㄢˊ"],
     meaning: '折扣憑證，網購結帳必領',
     fun: '券唸ㄑㄩㄢˋ。唸成「卷」的人，折扣碼直接失效（誤）',
     tags: ['現代梗', '日常', '新聞常錯'], difficulty: 2, era: 'modern'
   },
   {
     id: 'md-076', text: '殖利率', target: '殖', zhuyin: 'ㄓˊ',
-    distractors: ['ㄓˋ', 'ㄕˊ'],
+    distractors: ["ㄓˋ", "ㄕˊ", "ㄓ"],
     meaning: '股息相對股價的報酬率，存股族信仰',
     fun: '殖唸二聲。存股可以無腦，讀音要有腦',
     tags: ['現代梗', '時事', '新聞常錯'], difficulty: 3, era: 'modern'
   },
   {
     id: 'md-077', text: '投資標的', target: '的', zhuyin: 'ㄉㄧˋ',
-    distractors: ['ㄉㄜ˙', 'ㄉㄧˊ'],
+    distractors: ["ㄉㄜ˙", "ㄉㄧˊ", "ㄉㄧˇ"],
     meaning: '投資鎖定的對象',
     fun: '標的的的唸ㄉㄧˋ（目標）。理財頻道一半的人唸錯，難怪賠錢（誤）',
     tags: ['現代梗', '時事', '破音字'], difficulty: 4, era: 'modern'
   },
   {
     id: 'md-078', text: '蛋白質', target: '質', zhuyin: 'ㄓˊ',
-    distractors: ['ㄓˋ', 'ㄓˇ'],
+    distractors: ["ㄓˋ", "ㄓˇ", "ㄓ"],
     meaning: '健身族最在意的營養素',
     fun: '教育部辭典：質唸二聲ㄓˊ。乳清喝再多，聲調錯了不長肌肉（誤）',
     tags: ['現代梗', '日常', '梗', '新聞常錯'], difficulty: 4, era: 'meme'
   },
   {
     id: 'md-079', text: '中獎機率', target: '率', zhuyin: 'ㄌㄩˋ',
-    distractors: ['ㄕㄨㄞˋ', 'ㄌㄩˇ'],
+    distractors: ["ㄕㄨㄞˋ", "ㄌㄩˇ", "ㄌㄩˊ"],
     meaning: '事情發生的可能性',
     fun: '機率的率唸ㄌㄩˋ。發票對中兩百的機率，比你唸對的機率低多了吧',
     tags: ['現代梗', '日常', '破音字'], difficulty: 1, era: 'modern'
   },
   {
     id: 'md-080', text: '租屋糾紛', target: '糾', zhuyin: 'ㄐㄧㄡ',
-    distractors: ['ㄐㄧㄡˇ', 'ㄉㄡˇ'],
+    distractors: ["ㄐㄧㄡˇ", "ㄉㄡˇ", "ㄐㄧㄡˊ"],
     meaning: '租客房東之間的爭執',
     fun: '糾唸一聲。押金可以吵，聲調不用吵，教育部說了算',
     tags: ['現代梗', '日常', '時事'], difficulty: 1, era: 'modern'
   },
   {
     id: 'md-081', text: '網購包裹', target: '裹', zhuyin: 'ㄍㄨㄛˇ',
-    distractors: ['ㄍㄨㄛ', 'ㄍㄨㄛˋ'],
+    distractors: ["ㄍㄨㄛ", "ㄍㄨㄛˋ", "ㄍㄨㄛˊ"],
     meaning: '宅配送來的快遞箱',
     fun: '裹唸三聲。雙 11 下單那麼快，唸字也快狠準一點',
     tags: ['現代梗', '日常', '3C'], difficulty: 1, era: 'modern'
   },
   {
     id: 'md-082', text: '股市韭菜', target: '韭', zhuyin: 'ㄐㄧㄡˇ',
-    distractors: ['ㄐㄧㄡ', 'ㄈㄟ'],
+    distractors: ["ㄐㄧㄡ", "ㄈㄟ", "ㄐㄧㄡˊ"],
     meaning: '一再被收割的散戶投資人，網路流行語',
     fun: '韭唸三聲。被割可以重來，韭菜的生命力跟你的本金一樣頑強',
     tags: ['現代梗', '梗', '時事'], difficulty: 1, era: 'meme'
   },
   {
     id: 'md-083', text: '房屋仲介', target: '仲', zhuyin: 'ㄓㄨㄥˋ',
-    distractors: ['ㄓㄨㄥ', 'ㄔㄨㄥˊ'],
+    distractors: ["ㄓㄨㄥ", "ㄔㄨㄥˊ", "ㄓㄨㄥˊ"],
     meaning: '幫忙買賣租賃房子的中間人',
     fun: '仲唸四聲。斡旋金都敢付了，這個字不敢唸對嗎',
     tags: ['現代梗', '日常', '時事'], difficulty: 1, era: 'modern'
   },
   {
     id: 'md-084', text: '蒸氣熨斗', target: '熨', zhuyin: 'ㄩㄣˋ',
-    distractors: ['ㄩˋ', 'ㄨㄟˋ'],
+    distractors: ["ㄩˋ", "ㄨㄟˋ", "ㄩㄣˊ"],
     meaning: '燙平衣服皺褶的家電',
     fun: '熨唸ㄩㄣˋ。襯衫燙得再平，唸「ㄩˋ斗」整套西裝都皺了',
     tags: ['現代梗', '日常', '新聞常錯'], difficulty: 4, era: 'modern'
   },
   {
     id: 'md-085', text: '中醫針灸', target: '灸', zhuyin: 'ㄐㄧㄡˇ',
-    distractors: ['ㄐㄧㄡ', 'ㄓˋ'],
+    distractors: ["ㄐㄧㄡ", "ㄓˋ", "ㄐㄧㄡˊ"],
     meaning: '用艾草燒灼穴位的傳統療法',
     fun: '灸唸三聲，跟「酒」一樣。長得像炙燒的炙，但烤的是穴位不是鮭魚',
     tags: ['現代梗', '日常', '生僻字'], difficulty: 3, era: 'modern'
   },
   {
     id: 'md-086', text: '豪華露營', target: '露', zhuyin: 'ㄌㄨˋ',
-    distractors: ['ㄌㄡˋ', 'ㄌㄨ'],
+    distractors: ["ㄌㄡˋ", "ㄌㄨ", "ㄌㄨˊ"],
     meaning: '免裝備的高級野營，近年戶外風潮',
     fun: '露營唸ㄌㄨˋ，ㄌㄡˋ是口語用法（露面、露兩手）。帳篷有人搭好了，讀音自己搭',
     tags: ['現代梗', '日常', '破音字'], difficulty: 2, era: 'modern'
   },
   {
     id: 'md-087', text: '增肌減脂', target: '脂', zhuyin: 'ㄓ',
-    distractors: ['ㄓˇ', 'ㄓˊ'],
+    distractors: ["ㄓˇ", "ㄓˊ", "ㄓˋ"],
     meaning: '健身族的終極目標',
     fun: '脂唸一聲。體脂可以降，聲調不能降',
     tags: ['現代梗', '日常', '時事'], difficulty: 2, era: 'modern'
   },
   {
     id: 'md-088', text: '熬夜追劇', target: '熬', zhuyin: 'ㄠˊ',
-    distractors: ['ㄠ', 'ㄠˋ'],
+    distractors: ["ㄠ", "ㄠˋ", "ㄠˇ"],
     meaning: '犧牲睡眠看完整季影集',
     fun: '熬唸二聲。「下一集自動播放」害你熬夜，注音題不背鍋',
     tags: ['現代梗', '日常', '梗'], difficulty: 1, era: 'modern'
   },
   {
     id: 'md-089', text: '艋舺', target: '舺', zhuyin: 'ㄐㄧㄚˇ',
-    distractors: ['ㄒㄧㄚˊ', 'ㄐㄧㄚ'],
+    distractors: ["ㄒㄧㄚˊ", "ㄐㄧㄚ", "ㄐㄧㄚˋ"],
     meaning: '萬華的古地名，電影上映後爆紅',
     fun: '舺唸ㄐㄧㄚˇ三聲。「意義是三小，我只知道義氣」，但讀音還是要知道',
     tags: ['現代梗', '梗', '日常'], difficulty: 4, era: 'meme'
   },
   {
     id: 'md-090', text: '大稻埕', target: '埕', zhuyin: 'ㄔㄥˊ',
-    distractors: ['ㄊㄧㄥˊ', 'ㄔㄥ'],
+    distractors: ["ㄊㄧㄥˊ", "ㄔㄥ", "ㄔㄥˇ"],
     meaning: '台北老街區，年貨大街與煙火節聖地',
     fun: '埕唸ㄔㄥˊ。IG 打卡照拍一百張，地名唸錯一次就破功',
     tags: ['現代梗', '日常', '時事'], difficulty: 4, era: 'modern'
   },
   {
     id: 'md-091', text: '礁溪溫泉', target: '礁', zhuyin: 'ㄐㄧㄠ',
-    distractors: ['ㄑㄧㄠˊ', 'ㄐㄧㄠˇ'],
+    distractors: ["ㄑㄧㄠˊ", "ㄐㄧㄠˇ", "ㄐㄧㄠˋ"],
     meaning: '宜蘭著名溫泉勝地',
     fun: '礁唸一聲。泡湯前唸對地名，是對溫泉最基本的尊重',
     tags: ['現代梗', '日常'], difficulty: 1, era: 'modern'
   },
   {
     id: 'md-092', text: '饒河夜市', target: '饒', zhuyin: 'ㄖㄠˊ',
-    distractors: ['ㄖㄠˇ', 'ㄧㄠˊ'],
+    distractors: ["ㄖㄠˇ", "ㄧㄠˊ", "ㄖㄠ"],
     meaning: '台北人氣觀光夜市，胡椒餅排隊名店',
     fun: '饒唸二聲。排胡椒餅排四十分鐘都忍了，唸對地名只要一秒',
     tags: ['現代梗', '美食', '日常'], difficulty: 2, era: 'modern'
   },
   {
     id: 'md-093', text: '梧棲漁港', target: '棲', zhuyin: 'ㄑㄧ',
-    distractors: ['ㄒㄧ', 'ㄑㄧˇ'],
+    distractors: ["ㄒㄧ", "ㄑㄧˇ", "ㄑㄧˊ"],
     meaning: '台中海線觀光漁港，現撈海產集散地',
     fun: '棲唸ㄑㄧ，兩棲的棲也是。海產可以現撈，讀音不能亂撈',
     tags: ['現代梗', '美食', '日常'], difficulty: 4, era: 'modern'
   },
   {
     id: 'md-094', text: '苓雅區', target: '苓', zhuyin: 'ㄌㄧㄥˊ',
-    distractors: ['ㄌㄧㄥˇ', 'ㄑㄧㄣˊ'],
+    distractors: ["ㄌㄧㄥˇ", "ㄑㄧㄣˊ", "ㄌㄧㄥ"],
     meaning: '高雄市中心行政區，夢時代所在地',
     fun: '苓唸二聲。高雄人唸給你聽一百次了，外地人快跟上',
     tags: ['現代梗', '日常'], difficulty: 3, era: 'modern'
   },
   {
     id: 'md-095', text: '駁二特區', target: '駁', zhuyin: 'ㄅㄛˊ',
-    distractors: ['ㄅㄛ', 'ㄆㄛˋ'],
+    distractors: ["ㄅㄛ", "ㄆㄛˋ", "ㄅㄛˇ"],
     meaning: '高雄港邊的文創藝術特區',
     fun: '駁唸二聲。文青照打卡前，先反駁自己的錯誤讀音',
     tags: ['現代梗', '日常', '時事'], difficulty: 3, era: 'modern'
   },
   {
     id: 'md-096', text: '木柵動物園', target: '柵', zhuyin: 'ㄓㄚˋ',
-    distractors: ['ㄕㄢ', 'ㄗㄚˋ'],
+    distractors: ["ㄕㄢ", "ㄗㄚˋ", "ㄓㄚˊ"],
     meaning: '台北市立動物園所在地，貓纜起點',
     fun: '柵唸ㄓㄚˋ。大貓熊都會認自己的家，你也把地名認對吧',
     tags: ['現代梗', '日常'], difficulty: 4, era: 'modern'
   },
   {
     id: 'md-097', text: '魔物狩獵', target: '狩', zhuyin: 'ㄕㄡˋ',
-    distractors: ['ㄕㄡˇ', 'ㄕㄡ'],
+    distractors: ["ㄕㄡˇ", "ㄕㄡ", "ㄕㄡˊ"],
     meaning: '獵殺巨大魔物的人氣遊戲玩法',
     fun: '狩唸四聲，跟「獸」一樣。連刷三十場素材掉不出來，至少讀音保底',
     tags: ['現代梗', '遊戲', '梗'], difficulty: 2, era: 'meme'
   },
   {
     id: 'md-098', text: '獺祭', target: '獺', zhuyin: 'ㄊㄚˋ',
-    distractors: ['ㄌㄞˋ', 'ㄌㄢˇ'],
+    distractors: ["ㄌㄞˋ", "ㄌㄢˇ", "ㄊㄚˊ"],
     meaning: '水獺把魚排在岸邊如陳列祭品；也是知名日本清酒品牌',
     fun: '酒標上的字唸不出來，乾杯的氣勢先輸一半',
     tags: ['現代梗', '美食'], difficulty: 4, era: 'modern'
