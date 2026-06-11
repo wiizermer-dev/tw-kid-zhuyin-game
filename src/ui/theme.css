@@ -1,0 +1,165 @@
+/* ㄅㄆㄇ你會唸嗎 — 設計系統
+   調性：糖果色 × 課本楷書 × 果凍彈跳 */
+
+:root {
+  /* 色彩 */
+  --paper: #FFF7E8;
+  --paper-2: #FFE9F0;
+  --ink: #3D2C29;
+  --ink-soft: #8a7a72;
+  --berry: #FF6B6B;       /* 主互動色 */
+  --berry-deep: #E5484D;
+  --mint: #4ECDC4;        /* 次互動色 */
+  --mint-deep: #2BB3A9;
+  --sun: #FFB347;
+  --grape: #A78BFA;
+  --leaf: #7BC96F;
+  --card: #FFFFFF;
+  --shadow: 61, 44, 41;
+
+  /* 字 */
+  --font-kai: 'TW-Kai', 'BiauKai', 'Kaiti TC', 'DFKai-SB', serif;
+  --font-round: 'Nunito', 'PingFang TC', 'Microsoft JhengHei', system-ui, sans-serif;
+
+  /* 形 */
+  --radius: 24px;
+  --radius-lg: 32px;
+  --shadow-card: 0 8px 24px rgba(var(--shadow), 0.12);
+  --shadow-pop: 0 12px 32px rgba(var(--shadow), 0.18);
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(160deg, var(--paper) 0%, var(--paper-2) 100%);
+  background-attachment: fixed;
+  color: var(--ink);
+  font-family: var(--font-round);
+  min-height: 100dvh;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* ── 通用元件 ── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 1.05rem;
+  padding: 0.85rem 1.8rem;
+  color: #fff;
+  background: var(--berry);
+  box-shadow: 0 5px 0 var(--berry-deep), var(--shadow-card);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.15s;
+  transform: translateY(0);
+}
+.btn:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--berry-deep); }
+.btn:hover { filter: brightness(1.06); }
+.btn.mint { background: var(--mint); box-shadow: 0 5px 0 var(--mint-deep), var(--shadow-card); }
+.btn.mint:active { box-shadow: 0 1px 0 var(--mint-deep); }
+.btn.ghost {
+  background: transparent;
+  color: var(--ink-soft);
+  box-shadow: inset 0 0 0 2.5px #e8dcd2;
+}
+.btn.ghost:active { transform: translateY(2px); }
+.btn:disabled { opacity: 0.45; pointer-events: none; }
+
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+}
+
+/* ── 動畫 ── */
+
+@keyframes pop-in {
+  0% { transform: scale(0.6); opacity: 0; }
+  70% { transform: scale(1.08); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes bounce-in {
+  0% { transform: translateY(24px); opacity: 0; }
+  60% { transform: translateY(-6px); opacity: 1; }
+  100% { transform: translateY(0); }
+}
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+  50% { transform: translateY(-14px) rotate(var(--rot, 0deg)); }
+}
+@keyframes score-fly {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-60px) scale(1.25); opacity: 0; }
+}
+@keyframes flame-flicker {
+  0%, 100% { transform: scale(1) rotate(-3deg); }
+  50% { transform: scale(1.15) rotate(3deg); }
+}
+
+.pop-in { animation: pop-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+.bounce-in { animation: bounce-in 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+.shake { animation: shake 0.4s ease both; }
+
+/* 漂浮注音背景 */
+.floaty {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.floaty span {
+  position: absolute;
+  font-family: var(--font-kai);
+  animation: float-slow 6s ease-in-out infinite;
+  user-select: none;
+}
+
+/* 畫面容器 */
+.screen {
+  position: relative;
+  z-index: 1;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 1.25rem 1.25rem 3rem;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 進度條 */
+.meter {
+  height: 14px;
+  background: #f0e4d8;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.meter > i {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--mint), var(--leaf));
+  transition: width 0.3s ease;
+}
+.meter.boss > i { background: linear-gradient(90deg, var(--berry), var(--sun)); }

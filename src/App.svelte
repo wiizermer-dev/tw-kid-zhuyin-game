@@ -1,183 +1,173 @@
 <script>
-  import { onMount } from 'svelte';
-  import { fade } from 'svelte/transition';
-  
-  // 經典模式組件
-  import ClassicGame from './components/original/ReadingGame.svelte';
-  
-  // 冒險模式組件
-  import MainMenu from './components/MainMenu.svelte';
-  import GameMap from './components/GameMap.svelte';
-  import ReadingGame from './components/ReadingGameNew.svelte';
-  import Leaderboard from './components/Leaderboard.svelte';
-  
-  // 導入主題樣式
-  import './styles/theme.css';
-  
-  // 遊戲模式
-  let gameMode = 'adventure'; // 'classic' | 'adventure'
-  
-  // 冒險模式狀態
-  let adventureView = 'menu'; // 'menu' | 'map' | 'game' | 'leaderboard'
-  let selectedLevel = 1;
-  let completedLevels = [];
-  
-  onMount(() => {
-    // 載入遊戲模式設定
-    const savedMode = localStorage.getItem('zhuyin_game_mode') || 'adventure';
-    gameMode = savedMode;
-    
-    // 載入冒險模式進度
-    const savedCompleted = localStorage.getItem('zhuyin_completed_levels');
-    if (savedCompleted) {
-      completedLevels = JSON.parse(savedCompleted);
+  import './ui/theme.css';
+  import FloatingBg from './ui/components/FloatingBg.svelte';
+  import Home from './ui/screens/Home.svelte';
+  import Play from './ui/screens/Play.svelte';
+  import Result from './ui/screens/Result.svelte';
+  import Levels from './ui/screens/Levels.svelte';
+  import Board from './ui/screens/Board.svelte';
+
+  import { MODES, levelConfig, LEVELS } from './modes.js';
+  import { storage } from './core/storage.js';
+  import { dailySeed, randomRoomCode } from './core/rng.js';
+  import { parseChallengeFromUrl, clearChallengeFromUrl } from './lib/challenge.js';
+  import { submitRun } from './lib/backend.js';
+
+  let screen = $state('home');
+  let modeKey = $state('');
+  let playConfig = $state(null);
+  let playMeta = $state({});
+  let level = $state(null);
+  let summary = $state(null);
+  let duelSeed = $state(null);
+
+  // 開站時偵測戰帖
+  let challenge = $state(parseChallengeFromUrl());
+
+  function startMode(key) {
+    modeKey = key;
+    level = null;
+
+    if (key === 'daily') {
+      playMeta = { modeName: MODES.daily.name };
+      duelSeed = null;
+      const existing = storage.getDailyRecord(dailySeed());
+      if (existing) {
+        // 今天玩過 → 直接看結果
+        summary = existing;
+        screen = 'result';
+        return;
+      }
+      playConfig = MODES.daily.config();
+    } else if (key === 'sprint') {
+      playConfig = MODES.sprint.config();
+      playMeta = { modeName: MODES.sprint.name };
+      duelSeed = null;
+    } else if (key === 'duel') {
+      duelSeed = `duel-${randomRoomCode()}-${Date.now().toString(36)}`;
+      playConfig = MODES.duel.config(duelSeed);
+      playMeta = { modeName: MODES.duel.name };
     }
-  });
-  
-  function switchToClassic() {
-    gameMode = 'classic';
-    localStorage.setItem('zhuyin_game_mode', 'classic');
+    screen = 'play';
   }
-  
-  function switchToAdventure() {
-    gameMode = 'adventure';
-    adventureView = 'menu';
-    localStorage.setItem('zhuyin_game_mode', 'adventure');
+
+  function startLevel(lv) {
+    modeKey = 'levels';
+    level = lv;
+    playConfig = { ...levelConfig(lv), seed: undefined };
+    playMeta = { modeName: `第 ${lv.n} 關・${lv.name}`, bossName: lv.bossName };
+    duelSeed = null;
+    screen = 'play';
   }
-  
-  function startAdventure() {
-    adventureView = 'map';
+
+  function acceptChallenge() {
+    modeKey = 'duel';
+    level = null;
+    duelSeed = challenge.seed;
+    playConfig = MODES.duel.config(challenge.seed, challenge.count ?? 10);
+    playMeta = { modeName: '好友對戰' };
+    clearChallengeFromUrl();
+    screen = 'play';
   }
-  
-  function continueGame() {
-    // 檢查是否有進行中的遊戲
-    const progress = localStorage.getItem('zhuyin_level_progress');
-    if (progress) {
-      adventureView = 'game';
-    } else {
-      adventureView = 'map';
+
+  function declineChallenge() {
+    challenge = null;
+    clearChallengeFromUrl();
+  }
+
+  function finishGame(s) {
+    summary = s;
+    const name = storage.getPlayerName() || '無名氏';
+
+    // 錯題本
+    s.questions.forEach((q, i) => {
+      if (!s.results[i]) storage.addMistake(q.id);
+    });
+
+    // 各模式持久化
+    if (modeKey === 'daily') {
+      const seed = dailySeed();
+      if (!storage.getDailyRecord(seed)) {
+        storage.setDailyRecord(seed, s);
+        const yesterday = dailySeed(new Date(Date.now() - 86400000));
+        const streak = storage.getDailyStreak();
+        storage.setDailyStreak({
+          count: streak.last === yesterday ? streak.count + 1 : 1,
+          last: seed
+        });
+      }
+    } else if (modeKey === 'sprint') {
+      if (s.score > storage.getSprintBest()) storage.setSprintBest(s.score);
+    } else if (modeKey === 'levels' && level) {
+      const stars = storage.getLevelStars();
+      const earned = s.correct / Math.max(s.total, 1) >= 0.6
+        ? (s.correct === s.total ? 3 : s.correct / s.total >= 0.8 ? 2 : 1)
+        : 0;
+      // BOSS 關必須打贏才算過
+      const finalStars = level.boss && !s.won ? 0 : earned;
+      if (finalStars > (stars[level.n] ?? 0)) {
+        stars[level.n] = finalStars;
+        storage.setLevelStars(stars);
+      }
     }
+
+    storage.addLocalScore({ name, score: s.score, mode: modeKey, maxCombo: s.maxCombo });
+    submitRun({
+      name, score: s.score, mode: modeKey,
+      room: modeKey === 'duel' ? duelSeed : null,
+      correct: s.correct, total: s.total, maxCombo: s.maxCombo
+    });
+
+    screen = 'result';
   }
-  
-  function openLearningNotes() {
-    // TODO: 實作學習筆記功能
-    alert('學習筆記功能即將推出！');
+
+  function replay() {
+    if (modeKey === 'levels' && level) startLevel(level);
+    else startMode(modeKey);
   }
-  
-  function openAchievements() {
-    // TODO: 實作成就系統
-    alert('成就收藏功能即將推出！');
+
+  function nextLevel() {
+    const next = LEVELS.find((l) => l.n === level.n + 1);
+    if (next) startLevel(next);
+    else screen = 'home';
   }
-  
-  function openLeaderboard() {
-    adventureView = 'leaderboard';
-  }
-  
-  function selectLevel(level) {
-    selectedLevel = level;
-    adventureView = 'game';
-  }
-  
-  function backToMenu() {
-    adventureView = 'menu';
-  }
-  
-  function backToMap() {
-    adventureView = 'map';
+
+  function goHome() {
+    challenge = null;
+    screen = 'home';
   }
 </script>
 
-<main>
-  {#if gameMode === 'classic'}
-    <!-- 經典模式 -->
-    <div class="classic-container" in:fade>
-      <button class="mode-switch-btn" on:click={switchToAdventure}>
-        🚀 切換到冒險模式
-      </button>
-      <ClassicGame />
-    </div>
-  {:else}
-    <!-- 冒險模式 -->
-    {#if adventureView === 'menu'}
-      <MainMenu 
-        onStartAdventure={startAdventure}
-        onContinueGame={continueGame}
-        onOpenLearningNotes={openLearningNotes}
-        onOpenAchievements={openAchievements}
-        onOpenLeaderboard={openLeaderboard}
-        onSwitchToClassic={switchToClassic}
-      />
-    {:else if adventureView === 'map'}
-      <GameMap 
-        {completedLevels}
-        currentLevel={selectedLevel}
-        onSelectLevel={selectLevel}
-        onBack={backToMenu}
-      />
-    {:else if adventureView === 'game'}
-      <ReadingGame 
-        level={selectedLevel}
-        onBack={backToMap}
-        bind:completedLevels
-      />
-    {:else if adventureView === 'leaderboard'}
-      <Leaderboard onClose={backToMenu} />
-    {/if}
-  {/if}
-</main>
+<FloatingBg />
 
-<style>
-  :global(body) {
-    margin: 0;
-    padding: 0;
-    background-color: #f7fafc;
-    font-family: 'system-ui', sans-serif;
-  }
-
-  main {
-    width: 100%;
-    min-height: 100vh;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .classic-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    width: 100%;
-    background: linear-gradient(135deg, #a0ced9 0%, #fff9c4 100%);
-    position: relative;
-    padding: 1rem;
-  }
-  
-  .mode-switch-btn {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-    transition: all 0.3s;
-    z-index: 100;
-  }
-  
-  .mode-switch-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.5);
-  }
-  
-  .mode-switch-btn:active {
-    transform: translateY(0);
-  }
-</style>
+{#if screen === 'home'}
+  <Home
+    onPlay={startMode}
+    onLevels={() => (screen = 'levels')}
+    onBoard={() => (screen = 'board')}
+    {challenge}
+    onAcceptChallenge={acceptChallenge}
+    onDeclineChallenge={declineChallenge}
+  />
+{:else if screen === 'levels'}
+  <Levels onPick={startLevel} onHome={goHome} />
+{:else if screen === 'play'}
+  {#key playConfig}
+    <Play config={playConfig} meta={playMeta} onFinish={finishGame} onQuit={goHome} />
+  {/key}
+{:else if screen === 'result'}
+  <Result
+    {summary}
+    {modeKey}
+    modeName={playMeta.modeName ?? MODES[modeKey]?.name ?? ''}
+    {level}
+    challenge={modeKey === 'duel' ? challenge : null}
+    {duelSeed}
+    onReplay={replay}
+    onHome={goHome}
+    onBoard={() => (screen = 'board')}
+    onNextLevel={modeKey === 'levels' && level && level.n < LEVELS.length ? nextLevel : null}
+  />
+{:else if screen === 'board'}
+  <Board onHome={goHome} />
+{/if}

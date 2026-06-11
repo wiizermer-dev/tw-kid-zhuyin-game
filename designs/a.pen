@@ -1,0 +1,1158 @@
+{
+  "version": "2.8",
+  "children": [
+    {
+      "type": "frame",
+      "id": "OJ6Iy",
+      "x": 0,
+      "y": 0,
+      "name": "Game Screen",
+      "width": 1440,
+      "height": 900,
+      "fill": "#FFF8E7",
+      "layout": "vertical",
+      "gap": 32,
+      "padding": 48,
+      "children": [
+        {
+          "type": "frame",
+          "id": "FFTRw",
+          "name": "Header",
+          "width": "fill_container",
+          "children": [
+            {
+              "type": "frame",
+              "id": "wpC02",
+              "name": "logoGroup",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "RIK5Y",
+                  "name": "logoIcon",
+                  "content": "🇹🇼",
+                  "fontFamily": "Inter",
+                  "fontSize": 40,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "ISi6F",
+                  "name": "logoText",
+                  "fill": "#4A90E2",
+                  "content": "台灣注音大冒險",
+                  "fontFamily": "Noto Serif TC",
+                  "fontSize": 36,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "z6oOV",
+              "name": "scoreBadge",
+              "fill": "#FFFFFF",
+              "cornerRadius": 999,
+              "gap": 12,
+              "padding": [
+                12,
+                24
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "khtBv",
+                  "name": "scoreLabel",
+                  "fill": "#718096",
+                  "content": "分數",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "Jfomh",
+                  "name": "scoreValue",
+                  "fill": "#FFB84D",
+                  "content": "1250",
+                  "fontFamily": "Inter",
+                  "fontSize": 24,
+                  "fontWeight": "700"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "sImIr",
+          "name": "ContentArea",
+          "width": "fill_container",
+          "height": "fill_container",
+          "gap": 32,
+          "children": [
+            {
+              "type": "frame",
+              "id": "z0i1y",
+              "name": "GameCard",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 24,
+              "layout": "vertical",
+              "gap": 32,
+              "padding": 40,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "JEW4X",
+                  "name": "stampTopRight",
+                  "width": "fill_container",
+                  "padding": [
+                    0,
+                    0,
+                    -20,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "zG2Gv",
+                      "name": "stamp",
+                      "width": 60,
+                      "height": 80,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "./images/generated-1772722520752.png",
+                        "mode": "fill"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "JtF8j",
+                  "name": "questionBadge",
+                  "fill": "#4A90E2",
+                  "cornerRadius": 999,
+                  "padding": [
+                    8,
+                    16
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Zc2Zz",
+                      "name": "questionLabel",
+                      "fill": "#FFFFFF",
+                      "content": "成語挑戰 第 5 題",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Ow05X",
+                  "name": "questionArea",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 24,
+                  "padding": [
+                    40,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "nRQnn",
+                      "name": "questionText",
+                      "fill": "#2D3748",
+                      "content": "一石二鳥",
+                      "fontFamily": "Noto Serif TC",
+                      "fontSize": 72,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ds2UY",
+                      "name": "zhuyinRow",
+                      "gap": 24,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "MebKb",
+                          "name": "z1",
+                          "fill": "#D4A574",
+                          "content": "ㄧ",
+                          "fontFamily": "Inter",
+                          "fontSize": 32,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "B3LVL",
+                          "name": "z2",
+                          "fill": "#D4A574",
+                          "content": "ㄕˊ",
+                          "fontFamily": "Inter",
+                          "fontSize": 32,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "PrCTo",
+                          "name": "z3",
+                          "fill": "#D4A574",
+                          "content": "ㄦˋ",
+                          "fontFamily": "Inter",
+                          "fontSize": 32,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "ANpmw",
+                          "name": "z4",
+                          "fill": "#D4A574",
+                          "content": "ㄋㄧㄠˇ",
+                          "fontFamily": "Inter",
+                          "fontSize": 32,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "WwDqF",
+                  "name": "OptionsGrid",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "VAePz",
+                      "name": "row1",
+                      "width": "fill_container",
+                      "gap": 16,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "1GK54",
+                          "name": "opt1",
+                          "width": "fill_container",
+                          "fill": "#FAFAF8",
+                          "cornerRadius": 16,
+                          "layout": "vertical",
+                          "padding": [
+                            24,
+                            32
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "hPZWl",
+                              "name": "opt1Text",
+                              "fill": "#2D3748",
+                              "content": "做一件事獲得兩種好處",
+                              "fontFamily": "Noto Sans TC",
+                              "fontSize": 20,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "X6eNn",
+                          "name": "opt2",
+                          "width": "fill_container",
+                          "fill": "#FFF8E7",
+                          "cornerRadius": 16,
+                          "layout": "vertical",
+                          "padding": [
+                            24,
+                            32
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "dIqMM",
+                              "name": "opt2Text",
+                              "fill": "#2D3748",
+                              "content": "用石頭打死兩隻鳥",
+                              "fontFamily": "Noto Sans TC",
+                              "fontSize": 20,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "5JD4O",
+                      "name": "row2",
+                      "width": "fill_container",
+                      "gap": 16,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "aRl85",
+                          "name": "opt3",
+                          "width": "fill_container",
+                          "fill": "#FAFAF8",
+                          "cornerRadius": 16,
+                          "layout": "vertical",
+                          "padding": [
+                            24,
+                            32
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "0oi1N",
+                              "name": "opt3Text",
+                              "fill": "#2D3748",
+                              "content": "看到兩隻鳥在吃石頭",
+                              "fontFamily": "Noto Sans TC",
+                              "fontSize": 20,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "M3enf",
+                          "name": "opt4",
+                          "width": "fill_container",
+                          "fill": "#FAFAF8",
+                          "cornerRadius": 16,
+                          "layout": "vertical",
+                          "padding": [
+                            24,
+                            32
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "V8lbH",
+                              "name": "opt4Text",
+                              "fill": "#2D3748",
+                              "content": "石頭跟鳥一樣多",
+                              "fontFamily": "Noto Sans TC",
+                              "fontSize": 20,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "FPMIY",
+              "name": "RightPanel",
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": 32,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "MZU74",
+                  "name": "progressCard",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 24,
+                  "layout": "vertical",
+                  "gap": 24,
+                  "padding": 32,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "F2Tph",
+                      "name": "progTitle",
+                      "fill": "#3A7BC8",
+                      "content": "🗺️ 環島進度",
+                      "fontFamily": "Noto Sans TC",
+                      "fontSize": 24,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "wnZtl",
+                      "name": "progBarBg",
+                      "width": "fill_container",
+                      "height": 16,
+                      "fill": "#E2E8F0",
+                      "cornerRadius": 8,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "JskCk",
+                          "name": "progBarFill",
+                          "width": "fill_container",
+                          "height": "fill_container",
+                          "fill": "#6FCF97",
+                          "cornerRadius": 8
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "sVrdC",
+                      "name": "progText",
+                      "fill": "#718096",
+                      "content": "目前位置：台中高美濕地 (65%)",
+                      "fontFamily": "Noto Sans TC",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "HoPHd",
+                  "name": "PoetryCard",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "./images/generated-1772722604450.png",
+                    "mode": "fill"
+                  },
+                  "cornerRadius": 24,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "padding": 32,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "nbTgk",
+                      "name": "poetryTitle",
+                      "fill": "#D4A574",
+                      "content": "📜 每日詩詞",
+                      "fontFamily": "Noto Sans TC",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "dlCQR",
+                      "name": "poetryContent",
+                      "fill": "#2D3748",
+                      "content": "白日依山盡，\n黃河入海流。\n欲窮千里目，\n更上一層樓。",
+                      "lineHeight": 1.8,
+                      "fontFamily": "Noto Serif TC",
+                      "fontSize": 24,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "BD5lk",
+      "x": 2408,
+      "y": 0,
+      "name": "Mobile Screen",
+      "width": 390,
+      "height": 844,
+      "fill": "#FFF8E7",
+      "layout": "vertical",
+      "gap": 24,
+      "padding": 24,
+      "children": [
+        {
+          "type": "frame",
+          "id": "VoCWB",
+          "name": "Header",
+          "width": "fill_container",
+          "children": [
+            {
+              "type": "frame",
+              "id": "QRT4X",
+              "name": "mLogoGroup",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "0Np20",
+                  "name": "mLogoIcon",
+                  "content": "🇹🇼",
+                  "fontFamily": "Inter",
+                  "fontSize": 24,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "O69NP",
+                  "name": "mLogoText",
+                  "fill": "#4A90E2",
+                  "content": "台灣注音大冒險",
+                  "fontFamily": "Noto Serif TC",
+                  "fontSize": 20,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "cUaMI",
+              "name": "mScoreBadge",
+              "fill": "#FFFFFF",
+              "cornerRadius": 999,
+              "gap": 8,
+              "padding": [
+                8,
+                16
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "J77VL",
+                  "name": "mScoreValue",
+                  "fill": "#FFB84D",
+                  "content": "1250",
+                  "fontFamily": "Noto Sans TC",
+                  "fontSize": 16,
+                  "fontWeight": "700"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "n4ETQ",
+          "name": "GameCard",
+          "width": "fill_container",
+          "fill": "#FFFFFF",
+          "cornerRadius": 20,
+          "layout": "vertical",
+          "gap": 24,
+          "padding": 24,
+          "children": [
+            {
+              "type": "frame",
+              "id": "loKsf",
+              "name": "mQuestionBadge",
+              "fill": "#4A90E2",
+              "cornerRadius": 999,
+              "padding": [
+                6,
+                12
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "82gHW",
+                  "name": "mQuestionLabel",
+                  "fill": "#FFFFFF",
+                  "content": "第 5 題 - 成語挑戰",
+                  "fontFamily": "Noto Sans TC",
+                  "fontSize": 12,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "IhZ4i",
+              "name": "mQuestionArea",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "padding": [
+                24,
+                0
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "qJvAo",
+                  "name": "mQuestionText",
+                  "fill": "#2D3748",
+                  "content": "一石二鳥",
+                  "fontFamily": "Noto Serif TC",
+                  "fontSize": 48,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "MM2NC",
+                  "name": "mZhuyinRow",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "HbGf8",
+                      "name": "mz1",
+                      "fill": "#D4A574",
+                      "content": "ㄧ",
+                      "fontFamily": "Inter",
+                      "fontSize": 24,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "kzGt5",
+                      "name": "mz2",
+                      "fill": "#D4A574",
+                      "content": "ㄕˊ",
+                      "fontFamily": "Inter",
+                      "fontSize": 24,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Vgxmu",
+                      "name": "mz3",
+                      "fill": "#D4A574",
+                      "content": "ㄦˋ",
+                      "fontFamily": "Inter",
+                      "fontSize": 24,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "xhD2a",
+                      "name": "mz4",
+                      "fill": "#D4A574",
+                      "content": "ㄋㄧㄠˇ",
+                      "fontFamily": "Inter",
+                      "fontSize": 24,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Z11I0",
+              "name": "OptionsGrid",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "JpPgP",
+                  "name": "mOpt1",
+                  "width": "fill_container",
+                  "fill": "#FAFAF8",
+                  "cornerRadius": 12,
+                  "padding": [
+                    16,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "2pBqX",
+                      "name": "mOpt1Text",
+                      "fill": "#2D3748",
+                      "content": "做一件事獲得兩種好處",
+                      "textAlign": "center",
+                      "fontFamily": "Noto Sans TC",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "NkZXa",
+                  "name": "mOpt2",
+                  "width": "fill_container",
+                  "fill": "#FFF8E7",
+                  "cornerRadius": 12,
+                  "padding": [
+                    16,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "i8XfB",
+                      "name": "mOpt2Text",
+                      "fill": "#2D3748",
+                      "content": "用石頭打死兩隻鳥",
+                      "textAlign": "center",
+                      "fontFamily": "Noto Sans TC",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "YpNdy",
+                  "name": "mOpt3",
+                  "width": "fill_container",
+                  "fill": "#FAFAF8",
+                  "cornerRadius": 12,
+                  "padding": [
+                    16,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "YBOuB",
+                      "name": "mOpt3Text",
+                      "fill": "#2D3748",
+                      "content": "看到兩隻鳥在吃石頭",
+                      "textAlign": "center",
+                      "fontFamily": "Noto Sans TC",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "JEtYK",
+                  "name": "mOpt4",
+                  "width": "fill_container",
+                  "fill": "#FAFAF8",
+                  "cornerRadius": 12,
+                  "padding": [
+                    16,
+                    20
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "MAYLi",
+                      "name": "mOpt4Text",
+                      "fill": "#2D3748",
+                      "content": "石頭跟鳥一樣多",
+                      "textAlign": "center",
+                      "fontFamily": "Noto Sans TC",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "XFGpV",
+      "x": 1540,
+      "y": 0,
+      "name": "Tablet Screen",
+      "width": 768,
+      "height": 1024,
+      "fill": "#FFF8E7",
+      "layout": "vertical",
+      "gap": 32,
+      "padding": 32,
+      "children": [
+        {
+          "type": "frame",
+          "id": "q9hjc",
+          "name": "Header",
+          "width": "fill_container",
+          "children": [
+            {
+              "type": "frame",
+              "id": "X6HvT",
+              "name": "tLogoGroup",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Hb5OA",
+                  "name": "tLogoIcon",
+                  "content": "🇹🇼",
+                  "fontFamily": "Inter",
+                  "fontSize": 32,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "ZEUlO",
+                  "name": "tLogoText",
+                  "fill": "#4A90E2",
+                  "content": "台灣注音大冒險",
+                  "fontFamily": "Noto Serif TC",
+                  "fontSize": 28,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "3XPuG",
+              "name": "tScoreBadge",
+              "fill": "#FFFFFF",
+              "cornerRadius": 999,
+              "gap": 8,
+              "padding": [
+                8,
+                16
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "RwDXa",
+                  "name": "tScoreValue",
+                  "fill": "#FFB84D",
+                  "content": "1250",
+                  "fontFamily": "Noto Sans TC",
+                  "fontSize": 20,
+                  "fontWeight": "700"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "0VfDB",
+          "name": "GameCard",
+          "width": "fill_container",
+          "fill": "#FFFFFF",
+          "cornerRadius": 24,
+          "layout": "vertical",
+          "gap": 24,
+          "padding": 32,
+          "children": [
+            {
+              "type": "frame",
+              "id": "QhTXM",
+              "name": "tQuestionBadge",
+              "fill": "#4A90E2",
+              "cornerRadius": 999,
+              "padding": [
+                8,
+                16
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "2HQ3t",
+                  "name": "tQuestionLabel",
+                  "fill": "#FFFFFF",
+                  "content": "第 5 題 - 成語挑戰",
+                  "fontFamily": "Noto Sans TC",
+                  "fontSize": 14,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "cyV30",
+              "name": "tQuestionArea",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 20,
+              "padding": [
+                24,
+                0
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "YE9vs",
+                  "name": "tQuestionText",
+                  "fill": "#2D3748",
+                  "content": "一石二鳥",
+                  "fontFamily": "Noto Serif TC",
+                  "fontSize": 64,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "tA09q",
+                  "name": "tZhuyinRow",
+                  "gap": 20,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "PRqPz",
+                      "name": "tz1",
+                      "fill": "#D4A574",
+                      "content": "ㄧ",
+                      "fontFamily": "Inter",
+                      "fontSize": 28,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "NSFuP",
+                      "name": "tz2",
+                      "fill": "#D4A574",
+                      "content": "ㄕˊ",
+                      "fontFamily": "Inter",
+                      "fontSize": 28,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "qrc6t",
+                      "name": "tz3",
+                      "fill": "#D4A574",
+                      "content": "ㄦˋ",
+                      "fontFamily": "Inter",
+                      "fontSize": 28,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "IMLX5",
+                      "name": "tz4",
+                      "fill": "#D4A574",
+                      "content": "ㄋㄧㄠˇ",
+                      "fontFamily": "Inter",
+                      "fontSize": 28,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Ya9BL",
+              "name": "OptionsGrid",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "172Th",
+                  "name": "tOpt1",
+                  "width": "fill_container",
+                  "fill": "#FAFAF8",
+                  "cornerRadius": 16,
+                  "padding": [
+                    20,
+                    24
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "qUe3B",
+                      "name": "tOpt1Text",
+                      "fill": "#2D3748",
+                      "content": "做一件事獲得兩種好處",
+                      "textAlign": "center",
+                      "fontFamily": "Noto Sans TC",
+                      "fontSize": 18,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "uBZS4",
+                  "name": "tOpt2",
+                  "width": "fill_container",
+                  "fill": "#FFF8E7",
+                  "cornerRadius": 16,
+                  "padding": [
+                    20,
+                    24
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "LrmLB",
+                      "name": "tOpt2Text",
+                      "fill": "#2D3748",
+                      "content": "用石頭打死兩隻鳥",
+                      "textAlign": "center",
+                      "fontFamily": "Noto Sans TC",
+                      "fontSize": 18,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "5TJky",
+                  "name": "tOpt3",
+                  "width": "fill_container",
+                  "fill": "#FAFAF8",
+                  "cornerRadius": 16,
+                  "padding": [
+                    20,
+                    24
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "tf57B",
+                      "name": "tOpt3Text",
+                      "fill": "#2D3748",
+                      "content": "看到兩隻鳥在吃石頭",
+                      "textAlign": "center",
+                      "fontFamily": "Noto Sans TC",
+                      "fontSize": 18,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "cjtba",
+                  "name": "tOpt4",
+                  "width": "fill_container",
+                  "fill": "#FAFAF8",
+                  "cornerRadius": 16,
+                  "padding": [
+                    20,
+                    24
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "zhCv5",
+                      "name": "tOpt4Text",
+                      "fill": "#2D3748",
+                      "content": "石頭跟鳥一樣多",
+                      "textAlign": "center",
+                      "fontFamily": "Noto Sans TC",
+                      "fontSize": 18,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Xuu8I",
+          "name": "BottomPanel",
+          "width": "fill_container",
+          "height": 160,
+          "gap": 24,
+          "children": [
+            {
+              "type": "frame",
+              "id": "tUS8J",
+              "name": "tProgressCard",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 20,
+              "layout": "vertical",
+              "gap": 24,
+              "padding": 24,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "E9HSA",
+                  "name": "tProgTitle",
+                  "fill": "#3A7BC8",
+                  "content": "🗺️ 環島進度",
+                  "fontFamily": "Noto Sans TC",
+                  "fontSize": 20,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "ggCQm",
+                  "name": "tProgBarBg",
+                  "width": "fill_container",
+                  "height": 16,
+                  "fill": "#E2E8F0",
+                  "cornerRadius": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "bUA49",
+                      "name": "tProgBarFill",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "fill": "#6FCF97",
+                      "cornerRadius": 8
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "p7mKa",
+                  "name": "tProgText",
+                  "fill": "#718096",
+                  "content": "目前位置：台中高美濕地 (65%)",
+                  "fontFamily": "Noto Sans TC",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "VgAb0",
+              "name": "PoetryCard",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": {
+                "type": "image",
+                "enabled": true,
+                "url": "./images/generated-1772778151116.png",
+                "mode": "fill"
+              },
+              "cornerRadius": 20,
+              "layout": "vertical",
+              "gap": 16,
+              "padding": 24,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "k0jmM",
+                  "name": "tPoetryTitle",
+                  "fill": "#D4A574",
+                  "content": "📜 每日詩詞",
+                  "fontFamily": "Noto Sans TC",
+                  "fontSize": 18,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "UFJih",
+                  "name": "tPoetryContent",
+                  "fill": "#2D3748",
+                  "content": "白日依山盡，\n黃河入海流。",
+                  "lineHeight": 1.8,
+                  "fontFamily": "Noto Serif TC",
+                  "fontSize": 20,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "imports": {
+    "V": "pencil:shadcn.lib.pen"
+  }
+}
