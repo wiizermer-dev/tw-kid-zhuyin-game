@@ -7,13 +7,17 @@ import polyphone from './polyphone.js';
 import rare from './rare.js';
 import idiom from './idiom.js';
 import modern from './modern.js';
+import classical from './classical.js';
+import lyrics from './lyrics.js';
 
 export const CATEGORIES = {
   tricky: { label: '易讀錯', icon: 'ㄘ', items: tricky },
   polyphone: { label: '破音字', icon: 'ㄆ', items: polyphone },
   rare: { label: '生僻字', icon: 'ㄕ', items: rare },
   idiom: { label: '成語', icon: 'ㄔ', items: idiom },
-  modern: { label: '現代梗', icon: 'ㄇ', items: modern }
+  modern: { label: '現代梗', icon: 'ㄇ', items: modern },
+  classical: { label: '古文詩詞', icon: 'ㄍ', items: classical },
+  lyrics: { label: '流行歌詞', icon: 'ㄎ', items: lyrics }
 };
 
 export const BANK = Object.entries(CATEGORIES).flatMap(([key, cat]) =>

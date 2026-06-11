@@ -212,5 +212,369 @@ export default [
     meaning: '抽抽噎噎地哭',
     fun: '啜泣唸ㄔㄨㄛˋ，啜飲也是。哭著也要把字唸對',
     tags: ['生僻字'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'rr-031', text: '牡蠣', target: '蠣', zhuyin: 'ㄌㄧˋ',
+    distractors: ['ㄌㄧˊ', 'ㄌㄞˋ'],
+    meaning: '即蚵仔，可食用的貝類',
+    fun: '蚵仔煎的學名叫牡蠣煎。夜市講台語沒事，上台報告唸錯就有事',
+    tags: ['生僻字', '美食'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'rr-032', text: '鱔魚', target: '鱔', zhuyin: 'ㄕㄢˋ',
+    distractors: ['ㄕㄢ', 'ㄉㄢˋ'],
+    meaning: '形似鰻的細長淡水魚',
+    fun: '台南鱔魚意麵的鱔。唸對再去排隊，比較有底氣',
+    tags: ['生僻字', '美食'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'rr-033', text: '餿主意', target: '餿', zhuyin: 'ㄙㄡ',
+    distractors: ['ㄕㄡˋ', 'ㄙㄡˇ'],
+    meaning: '餿指食物腐壞變味，比喻很爛的主意',
+    fun: '主意可以餿，讀音不能餿',
+    tags: ['生僻字', '日常'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'rr-034', text: '猝死', target: '猝', zhuyin: 'ㄘㄨˋ',
+    distractors: ['ㄗㄨˊ', 'ㄘㄨ'],
+    meaning: '突然死亡',
+    fun: '新聞標題常客。唸成「卒死」的人，國文老師會先吐血',
+    tags: ['生僻字', '新聞常錯'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'rr-035', text: '羈押', target: '羈', zhuyin: 'ㄐㄧ',
+    distractors: ['ㄐㄧˋ', 'ㄍㄜˊ'],
+    meaning: '將被告拘禁於看守所',
+    fun: '社會新聞每天出現。唸對它，看政論節目更有參與感',
+    tags: ['生僻字', '新聞常錯'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'rr-036', text: '肄業', target: '肄', zhuyin: 'ㄧˋ',
+    distractors: ['ㄙˋ', 'ㄌㄧˋ'],
+    meaning: '在學校就讀但未畢業',
+    fun: '履歷寫肄業沒關係，唸成「肆業」才尷尬',
+    tags: ['生僻字', '新聞常錯'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'rr-037', text: '病入膏肓', target: '肓', zhuyin: 'ㄏㄨㄤ',
+    distractors: ['ㄇㄤˊ', 'ㄏㄨㄤˊ'],
+    meaning: '病情嚴重到無法醫治',
+    fun: '肓唸ㄏㄨㄤ不是ㄇㄤˊ。肓跟盲長太像，全台灣都中招',
+    tags: ['生僻字', '成語', '易讀錯'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'rr-038', text: '狹隘', target: '隘', zhuyin: 'ㄞˋ',
+    distractors: ['ㄧˋ', 'ㄞ'],
+    meaning: '寬度小；心胸、見識不寬廣',
+    fun: '心胸可以練大，隘字唸錯就真的狹隘了',
+    tags: ['生僻字', '易讀錯'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'rr-039', text: '緋聞', target: '緋', zhuyin: 'ㄈㄟ',
+    distractors: ['ㄈㄟˇ', 'ㄆㄟˊ'],
+    meaning: '男女間的桃色傳聞',
+    fun: '緋唸一聲。八卦要傳得快，讀音也要對得快',
+    tags: ['生僻字', '新聞常錯', '易讀錯'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'rr-040', text: '手鐲', target: '鐲', zhuyin: 'ㄓㄨㄛˊ',
+    distractors: ['ㄕㄨˇ', 'ㄓㄨㄛ'],
+    meaning: '戴在手腕上的環形飾品',
+    fun: '金手鐲可以傳家，正確讀音也可以',
+    tags: ['生僻字', '日常'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'rr-041', text: '獼猴', target: '獼', zhuyin: 'ㄇㄧˊ',
+    distractors: ['ㄇㄧˇ', 'ㄋㄧˊ'],
+    meaning: '台灣山區常見的野生猴類',
+    fun: '柴山搶便當的主角。牠搶食物，你搶分數',
+    tags: ['生僻字', '日常'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'rr-042', text: '麂皮', target: '麂', zhuyin: 'ㄐㄧˇ',
+    distractors: ['ㄐㄧ', 'ㄑㄧˇ'],
+    meaning: '麂的皮革，質地柔軟',
+    fun: '麂皮外套很潮，唸成「鹿皮」就遜掉了——是ㄐㄧˇ皮',
+    tags: ['生僻字', '日常'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'rr-043', text: '微醺', target: '醺', zhuyin: 'ㄒㄩㄣ',
+    distractors: ['ㄒㄩㄣˊ', 'ㄒㄩㄥ'],
+    meaning: '略有醉意',
+    fun: '微醺是一聲，唸成二聲表示你已經不只微醺',
+    tags: ['生僻字', '日常'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'rr-044', text: '靜謐', target: '謐', zhuyin: 'ㄇㄧˋ',
+    distractors: ['ㄅㄧˋ', 'ㄇㄧˇ'],
+    meaning: '安靜無聲',
+    fun: '文青咖啡廳愛用字。唸錯的瞬間，氣氛就不靜謐了',
+    tags: ['生僻字', '日常'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'rr-045', text: '乾涸', target: '涸', zhuyin: 'ㄏㄜˊ',
+    distractors: ['ㄍㄨˋ', 'ㄏㄜˋ'],
+    meaning: '河川、池塘的水乾枯',
+    fun: '涸唸ㄏㄜˊ不是ㄍㄨˋ。水庫可以見底，分數不要見底',
+    tags: ['生僻字', '易讀錯', '新聞常錯'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'rr-046', text: '耳濡目染', target: '濡', zhuyin: 'ㄖㄨˊ',
+    distractors: ['ㄒㄩ', 'ㄖㄨˇ'],
+    meaning: '長期接觸而自然受到影響',
+    fun: '爸媽唸錯，小孩跟著錯，這就是耳濡目染',
+    tags: ['生僻字', '成語', '大考'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'rr-047', text: '官邸', target: '邸', zhuyin: 'ㄉㄧˇ',
+    distractors: ['ㄉㄧ', 'ㄉㄧˋ'],
+    meaning: '高級官員的住所',
+    fun: '進不去沒關係，唸對就贏過一半的記者',
+    tags: ['生僻字', '新聞常錯'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'rr-048', text: '杳無音信', target: '杳', zhuyin: 'ㄧㄠˇ',
+    distractors: ['ㄇㄧㄠˇ', 'ㄔㄚˊ'],
+    meaning: '完全沒有消息',
+    fun: '杳唸ㄧㄠˇ。已讀不回就是杳無音信的現代版',
+    tags: ['生僻字', '成語', '大考'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'rr-049', text: '膾炙人口', target: '膾', zhuyin: 'ㄎㄨㄞˋ',
+    distractors: ['ㄏㄨㄟˋ', 'ㄎㄨㄞ'],
+    meaning: '詩文等廣受讚美傳誦',
+    fun: '膾是細切的肉。金曲膾炙人口，讀音常常陣亡',
+    tags: ['生僻字', '成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'rr-050', text: '巨擘', target: '擘', zhuyin: 'ㄅㄛˋ',
+    distractors: ['ㄅㄧˋ', 'ㄆㄧˋ'],
+    meaning: '比喻傑出的領袖人物',
+    fun: '擘唸ㄅㄛˋ不是ㄅㄧˋ。科技巨擘的新聞天天有，唸對的主播不多',
+    tags: ['生僻字', '新聞常錯'], difficulty: 4, era: 'modern'
+  },
+  {
+    id: 'rr-051', text: '掣肘', target: '掣', zhuyin: 'ㄔㄜˋ',
+    distractors: ['ㄓˋ', 'ㄕㄜˋ'],
+    meaning: '牽制、阻撓他人做事',
+    fun: '掣唸ㄔㄜˋ。開會被掣肘很煩，唸錯被糾正更煩',
+    tags: ['生僻字', '新聞常錯'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'rr-052', text: '擤鼻涕', target: '擤', zhuyin: 'ㄒㄧㄥˇ',
+    distractors: ['ㄒㄧㄥ', 'ㄋㄧㄥˊ'],
+    meaning: '按住一邊鼻孔，用力把鼻涕排出',
+    fun: '全台灣天天在擤，九成九不知道這字唸ㄒㄧㄥˇ',
+    tags: ['生僻字', '日常'], difficulty: 4, era: 'modern'
+  },
+  {
+    id: 'rr-053', text: '震懾', target: '懾', zhuyin: 'ㄓㄜˊ',
+    distractors: ['ㄋㄧㄝˋ', 'ㄓㄜˋ'],
+    meaning: '以威勢使人恐懼屈服',
+    fun: '懾的正音是ㄓㄜˊ。聽起來很怪？字典就是這麼霸氣，連主播都被震懾',
+    tags: ['生僻字', '易讀錯', '新聞常錯'], difficulty: 4, era: 'modern'
+  },
+  {
+    id: 'rr-054', text: '海市蜃樓', target: '蜃', zhuyin: 'ㄕㄣˋ',
+    distractors: ['ㄔㄣˊ', 'ㄕㄣ'],
+    meaning: '光線折射形成的虛幻景象，比喻虛幻',
+    fun: '蜃是傳說中會吐氣成樓的大蛤蜊。買得起的房價也是一種海市蜃樓',
+    tags: ['生僻字', '成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'rr-055', text: '不脛而走', target: '脛', zhuyin: 'ㄐㄧㄥˋ',
+    distractors: ['ㄐㄧㄥ', 'ㄎㄥ'],
+    meaning: '消息不用推廣就迅速傳開',
+    fun: '脛是小腿。八卦沒有腳，卻跑得比誰都快',
+    tags: ['生僻字', '成語', '新聞常錯'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'rr-056', text: '所費不貲', target: '貲', zhuyin: 'ㄗ',
+    distractors: ['ㄘˊ', 'ㄗˇ'],
+    meaning: '花費極多，難以計算',
+    fun: '貲唸ㄗ（一聲）。錢包可以空，注音不能空',
+    tags: ['生僻字', '新聞常錯'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'rr-057', text: '鏖戰', target: '鏖', zhuyin: 'ㄠˊ',
+    distractors: ['ㄌㄨˋ', 'ㄇㄧˊ'],
+    meaning: '激烈苦戰',
+    fun: '鏖唸ㄠˊ。經典賽鏖戰十二局，主播唸錯就破功',
+    tags: ['生僻字', '新聞常錯'], difficulty: 4, era: 'modern'
+  },
+  {
+    id: 'rr-058', text: '麾下', target: '麾', zhuyin: 'ㄏㄨㄟ',
+    distractors: ['ㄇㄛˊ', 'ㄏㄨㄟˇ'],
+    meaning: '將帥的部下',
+    fun: '麾唸ㄏㄨㄟ（一聲）。想進偶像麾下，先過注音這關',
+    tags: ['生僻字', '新聞常錯'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'rr-059', text: '飲鴆止渴', target: '鴆', zhuyin: 'ㄓㄣˋ',
+    distractors: ['ㄔㄣˊ', 'ㄓㄣ'],
+    meaning: '比喻只顧眼前，不管後患',
+    fun: '鴆是毒鳥泡的毒酒。熬夜配能量飲料，就是現代飲鴆止渴',
+    tags: ['生僻字', '成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'rr-060', text: '聯袂', target: '袂', zhuyin: 'ㄇㄟˋ',
+    distractors: ['ㄐㄩㄝˊ', 'ㄇㄛˋ'],
+    meaning: '袂是衣袖，聯袂指一同前往',
+    fun: '大咖聯袂出席，記者聯袂唸錯',
+    tags: ['生僻字', '新聞常錯'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'rr-061', text: '怵目驚心', target: '怵', zhuyin: 'ㄔㄨˋ',
+    distractors: ['ㄕㄨˋ', 'ㄒㄩˋ'],
+    meaning: '看了令人害怕震驚',
+    fun: '怵唸ㄔㄨˋ。車禍畫面怵目驚心，錯誤讀音也是',
+    tags: ['生僻字', '成語', '新聞常錯'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'rr-062', text: '汨羅江', target: '汨', zhuyin: 'ㄇㄧˋ',
+    distractors: ['ㄍㄨˇ', 'ㄖˋ'],
+    meaning: '屈原投江之處，位於湖南',
+    fun: '汨是水字旁加日。粽子吃了幾十年，江名唸對的沒幾個',
+    tags: ['生僻字', '大考'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'rr-063', text: '暌違', target: '暌', zhuyin: 'ㄎㄨㄟˊ',
+    distractors: ['ㄍㄨㄟˇ', 'ㄎㄨㄟ'],
+    meaning: '分離、相隔許久',
+    fun: '「暌違五年的演唱會」，搶票之前先搶讀音',
+    tags: ['生僻字', '新聞常錯'], difficulty: 4, era: 'modern'
+  },
+  {
+    id: 'rr-064', text: '建醮', target: '醮', zhuyin: 'ㄐㄧㄠˋ',
+    distractors: ['ㄑㄧㄠˊ', 'ㄐㄧㄠ'],
+    meaning: '道教設壇祈福的祭典',
+    fun: '廟口建醮全村吃流水席，唸對的人先夾雞腿',
+    tags: ['生僻字', '日常'], difficulty: 4, era: 'modern'
+  },
+  {
+    id: 'rr-065', text: '日晷', target: '晷', zhuyin: 'ㄍㄨㄟˇ',
+    distractors: ['ㄐㄧㄡˋ', 'ㄍㄨㄟ'],
+    meaning: '利用日影測時刻的古代儀器',
+    fun: '古人的太陽能手錶。晷唸ㄍㄨㄟˇ，跟鬼同音，難怪沒人敢唸',
+    tags: ['生僻字'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'rr-066', text: '簞食瓢飲', target: '簞', zhuyin: 'ㄉㄢ',
+    distractors: ['ㄉㄢˋ', 'ㄕㄢˋ'],
+    meaning: '形容生活清苦',
+    fun: '簞食瓢飲唸「ㄉㄢ ㄙˋ ㄆㄧㄠˊ ㄧㄣˇ」，月底吃泡麵的文言文',
+    tags: ['生僻字', '成語', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'rr-067', text: '旱魃', target: '魃', zhuyin: 'ㄅㄚˊ',
+    distractors: ['ㄍㄨㄟˇ', 'ㄈㄚˊ'],
+    meaning: '傳說中引起旱災的鬼怪',
+    fun: '水庫缺水就是牠出沒。唸對ㄅㄚˊ，求雨比較誠',
+    tags: ['生僻字'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'rr-068', text: '山魈', target: '魈', zhuyin: 'ㄒㄧㄠ',
+    distractors: ['ㄒㄧㄠˋ', 'ㄕㄠ'],
+    meaning: '山中精怪；也指一種臉部彩色的猴',
+    fun: '動物園那隻臉超派的猴子就叫山魈，本人比注音更難惹',
+    tags: ['生僻字'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'rr-069', text: '諡號', target: '諡', zhuyin: 'ㄕˋ',
+    distractors: ['ㄧˋ', 'ㄇㄧˋ'],
+    meaning: '帝王或大臣死後追封的稱號',
+    fun: '皇帝死後的成績單。諡唸ㄕˋ，唸錯會被史官記一筆',
+    tags: ['生僻字', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'rr-070', text: '賡續', target: '賡', zhuyin: 'ㄍㄥ',
+    distractors: ['ㄍㄥˋ', 'ㄎㄤ'],
+    meaning: '繼續、連續',
+    fun: '公文跟長官致詞最愛的字。唸對ㄍㄥ，升遷快三年',
+    tags: ['生僻字', '新聞常錯'], difficulty: 5, era: 'modern'
+  },
+  {
+    id: 'rr-071', text: '鎩羽而歸', target: '鎩', zhuyin: 'ㄕㄚ',
+    distractors: ['ㄕㄚˋ', 'ㄕㄞ'],
+    meaning: '失敗或不得志而回',
+    fun: '鎩羽是羽毛受損。比賽輸了叫鎩羽，注音錯了叫雙殺',
+    tags: ['生僻字', '成語', '新聞常錯'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'rr-072', text: '溘然', target: '溘', zhuyin: 'ㄎㄜˋ',
+    distractors: ['ㄏㄜˊ', 'ㄎㄜ'],
+    meaning: '忽然，多指人突然去世',
+    fun: '訃聞御用字。溘唸ㄎㄜˋ，人生無常，讀音要常',
+    tags: ['生僻字'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'rr-073', text: '稗官野史', target: '稗', zhuyin: 'ㄅㄞˋ',
+    distractors: ['ㄅㄟ', 'ㄆㄞˊ'],
+    meaning: '民間流傳的軼聞瑣事',
+    fun: '稗唸ㄅㄞˋ。鄉民爆料文就是現代稗官野史',
+    tags: ['生僻字', '成語', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'rr-074', text: '繾綣', target: '綣', zhuyin: 'ㄑㄩㄢˇ',
+    distractors: ['ㄐㄩㄢˋ', 'ㄑㄩㄢˊ'],
+    meaning: '情意纏綿，不忍分離',
+    fun: '繾綣唸「ㄑㄧㄢˇ ㄑㄩㄢˇ」。情書寫得出這兩字，對方不嫁也難',
+    tags: ['生僻字'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'rr-075', text: '旖旎', target: '旎', zhuyin: 'ㄋㄧˇ',
+    distractors: ['ㄋㄧˊ', 'ㄧˇ'],
+    meaning: '柔美動人的樣子',
+    fun: '旖旎唸「ㄧˇ ㄋㄧˇ」。風光旖旎，讀錯就掃興',
+    tags: ['生僻字'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'rr-076', text: '氤氳', target: '氳', zhuyin: 'ㄩㄣ',
+    distractors: ['ㄨㄣ', 'ㄩㄣˋ'],
+    meaning: '煙雲瀰漫的樣子',
+    fun: '氤氳唸「ㄧㄣ ㄩㄣ」。火鍋店的蒸氣就很氤氳，撈肉前先唸對',
+    tags: ['生僻字'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'rr-077', text: '蓊鬱', target: '蓊', zhuyin: 'ㄨㄥˇ',
+    distractors: ['ㄨㄥ', 'ㄇㄥˇ'],
+    meaning: '草木茂盛的樣子',
+    fun: '蓊唸ㄨㄥˇ。阿里山森林蓊鬱，你的詞彙量也要蓊鬱',
+    tags: ['生僻字'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'rr-078', text: '箜篌', target: '箜', zhuyin: 'ㄎㄨㄥ',
+    distractors: ['ㄎㄨㄥˋ', 'ㄍㄨㄥ'],
+    meaning: '古代的彈撥弦樂器',
+    fun: '箜篌唸「ㄎㄨㄥ ㄏㄡˊ」。樂器界的隱藏角色，注音界的魔王',
+    tags: ['生僻字'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'rr-079', text: '跫音', target: '跫', zhuyin: 'ㄑㄩㄥˊ',
+    distractors: ['ㄍㄨㄥˇ', 'ㄎㄨㄥ'],
+    meaning: '腳步聲',
+    fun: '「我達達的馬蹄」隔壁的字。文青必背，注音必考',
+    tags: ['生僻字', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'rr-080', text: '笑靨', target: '靨', zhuyin: 'ㄧㄝˋ',
+    distractors: ['ㄧㄢˋ', 'ㄧㄝ'],
+    meaning: '笑時臉上的酒窩；笑容',
+    fun: '靨唸ㄧㄝˋ。情歌歌詞愛用，KTV唱錯會被笑',
+    tags: ['生僻字'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'rr-081', text: '曲水流觴', target: '觴', zhuyin: 'ㄕㄤ',
+    distractors: ['ㄕㄤˋ', 'ㄧㄤˊ'],
+    meaning: '古人引水流杯、飲酒賦詩的雅事',
+    fun: '觴是酒杯。古代文青的漂漂河派對',
+    tags: ['生僻字', '成語'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'rr-082', text: '囟門', target: '囟', zhuyin: 'ㄒㄧㄣˋ',
+    distractors: ['ㄒㄧㄣ', 'ㄋㄠˇ'],
+    meaning: '嬰兒頭頂骨尚未密合的部分',
+    fun: '囟不是「囪」也不是「腦」，唸ㄒㄧㄣˋ。新手爸媽必修',
+    tags: ['生僻字', '日常'], difficulty: 5, era: 'classic'
   }
 ];
