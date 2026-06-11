@@ -60,10 +60,10 @@ export default [
     tags: ['成語', '新聞常錯'], difficulty: 3, era: 'classic'
   },
   {
-    id: 'id-009', text: '鞭辟入裡', target: '辟', zhuyin: 'ㄆㄧˋ',
-    distractors: ['ㄅㄧˋ', 'ㄆㄧ'],
+    id: 'id-009', text: '鞭辟入裡', target: '辟', zhuyin: 'ㄅㄧˋ',
+    distractors: ['ㄆㄧˋ', 'ㄆㄧ'],
     meaning: '分析透徹、切中要點',
-    fun: '辟在這裡唸ㄆㄧˋ。評論寫得鞭辟入裡，字唸得體無完膚就尷尬了',
+    fun: '教育部辭典標準唸ㄅㄧㄢ ㄅㄧˋ ㄖㄨˋ ㄌㄧˇ，很多人唸成ㄆㄧˋ。評論寫得鞭辟入裡，字唸對才算入裡',
     tags: ['成語', '大考'], difficulty: 4, era: 'classic'
   },
   {

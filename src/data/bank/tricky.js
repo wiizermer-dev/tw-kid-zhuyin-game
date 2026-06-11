@@ -12,10 +12,10 @@ export default [
     tags: ['易讀錯', '新聞常錯'], difficulty: 2, era: 'classic'
   },
   {
-    id: 'tk-002', text: '呱呱墜地', target: '呱', zhuyin: 'ㄍㄨ',
-    distractors: ['ㄍㄨㄚ', 'ㄨㄚ'],
+    id: 'tk-002', text: '呱呱墜地', target: '呱', zhuyin: 'ㄨㄚ',
+    distractors: ['ㄍㄨ', 'ㄍㄨㄚ'],
     meaning: '形容嬰兒出生',
-    fun: '嬰兒是「ㄍㄨ ㄍㄨ」哭，不是青蛙「呱呱」叫',
+    fun: '教育部辭典「呱呱墜地」唸ㄨㄚ ㄨㄚ（嬰兒哭聲），不是青蛙的ㄍㄨ ㄍㄨ，超多人唸錯',
     tags: ['易讀錯'], difficulty: 3, era: 'classic'
   },
   {
@@ -236,10 +236,10 @@ export default [
     tags: ['易讀錯', '新聞常錯', '日常'], difficulty: 1, era: 'modern'
   },
   {
-    id: 'tk-034', text: '蜿蜒', target: '蜿', zhuyin: 'ㄨㄢ',
-    distractors: ['ㄨㄢˇ', 'ㄨㄢˊ'],
+    id: 'tk-034', text: '蜿蜒', target: '蜿', zhuyin: 'ㄨㄢˇ',
+    distractors: ['ㄨㄢ', 'ㄨㄢˊ'],
     meaning: '彎彎曲曲延伸的樣子',
-    fun: '山路蜿蜒，聲調平平。一聲到底',
+    fun: '教育部辭典唸ㄨㄢˇ ㄧㄢˊ（三聲），不是一聲。山路蜿蜒，聲調也轉個彎',
     tags: ['易讀錯'], difficulty: 2, era: 'classic'
   },
   {
@@ -250,10 +250,10 @@ export default [
     tags: ['易讀錯', '新聞常錯', '日常'], difficulty: 2, era: 'modern'
   },
   {
-    id: 'tk-036', text: '噱頭', target: '噱', zhuyin: 'ㄒㄩㄝˊ',
-    distractors: ['ㄐㄩㄝˊ', 'ㄑㄩㄝˋ'],
+    id: 'tk-036', text: '噱頭', target: '噱', zhuyin: 'ㄒㄩㄝ',
+    distractors: ['ㄒㄩㄝˊ', 'ㄐㄩㄝˊ'],
     meaning: '吸引人注意的花招',
-    fun: '行銷人必修字。連讀音都是個噱頭',
+    fun: '教育部辭典「噱頭」唸ㄒㄩㄝ ㄊㄡˊ（一聲），不是二聲。行銷人必修字',
     tags: ['易讀錯', '日常'], difficulty: 3, era: 'modern'
   },
   {

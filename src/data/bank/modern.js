@@ -11,11 +11,11 @@ export default [
     tags: ['梗', '日常'], difficulty: 1, era: 'meme'
   },
   {
-    id: 'md-002', text: '蚌埠住了', target: '蚌', zhuyin: 'ㄅㄥˋ',
-    distractors: ['ㄅㄤˋ', 'ㄈㄥ'],
-    meaning: '網路梗，諧音「繃不住了」，忍不住笑出來',
-    fun: '蚌埠是安徽地名，唸「ㄅㄥˋ ㄅㄨˋ」。河蚌的蚌才唸ㄅㄤˋ，梗圖玩家必修',
-    tags: ['梗', '破音字'], difficulty: 3, era: 'meme'
+    id: 'md-002', text: '河蚌生珠', target: '蚌', zhuyin: 'ㄅㄤˋ',
+    distractors: ['ㄅㄥˋ', 'ㄈㄥ'],
+    meaning: '蚌受刺激分泌物質包覆異物，久了形成珍珠',
+    fun: '網路梗「蚌埠住了」把蚌唸成ㄅㄥˋ（諧音繃不住），但教育部辭典裡河蚌的蚌標準唸ㄅㄤˋ，別被梗圖騙了',
+    tags: ['梗', '常錯'], difficulty: 3, era: 'meme'
   },
   {
     id: 'md-003', text: '囤貨', target: '囤', zhuyin: 'ㄊㄨㄣˊ',
@@ -88,10 +88,10 @@ export default [
     tags: ['美食', '生僻字'], difficulty: 2, era: 'modern'
   },
   {
-    id: 'md-013', text: '執拗', target: '拗', zhuyin: 'ㄋㄧㄡˋ',
-    distractors: ['ㄠˋ', 'ㄠˇ'],
+    id: 'md-013', text: '執拗', target: '拗', zhuyin: 'ㄠˋ',
+    distractors: ['ㄋㄧㄡˋ', 'ㄠˇ'],
     meaning: '固執己見不肯變通',
-    fun: '拗有三種唸法，執拗唸ㄋㄧㄡˋ。比天蠍座還難搞的字',
+    fun: '拗有三種唸法，教育部辭典「執拗」唸ㄠˋ，不是大家以為的ㄋㄧㄡˋ。比天蠍座還難搞的字',
     tags: ['日常', '破音字'], difficulty: 4, era: 'modern'
   },
   {
@@ -130,10 +130,10 @@ export default [
     tags: ['時事', '新聞常錯'], difficulty: 2, era: 'modern'
   },
   {
-    id: 'md-019', text: '問題的症結', target: '症', zhuyin: 'ㄓㄥ',
-    distractors: ['ㄓㄥˋ'],
+    id: 'md-019', text: '問題的症結', target: '症', zhuyin: 'ㄓㄥˋ',
+    distractors: ['ㄓㄥ', 'ㄓㄥˊ'],
     meaning: '事情糾結難解的關鍵',
-    fun: '症結的症唸一聲！病症的症才是四聲。會議上唸對，全場對你刮目相看',
+    fun: '症在教育部辭典統讀ㄓㄥˋ（四聲），症結、病症都一樣；以前唸一聲ㄓㄥ的人，這次要改過來了',
     tags: ['日常', '破音字', '新聞常錯'], difficulty: 4, era: 'modern'
   },
   {

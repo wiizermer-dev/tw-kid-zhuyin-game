@@ -179,13 +179,6 @@ export default [
     tags: ['破音字', '日常'], difficulty: 1, era: 'modern'
   },
   {
-    id: 'pp-026', text: '道行高深', target: '行', zhuyin: 'ㄏㄥˊ',
-    distractors: ['ㄒㄧㄥˊ', 'ㄏㄤˊ'],
-    meaning: '修行的功力深厚',
-    fun: '道行的行唸ㄏㄥˊ！第五種唸法登場，知道的人道行都很高',
-    tags: ['破音字'], difficulty: 5, era: 'classic'
-  },
-  {
     id: 'pp-027', text: '游說', target: '說', zhuyin: 'ㄕㄨㄟˋ',
     distractors: ['ㄕㄨㄛ'],
     meaning: '用言語勸說別人接受主張',
@@ -200,10 +193,10 @@ export default [
     tags: ['破音字', '成語'], difficulty: 3, era: 'classic'
   },
   {
-    id: 'pp-029', text: '混水摸魚', target: '混', zhuyin: 'ㄏㄨㄣˊ',
-    distractors: ['ㄏㄨㄣˋ'],
+    id: 'pp-029', text: '混水摸魚', target: '混', zhuyin: 'ㄏㄨㄣˋ',
+    distractors: ['ㄏㄨㄣˊ'],
     meaning: '趁混亂時撈取利益，或敷衍做事',
-    fun: '混水的混唸二聲（同渾）；鬼混的混才是四聲。上班混水摸魚前先學會唸',
+    fun: '教育部辭典「混水摸魚」唸ㄏㄨㄣˋ（四聲）；要二聲ㄏㄨㄣˊ得寫成「渾水」。上班前先學會唸',
     tags: ['破音字', '成語'], difficulty: 4, era: 'classic'
   },
   {
@@ -214,17 +207,17 @@ export default [
     tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
   },
   {
-    id: 'pp-031', text: '螳臂當車', target: '當', zhuyin: 'ㄉㄤ',
-    distractors: ['ㄉㄤˋ'],
+    id: 'pp-031', text: '螳臂當車', target: '當', zhuyin: 'ㄉㄤˇ',
+    distractors: ['ㄉㄤ', 'ㄉㄤˋ'],
     meaning: '不自量力抵擋強大的力量',
-    fun: '當 = 阻擋時唸一聲。螳螂：我只是想當網紅',
+    fun: '教育部辭典唸ㄊㄤˊ ㄅㄧˋ ㄉㄤˇ ㄔㄜ，這裡的當＝阻擋唸三聲（同擋）。螳螂：我只是想當網紅',
     tags: ['破音字', '成語', '大考'], difficulty: 4, era: 'classic'
   },
   {
-    id: 'pp-032', text: '安步當車', target: '當', zhuyin: 'ㄉㄤˋ',
-    distractors: ['ㄉㄤ'],
+    id: 'pp-032', text: '安步當車', target: '當', zhuyin: 'ㄉㄤ',
+    distractors: ['ㄉㄤˇ', 'ㄉㄤˋ'],
     meaning: '慢慢走路，當作坐車',
-    fun: '這裡的當是「當作」，唸四聲。省下的捷運錢可以買雞排',
+    fun: '教育部辭典唸ㄢ ㄅㄨˋ ㄉㄤ ㄐㄩ，這裡的當＝當作唸一聲（不是四聲）。省下的捷運錢買雞排',
     tags: ['破音字', '成語'], difficulty: 4, era: 'classic'
   },
   {
