@@ -29,6 +29,10 @@
   // 即時連線房狀態（Supabase Realtime；無雲端時 channel 為 null）
   let liveState = $state({ players: [], progress: {} });
   let liveChannel = null;
+  let myReady = $state(false);
+  let duelCountdown = $state(0);   // 3-2-1 開戰倒數；0 表示沒在倒數
+  let countdownTimer = null;
+  let roomUsedIds = [];            // 本房已出過的題目 id（每局換題用）
 
   // 開站時偵測戰帖／邀請
   const parsed = parseChallengeFromUrl();
@@ -75,8 +79,12 @@
 
   /** 進房：建立/加入注音房號的即時頻道（無雲端時為同題碼對戰，不開頻道） */
   function joinRoom(code) {
+    // 「再玩一次」回大廳：同房沿用原頻道，保留出題紀錄
+    if (code === duelRoom && liveChannel) return;
     duelRoom = code;
     duelSeed = `room-${code}`;
+    roomUsedIds = [];
+    myReady = false;
     if (liveChannel) { liveChannel.leave(); liveChannel = null; }
     // 原地清空，保持 liveState 物件參照穩定（Play/Result 持有同一個 proxy）
     liveState.players = [];
@@ -84,21 +92,60 @@
     const myName = storage.getPlayerName() || '無名氏';
     liveChannel = joinLiveRoom(code, { id: myId, name: myName }, {
       onPlayers: (players) => { liveState.players = players; },
-      onStart: () => { if (screen === 'duel') startDuelPlay(code, false); },
+      onStart: (payload) => { if (screen === 'duel') beginCountdown(payload ?? { code }); },
       onProgress: (p) => { if (p?.id) liveState.progress[p.id] = p; }
     });
   }
 
-  /** 開打：broadcast 讓全房同時開始 */
-  function startDuelPlay(code, broadcast = true) {
-    if (broadcast) liveChannel?.start({ code });
+  function toggleReady() {
+    myReady = !myReady;
+    liveChannel?.setReady(myReady);
+  }
+
+  // 全員準備好 → 由 leader（id 最小者，避免多人同時廣播）發起開戰
+  $effect(() => {
+    if (screen !== 'duel' || duelCountdown > 0 || !liveChannel) return;
+    const players = liveState.players;
+    if (players.length < 2 || !players.every((p) => p.ready)) return;
+    const leaderId = [...players].map((p) => p.id).sort()[0];
+    if (leaderId !== myId) return;
+    const payload = {
+      code: duelRoom,
+      match: Date.now().toString(36),   // 每局唯一 → 每局題目都不同
+      excludeIds: roomUsedIds
+    };
+    liveChannel.start(payload);
+    beginCountdown(payload);
+  });
+
+  /** 收到開戰訊號：3-2-1 倒數後全房同時進場 */
+  function beginCountdown(payload) {
+    if (duelCountdown > 0 || screen !== 'duel') return;
+    duelCountdown = 3;
+    clearInterval(countdownTimer);
+    countdownTimer = setInterval(() => {
+      duelCountdown -= 1;
+      if (duelCountdown <= 0) {
+        clearInterval(countdownTimer);
+        startDuelPlay(payload);
+      }
+    }, 1000);
+  }
+
+  /** 開打。opts 可為房號字串（無雲端直開）或 { code, match, excludeIds } */
+  function startDuelPlay(opts) {
+    const { code, match = null, excludeIds = [] } =
+      typeof opts === 'string' ? { code: opts } : opts;
     modeKey = 'duel';
     level = null;
     duelRoom = code;
-    duelSeed = `room-${code}`;
+    duelSeed = match ? `room-${code}-${match}` : `room-${code}`;
+    // 下一局要重新準備
+    myReady = false;
+    liveChannel?.setReady(false);
     // 重新開打前清掉上一場的進度，但保留房裡成員
     liveState.progress = {};
-    playConfig = MODES.duel.config(duelSeed);
+    playConfig = MODES.duel.config(duelSeed, 10, excludeIds);
     playMeta = {
       modeName: MODES.duel.name,
       myId,
@@ -118,6 +165,10 @@
   function leaveRoom() {
     if (liveChannel) { liveChannel.leave(); liveChannel = null; }
     duelRoom = null;
+    myReady = false;
+    roomUsedIds = [];
+    clearInterval(countdownTimer);
+    duelCountdown = 0;
     liveState.players = [];
     liveState.progress = {};
   }
@@ -164,6 +215,11 @@
     });
     storage.addRecentIds(s.questions.map((q) => q.id));
 
+    // 同房下一局排除這局出過的題
+    if (modeKey === 'duel') {
+      roomUsedIds = [...new Set([...roomUsedIds, ...s.questions.map((q) => q.id)])];
+    }
+
     // 各模式持久化
     if (modeKey === 'daily') {
       const seed = dailySeed();
@@ -206,7 +262,12 @@
 
   function replay() {
     if (modeKey === 'levels' && level) startLevel(level);
-    else startMode(modeKey);
+    else if (modeKey === 'duel' && liveChannel) {
+      // 按「再玩一次」= 明確要再戰 → 回大廳直接帶準備狀態，少按一顆按鈕
+      myReady = true;
+      liveChannel.setReady(true);
+      screen = 'duel';
+    } else startMode(modeKey);
   }
 
   function nextLevel() {
@@ -237,8 +298,11 @@
   />
 {:else if screen === 'duel'}
   <DuelEntry
-    initialCode={challenge?.room ?? ''}
+    initialCode={challenge?.room ?? duelRoom ?? ''}
     players={liveState.players}
+    {myReady}
+    countdown={duelCountdown}
+    onReady={toggleReady}
     onRoom={joinRoom}
     onPlay={startDuelPlay}
     onHome={goHome}

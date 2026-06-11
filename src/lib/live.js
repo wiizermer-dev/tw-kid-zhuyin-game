@@ -8,7 +8,7 @@ import { supabase } from './backend.js';
  * @param {string} code 注音房號（如 ㄅㄅㄇㄇ）
  * @param {{id: string, name: string}} me 玩家（穩定 id + 名字）
  * @param {Object} handlers { onPlayers(players[]), onStart(payload), onProgress(payload) }
- * @returns {Object|null} { start(payload), progress(payload), leave() }；無雲端時回傳 null
+ * @returns {Object|null} { start(payload), progress(payload), setReady(bool), leave() }；無雲端時回傳 null
  */
 export function joinLiveRoom(code, me, handlers = {}) {
   if (!supabase) return null;
@@ -17,12 +17,15 @@ export function joinLiveRoom(code, me, handlers = {}) {
     config: { presence: { key: me.id }, broadcast: { self: false } }
   });
 
+  // presence metadata：ready 隨大廳準備狀態更新（重新 track 即廣播）
+  const myMeta = { id: me.id, name: me.name, ready: false };
+
   channel.on('presence', { event: 'sync' }, () => {
     // 以 id 去重（同一人多個 tab 只算一個）
     const seen = new Map();
     for (const metas of Object.values(channel.presenceState())) {
       for (const m of metas) {
-        if (m.id && m.name) seen.set(m.id, { id: m.id, name: m.name });
+        if (m.id && m.name) seen.set(m.id, { id: m.id, name: m.name, ready: !!m.ready });
       }
     }
     handlers.onPlayers?.([...seen.values()]);
@@ -32,13 +35,17 @@ export function joinLiveRoom(code, me, handlers = {}) {
 
   channel.subscribe(async (status) => {
     if (status === 'SUBSCRIBED') {
-      try { await channel.track({ id: me.id, name: me.name }); } catch (e) { console.error('presence track:', e); }
+      try { await channel.track(myMeta); } catch (e) { console.error('presence track:', e); }
     }
   });
 
   return {
     start: (payload) => channel.send({ type: 'broadcast', event: 'start', payload }),
     progress: (payload) => channel.send({ type: 'broadcast', event: 'progress', payload }),
+    setReady: (ready) => {
+      myMeta.ready = !!ready;
+      try { channel.track(myMeta); } catch (e) { console.error('presence track:', e); }
+    },
     leave: () => { try { supabase.removeChannel(channel); } catch { /* already gone */ } }
   };
 }

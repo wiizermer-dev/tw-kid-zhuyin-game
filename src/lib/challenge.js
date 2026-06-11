@@ -27,12 +27,13 @@ export function buildRoomInviteUrl({ room, name, live = 0 }) {
   return url.toString();
 }
 
-/** 戰帖：打完同題組比分 */
-export function buildScoreChallengeUrl({ room, score, name, count }) {
+/** 戰帖：打完同題組比分。match 為該局批次 id（同房每局換題），對手憑此拿到同一組題 */
+export function buildScoreChallengeUrl({ room, score, name, count, match = null }) {
   const url = baseUrl();
   url.searchParams.set('r', room);
   url.searchParams.set('s', String(score));
   url.searchParams.set('q', String(count));
+  if (match) url.searchParams.set('m', match);
   if (name) url.searchParams.set('n', name);
   url.searchParams.set('k', checksum({ room, score, name, count }));
   return url.toString();
@@ -51,6 +52,7 @@ export function parseChallengeFromUrl() {
   const score = p.has('s') ? Number(p.get('s')) : null;
   const count = p.has('q') ? Number(p.get('q')) : 10;
   const live = p.get('l') === '1';
+  const match = p.get('m');
 
   const expected = score === null
     ? checksum({ room, name })
@@ -60,7 +62,7 @@ export function parseChallengeFromUrl() {
   }
 
   return {
-    challenge: { room, seed: `room-${room}`, score, count, name, live },
+    challenge: { room, seed: match ? `room-${room}-${match}` : `room-${room}`, score, count, name, live },
     invalid: false
   };
 }
@@ -68,6 +70,6 @@ export function parseChallengeFromUrl() {
 /** 清掉網址上的挑戰參數（接受後避免重整重複觸發） */
 export function clearChallengeFromUrl() {
   const url = new URL(location.href);
-  for (const key of ['r', 'n', 's', 'q', 'l', 'k', 'c']) url.searchParams.delete(key);
+  for (const key of ['r', 'n', 's', 'q', 'l', 'k', 'c', 'm']) url.searchParams.delete(key);
   history.replaceState(null, '', url.toString());
 }

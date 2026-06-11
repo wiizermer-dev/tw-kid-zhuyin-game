@@ -33,7 +33,9 @@ export const MODES = {
     icon: 'ㄉ',
     tint: 'grape',
     blurb: '開房邀朋友，同題組拚輸贏',
-    config: (seed, count = 10) => ({ count, seed, minDifficulty: 1, maxDifficulty: 5 })
+    // 單題 4 秒：超時算錯；excludeIds 排除同房已出過的題避免重複
+    config: (seed, count = 10, excludeIds = []) =>
+      ({ count, seed, minDifficulty: 1, maxDifficulty: 5, perQuestionSeconds: 4, excludeIds })
   }
 };
 

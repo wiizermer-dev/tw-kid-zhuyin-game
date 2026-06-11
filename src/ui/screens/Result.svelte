@@ -44,15 +44,21 @@
     liveState ? Object.values(liveState.progress).every((p) => p.finished) : true
   );
 
+  // 已按「再玩一次」回大廳準備的人數 — 提醒還在看結果的人有人在等
+  let rematchReady = $derived(liveState ? liveState.players.filter((p) => p.ready) : []);
+
   // 闖關星等：BOSS 關沒打贏一律 0 星
   let levelStars = $derived(level?.boss && !summary.won ? 0 : stars);
   let remainMistakes = $derived(Object.keys(storage.getMistakes()).length);
 
-  // 對戰連結（自己當開房者，或接受挑戰後回敬）；房號取自 seed 'room-XXXX'
-  let duelRoomCode = $derived(duelSeed?.startsWith('room-') ? duelSeed.slice(5) : null);
+  // 對戰連結（自己當開房者，或接受挑戰後回敬）
+  // seed 格式 'room-<四碼房號>[-<局次 match id>]'；match 讓對手拿到同一組題
+  let duelParts = $derived(duelSeed?.startsWith('room-') ? duelSeed.slice(5).split('-') : []);
+  let duelRoomCode = $derived(duelParts[0] ?? null);
+  let duelMatch = $derived(duelParts[1] ?? null);
   let challengeUrl = $derived(
     modeKey === 'duel' && duelRoomCode
-      ? buildScoreChallengeUrl({ room: duelRoomCode, score: summary.score, name, count: summary.total })
+      ? buildScoreChallengeUrl({ room: duelRoomCode, score: summary.score, name, count: summary.total, match: duelMatch })
       : null
   );
 
@@ -177,7 +183,12 @@
       <button class="btn" onclick={onNextLevel}>下一關 →</button>
     {/if}
     {#if modeKey !== 'daily' && !(modeKey === 'practice' && remainMistakes === 0)}
-      <button class="btn ghost" onclick={onReplay}>再玩一次</button>
+      {#if rematchReady.length > 0}
+        <p class="rematch-note pop-in">🔥 {rematchReady.map((p) => p.name).join('、')} 已經準備好再戰，等你！</p>
+        <button class="btn" onclick={onReplay}>再玩一次</button>
+      {:else}
+        <button class="btn ghost" onclick={onReplay}>再玩一次</button>
+      {/if}
     {/if}
     {#if modeKey === 'levels' && onLevels}
       <button class="btn ghost" onclick={onLevels}>回關卡列表</button>
@@ -237,5 +248,6 @@
   .rv-fun { color: var(--ink-soft); }
 
   .actions { display: flex; flex-direction: column; gap: 0.7rem; width: 100%; max-width: 340px; }
+  .rematch-note { margin: 0; color: var(--berry-deep); font-weight: 800; font-size: 0.92rem; }
   .share-state { margin: 0; color: var(--mint-deep); font-weight: 700; }
 </style>

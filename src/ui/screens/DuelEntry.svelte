@@ -8,7 +8,7 @@
   import { storage } from '../../core/storage.js';
   import { playClickSound } from '../../lib/audio.js';
 
-  let { initialCode = '', players = [], onRoom, onPlay, onHome } = $props();
+  let { initialCode = '', players = [], myReady = false, countdown = 0, onReady, onRoom, onPlay, onHome } = $props();
 
   // view: pick（選開房或加入）/ enter（輸碼）/ room（大廳）
   let view = $state(initialCode ? 'room' : 'pick');
@@ -25,6 +25,8 @@
   $effect(() => {
     if (initialCode && view === 'room') onRoom?.(initialCode);
   });
+
+  let notReadyNames = $derived(players.filter((p) => !p.ready).map((p) => p.name));
 
   function host() {
     code = randomZhuyinCode();
@@ -134,18 +136,34 @@
         <b>房裡的人（{players.length}）</b>
         <div class="chips">
           {#each players as p (p.id)}
-            <span class="chip pop-in">{p.name}</span>
+            <span class="chip pop-in" class:ready={p.ready}>{p.name}{p.ready ? ' ✓' : ''}</span>
           {:else}
             <span class="waiting">等朋友進房中…</span>
           {/each}
         </div>
-        <small>人到齊後任何人按開始，全房同時開打！</small>
+        <small>
+          {#if players.length < 2}至少要兩個人才能開打，快把邀請傳出去！
+          {:else if myReady && notReadyNames.length > 0}等 {notReadyNames.join('、')} 按準備…可以開始催了
+          {:else}所有人都按「準備好了」就會倒數開戰！
+          {/if}
+        </small>
       </div>
+      <button class="btn start" class:mint={!myReady} onclick={onReady} disabled={players.length < 2}>
+        {myReady ? '取消準備' : '我準備好了！'}
+      </button>
     {:else}
       <p class="note">大家輸入同一個房號就會拿到同一組題目，各自打完比分數；唸錯的請喝飲料</p>
+      <button class="btn mint start" onclick={() => onPlay(code)}>開始對戰</button>
     {/if}
+  {/if}
 
-    <button class="btn mint start" onclick={() => onPlay(code)}>開始對戰</button>
+  {#if countdown > 0}
+    <div class="countdown-overlay">
+      {#key countdown}
+        <div class="count pop-in">{countdown}</div>
+      {/key}
+      <p class="count-hint">準備開戰！</p>
+    </div>
   {/if}
 </div>
 
@@ -226,6 +244,26 @@
   .lobby { margin-top: 1.2rem; padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: 0.5rem; }
   .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
   .chip { background: var(--paper); border-radius: 999px; padding: 0.3rem 0.8rem; font-weight: 700; }
+  .chip.ready { background: #e9fbf3; color: var(--mint-deep); box-shadow: 0 0 0 2px var(--mint) inset; }
+
+  .countdown-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: grid;
+    place-content: center;
+    gap: 0.4rem;
+    background: rgba(61, 44, 41, 0.55);
+    backdrop-filter: blur(4px);
+  }
+  .count {
+    font-size: 7rem;
+    font-weight: 900;
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 6px 0 rgba(0, 0, 0, 0.2);
+  }
+  .count-hint { color: #fff; font-weight: 800; text-align: center; margin: 0; }
   .waiting { color: var(--ink-soft); }
   .lobby small { color: var(--ink-soft); }
   .note { color: var(--ink-soft); margin-top: 1.2rem; text-align: center; }

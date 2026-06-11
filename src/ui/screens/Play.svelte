@@ -15,6 +15,7 @@
 
   const isSprint = !!config.timeLimit;
   const isBoss = (config.bossHp ?? 0) > 0;
+  const isLive = !!meta.liveState;   // 即時對戰：限時答題 + 全房同步換題
 
   let wrongFlash = $state(false);
   let scorePop = $state(0); // 觸發 +分數 飛出動畫
@@ -34,9 +35,51 @@
       correct: session.correctCount,
       score: session.score,
       finished,
-      elapsedSec: Math.round((performance.now() - mountTime) / 1000)
+      // 即時對戰排速度用「累計作答秒數」，否則同步換題後大家牆鐘時間都一樣
+      elapsedSec: isLive
+        ? Math.round(session.answerTimeTotal * 10) / 10
+        : Math.round((performance.now() - mountTime) / 1000)
     });
   }
+
+  /* 即時對戰換題同步：
+   * - 全房都答完本題（含超時）→ 提前換題
+   * - 否則本地 4 秒到 → 換題（各端各自計時，倒數同時開始所以幾乎同步）
+   * 兩者都先留 FEEDBACK 時間讓玩家看正解 */
+  const DUEL_FEEDBACK_MS = 1600;
+  let duelHardTimer = null;
+  let duelNextTimer = null;
+  let duelAdvancing = false;
+
+  function armDuelQuestion() {
+    if (!isLive || session.finished) return;
+    clearTimeout(duelHardTimer);
+    duelHardTimer = setTimeout(scheduleDuelAdvance, (config.perQuestionSeconds || 4) * 1000);
+  }
+
+  function scheduleDuelAdvance() {
+    if (!isLive || duelAdvancing || session.finished) return;
+    duelAdvancing = true;
+    clearTimeout(duelHardTimer);
+    duelNextTimer = setTimeout(() => {
+      duelAdvancing = false;
+      advance();
+    }, DUEL_FEEDBACK_MS);
+  }
+
+  // 我已作答且全房本題都答完 → 提前換題
+  $effect(() => {
+    if (!isLive || session.finished || session.answered === null) return;
+    const others = Object.values(meta.liveState.progress).filter((p) => p.id !== meta.myId);
+    if (others.every((p) => (p.attempted ?? 0) >= session.index + 1)) {
+      scheduleDuelAdvance();
+    }
+  });
+
+  // 超時也要廣播進度，否則對手等不到「我答完了」
+  $effect(() => {
+    if (isLive && session.answered === -1) untrack(() => reportProgress(false));
+  });
 
   function choose(i) {
     if (session.answered !== null || session.finished) return;
@@ -64,8 +107,11 @@
 
   function advance() {
     clearTimeout(autoTimer);
+    // 同步換題時還沒作答（如背景分頁漏掉 timeout tick）→ 先記超時再換
+    if (isLive && session.answered === null) session.timeout();
     session.next();
-    if (session.finished) done();
+    if (session.finished) return done();
+    armDuelQuestion();
   }
 
   function done() {
@@ -93,6 +139,7 @@
   // 掛載即廣播一次，讓同房對手立刻在排行榜看到你（第 1 題、0 分）
   onMount(() => {
     if (!showIntro) reportProgress(false);
+    armDuelQuestion();
   });
 
   function quit() {
@@ -104,6 +151,8 @@
 
   onDestroy(() => {
     clearTimeout(autoTimer);
+    clearTimeout(duelHardTimer);
+    clearTimeout(duelNextTimer);
     session.destroy();
   });
 
@@ -133,6 +182,11 @@
       <div class="progress-wrap">
         <div class="meter"><i style:width="{(session.index + 1) / session.total * 100}%"></i></div>
         <span class="progress-num">{session.index + 1}/{session.total}</span>
+        {#if !isBoss && session.answered === null && config.perQuestionSeconds}
+          <span class="qtimer" class:urgent={session.questionTimeLeft <= 2}>
+            {Math.ceil(session.questionTimeLeft)}<small>s</small>
+          </span>
+        {/if}
       </div>
     {/if}
 
@@ -208,7 +262,9 @@
             </p>
             <p class="fb-fun">{q.fun}</p>
             <p class="fb-meaning">{q.text}：{q.meaning}</p>
-            {#if !isSprint}
+            {#if isLive}
+              <p class="fb-wait">等大家答完馬上換題…</p>
+            {:else if !isSprint}
               <button class="btn mint next" onclick={advance}>
                 {session.index >= session.total - 1 || (isBoss && (session.bossHp <= 0 || session.hearts <= 0)) ? '看結果 →' : '下一題 →'}
               </button>
@@ -334,5 +390,6 @@
   .fb-head { margin: 0; font-weight: 900; font-size: 1.1rem; }
   .fb-fun { margin: 0.5rem 0 0; color: var(--ink); }
   .fb-meaning { margin: 0.4rem 0 0; color: var(--ink-soft); font-size: 0.9rem; }
+  .fb-wait { margin: 0.7rem 0 0; color: var(--ink-soft); font-size: 0.85rem; font-weight: 700; }
   .next { margin-top: 0.9rem; width: 100%; }
 </style>

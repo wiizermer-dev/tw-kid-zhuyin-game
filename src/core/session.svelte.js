@@ -16,8 +16,9 @@ export class QuizSession {
   bossHp = $state(0);            // boss 模式魔王血量
   bossMaxHp = $state(0);
   timeLeft = $state(0);          // 全域倒數（秒）；0 表示無計時
-  perQuestionSeconds = 0;        // 單題限時（boss 模式用）
+  perQuestionSeconds = 0;        // 單題限時（boss／對戰模式用）
   questionTimeLeft = $state(0);
+  answerTimeTotal = $state(0);   // 累計作答用時（秒）：對戰排名的速度依據
 
   #timerId = null;
   #questionStart = 0;
@@ -55,6 +56,7 @@ export class QuizSession {
     this.results = [];
     this.answered = null;
     this.finished = false;
+    this.answerTimeTotal = 0;
     this.hearts = config.hearts ?? Infinity;
     this.bossMaxHp = config.bossHp ?? 0;
     this.bossHp = config.bossHp ?? 0;
@@ -96,12 +98,13 @@ export class QuizSession {
     this.answered = optionIndex;
     const correct = !!this.current.options[optionIndex]?.correct;
     this.results.push(correct);
+    const elapsed = (performance.now() - this.#questionStart) / 1000;
+    this.answerTimeTotal += elapsed;
 
     if (correct) {
       this.combo += 1;
       this.maxCombo = Math.max(this.maxCombo, this.combo);
       this.correctCount += 1;
-      const elapsed = (performance.now() - this.#questionStart) / 1000;
       const speedRatio = this.perQuestionSeconds
         ? this.questionTimeLeft / this.perQuestionSeconds
         : Math.max(0, 1 - elapsed / 10);
@@ -119,6 +122,7 @@ export class QuizSession {
     if (this.answered !== null || this.finished) return;
     this.answered = -1;
     this.results.push(false);
+    this.answerTimeTotal += this.perQuestionSeconds || (performance.now() - this.#questionStart) / 1000;
     this.combo = 0;
     if (this.hearts !== Infinity) this.hearts = Math.max(0, this.hearts - 1);
   }
