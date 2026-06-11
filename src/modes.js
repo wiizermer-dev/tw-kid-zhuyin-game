@@ -39,23 +39,26 @@ export const MODES = {
   }
 };
 
-/** 闖關設定：10 關，第 5、10 關是 BOSS */
+/** 闖關設定：10 關，第 5、10 關是 BOSS。
+ * 難度採陡峭階梯：每關只開 1-2 個難度等級且少重疊，avg 一路 1→5。
+ * BOSS 關只抽該關 max 難度的題（min===max），擔保魔王不比前一關軟。
+ */
 export const LEVELS = [
-  { n: 1,  name: '新手村',     min: 1, max: 2, count: 8 },
+  { n: 1,  name: '新手村',     min: 1, max: 1, count: 8 },
   { n: 2,  name: '夜市口',     min: 1, max: 2, count: 8, categories: ['modern', 'tricky'] },
-  { n: 3,  name: '早自習',     min: 2, max: 3, count: 10 },
+  { n: 3,  name: '早自習',     min: 2, max: 2, count: 10 },
   { n: 4,  name: '朝會升旗',   min: 2, max: 3, count: 10, categories: ['polyphone', 'tricky'] },
   {
-    n: 5, name: '注音小霸王', min: 2, max: 4, count: 12, boss: true,
+    n: 5, name: '注音小霸王', min: 3, max: 3, count: 12, boss: true,
     bossName: '注音小霸王', bossHp: 8, hearts: 3, perQuestionSeconds: 12,
     bossIntro: '聽說你在前面四關囂張得很？'
   },
   { n: 6,  name: '圖書館禁區', min: 3, max: 4, count: 10, categories: ['idiom', 'rare'] },
-  { n: 7,  name: '考前K書',    min: 3, max: 4, count: 10 },
-  { n: 8,  name: '成語深淵',   min: 3, max: 5, count: 12, categories: ['idiom', 'polyphone'] },
+  { n: 7,  name: '考前K書',    min: 4, max: 4, count: 10 },
+  { n: 8,  name: '成語深淵',   min: 4, max: 5, count: 12, categories: ['idiom', 'polyphone'] },
   { n: 9,  name: '生僻字煉獄', min: 4, max: 5, count: 12, categories: ['rare', 'tricky'] },
   {
-    n: 10, name: '辭典魔王', min: 3, max: 5, count: 15, boss: true,
+    n: 10, name: '辭典魔王', min: 5, max: 5, count: 15, boss: true,
     bossName: '辭典魔王', bossHp: 10, hearts: 3, perQuestionSeconds: 10,
     bossIntro: '我就是教育部重編國語辭典修訂本！'
   }
@@ -69,6 +72,9 @@ export function levelConfig(level) {
     categories: level.categories ?? null,
     bossHp: level.boss ? level.bossHp : 0,
     hearts: level.boss ? level.hearts : Infinity,
-    perQuestionSeconds: level.boss ? level.perQuestionSeconds : 0
+    perQuestionSeconds: level.boss ? level.perQuestionSeconds : 0,
+    // 非 BOSS 關才連對提難：連對達標時把後續未答題換成更難一級的同類題。
+    // BOSS 關難度已固定（min===max），且 seed 同步換題的對戰/每日不適用此機制。
+    escalate: !level.boss
   };
 }

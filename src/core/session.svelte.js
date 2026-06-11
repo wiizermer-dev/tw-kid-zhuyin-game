@@ -1,6 +1,9 @@
 /** 遊戲回合狀態機（Svelte 5 runes）— 所有模式共用 */
 import { scoreFor } from './scoring.js';
-import { selectQuestions } from './bank.js';
+import { selectQuestions, drawHarderQuestion } from './bank.js';
+
+// 連對提難：每連對這麼多題，把後續未答題提升一級難度上限（封頂 5）
+const ESCALATE_STREAK = 5;
 
 export class QuizSession {
   questions = $state([]);
@@ -25,6 +28,7 @@ export class QuizSession {
   #config = {};
   #deadline = 0;          // 全域結束時間戳（performance.now 基準）
   #questionDeadline = 0;  // 單題結束時間戳
+  #escalateTier = 0;      // 連對提難已提升的難度級數
 
   current = $derived(this.questions[this.index] ?? null);
   total = $derived(this.questions.length);
@@ -64,6 +68,7 @@ export class QuizSession {
     this.timeLeft = config.timeLimit ?? 0;
     this.perQuestionSeconds = config.perQuestionSeconds ?? 0;
     this.questionTimeLeft = this.perQuestionSeconds;
+    this.#escalateTier = 0;
     this.#questionStart = performance.now();
     this.#deadline = config.timeLimit ? performance.now() + config.timeLimit * 1000 : 0;
     this.#questionDeadline = this.perQuestionSeconds ? performance.now() + this.perQuestionSeconds * 1000 : 0;
@@ -111,11 +116,37 @@ export class QuizSession {
         : Math.max(0, 1 - elapsed / 10);
       this.score += scoreFor(this.combo, this.current.difficulty, speedRatio);
       if (this.bossMaxHp) this.bossHp = Math.max(0, this.bossHp - 1);
+      // 連對達標 → 把後續未答題提升一級難度（闖關非 BOSS 關啟用）
+      if (this.#config.escalate && this.combo > 0 && this.combo % ESCALATE_STREAK === 0) {
+        this.#escalate();
+      }
     } else {
       this.combo = 0;
       if (this.hearts !== Infinity) this.hearts = Math.max(0, this.hearts - 1);
     }
     return correct;
+  }
+
+  /** 連對提難：把後續尚未作答的題目換成更難一級的同類新題。
+   * 不動已答過與當前題，避免畫面跳動；換不到更難題就維持原題。 */
+  #escalate() {
+    this.#escalateTier = Math.min(this.#escalateTier + 1, 4);
+    const wantDifficulty = Math.min(5, (this.#config.maxDifficulty ?? 3) + this.#escalateTier);
+    const used = new Set(this.questions.map(q => q.id));
+    const swapped = this.questions.map((q, i) => {
+      if (i <= this.index || q.difficulty >= wantDifficulty) return q;
+      const harder = drawHarderQuestion({
+        wantDifficulty,
+        categories: this.#config.categories,
+        usedIds: used,
+        seed: `${this.#config.seed ?? 'esc'}-${i}-${this.#escalateTier}`
+      });
+      if (!harder) return q;
+      used.delete(q.id);
+      used.add(harder.id);
+      return harder;
+    });
+    this.questions = swapped;
   }
 
   /** 單題超時：視同答錯（answered 設為 -1） */

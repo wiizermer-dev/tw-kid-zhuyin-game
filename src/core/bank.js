@@ -58,4 +58,26 @@ function toQuestion(item, rand) {
   return { ...item, options };
 }
 
+/**
+ * 連對提難用：抽一題更難的新題（難度 == wantDifficulty，限定類別、排除已用 id）。
+ * 找不到該難度題時往下退一級找，再找不到回 null（呼叫端維持原題）。
+ * @param {Object} opts
+ * @param {number} opts.wantDifficulty 目標難度
+ * @param {string[]} [opts.categories] 限定類別
+ * @param {Set<string>|string[]} [opts.usedIds] 已用過的題 id
+ * @param {string|number} [opts.seed] 種子
+ */
+export function drawHarderQuestion({ wantDifficulty, categories = null, usedIds = [], seed } = {}) {
+  const rand = mulberry32(String(seed ?? `${Date.now()}-${Math.random()}`));
+  const used = usedIds instanceof Set ? usedIds : new Set(usedIds);
+  const matches = (q, d) =>
+    q.difficulty === d && !used.has(q.id) && (!categories || categories.includes(q.category));
+
+  for (let d = wantDifficulty; d >= 1; d -= 1) {
+    const pool = BANK.filter(q => matches(q, d));
+    if (pool.length) return toQuestion(shuffleWith(rand, pool)[0], rand);
+  }
+  return null;
+}
+
 export { BANK };
