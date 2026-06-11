@@ -34,7 +34,8 @@ export class QuizSession {
    *  - count: 題數（timed 模式為題池上限）
    *  - seed, categories, minDifficulty, maxDifficulty, excludeIds: 選題條件
    *  - timeLimit: 全域秒數（衝刺模式）
-   *  - perQuestionSeconds: 單題秒數（boss 模式）
+   *  - perQuestionSeconds: 單題秒數（boss／對戰模式）
+   *  - initialCombo: 起始連擊（闖關跨關卡累計）
    *  - bossHp: 魔王血量；hearts: 玩家生命
    */
   start(config = {}) {
@@ -50,7 +51,7 @@ export class QuizSession {
     });
     this.index = 0;
     this.score = 0;
-    this.combo = 0;
+    this.combo = config.initialCombo ?? 0;   // 闖關模式可帶上一關的連擊續燒
     this.maxCombo = 0;
     this.correctCount = 0;
     this.results = [];

@@ -176,7 +176,11 @@
   function startLevel(lv) {
     modeKey = 'levels';
     level = lv;
-    playConfig = { ...levelConfig(lv), excludeIds: storage.getRecentIds() };
+    playConfig = {
+      ...levelConfig(lv),
+      excludeIds: storage.getRecentIds(),
+      initialCombo: storage.getLevelCombo()   // 跨關卡連擊續燒
+    };
     playMeta = { modeName: `第 ${lv.n} 關・${lv.name}`, bossName: lv.bossName };
     duelSeed = null;
     screen = 'play';
@@ -245,15 +249,29 @@
         stars[level.n] = finalStars;
         storage.setLevelStars(stars);
       }
+      // 跨關卡連擊：這關收尾的連擊帶去下一關
+      storage.setLevelCombo(s.endCombo ?? 0);
+      storage.setLevelMaxCombo(Math.max(storage.getLevelMaxCombo(), s.maxCombo, s.endCombo ?? 0));
+      // 各關最佳分 → 戰役累積分（榜上一人一筆，呈現破關累積而非單關洗版）
+      const best = storage.getLevelBest();
+      if (s.score > (best[level.n] ?? 0)) {
+        best[level.n] = s.score;
+        storage.setLevelBest(best);
+      }
     }
 
     // 0 分（如 BOSS 戰秒敗）不寫榜，避免弄髒排行榜
     if (modeKey !== 'practice' && s.score > 0) {
-      storage.addLocalScore({ name, score: s.score, mode: modeKey, maxCombo: s.maxCombo });
+      // 闖關送「戰役累積分」（各關最佳分加總）+ 戰役最高連擊；其他模式送單場
+      const boardScore = modeKey === 'levels'
+        ? Object.values(storage.getLevelBest()).reduce((a, b) => a + b, 0)
+        : s.score;
+      const boardCombo = modeKey === 'levels' ? storage.getLevelMaxCombo() : s.maxCombo;
+      storage.addLocalScore({ name, score: boardScore, mode: modeKey, maxCombo: boardCombo });
       submitRun({
-        name, score: s.score, mode: modeKey,
+        name, score: boardScore, mode: modeKey,
         room: modeKey === 'duel' ? duelSeed : null,
-        correct: s.correct, total: s.total, maxCombo: s.maxCombo
+        correct: s.correct, total: s.total, maxCombo: boardCombo
       });
     }
 

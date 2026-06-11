@@ -27,6 +27,18 @@ export const storage = {
   getLevelStars: () => get('level_stars', {}),
   setLevelStars: (stars) => set('level_stars', stars),
 
+  /** 闖關各關最佳分：{ [level]: score }（排行榜送加總當戰役累積分） */
+  getLevelBest: () => get('level_best', {}),
+  setLevelBest: (best) => set('level_best', best),
+
+  /** 闖關跨關卡連擊：上一關結束時的連擊，下一關接著燒；答錯自然歸零 */
+  getLevelCombo: () => get('level_combo', 0),
+  setLevelCombo: (n) => set('level_combo', n),
+
+  /** 闖關戰役歷史最高連擊 */
+  getLevelMaxCombo: () => get('level_max_combo', 0),
+  setLevelMaxCombo: (n) => set('level_max_combo', n),
+
   /** 衝刺最高分 */
   getSprintBest: () => get('sprint_best', 0),
   setSprintBest: (s) => set('sprint_best', s),

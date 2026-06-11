@@ -31,21 +31,27 @@ export async function submitRun({ name, score, mode, room = null, correct = 0, t
   }
 }
 
-/** 取排行榜（依模式，可選房間） */
+/** 取排行榜（依模式，可選房間）。同一玩家只留最高分那筆，避免一人洗版 */
 export async function fetchBoard(mode, { room = null, limit = 20 } = {}) {
   if (!supabase) return null;
   try {
-    let q = supabase.from('runs').select('name, score, correct, total, max_combo, created_at')
+    let q = supabase.from('runs').select('browser_id, name, score, correct, total, max_combo, created_at')
       .eq('mode', mode)
       .order('score', { ascending: false })
-      .limit(limit);
+      .limit(limit * 5);   // 多抓再去重，去重後仍湊得滿一頁
     if (room) q = q.eq('room', room);
     const { data, error } = await q;
     if (error) {
       console.error('fetchBoard:', error);
       return null;
     }
-    return data;
+    const seen = new Set();
+    return data.filter((r) => {
+      const key = r.browser_id ?? r.name;
+      if (seen.has(key)) return false;   // 已按分數排序，首見即該玩家最高分
+      seen.add(key);
+      return true;
+    }).slice(0, limit);
   } catch (e) {
     console.error('fetchBoard:', e);
     return null;

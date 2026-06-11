@@ -9,9 +9,14 @@
   let cloudRows = $state(null);
   let loading = $state(false);
 
-  let localRows = $derived(
-    storage.getLocalBoard().filter((r) => r.mode === tab).slice(0, 20)
-  );
+  // 本機榜同樣一人一筆（按名字去重；榜已按分數排序，首見即最高分）
+  let localRows = $derived.by(() => {
+    const seen = new Set();
+    return storage.getLocalBoard()
+      .filter((r) => r.mode === tab)
+      .filter((r) => (seen.has(r.name) ? false : (seen.add(r.name), true)))
+      .slice(0, 20);
+  });
 
   $effect(() => {
     if (!hasCloud) return;
@@ -41,6 +46,10 @@
       </button>
     {/each}
   </div>
+
+  {#if tab === 'levels'}
+    <p class="board-note">闖關榜計「戰役累積分」：各關最佳成績加總，連擊跨關卡累計</p>
+  {/if}
 
   {#if loading}
     <p class="empty">載入中…</p>
@@ -100,4 +109,5 @@
 
   .empty, .note { text-align: center; color: var(--ink-soft); margin-top: 2rem; }
   .note { font-size: 0.82rem; margin-top: 1.5rem; }
+  .board-note { color: var(--ink-soft); font-size: 0.8rem; margin: -0.3rem 0 0.7rem; }
 </style>

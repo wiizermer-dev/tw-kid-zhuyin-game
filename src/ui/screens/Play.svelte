@@ -124,6 +124,7 @@
       correct: session.correctCount,
       total: session.attempted,
       maxCombo: session.maxCombo,
+      endCombo: session.combo,   // 闖關跨關卡連擊用
       results: [...session.results],
       questions: session.questions.slice(0, session.attempted),
       won: session.won,
