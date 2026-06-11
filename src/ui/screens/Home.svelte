@@ -58,7 +58,7 @@
       <span class="logo-zy">
         <i class="b">ㄅ</i><i class="p">ㄆ</i><i class="m">ㄇ</i>
       </span>
-      <span class="logo-txt">你會唸嗎？</span>
+      <span class="logo-txt">你有ㄅ級分嗎？</span>
     </h1>
     <p class="tagline">生難字注音對決，唸錯的人請喝飲料</p>
   </header>
