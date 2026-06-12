@@ -109,13 +109,6 @@ export default [
     tags: ['歌詞', '周杰倫'], difficulty: 4, era: 'modern'
   },
   {
-    id: 'ly-016', text: '髮如雪', target: '髮', zhuyin: 'ㄈㄚˇ',
-    distractors: ['ㄈㄚˋ', 'ㄈㄚ', 'ㄈㄚˊ'],
-    meaning: '形容髮絲如雪。周杰倫〈髮如雪〉歌名',
-    fun: '教育部說頭髮的髮唸三聲，全台 KTV 都不答應也沒用',
-    tags: ['歌詞', '周杰倫'], difficulty: 3, era: 'modern'
-  },
-  {
     id: 'ly-017', text: '愛情懸崖', target: '崖', zhuyin: 'ㄧㄞˊ',
     distractors: ['ㄧㄚˊ', 'ㄞˊ', 'ㄧㄞˇ'],
     meaning: '懸崖：高聳陡峭的山壁。周杰倫〈愛情懸崖〉歌名',
@@ -200,20 +193,6 @@ export default [
     tags: ['歌詞', '蔡依林'], difficulty: 3, era: 'modern'
   },
   {
-    id: 'ly-029', text: '睫毛彎彎', target: '睫', zhuyin: 'ㄐㄧㄝˊ',
-    distractors: ['ㄐㄧㄝ', 'ㄑㄧㄝˋ', 'ㄐㄧㄝˇ'],
-    meaning: '睫毛：眼瞼邊緣的細毛。王心凌〈睫毛彎彎〉歌名',
-    fun: '甜心教主的睫毛，要唸二聲才翹得起來',
-    tags: ['歌詞', '王心凌'], difficulty: 2, era: 'modern'
-  },
-  {
-    id: 'ly-030', text: '曖昧', target: '曖', zhuyin: 'ㄞˋ',
-    distractors: ['ㄞˇ', 'ㄋㄨㄢˇ', 'ㄞˊ'],
-    meaning: '態度含糊不明朗。楊丞琳〈曖昧〉歌名',
-    fun: '曖昧讓人受盡委屈，唸錯讓人直接出局',
-    tags: ['歌詞', '楊丞琳'], difficulty: 1, era: 'modern'
-  },
-  {
     id: 'ly-031', text: '寂寞寂寞就好', target: '寞', zhuyin: 'ㄇㄛˋ',
     distractors: ['ㄇㄛˊ', 'ㄇㄨˋ', 'ㄇㄛ'],
     meaning: '寂寞：孤單冷清。田馥甄〈寂寞寂寞就好〉歌名',
@@ -249,13 +228,6 @@ export default [
     tags: ['歌詞', '鄧紫棋'], difficulty: 1, era: 'modern'
   },
   {
-    id: 'ly-036', text: '泡沫', target: '沫', zhuyin: 'ㄇㄛˋ',
-    distractors: ['ㄇㄟˋ', 'ㄇㄛˊ', 'ㄇㄛ'],
-    meaning: '液體表面的氣泡，比喻虛幻易滅。鄧紫棋〈泡沫〉歌名',
-    fun: '全是泡沫，唸錯的注音一觸就破',
-    tags: ['歌詞', '鄧紫棋'], difficulty: 1, era: 'modern'
-  },
-  {
     id: 'ly-037', text: '披星戴月', target: '戴', zhuyin: 'ㄉㄞˋ',
     distractors: ['ㄉㄞ', 'ㄗㄞˋ', 'ㄉㄞˇ'],
     meaning: '形容早出晚歸、日夜奔波。告五人〈披星戴月的想你〉歌名',
@@ -263,32 +235,11 @@ export default [
     tags: ['歌詞', '告五人'], difficulty: 1, era: 'modern'
   },
   {
-    id: 'ly-038', text: '乾杯', target: '乾', zhuyin: 'ㄍㄢ',
-    distractors: ['ㄑㄧㄢˊ', 'ㄍㄢˋ', 'ㄍㄢˊ'],
-    meaning: '把杯中飲料一口喝完。五月天〈乾杯〉歌名',
-    fun: '唸成ㄑㄧㄢˊ杯的人，自罰一杯',
-    tags: ['歌詞', '五月天'], difficulty: 1, era: 'modern'
-  },
-  {
-    id: 'ly-039', text: '稻香', target: '稻', zhuyin: 'ㄉㄠˋ',
-    distractors: ['ㄉㄠˇ', 'ㄊㄠˊ', 'ㄉㄠ'],
-    meaning: '稻穀的香氣。周杰倫〈稻香〉歌名',
-    fun: '回家吧回到最初的美好，順便把正確注音帶回來',
-    tags: ['歌詞', '周杰倫'], difficulty: 1, era: 'modern'
-  },
-  {
     id: 'ly-040', text: '龍捲風', target: '捲', zhuyin: 'ㄐㄩㄢˇ',
     distractors: ['ㄐㄩㄢˋ', 'ㄑㄩㄢˊ', 'ㄐㄩㄢ'],
     meaning: '強烈的旋轉風暴。周杰倫〈龍捲風〉歌名',
     fun: '愛像一陣風，唸錯直接被捲走',
     tags: ['歌詞', '周杰倫'], difficulty: 1, era: 'modern'
-  },
-  {
-    id: 'ly-041', text: '檸檬草的味道', target: '檸', zhuyin: 'ㄋㄧㄥˊ',
-    distractors: ['ㄋㄧㄥˇ', 'ㄋㄧㄥˋ', 'ㄋㄧㄥ'],
-    meaning: '檸檬草：香茅類香草植物。蔡依林〈檸檬草的味道〉歌名',
-    fun: '檸是二聲，唸三聲酸度直接超標',
-    tags: ['歌詞', '蔡依林'], difficulty: 2, era: 'modern'
   },
   {
     id: 'ly-042', text: '伊人憔悴', target: '悴', zhuyin: 'ㄘㄨㄟˋ',

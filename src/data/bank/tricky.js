@@ -425,13 +425,6 @@ export default [
     tags: ['易讀錯', '日常'], difficulty: 2, era: 'classic'
   },
   {
-    id: 'tk-061', text: '垃圾', target: '垃', zhuyin: 'ㄌㄜˋ',
-    distractors: ['ㄌㄚ', 'ㄌㄜ', 'ㄌㄜˊ'],
-    meaning: '廢棄不要的東西',
-    fun: '臺灣唸ㄌㄜˋ ㄙㄜˋ，對岸唸ㄌㄚ ㄐㄧ，垃圾車的音樂倒是全球統一',
-    tags: ['易讀錯', '日常'], difficulty: 1, era: 'classic'
-  },
-  {
     id: 'tk-062', text: '蝙蝠', target: '蝙', zhuyin: 'ㄅㄧㄢ',
     distractors: ['ㄅㄧㄢˇ', 'ㄆㄧㄢ', 'ㄅㄧㄢˋ'],
     meaning: '夜間飛行的哺乳動物',
@@ -465,13 +458,6 @@ export default [
     meaning: '形體或性質徹底改變',
     fun: '簡編本「蛻」唸ㄊㄨㄟˋ，蛻變、蟬蛻都一樣，唸成ㄕㄨㄟˋ是常見錯誤',
     tags: ['易讀錯'], difficulty: 4, era: 'classic'
-  },
-  {
-    id: 'tk-067', text: '品質', target: '質', zhuyin: 'ㄓˊ',
-    distractors: ['ㄓˋ', 'ㄓ', 'ㄗˊ'],
-    meaning: '物品的好壞程度',
-    fun: '臺灣標準唸品ㄓˊ。唸品ㄓˋ的，品質堪憂',
-    tags: ['易讀錯', '日常'], difficulty: 2, era: 'classic'
   },
   {
     id: 'tk-068', text: '千載難逢', target: '載', zhuyin: 'ㄗㄞˇ',

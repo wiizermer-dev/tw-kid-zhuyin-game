@@ -242,13 +242,6 @@ export default [
     tags: ['破音字', '成語'], difficulty: 2, era: 'classic'
   },
   {
-    id: 'pp-036', text: '音樂', target: '樂', zhuyin: 'ㄩㄝˋ',
-    distractors: ['ㄌㄜˋ', 'ㄩㄝˇ', 'ㄩㄝ'],
-    meaning: '有節奏旋律的聲音藝術，樂指音律時唸ㄩㄝˋ',
-    fun: '去KTV唱歌是快樂（ㄌㄜˋ），放出來的是音樂（ㄩㄝˋ），走音的是災難',
-    tags: ['破音字', '日常'], difficulty: 1, era: 'modern'
-  },
-  {
     id: 'pp-037', text: '睡午覺', target: '覺', zhuyin: 'ㄐㄧㄠˋ',
     distractors: ['ㄐㄩㄝˊ', 'ㄐㄧㄠˇ', 'ㄐㄧㄠ'],
     meaning: '中午的睡眠，覺指睡眠時唸ㄐㄧㄠˋ',
@@ -263,32 +256,11 @@ export default [
     tags: ['破音字', '日常'], difficulty: 1, era: 'modern'
   },
   {
-    id: 'pp-039', text: '長大', target: '長', zhuyin: 'ㄓㄤˇ',
-    distractors: ['ㄔㄤˊ', 'ㄓㄤ', 'ㄓㄤˋ'],
-    meaning: '年紀增長、發育成熟，長指生長時唸ㄓㄤˇ',
-    fun: '長（ㄓㄤˇ）大之後才發現頭髮越來越長（ㄔㄤˊ）的只剩同學',
-    tags: ['破音字', '日常'], difficulty: 1, era: 'modern'
-  },
-  {
-    id: 'pp-040', text: '放假', target: '假', zhuyin: 'ㄐㄧㄚˋ',
-    distractors: ['ㄐㄧㄚˇ', 'ㄐㄧㄚ', 'ㄐㄧㄚˊ'],
-    meaning: '停止上班上課休息，假指休假時唸ㄐㄧㄚˋ',
-    fun: '放假（ㄐㄧㄚˋ）的快樂是真的，收假前的趕作業也是真的',
-    tags: ['破音字', '日常'], difficulty: 1, era: 'modern'
-  },
-  {
     id: 'pp-041', text: '重新', target: '重', zhuyin: 'ㄔㄨㄥˊ',
     distractors: ['ㄓㄨㄥˋ', 'ㄔㄨㄥ', 'ㄔㄨㄥˇ'],
     meaning: '再一次，重指再度時唸ㄔㄨㄥˊ',
     fun: '遊戲打輸了就重（ㄔㄨㄥˊ）來，書包很重（ㄓㄨㄥˋ）就沒辦法重來',
     tags: ['破音字', '日常'], difficulty: 1, era: 'modern'
-  },
-  {
-    id: 'pp-042', text: '種田', target: '種', zhuyin: 'ㄓㄨㄥˋ',
-    distractors: ['ㄓㄨㄥˇ', 'ㄓㄨㄥ', 'ㄓㄨㄥˊ'],
-    meaning: '耕作田地，種當動詞唸ㄓㄨㄥˋ',
-    fun: '把種（ㄓㄨㄥˇ）子種（ㄓㄨㄥˋ）下去，一個字自產自銷',
-    tags: ['破音字', '日常'], difficulty: 1, era: 'classic'
   },
   {
     id: 'pp-043', text: '漲價', target: '漲', zhuyin: 'ㄓㄤˇ',
@@ -527,13 +499,6 @@ export default [
     meaning: '極度厭惡痛恨，惡指厭惡時唸ㄨˋ',
     fun: '對蟑螂深惡（ㄨˋ）痛絕，但蟑螂本人沒做什麼惡（ㄜˋ）事，牠只是出現',
     tags: ['破音字', '成語', '大考'], difficulty: 3, era: 'classic'
-  },
-  {
-    id: 'pp-078', text: '討價還價', target: '還', zhuyin: 'ㄏㄨㄢˊ',
-    distractors: ['ㄏㄞˊ', 'ㄏㄨㄢˇ', 'ㄏㄨㄢ'],
-    meaning: '買賣雙方來回議價，還指回應時唸ㄏㄨㄢˊ',
-    fun: '菜市場討價還（ㄏㄨㄢˊ）價，殺完價還（ㄏㄞˊ）要送蔥才完整',
-    tags: ['破音字', '成語', '日常'], difficulty: 3, era: 'classic'
   },
   {
     id: 'pp-079', text: '仁者樂山', target: '樂', zhuyin: 'ㄧㄠˋ',
