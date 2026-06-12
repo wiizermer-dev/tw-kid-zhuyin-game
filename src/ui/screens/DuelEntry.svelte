@@ -9,7 +9,7 @@
   import { storage } from '../../core/storage.js';
   import { playClickSound } from '../../lib/audio.js';
 
-  let { initialCode = '', players = [], myReady = false, countdown = 0, onReady, onRoom, onPlay, onHome, onDifficulty } = $props();
+  let { initialCode = '', players = [], myReady = false, countdown = 0, difficulty = 'random', onReady, onRoom, onPlay, onHome, onDifficulty } = $props();
 
   // view: pick（選開房或加入）/ enter（輸碼）/ room（大廳）
   let view = $state(initialCode ? 'room' : 'pick');
@@ -17,15 +17,14 @@
   let entered = $state([]);
   let shareState = $state('');
   let copied = $state(false);
-  // 只有開房者能定本場難度；輸碼進來的人沿用房主設定
+  // 只有開房者能改本場難度；輸碼進來的人唯讀沿用房主設定（difficulty 由 App 權威下傳）
   let isHost = $state(false);
-  let difficulty = $state('random');
   const difficultyList = Object.values(DUEL_DIFFICULTIES);
 
   function pickDifficulty(key) {
+    if (!isHost) return;
     playClickSound();
-    difficulty = key;
-    onDifficulty?.(key);
+    onDifficulty?.(key);   // 難度權威在 App（broadcast 全房），這裡只通知，不本地改
   }
 
   function inviteUrl() {
@@ -144,14 +143,15 @@
     </div>
     {#if shareState}<p class="share-state pop-in">{shareState}</p>{/if}
 
-    {#if isHost}
+    {#if hasCloud || isHost}
       <div class="card diff-card">
-        <b>本場難度（房主決定）</b>
-        <div class="diff-grid">
+        <b>本場難度{isHost ? '（你決定）' : '（房主決定）'}</b>
+        <div class="diff-grid" class:readonly={!isHost}>
           {#each difficultyList as d}
             <button
               class="diff-opt"
               class:active={difficulty === d.key}
+              disabled={!isHost}
               onclick={() => pickDifficulty(d.key)}
             >
               <span class="diff-label">{d.label}</span>
@@ -290,6 +290,8 @@
   .diff-label { font-weight: 800; font-size: 1.05rem; }
   .diff-opt small { color: var(--ink-soft); }
   .diff-opt.active small { color: color-mix(in srgb, var(--grape) 70%, var(--ink-soft)); }
+  .diff-grid.readonly .diff-opt:not(.active) { opacity: 0.5; }
+  .diff-opt:disabled { cursor: default; }
 
   .lobby { margin-top: 1.2rem; padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: 0.5rem; }
   .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }

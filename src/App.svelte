@@ -34,6 +34,7 @@
   let duelCountdown = $state(0);   // 3-2-1 開戰倒數；0 表示沒在倒數
   let countdownTimer = null;
   let roomUsedIds = [];            // 本房已出過的題目 id（每局換題用）
+  let duelDifficulty = $state('random');   // 本房定案難度（房主設定 → broadcast 同步全房 UI）
 
   // 開站時偵測戰帖／邀請
   const parsed = parseChallengeFromUrl();
@@ -86,6 +87,7 @@
     duelSeed = `room-${code}`;
     roomUsedIds = [];
     myReady = false;
+    duelDifficulty = 'random';
     if (liveChannel) { liveChannel.leave(); liveChannel = null; }
     // 原地清空，保持 liveState 物件參照穩定（Play/Result 持有同一個 proxy）
     liveState.players = [];
@@ -94,7 +96,9 @@
     liveChannel = joinLiveRoom(code, { id: myId, name: myName }, {
       onPlayers: (players) => { liveState.players = players; },
       onStart: (payload) => { if (screen === 'duel') beginCountdown(payload ?? { code }); },
-      onProgress: (p) => { if (p?.id) liveState.progress[p.id] = p; }
+      onProgress: (p) => { if (p?.id) liveState.progress[p.id] = p; },
+      // 房主難度廣播到全房 → 同步 UI（含房主自己，因 self:false 故房主端在 setDuelDifficulty 直接設）
+      onDifficulty: (key) => { duelDifficulty = key ?? 'random'; }
     });
   }
 
@@ -103,8 +107,9 @@
     liveChannel?.setReady(myReady);
   }
 
-  // 房主選定本場難度 → 寫進 presence metadata 廣播全房
+  // 房主選定本場難度 → broadcast 全房（self:false 不回自己，故本地直接設）
   function setDuelDifficulty(difficulty) {
+    duelDifficulty = difficulty;
     liveChannel?.setDifficulty(difficulty);
   }
 
@@ -115,13 +120,13 @@
     if (players.length < 2 || !players.every((p) => p.ready)) return;
     const leaderId = [...players].map((p) => p.id).sort()[0];
     if (leaderId !== myId) return;
-    // 難度取房內有設定者（房主），無人設則隨機
-    const hostDifficulty = players.find((p) => p.difficulty)?.difficulty ?? 'random';
+    // 難度取本房定案值：房主設過 broadcast 給全房（含 leader 端記住），無人設則 random。
+    // 不再從 presence metadata 撈（已移除），故與 ready 無競態。
     const payload = {
       code: duelRoom,
       match: Date.now().toString(36),   // 每局唯一 → 每局題目都不同
       excludeIds: roomUsedIds,
-      difficulty: hostDifficulty
+      difficulty: liveChannel.getDifficulty()
     };
     liveChannel.start(payload);
     beginCountdown(payload);
@@ -130,6 +135,11 @@
   /** 收到開戰訊號：3-2-1 倒數後全房同時進場 */
   function beginCountdown(payload) {
     if (duelCountdown > 0 || screen !== 'duel') return;
+    // 記住本局難度：讓非房主／日後換 leader 的人也有定案值，replay 不掉回 random
+    if (payload?.difficulty) {
+      duelDifficulty = payload.difficulty;
+      liveChannel?.rememberDifficulty(payload.difficulty);   // 純記本地，不重新廣播（避免回授）
+    }
     duelCountdown = 3;
     clearInterval(countdownTimer);
     countdownTimer = setInterval(() => {
@@ -340,6 +350,7 @@
     onRoom={joinRoom}
     onPlay={startDuelPlay}
     onDifficulty={setDuelDifficulty}
+    difficulty={duelDifficulty}
     onHome={goHome}
   />
 {:else if screen === 'levels'}

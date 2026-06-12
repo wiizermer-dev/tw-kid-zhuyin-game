@@ -34,6 +34,7 @@ npm run audit      # 對教育部辭典稽核題庫注音（改題庫必跑）
 
 - `src/lib/live.js`：Supabase presence + broadcast，無資料表。presence metadata 帶 `ready` 旗標，`setReady()` 重新 track 即廣播。
 - 開局流程：全員 ready → leader（presence id 最小者，避免多人同時廣播）發 `start` payload → 全房 3 秒倒數齊進場。
+- **presence metadata 只放會「同步收斂」的狀態（`ready`），會獨立變動的旗號（如難度）一律走獨立 broadcast event，不可混進同一份 `myMeta` + `track()`**。曾把房主難度塞進 presence metadata，與 `ready` 共用 `track()`：房主選難度 track 一次、按 ready 又 track 一次，presence sync 競態把對方的 `ready` 旗號洗掉 → 全房互相看不到對方 ready，leader 的開戰 `$effect` 永遠不觸發、永遠不倒數。難度改走 `broadcast event 'difficulty'`（房主單向通知）後解決。本房定案難度記在 channel 的 `hostDifficulty`（`getDifficulty()` 供 leader 發 start、`rememberDifficulty()` 供收 start 的人純記本地不回授），故換 leader / 再玩一次都不會掉回 random。
 - **換題不重複**：每局 leader 產唯一 `match` id，selectQuestions 的 seed 為 `room-<房號>-<match>`，配 `excludeIds`（本房已出題）。戰帖分享 URL 帶 `m=` 讓對手拿同一組題（`src/lib/challenge.js`）。
 - 單題 4 秒：複用 `perQuestionSeconds`，超時走 `timeout()` 算錯。全房都答完提前換題，否則本地 4 秒到換；排名速度欄用 `answerTimeTotal`（同步換題後牆鐘時間失去鑑別度，不可用）。
 - **本機 .env 雷**：曾有舊 Supabase project DNS NXDOMAIN 導致 realtime 本機測不動。改 realtime 前先確認 `.env` 的 `VITE_SUPABASE_URL` project 還活著（publishable key 是公開值，可從 prod bundle 抽）。

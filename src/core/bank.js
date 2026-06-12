@@ -10,7 +10,7 @@ import { mulberry32, shuffleWith } from './rng.js';
  * @param {number} [opts.minDifficulty=1]
  * @param {number} [opts.maxDifficulty=5]
  * @param {string[]} [opts.categories] 限定類別（bank index 的 key）
- * @param {string[]} [opts.excludeIds] 排除的題目 id
+ * @param {string[]} [opts.excludeIds] 排除的題目 id（近期出過；超過池子可容納上限時只保留最近的）
  * @param {string[]} [opts.onlyIds] 只從這些 id 選（錯題特訓用）
  * @returns 題目陣列，每題含 options（已洗牌，正解標記 correct: true）
  */
@@ -24,7 +24,6 @@ export function selectQuestions({
   onlyIds = null
 } = {}) {
   const rand = mulberry32(String(seed));
-  const excluded = new Set(excludeIds);
 
   if (onlyIds) {
     const wanted = new Set(onlyIds);
@@ -32,14 +31,23 @@ export function selectQuestions({
     return shuffleWith(rand, pool).slice(0, count).map(q => toQuestion(q, rand));
   }
 
-  let pool = BANK.filter(q =>
+  // 符合難度/類別的母池（不含排除）
+  const inScope = BANK.filter(q =>
     q.difficulty >= minDifficulty &&
     q.difficulty <= maxDifficulty &&
-    !excluded.has(q.id) &&
     (!categories || categories.includes(q.category))
   );
 
-  // 池子不夠時放寬難度限制（但仍排除已用過的題目）
+  // 排除清單上限：最多排到「母池容得下且本場仍抽得滿」的程度。
+  // 小池關卡（如 BOSS）若把整份近期清單照單全排，會被鎖到只剩固定殘餘題反覆輪替；
+  // 故只排最近的一段，較舊的題目隨輪替重新有機會出現，提升跨場多樣性。
+  const maxExclude = Math.max(0, inScope.length - count);
+  // 注意 slice(-0) === slice(0) 會取整段，maxExclude 為 0 時須給空陣列
+  const excluded = new Set(maxExclude > 0 ? excludeIds.slice(-maxExclude) : []);
+
+  let pool = inScope.filter(q => !excluded.has(q.id));
+
+  // 仍不夠（排除上限已收斂，理論上罕見）時放寬難度限制
   if (pool.length < count) {
     pool = BANK.filter(q => !excluded.has(q.id) && (!categories || categories.includes(q.category)));
   }
