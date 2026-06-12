@@ -9,7 +9,9 @@
   import { storage } from '../../core/storage.js';
   import { playClickSound } from '../../lib/audio.js';
 
-  let { initialCode = '', players = [], myReady = false, countdown = 0, difficulty = 'random', onReady, onRoom, onPlay, onHome, onDifficulty } = $props();
+  // isHost 由 App 持有（hoist：replay 重掛本元件後房主仍可改難度）；
+  // 只有開房者能改本場難度；輸碼進來的人唯讀沿用房主設定（difficulty 由 App 權威下傳）
+  let { initialCode = '', players = [], myReady = false, isHost = false, countdown = 0, difficulty = 'random', onReady, onRoom, onPlay, onHome, onDifficulty } = $props();
 
   // view: pick（選開房或加入）/ enter（輸碼）/ room（大廳）
   let view = $state(initialCode ? 'room' : 'pick');
@@ -17,8 +19,6 @@
   let entered = $state([]);
   let shareState = $state('');
   let copied = $state(false);
-  // 只有開房者能改本場難度；輸碼進來的人唯讀沿用房主設定（difficulty 由 App 權威下傳）
-  let isHost = $state(false);
   const difficultyList = Object.values(DUEL_DIFFICULTIES);
 
   function pickDifficulty(key) {
@@ -40,9 +40,8 @@
 
   function host() {
     code = randomZhuyinCode();
-    isHost = true;
     view = 'room';
-    onRoom?.(code);
+    onRoom?.(code, true);   // asHost：App 記住房主身分（replay 沿用）
     onDifficulty?.(difficulty);   // 廣播房主預設難度
   }
 

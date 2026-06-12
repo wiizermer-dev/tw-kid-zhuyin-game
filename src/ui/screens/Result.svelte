@@ -163,7 +163,11 @@
         {#each wrongOnes as q}
           <li>
             <span class="rv-word">{q.text}</span>
-            <span class="rv-ans">「{q.target}」唸 <b>{q.zhuyin}</b></span>
+            {#if q.kind === 'char'}
+              <span class="rv-ans">{q.zhuyin} 是「<b>{q.target}</b>」</span>
+            {:else}
+              <span class="rv-ans">「{q.target}」唸 <b>{q.zhuyin}</b></span>
+            {/if}
             <small class="rv-fun">{q.fun}</small>
           </li>
         {/each}

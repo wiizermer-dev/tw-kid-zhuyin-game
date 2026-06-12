@@ -76,19 +76,25 @@ export class QuizSession {
     if (config.timeLimit || this.perQuestionSeconds) this.#startTimer();
   }
 
-  // 以時間戳計算剩餘時間，避免 setInterval 漂移（背景分頁節流、低階裝置）
+  // 以時間戳計算剩餘時間，避免 setInterval 漂移（背景分頁節流、低階裝置）。
+  // $state 只存「顯示用整秒」且值變了才寫：把 timer 驅動的 reactive 更新從 10Hz 降到 1Hz，
+  // 超時判定與計分精度仍用 deadline 時間戳（見 answer() 的 speedRatio）。
   #startTimer() {
     this.#stopTimer();
     this.#timerId = setInterval(() => {
       if (this.finished) return this.#stopTimer();
       const now = performance.now();
       if (this.#deadline) {
-        this.timeLeft = Math.max(0, (this.#deadline - now) / 1000);
-        if (this.timeLeft <= 0) return this.end();
+        const left = Math.max(0, (this.#deadline - now) / 1000);
+        const display = Math.ceil(left);
+        if (display !== this.timeLeft) this.timeLeft = display;
+        if (left <= 0) return this.end();
       }
       if (this.#questionDeadline && this.answered === null) {
-        this.questionTimeLeft = Math.max(0, (this.#questionDeadline - now) / 1000);
-        if (this.questionTimeLeft <= 0) this.timeout();
+        const left = Math.max(0, (this.#questionDeadline - now) / 1000);
+        const display = Math.ceil(left);
+        if (display !== this.questionTimeLeft) this.questionTimeLeft = display;
+        if (left <= 0) this.timeout();
       }
     }, 100);
   }
@@ -111,8 +117,9 @@ export class QuizSession {
       this.combo += 1;
       this.maxCombo = Math.max(this.maxCombo, this.combo);
       this.correctCount += 1;
+      // 速度分用 deadline 時間戳精算（questionTimeLeft 已量化為顯示整秒，不夠精細）
       const speedRatio = this.perQuestionSeconds
-        ? this.questionTimeLeft / this.perQuestionSeconds
+        ? Math.max(0, (this.#questionDeadline - performance.now()) / 1000) / this.perQuestionSeconds
         : Math.max(0, 1 - elapsed / 10);
       this.score += scoreFor(this.combo, this.current.difficulty, speedRatio);
       if (this.bossMaxHp) this.bossHp = Math.max(0, this.bossHp - 1);

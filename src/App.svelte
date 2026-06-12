@@ -35,6 +35,7 @@
   let countdownTimer = null;
   let roomUsedIds = [];            // 本房已出過的題目 id（每局換題用）
   let duelDifficulty = $state('random');   // 本房定案難度（房主設定 → broadcast 同步全房 UI）
+  let duelIsHost = $state(false);  // 我是開房者（hoist 到 App：replay 重掛 DuelEntry 後仍可改難度）
 
   // 開站時偵測戰帖／邀請
   const parsed = parseChallengeFromUrl();
@@ -80,9 +81,10 @@
   }
 
   /** 進房：建立/加入注音房號的即時頻道（無雲端時為同題碼對戰，不開頻道） */
-  function joinRoom(code) {
-    // 「再玩一次」回大廳：同房沿用原頻道，保留出題紀錄
+  function joinRoom(code, asHost = false) {
+    // 「再玩一次」回大廳：同房沿用原頻道，保留出題紀錄（duelIsHost 也沿用）
     if (code === duelRoom && liveChannel) return;
+    duelIsHost = asHost;
     duelRoom = code;
     duelSeed = `room-${code}`;
     roomUsedIds = [];
@@ -94,7 +96,14 @@
     liveState.progress = {};
     const myName = storage.getPlayerName() || '無名氏';
     liveChannel = joinLiveRoom(code, { id: myId, name: myName }, {
-      onPlayers: (players) => { liveState.players = players; },
+      onPlayers: (players) => {
+        liveState.players = players;
+        // 離房者的 progress 一併清掉：避免幽靈列卡在排行榜、結果頁「等其他人完成中」永不消失
+        const ids = new Set(players.map((p) => p.id));
+        for (const id of Object.keys(liveState.progress)) {
+          if (!ids.has(id)) delete liveState.progress[id];
+        }
+      },
       onStart: (payload) => { if (screen === 'duel') beginCountdown(payload ?? { code }); },
       onProgress: (p) => { if (p?.id) liveState.progress[p.id] = p; },
       // 房主難度廣播到全房 → 同步 UI（含房主自己，因 self:false 故房主端在 setDuelDifficulty 直接設）
@@ -190,6 +199,7 @@
     if (liveChannel) { liveChannel.leave(); liveChannel = null; }
     duelRoom = null;
     myReady = false;
+    duelIsHost = false;
     roomUsedIds = [];
     clearInterval(countdownTimer);
     duelCountdown = 0;
@@ -349,6 +359,7 @@
     initialCode={challenge?.room ?? duelRoom ?? ''}
     players={liveState.players}
     {myReady}
+    isHost={duelIsHost}
     countdown={duelCountdown}
     onReady={toggleReady}
     onRoom={joinRoom}

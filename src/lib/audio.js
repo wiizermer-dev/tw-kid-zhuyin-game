@@ -4,25 +4,39 @@ class AudioManager {
   constructor() {
     this.enabled = true;
     this.volume = 0.5;
-    
-    // 從 localStorage 載入設定
-    const savedEnabled = localStorage.getItem('zhuyin_audio_enabled');
-    const savedVolume = localStorage.getItem('zhuyin_audio_volume');
-    
-    if (savedEnabled !== null) {
-      this.enabled = savedEnabled === 'true';
-    }
-    if (savedVolume !== null) {
-      this.volume = parseFloat(savedVolume);
+    this.context = null;   // 全域共用一個 AudioContext（瀏覽器有同時存在數量上限）
+
+    // 從 localStorage 載入設定（私密瀏覽等情境可能 throw，吞掉用預設值）
+    try {
+      const savedEnabled = localStorage.getItem('zhuyin_audio_enabled');
+      const savedVolume = localStorage.getItem('zhuyin_audio_volume');
+
+      if (savedEnabled !== null) {
+        this.enabled = savedEnabled === 'true';
+      }
+      if (savedVolume !== null) {
+        this.volume = parseFloat(savedVolume);
+      }
+    } catch {
+      // localStorage 不可用 → 維持預設
     }
   }
-  
+
+  // 取得共用 AudioContext：首次點擊才建立；被 autoplay policy 暫停就 resume
+  #getContext() {
+    if (!this.context) {
+      this.context = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (this.context.state === 'suspended') this.context.resume();
+    return this.context;
+  }
+
   // 播放音效（使用 Web Audio API 生成簡單音效）
   playSound(type) {
     if (!this.enabled) return;
-    
+
     try {
-      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const audioContext = this.#getContext();
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
       
