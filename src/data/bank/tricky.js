@@ -1,7 +1,7 @@
 /**
  * 易讀錯字 — 大家都唸錯的字
  * schema: { id, text, target, zhuyin, distractors[], meaning, fun, tags[], difficulty(1-5), era }
- * 注音以教育部《重編國語辭典修訂本》為準；distractors 必須是真實常見誤讀。
+ * 注音以教育部《國語辭典簡編本》為主（查無才退《重編國語辭典修訂本》）；distractors 必須是真實常見誤讀。
  */
 export default [
   {
@@ -23,7 +23,7 @@ export default [
     distractors: ['ㄓㄣ', 'ㄉㄧㄢˇ', 'ㄊㄧㄢˋ'],
     meaning: '任意糟蹋東西',
     fun: '把這個字唸錯，就是在暴殄天物（指這題）',
-    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
+    tags: ['易讀錯', '成語'], difficulty: 2, era: 'classic'
   },
   {
     id: 'tk-004', text: '心寬體胖', target: '胖', zhuyin: 'ㄆㄢˊ',
@@ -65,7 +65,7 @@ export default [
     distractors: ['ㄒㄧㄣ', 'ㄑㄧㄥ', 'ㄑㄧㄥˇ'],
     meaning: '罪狀多到寫不完',
     fun: '罄 = 用盡。竹簡用光都寫不完，古代版的「檔案太大無法上傳」',
-    tags: ['易讀錯', '新聞常錯', '成語'], difficulty: 2, era: 'classic'
+    tags: ['易讀錯', '新聞常錯', '成語'], difficulty: 3, era: 'classic'
   },
   {
     id: 'tk-010', text: '大腹便便', target: '便', zhuyin: 'ㄆㄧㄢˊ',
@@ -79,7 +79,7 @@ export default [
     distractors: ['ㄇㄧˊ', 'ㄇㄛˊ', 'ㄇㄧˋ'],
     meaning: '形容事物在一段時間內非常流行',
     fun: '靡 = 倒下。大家像被風吹倒一樣跟風，跟現在的迷因傳播 87% 像',
-    tags: ['易讀錯', '成語'], difficulty: 2, era: 'classic'
+    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
   },
   {
     id: 'tk-012', text: '虛與委蛇', target: '蛇', zhuyin: 'ㄧˊ',
@@ -100,14 +100,14 @@ export default [
     distractors: ['ㄧˊ', 'ㄧˇ', 'ㄧ'],
     meaning: '朋友之間的情感',
     fun: '友「ㄧˋ」萬歲！唸ㄧˊ的友誼小船說翻就翻',
-    tags: ['易讀錯', '日常'], difficulty: 1, era: 'classic'
+    tags: ['易讀錯', '日常'], difficulty: 2, era: 'classic'
   },
   {
     id: 'tk-015', text: '倔強', target: '倔', zhuyin: 'ㄐㄩㄝˊ',
     distractors: ['ㄐㄩㄝˋ', 'ㄑㄩㄝˋ', 'ㄐㄩㄝ'],
     meaning: '個性固執不肯屈服',
     fun: '連這個字的讀音都很倔強，跟你想的不一樣',
-    tags: ['易讀錯'], difficulty: 2, era: 'classic'
+    tags: ['易讀錯'], difficulty: 1, era: 'classic'
   },
   {
     id: 'tk-016', text: '蛤蜊', target: '蜊', zhuyin: 'ㄌㄧˊ',
@@ -128,7 +128,7 @@ export default [
     distractors: ['ㄆㄧˊ', 'ㄅㄧˇ', 'ㄅㄧ'],
     meaning: '失去知覺，或形容反應遲鈍',
     fun: '打太多電動手指麻「ㄅㄧˋ」，不是麻「皮」',
-    tags: ['易讀錯'], difficulty: 2, era: 'classic'
+    tags: ['易讀錯'], difficulty: 3, era: 'classic'
   },
   {
     id: 'tk-019', text: '包庇', target: '庇', zhuyin: 'ㄅㄧˋ',
@@ -156,7 +156,7 @@ export default [
     distractors: ['ㄎㄨㄤˋ', 'ㄍㄨㄤ', 'ㄍㄨㄤˋ'],
     meaning: '粗野豪放',
     fun: '十個人九個唸「粗ㄎㄨㄤˋ」，唸ㄍㄨㄤˇ的那一個，氣質直接輾壓全場',
-    tags: ['易讀錯'], difficulty: 2, era: 'classic'
+    tags: ['易讀錯'], difficulty: 3, era: 'classic'
   },
   {
     id: 'tk-023', text: '一丘之貉', target: '貉', zhuyin: 'ㄏㄜˊ',
@@ -170,14 +170,14 @@ export default [
     distractors: ['ㄍㄨㄛ', 'ㄔㄠˊ', 'ㄎㄜˋ'],
     meaning: '不落入舊有的格式，有獨創風格',
     fun: '窠臼 = 老套。這題本身就很不落窠臼吧？',
-    tags: ['易讀錯', '成語'], difficulty: 4, era: 'classic'
+    tags: ['易讀錯', '成語'], difficulty: 5, era: 'classic'
   },
   {
     id: 'tk-025', text: '生活拮据', target: '据', zhuyin: 'ㄐㄩ',
     distractors: ['ㄐㄩˋ', 'ㄐㄩˇ', 'ㄐㄩˊ'],
     meaning: '經濟狀況窘迫',
     fun: '月底的你：生活拮「ㄐㄩ」，連聲調都省了',
-    tags: ['易讀錯'], difficulty: 2, era: 'classic'
+    tags: ['易讀錯'], difficulty: 3, era: 'classic'
   },
   {
     id: 'tk-026', text: '模樣', target: '模', zhuyin: 'ㄇㄛˊ',
@@ -226,20 +226,20 @@ export default [
     distractors: ['ㄏㄨㄟˊ', 'ㄏㄨㄞˇ', 'ㄏㄨㄞ'],
     meaning: '來回走動，猶豫不決',
     fun: '在ㄏㄨㄞˊ和ㄏㄨㄟˊ之間徘徊的你，現在有答案了',
-    tags: ['易讀錯'], difficulty: 2, era: 'classic'
+    tags: ['易讀錯'], difficulty: 1, era: 'classic'
   },
   {
     id: 'tk-033', text: '氛圍', target: '氛', zhuyin: 'ㄈㄣ',
     distractors: ['ㄈㄣˋ', 'ㄈㄣˊ', 'ㄈㄣˇ'],
     meaning: '周圍的氣氛和情調',
     fun: '「氛圍感」都在講，但九成的人聲調是錯的。一聲，輕輕的，像氛圍一樣',
-    tags: ['易讀錯', '新聞常錯', '日常'], difficulty: 1, era: 'modern'
+    tags: ['易讀錯', '新聞常錯', '日常'], difficulty: 2, era: 'modern'
   },
   {
-    id: 'tk-034', text: '蜿蜒', target: '蜿', zhuyin: 'ㄨㄢˇ',
-    distractors: ['ㄨㄢ', 'ㄨㄢˊ', 'ㄨㄢˋ'],
+    id: 'tk-034', text: '蜿蜒', target: '蜿', zhuyin: 'ㄨㄢ',
+    distractors: ['ㄨㄢˇ', 'ㄨㄢˊ', 'ㄨㄢˋ'],
     meaning: '彎彎曲曲延伸的樣子',
-    fun: '教育部辭典唸ㄨㄢˇ ㄧㄢˊ（三聲），不是一聲。山路蜿蜒，聲調也轉個彎',
+    fun: '簡編本「蜿」唸一聲ㄨㄢ，大多數人唸三聲反而是錯的，山路跟著轉彎',
     tags: ['易讀錯'], difficulty: 2, era: 'classic'
   },
   {
@@ -261,7 +261,7 @@ export default [
     distractors: ['ㄒㄩㄣˋ', 'ㄒㄩㄣ', 'ㄒㄩㄣˇ'],
     meaning: '使順從聽話',
     fun: '《馴龍高手》的馴是二聲，先馴服自己的聲調吧',
-    tags: ['易讀錯'], difficulty: 2, era: 'classic'
+    tags: ['易讀錯'], difficulty: 3, era: 'classic'
   },
   {
     id: 'tk-038', text: '畸形', target: '畸', zhuyin: 'ㄐㄧ',
@@ -275,14 +275,14 @@ export default [
     distractors: ['ㄓˋ', 'ㄒㄧˋ', 'ㄔ'],
     meaning: '像火一樣燙、極度熱烈',
     fun: '言情小說高頻字，「熾熱的眼神」唸錯就不熱了',
-    tags: ['易讀錯'], difficulty: 2, era: 'modern'
+    tags: ['易讀錯'], difficulty: 3, era: 'modern'
   },
   {
     id: 'tk-040', text: '夢魘', target: '魘', zhuyin: 'ㄧㄢˇ',
     distractors: ['ㄧㄢˋ', 'ㄧㄢ', 'ㄧㄢˊ'],
     meaning: '惡夢，或揮之不去的恐懼',
     fun: '唸錯的話，這題就會變成你的夢魘（三聲的那種）',
-    tags: ['易讀錯'], difficulty: 2, era: 'classic'
+    tags: ['易讀錯'], difficulty: 3, era: 'classic'
   },
   {
     id: 'tk-041', text: '剽竊', target: '剽', zhuyin: 'ㄆㄧㄠˋ',
@@ -296,7 +296,7 @@ export default [
     distractors: ['ㄕㄤˋ', 'ㄧㄤˊ', 'ㄕㄤˊ'],
     meaning: '事物的起源',
     fun: '作文想拿高分必用詞，但唸錯就尷尬了',
-    tags: ['易讀錯'], difficulty: 4, era: 'classic'
+    tags: ['易讀錯'], difficulty: 3, era: 'classic'
   },
   {
     id: 'tk-043', text: '骨骸', target: '骸', zhuyin: 'ㄏㄞˊ',
@@ -317,7 +317,7 @@ export default [
     distractors: ['ㄒㄧㄝˊ', 'ㄎㄟ', 'ㄒㄧˊ'],
     meaning: '隨身帶著',
     fun: '教育部標準唸ㄒㄧ（一聲）。捷運廣播每天考你這題',
-    tags: ['易讀錯', '日常'], difficulty: 2, era: 'modern'
+    tags: ['易讀錯', '日常'], difficulty: 1, era: 'modern'
   },
   {
     id: 'tk-046', text: '亞洲', target: '亞', zhuyin: 'ㄧㄚˋ',
@@ -338,7 +338,7 @@ export default [
     distractors: ['ㄕㄨˊ', 'ㄕㄨ', 'ㄕㄨˋ'],
     meaning: '塊莖類蔬菜，薯條的原料',
     fun: '三聲ㄕㄨˇ。唸二聲的人，薯條沒收',
-    tags: ['易讀錯', '美食'], difficulty: 2, era: 'modern'
+    tags: ['易讀錯', '美食'], difficulty: 1, era: 'modern'
   },
   {
     id: 'tk-049', text: '蛤蟆', target: '蛤', zhuyin: 'ㄏㄚˊ',
@@ -359,14 +359,14 @@ export default [
     distractors: ['ㄐㄧㄢ', 'ㄑㄧㄢˋ', 'ㄔㄣ'],
     meaning: '無意說的話竟然應驗',
     fun: '唸成「一語成ㄐㄧㄢ」的話，這句就真的一語成讖了',
-    tags: ['易讀錯', '成語'], difficulty: 4, era: 'classic'
+    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
   },
   {
     id: 'tk-052', text: '拈花惹草', target: '拈', zhuyin: 'ㄋㄧㄢˊ',
     distractors: ['ㄓㄢ', 'ㄋㄧㄢ', 'ㄋㄧㄢˇ'],
     meaning: '比喻到處留情',
     fun: '字都唸不對，還想拈花惹草？',
-    tags: ['易讀錯', '成語'], difficulty: 4, era: 'classic'
+    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
   },
   {
     id: 'tk-053', text: '揠苗助長', target: '揠', zhuyin: 'ㄧㄚˋ',
@@ -387,7 +387,7 @@ export default [
     distractors: ['ㄕˋ', 'ㄓ', 'ㄗˋ'],
     meaning: '表明特徵的記號，同「標誌」',
     fun: '識別唸ㄕˋ，標識唸ㄓˋ，中文的隱藏關卡',
-    tags: ['易讀錯', '破音字'], difficulty: 3, era: 'classic'
+    tags: ['易讀錯', '破音字'], difficulty: 4, era: 'classic'
   },
   {
     id: 'tk-056', text: '強迫', target: '強', zhuyin: 'ㄑㄧㄤˇ',
@@ -436,7 +436,7 @@ export default [
     distractors: ['ㄅㄧㄢˇ', 'ㄆㄧㄢ', 'ㄅㄧㄢˋ'],
     meaning: '夜間飛行的哺乳動物',
     fun: '一聲ㄅㄧㄢ蝠。蝙蝠俠都沒有你唸的那麼扁',
-    tags: ['易讀錯'], difficulty: 2, era: 'classic'
+    tags: ['易讀錯'], difficulty: 3, era: 'classic'
   },
   {
     id: 'tk-063', text: '哺乳', target: '哺', zhuyin: 'ㄅㄨˇ',
@@ -450,7 +450,7 @@ export default [
     distractors: ['ㄒㄩㄢ', 'ㄒㄩㄢˇ', 'ㄒㄩㄢˊ'],
     meaning: '誇大鋪陳，或國畫的暈染技法',
     fun: '媒體最愛渲染，四聲ㄒㄩㄢˋ，渲染前先校音',
-    tags: ['易讀錯', '新聞常錯'], difficulty: 2, era: 'classic'
+    tags: ['易讀錯', '新聞常錯'], difficulty: 3, era: 'classic'
   },
   {
     id: 'tk-065', text: '慫恿', target: '慫', zhuyin: 'ㄙㄨㄥˇ',
@@ -492,7 +492,7 @@ export default [
     distractors: ['ㄎㄤˋ', 'ㄏㄤˊ', 'ㄏㄥˋ'],
     meaning: '氣味相投的人勾結在一起',
     fun: '罵人勾結的高級詞，唸錯瞬間降級成隨便罵罵',
-    tags: ['易讀錯', '成語'], difficulty: 5, era: 'classic'
+    tags: ['易讀錯', '成語'], difficulty: 4, era: 'classic'
   },
   {
     id: 'tk-071', text: '圭臬', target: '臬', zhuyin: 'ㄋㄧㄝˋ',
@@ -506,21 +506,21 @@ export default [
     distractors: ['ㄐㄧㄠˋ', 'ㄒㄧㄠ', 'ㄑㄧㄠˋ'],
     meaning: '微生物分解有機物的過程',
     fun: '教育部標準是發ㄒㄧㄠˋ。麵包店老闆聽到正解，麵團都驚醒了',
-    tags: ['易讀錯', '美食', '新聞常錯'], difficulty: 2, era: 'classic'
+    tags: ['易讀錯', '美食', '新聞常錯'], difficulty: 1, era: 'classic'
   },
   {
     id: 'tk-073', text: '氣喘吁吁', target: '吁', zhuyin: 'ㄒㄩ',
     distractors: ['ㄩˊ', 'ㄒㄩˋ', 'ㄒㄩˇ'],
     meaning: '呼吸急促的樣子',
     fun: '跑完八百公尺氣喘ㄒㄩ ㄒㄩ，唸成ㄩˊ ㄩˊ會更喘',
-    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
+    tags: ['易讀錯', '成語'], difficulty: 2, era: 'classic'
   },
   {
     id: 'tk-074', text: '按捺', target: '捺', zhuyin: 'ㄋㄚˋ',
     distractors: ['ㄋㄞˋ', 'ㄋㄚ', 'ㄋㄚˊ'],
     meaning: '壓抑、忍住',
     fun: '按捺不住想唸ㄋㄞˋ的衝動？捺住，是ㄋㄚˋ',
-    tags: ['易讀錯'], difficulty: 3, era: 'classic'
+    tags: ['易讀錯'], difficulty: 4, era: 'classic'
   },
   {
     id: 'tk-075', text: '可汗', target: '汗', zhuyin: 'ㄏㄢˊ',
@@ -534,7 +534,7 @@ export default [
     distractors: ['ㄏㄨㄥˊ', 'ㄍㄨㄥˇ', 'ㄎㄨㄥ'],
     meaning: '縫紉刺繡等手工藝',
     fun: '女紅唸女ㄍㄨㄥ，跟顏色無關，古裝劇看再多也常唸錯',
-    tags: ['易讀錯', '破音字'], difficulty: 4, era: 'classic'
+    tags: ['易讀錯', '破音字'], difficulty: 3, era: 'classic'
   },
   {
     id: 'tk-077', text: '單于', target: '單', zhuyin: 'ㄔㄢˊ',
@@ -576,7 +576,7 @@ export default [
     distractors: ['ㄍㄢ', 'ㄐㄧㄝ', 'ㄑㄧㄝˊ'],
     meaning: '揭發攻擊別人的隱私或過失',
     fun: '政論節目天天互相攻訐，但「訐」唸對的來賓屈指可數',
-    tags: ['易讀錯', '新聞常錯'], difficulty: 4, era: 'modern'
+    tags: ['易讀錯', '新聞常錯'], difficulty: 5, era: 'modern'
   },
   {
     id: 'tk-083', text: '抨擊', target: '抨', zhuyin: 'ㄆㄥ',
@@ -597,14 +597,14 @@ export default [
     distractors: ['ㄍㄟˇ', 'ㄐㄧˋ', 'ㄑㄧˇ'],
     meaning: '提供、授與',
     fun: '書面語唸ㄐㄧˇ予。請給予唸錯的人一點掌聲和正確答案',
-    tags: ['易讀錯', '破音字', '日常'], difficulty: 1, era: 'classic'
+    tags: ['易讀錯', '破音字', '日常'], difficulty: 2, era: 'classic'
   },
   {
     id: 'tk-086', text: '說服', target: '說', zhuyin: 'ㄕㄨㄟˋ',
     distractors: ['ㄕㄨㄛ', 'ㄕㄨㄟ', 'ㄕㄨㄟˇ'],
     meaning: '用言語使人聽從',
     fun: '教育部辭典唸ㄕㄨㄟˋ服。要說服別人之前，先被這個讀音說服',
-    tags: ['易讀錯', '破音字'], difficulty: 3, era: 'classic'
+    tags: ['易讀錯', '破音字'], difficulty: 2, era: 'classic'
   },
   {
     id: 'tk-087', text: '棘手', target: '棘', zhuyin: 'ㄐㄧˊ',
@@ -625,7 +625,7 @@ export default [
     distractors: ['ㄧˋ', 'ㄑㄧˇ', 'ㄑㄧˊ'],
     meaning: '到現在為止',
     fun: '迄今為止，把迄唸對的人迄今仍是少數',
-    tags: ['易讀錯', '新聞常錯'], difficulty: 2, era: 'classic'
+    tags: ['易讀錯', '新聞常錯'], difficulty: 3, era: 'classic'
   },
   {
     id: 'tk-090', text: '瑕疵', target: '疵', zhuyin: 'ㄘ',
@@ -709,7 +709,7 @@ export default [
     distractors: ['ㄍㄨㄥˋ', 'ㄍㄨㄥˇ', 'ㄎㄨㄥ'],
     meaning: '供給、給予',
     fun: '提供唸一聲ㄍㄨㄥ，供品的供才唸四聲。本題免費提供正解',
-    tags: ['易讀錯', '破音字', '日常'], difficulty: 1, era: 'classic'
+    tags: ['易讀錯', '破音字', '日常'], difficulty: 2, era: 'classic'
   },
   {
     id: 'tk-102', text: '烹飪', target: '飪', zhuyin: 'ㄖㄣˋ',
@@ -723,14 +723,14 @@ export default [
     distractors: ['ㄨㄟ', 'ㄨㄟˇ', 'ㄨㄟˋ'],
     meaning: '輕微地笑',
     fun: '教育部標準是二聲ㄨㄟˊ。聽到有人唸一聲，請保持微笑',
-    tags: ['易讀錯', '日常'], difficulty: 2, era: 'classic'
+    tags: ['易讀錯', '日常'], difficulty: 3, era: 'classic'
   },
   {
     id: 'tk-104', text: '帆船', target: '帆', zhuyin: 'ㄈㄢˊ',
     distractors: ['ㄈㄢ', 'ㄈㄢˇ', 'ㄈㄢˋ'],
     meaning: '靠風力航行的船',
     fun: '教育部辭典帆唸二聲ㄈㄢˊ，一路唸一聲的人風帆都歪了',
-    tags: ['易讀錯'], difficulty: 3, era: 'classic'
+    tags: ['易讀錯'], difficulty: 2, era: 'classic'
   },
   {
     id: 'tk-105', text: '傾軋', target: '軋', zhuyin: 'ㄧㄚˋ',
@@ -751,7 +751,7 @@ export default [
     distractors: ['ㄆㄤˊ', 'ㄈㄤ', 'ㄈㄤˊ'],
     meaning: '好像、似乎',
     fun: '彷彿唸ㄈㄤˇ，彷徨才唸ㄆㄤˊ，同一個字兩張臉',
-    tags: ['易讀錯', '破音字'], difficulty: 3, era: 'classic'
+    tags: ['易讀錯', '破音字'], difficulty: 2, era: 'classic'
   },
   {
     id: 'tk-108', text: '僥倖', target: '僥', zhuyin: 'ㄐㄧㄠˇ',
@@ -793,7 +793,7 @@ export default [
     distractors: ['ㄑㄧ', 'ㄒㄧˊ', 'ㄒㄧˇ'],
     meaning: '另外開創新的方法或途徑',
     fun: '蹊徑唸ㄒㄧ，蹊蹺唸ㄑㄧ，同一個字自己就另闢蹊徑',
-    tags: ['易讀錯', '成語', '破音字'], difficulty: 4, era: 'classic'
+    tags: ['易讀錯', '成語', '破音字'], difficulty: 3, era: 'classic'
   },
   {
     id: 'tk-114', text: '唾棄', target: '唾', zhuyin: 'ㄊㄨㄛˋ',
@@ -835,7 +835,7 @@ export default [
     distractors: ['ㄕㄢ', 'ㄘㄜˋ', 'ㄓㄚ'],
     meaning: '用木條或鐵條做的圍欄',
     fun: '柵唸ㄓㄚˋ，木柵動物園的動物都知道',
-    tags: ['易讀錯', '日常'], difficulty: 2, era: 'classic'
+    tags: ['易讀錯', '日常'], difficulty: 1, era: 'classic'
   },
   {
     id: 'tk-120', text: '堤防', target: '堤', zhuyin: 'ㄊㄧˊ',
@@ -856,7 +856,7 @@ export default [
     distractors: ['ㄨㄟˋ', 'ㄩㄣ', 'ㄩㄣˊ'],
     meaning: '燙平衣服的器具',
     fun: '熨斗唸ㄩㄣˋ斗。衣服燙得平整，讀音也請燙平',
-    tags: ['易讀錯', '日常'], difficulty: 3, era: 'classic'
+    tags: ['易讀錯', '日常'], difficulty: 2, era: 'classic'
   },
   {
     id: 'tk-123', text: '喝采', target: '喝', zhuyin: 'ㄏㄜˋ',
@@ -877,14 +877,14 @@ export default [
     distractors: ['ㄒㄩㄥ', 'ㄒㄩ', 'ㄒㄩˇ'],
     meaning: '無節制地喝酒',
     fun: '酗唸ㄒㄩˋ不是「兇」，雖然酗酒的人常常很兇',
-    tags: ['易讀錯', '新聞常錯'], difficulty: 2, era: 'classic'
+    tags: ['易讀錯', '新聞常錯'], difficulty: 3, era: 'classic'
   },
   {
     id: 'tk-126', text: '不屑', target: '屑', zhuyin: 'ㄒㄧㄝˋ',
     distractors: ['ㄒㄩㄝˋ', 'ㄒㄧㄝ', 'ㄒㄧㄝˇ'],
     meaning: '輕視、認為不值得',
     fun: '屑唸ㄒㄧㄝˋ。對正確讀音不屑一顧的人，分數也對你不屑一顧',
-    tags: ['易讀錯', '日常'], difficulty: 2, era: 'classic'
+    tags: ['易讀錯', '日常'], difficulty: 1, era: 'classic'
   },
   {
     id: 'tk-127', text: '邋遢', target: '邋', zhuyin: 'ㄌㄚ',
@@ -905,7 +905,7 @@ export default [
     distractors: ['ㄩˇ', 'ㄒㄧㄤˇ', 'ㄒㄩˋ'],
     meaning: '形容生動逼真',
     fun: '畫得栩栩如生，唸得糊糊不清，可惜了',
-    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
+    tags: ['易讀錯', '成語'], difficulty: 2, era: 'classic'
   },
   {
     id: 'tk-130', text: '胼手胝足', target: '胝', zhuyin: 'ㄓ',
@@ -919,28 +919,28 @@ export default [
     distractors: ['ㄌㄡˋ', 'ㄌㄨˇ', 'ㄌㄨ'],
     meaning: '顯露出來，無所遮蔽',
     fun: '暴露唸ㄌㄨˋ，露臉才唸ㄌㄡˋ，唸錯瞬間暴露國文程度',
-    tags: ['易讀錯', '破音字'], difficulty: 2, era: 'classic'
+    tags: ['易讀錯', '破音字'], difficulty: 1, era: 'classic'
   },
   {
     id: 'tk-132', text: '蠻橫', target: '橫', zhuyin: 'ㄏㄥˋ',
     distractors: ['ㄏㄥˊ', 'ㄏㄥˇ', 'ㄏㄣˋ'],
     meaning: '粗暴不講理',
     fun: '不講理的橫唸四聲，連讀音都很橫',
-    tags: ['易讀錯', '破音字'], difficulty: 2, era: 'classic'
+    tags: ['易讀錯', '破音字'], difficulty: 3, era: 'classic'
   },
   {
     id: 'tk-133', text: '字帖', target: '帖', zhuyin: 'ㄊㄧㄝˇ',
     distractors: ['ㄊㄧㄝˋ', 'ㄊㄧㄝ', 'ㄊㄧㄝˊ'],
     meaning: '供臨摹的書法範本',
     fun: '字帖、請帖、碑帖的帖都唸三聲ㄊㄧㄝˇ，只有俯首帖耳才唸輕聲',
-    tags: ['易讀錯', '破音字'], difficulty: 3, era: 'classic'
+    tags: ['易讀錯', '破音字'], difficulty: 2, era: 'classic'
   },
   {
     id: 'tk-134', text: '笨拙', target: '拙', zhuyin: 'ㄓㄨㄛˊ',
     distractors: ['ㄓㄨㄛ', 'ㄔㄨ', 'ㄓㄨㄛˇ'],
     meaning: '遲鈍不靈巧',
     fun: '臺灣標準唸二聲ㄓㄨㄛˊ，唸一聲的是對岸腔，別笨拙地搞混',
-    tags: ['易讀錯'], difficulty: 3, era: 'classic'
+    tags: ['易讀錯'], difficulty: 2, era: 'classic'
   },
   {
     id: 'tk-135', text: '不容置喙', target: '喙', zhuyin: 'ㄏㄨㄟˋ',
@@ -975,7 +975,7 @@ export default [
     distractors: ['ㄐㄩㄢˋ', 'ㄑㄩㄢˊ', 'ㄑㄩㄢˇ'],
     meaning: '股票、債券等有價憑證',
     fun: '券唸ㄑㄩㄢˋ。把證券唸成證「倦」的股民，看盤確實很倦',
-    tags: ['易讀錯', '日常', '新聞常錯'], difficulty: 1, era: 'modern'
+    tags: ['易讀錯', '日常', '新聞常錯'], difficulty: 2, era: 'modern'
   },
   {
     id: 'tk-140', text: '鼾聲', target: '鼾', zhuyin: 'ㄏㄢ',
@@ -1003,7 +1003,7 @@ export default [
     distractors: ['ㄎㄣˇ', 'ㄧㄣˇ', 'ㄧㄣ'],
     meaning: '包圍牙齒根部的肉',
     fun: '齦唸ㄧㄣˊ。刷牙流血要看醫生，唸錯要看這題',
-    tags: ['易讀錯', '日常'], difficulty: 2, era: 'modern'
+    tags: ['易讀錯', '日常'], difficulty: 1, era: 'modern'
   },
   {
     id: 'tk-144', text: '篩檢', target: '篩', zhuyin: 'ㄕㄞ',
@@ -1045,7 +1045,7 @@ export default [
     distractors: ['ㄍㄨㄢˇ', 'ㄨㄢˊ', 'ㄨㄢˋ'],
     meaning: '微笑的樣子',
     fun: '莞爾一笑唸ㄨㄢˇ，唸成ㄍㄨㄢˇ的話對方就笑不出來了',
-    tags: ['易讀錯'], difficulty: 3, era: 'classic'
+    tags: ['易讀錯'], difficulty: 2, era: 'classic'
   },
   {
     id: 'tk-150', text: '滂沱', target: '滂', zhuyin: 'ㄆㄤ',
@@ -1080,14 +1080,14 @@ export default [
     distractors: ['ㄓㄨˊ', 'ㄒㄩˋ', 'ㄔㄨˇ'],
     meaning: '高聳直立',
     fun: '三個直疊在一起唸ㄔㄨˋ，101 矗立在那裡等你唸對',
-    tags: ['易讀錯'], difficulty: 3, era: 'classic'
+    tags: ['易讀錯'], difficulty: 2, era: 'classic'
   },
   {
     id: 'tk-155', text: '搖曳', target: '曳', zhuyin: 'ㄧˋ',
     distractors: ['ㄧㄝˋ', 'ㄓㄨㄞˋ', 'ㄧˇ'],
     meaning: '輕輕擺動',
     fun: '燭光搖曳的曳唸ㄧˋ，唸ㄧㄝˋ的火都被吹熄了',
-    tags: ['易讀錯'], difficulty: 3, era: 'classic'
+    tags: ['易讀錯'], difficulty: 2, era: 'classic'
   },
   {
     id: 'tk-156', text: '木訥', target: '訥', zhuyin: 'ㄋㄜˋ',
@@ -1115,7 +1115,7 @@ export default [
     distractors: ['ㄓㄨˋ', 'ㄓㄜ', 'ㄔㄨˇ'],
     meaning: '猶豫不決',
     fun: '別躊躇了，躇就唸ㄔㄨˊ，選下去',
-    tags: ['易讀錯'], difficulty: 3, era: 'classic'
+    tags: ['易讀錯'], difficulty: 4, era: 'classic'
   },
   {
     id: 'tk-160', text: '鳥瞰', target: '瞰', zhuyin: 'ㄎㄢˋ',
@@ -1157,7 +1157,7 @@ export default [
     distractors: ['ㄆㄧㄥˊ', 'ㄅㄧㄥˇ', 'ㄅㄧㄥ'],
     meaning: '拋棄、排除',
     fun: '摒棄成見，順便摒棄錯誤讀音，一次清兩樣',
-    tags: ['易讀錯', '新聞常錯'], difficulty: 3, era: 'classic'
+    tags: ['易讀錯', '新聞常錯'], difficulty: 4, era: 'classic'
   },
   {
     id: 'tk-166', text: '慟哭', target: '慟', zhuyin: 'ㄊㄨㄥˋ',
@@ -1171,7 +1171,7 @@ export default [
     distractors: ['ㄕㄣˋ', 'ㄎㄢ', 'ㄓㄣˋ'],
     meaning: '逐字逐句仔細推敲',
     fun: '寫作字斟句酌的人，唸字也請斟酌一下聲調',
-    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
+    tags: ['易讀錯', '成語'], difficulty: 2, era: 'classic'
   },
   {
     id: 'tk-168', text: '脛骨', target: '脛', zhuyin: 'ㄐㄧㄥˋ',
@@ -1199,7 +1199,7 @@ export default [
     distractors: ['ㄓㄨㄛˊ', 'ㄑㄩ', 'ㄔㄨˇ'],
     meaning: '革除官職、廢除',
     fun: '罷黜百家的黜唸ㄔㄨˋ，唸錯的讀音先被罷黜',
-    tags: ['易讀錯'], difficulty: 4, era: 'classic'
+    tags: ['易讀錯'], difficulty: 3, era: 'classic'
   },
   {
     id: 'tk-172', text: '便給', target: '給', zhuyin: 'ㄐㄧˇ',
@@ -1248,7 +1248,7 @@ export default [
     distractors: ['ㄨㄢˋ', 'ㄇㄞˇ', 'ㄇㄞˊ'],
     meaning: '豪放不拘小節',
     fun: '邁唸ㄇㄞˋ，看成萬的人請邁開腳步去重修',
-    tags: ['易讀錯'], difficulty: 2, era: 'classic'
+    tags: ['易讀錯'], difficulty: 1, era: 'classic'
   },
   {
     id: 'tk-179', text: '梔子花', target: '梔', zhuyin: 'ㄓ',
@@ -1283,7 +1283,7 @@ export default [
     distractors: ['ㄌㄧㄠˋ', 'ㄇㄧㄠˋ', 'ㄇㄡˋ'],
     meaning: '荒唐錯誤、不合常理',
     fun: '謬唸ㄇㄧㄡˋ，唸成ㄌㄧㄠˋ才真的很荒謬',
-    tags: ['易讀錯'], difficulty: 3, era: 'classic'
+    tags: ['易讀錯'], difficulty: 2, era: 'classic'
   },
   {
     id: 'tk-184', text: '兌換', target: '兌', zhuyin: 'ㄉㄨㄟˋ',
@@ -1297,14 +1297,14 @@ export default [
     distractors: ['ㄐㄩㄢˋ', 'ㄑㄩㄢˊ', 'ㄐㄩㄢ'],
     meaning: '股票、債券等可買賣的有價憑證',
     fun: '券唸ㄑㄩㄢˋ不是ㄐㄩㄢˋ，唸錯的人股票也容易買錯',
-    tags: ['易讀錯', '日常'], difficulty: 3, era: 'modern'
+    tags: ['易讀錯', '日常'], difficulty: 2, era: 'modern'
   },
   {
     id: 'tk-186', text: '噬臍莫及', target: '臍', zhuyin: 'ㄑㄧˊ',
     distractors: ['ㄒㄧˊ', 'ㄑㄧ', 'ㄐㄧˋ'],
     meaning: '比喻後悔已晚、來不及了',
     fun: '臍就是肚臍的臍，唸ㄑㄧˊ。咬不到自己肚臍，所以後悔莫及',
-    tags: ['易讀錯', '成語'], difficulty: 4, era: 'classic'
+    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
   },
   {
     id: 'tk-187', text: '股肱大臣', target: '股', zhuyin: 'ㄍㄨˇ',

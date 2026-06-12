@@ -132,7 +132,7 @@ export default [
     meaning: "走路緩慢搖晃的樣子",
     fun: "簡編本「蹣跚」的蹣唸ㄇㄢˊ，很多人唸成ㄆㄢˊ其實不對",
     tags: ["生僻字", "易讀錯", "成語"],
-    difficulty: 3,
+    difficulty: 2,
     era: "classic",
   },
   {
@@ -288,7 +288,7 @@ export default [
     meaning: "身材高大強壯",
     fun: "健身房的成果叫魁梧，唸錯叫尷尬",
     tags: ["生僻字", "日常"],
-    difficulty: 2,
+    difficulty: 1,
     era: "modern",
   },
   {
@@ -372,7 +372,7 @@ export default [
     meaning: "即蚵仔，可食用的貝類",
     fun: "蚵仔煎的學名叫牡蠣煎。夜市講台語沒事，上台報告唸錯就有事",
     tags: ["生僻字", "美食"],
-    difficulty: 3,
+    difficulty: 2,
     era: "modern",
   },
   {
@@ -408,7 +408,7 @@ export default [
     meaning: "突然死亡",
     fun: "新聞標題常客。唸成「卒死」的人，國文老師會先吐血",
     tags: ["生僻字", "新聞常錯"],
-    difficulty: 3,
+    difficulty: 2,
     era: "modern",
   },
   {
@@ -432,7 +432,7 @@ export default [
     meaning: "在學校就讀但未畢業",
     fun: "履歷寫肄業沒關係，唸成「肆業」才尷尬",
     tags: ["生僻字", "新聞常錯"],
-    difficulty: 3,
+    difficulty: 2,
     era: "modern",
   },
   {
@@ -480,7 +480,7 @@ export default [
     meaning: "戴在手腕上的環形飾品",
     fun: "金手鐲可以傳家，正確讀音也可以",
     tags: ["生僻字", "日常"],
-    difficulty: 3,
+    difficulty: 2,
     era: "modern",
   },
   {
@@ -516,7 +516,7 @@ export default [
     meaning: "略有醉意",
     fun: "微醺是一聲，唸成二聲表示你已經不只微醺",
     tags: ["生僻字", "日常"],
-    difficulty: 3,
+    difficulty: 2,
     era: "modern",
   },
   {
@@ -564,7 +564,7 @@ export default [
     meaning: "高級官員的住所",
     fun: "進不去沒關係，唸對就贏過一半的記者",
     tags: ["生僻字", "新聞常錯"],
-    difficulty: 3,
+    difficulty: 2,
     era: "modern",
   },
   {
@@ -588,7 +588,7 @@ export default [
     meaning: "詩文等廣受讚美傳誦",
     fun: "膾是細切的肉。金曲膾炙人口，讀音常常陣亡",
     tags: ["生僻字", "成語"],
-    difficulty: 4,
+    difficulty: 3,
     era: "classic",
   },
   {
@@ -624,7 +624,7 @@ export default [
     meaning: "按住一邊鼻孔，用力把鼻涕排出",
     fun: "全台灣天天在擤，九成九不知道這字唸ㄒㄧㄥˇ",
     tags: ["生僻字", "日常"],
-    difficulty: 4,
+    difficulty: 3,
     era: "modern",
   },
   {
@@ -756,7 +756,7 @@ export default [
     meaning: "分離、相隔許久",
     fun: "「暌違五年的演唱會」，搶票之前先搶讀音",
     tags: ["生僻字", "新聞常錯"],
-    difficulty: 4,
+    difficulty: 3,
     era: "modern",
   },
   {
@@ -828,7 +828,7 @@ export default [
     meaning: "帝王或大臣死後追封的稱號",
     fun: "皇帝死後的成績單。諡唸ㄕˋ，唸錯會被史官記一筆",
     tags: ["生僻字", "大考"],
-    difficulty: 5,
+    difficulty: 4,
     era: "classic",
   },
   {
@@ -1020,7 +1020,7 @@ export default [
     meaning: "古代婦女的頭巾髮飾；巾幗借指女子",
     fun: "幗唸ㄍㄨㄛˊ。「巾幗不讓鬚眉」的巾幗就是它，唸對才不輸人",
     tags: ["生僻字", "成語"],
-    difficulty: 4,
+    difficulty: 3,
     era: "classic",
   },
   {

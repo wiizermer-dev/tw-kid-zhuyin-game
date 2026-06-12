@@ -1,6 +1,6 @@
 /**
  * 古文詩詞 — 課本裡朗朗上口卻常唸錯的字
- * schema 同 tricky.js；注音以教育部《重編國語辭典修訂本》為準
+ * schema 同 tricky.js；注音以教育部《國語辭典簡編本》為主（查無才退《重編國語辭典修訂本》）
  */
 export default [
   {
@@ -43,7 +43,7 @@ export default [
     distractors: ['ㄑㄧㄝˋ', 'ㄒㄧㄝˋ', 'ㄑㄧㄝˊ'],
     meaning: '生死離合（契闊：聚散）。出自《詩經・邶風》',
     fun: '簡編本「契」唸ㄑㄧˋ，契闊、默契、契約都一樣',
-    tags: ['古文', '詩經'], difficulty: 5, era: 'classic'
+    tags: ['古文', '詩經'], difficulty: 4, era: 'classic'
   },
   {
     id: 'cl-007', text: '風雨如晦', target: '晦', zhuyin: 'ㄏㄨㄟˋ',
@@ -193,10 +193,10 @@ export default [
     tags: ['古文', '唐詩'], difficulty: 3, era: 'classic'
   },
   {
-    id: 'cl-028', text: '燕山胡騎', target: '騎', zhuyin: 'ㄐㄧˋ',
-    distractors: ['ㄑㄧˊ', 'ㄐㄧˊ', 'ㄐㄧ'],
-    meaning: '燕山一帶胡人的騎兵（騎：騎兵，名詞）。出自〈木蘭詩〉',
-    fun: '騎當名詞「騎兵」唸ㄐㄧˋ，木蘭聽到的是敵軍鐵騎，不是有人在騎腳踏車',
+    id: 'cl-028', text: '燕山胡騎', target: '燕', zhuyin: 'ㄧㄢ',
+    distractors: ['ㄧㄢˋ', 'ㄧㄢˊ', 'ㄧㄢˇ'],
+    meaning: '燕山一帶胡人的騎兵。燕山：河北山脈，地名讀ㄧㄢ。出自〈木蘭詩〉',
+    fun: '地名國名的燕唸一聲，燕子才唸四聲。木蘭打的是燕（ㄧㄢ）山敵軍',
     tags: ['古文', '樂府', '破音字', '大考'], difficulty: 4, era: 'classic'
   },
   {
@@ -337,14 +337,14 @@ export default [
     distractors: ['ㄉㄧˊ', 'ㄓㄠˋ', 'ㄓㄨㄛˇ'],
     meaning: '在清水中洗滌過卻不顯妖媚。出自周敦頤《愛蓮說》',
     fun: '濯是洗滌，蓮花洗完澡依然低調，反觀某些人拍照修圖修兩小時',
-    tags: ['古文', '愛蓮說'], difficulty: 3, era: 'classic'
+    tags: ['古文', '愛蓮說'], difficulty: 2, era: 'classic'
   },
   {
     id: 'cl-049', text: '不蔓不枝', target: '蔓', zhuyin: 'ㄇㄢˋ',
     distractors: ['ㄨㄢˋ', 'ㄇㄢˊ', 'ㄇㄢˇ'],
     meaning: '不生藤蔓、不長旁枝，比喻正直。出自周敦頤《愛蓮說》',
     fun: '蓮花莖一根直上不亂長，植物界的不搞小圈圈代表',
-    tags: ['古文', '愛蓮說'], difficulty: 3, era: 'classic'
+    tags: ['古文', '愛蓮說'], difficulty: 2, era: 'classic'
   },
   {
     id: 'cl-050', text: '陶後鮮有聞', target: '鮮', zhuyin: 'ㄒㄧㄢˇ',
@@ -533,7 +533,7 @@ export default [
     distractors: ['ㄍㄥˋ', 'ㄍㄢ', 'ㄎㄥ'],
     meaning: '《甄嬛傳》華妃之兄、權傾一時的大將軍',
     fun: '羹唸ㄍㄥ，跟肉羹的羹同字。大將軍的名字可別唸錯',
-    tags: ['甄嬛傳', '台詞'], difficulty: 3, era: 'modern'
+    tags: ['甄嬛傳', '台詞'], difficulty: 2, era: 'modern'
   },
   {
     id: 'cl-077', text: '攛掇', target: '攛', zhuyin: 'ㄘㄨㄢ',
@@ -548,5 +548,551 @@ export default [
     meaning: '粉碎、粉身碎骨。常見於宮鬥戲的狠話',
     fun: '齏唸ㄐㄧ，本指搗碎的細末。「化為齏粉」就是碎成渣，威脅力滿點',
     tags: ['甄嬛傳', '生僻字'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-079', text: '學而不思則罔', target: '罔', zhuyin: 'ㄨㄤˇ',
+    distractors: ['ㄨㄤˊ', 'ㄇㄤˇ', 'ㄨㄤ'],
+    meaning: '只讀書不思考就會迷惘。出自《論語》',
+    fun: '罔是迷惘無所得，唸ㄨㄤˇ。死背不動腦，孔子兩千年前就警告過',
+    tags: ['古文', '論語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'cl-080', text: '思而不學則殆', target: '殆', zhuyin: 'ㄉㄞˋ',
+    distractors: ['ㄊㄞˊ', 'ㄉㄞ', 'ㄧˊ'],
+    meaning: '只空想不讀書就會疑惑危殆。出自《論語》',
+    fun: '殆唸ㄉㄞˋ。整天空想不念書，跟整天念書不思考一樣慘',
+    tags: ['古文', '論語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'cl-081', text: '不悱不發', target: '悱', zhuyin: 'ㄈㄟˇ',
+    distractors: ['ㄈㄟ', 'ㄈㄟˋ', 'ㄆㄟˊ'],
+    meaning: '不到學生想說卻說不出時，不去啟發。出自《論語》',
+    fun: '悱是想講講不出的糾結，唸ㄈㄟˇ。孔子的教學法：你不卡關我不出手',
+    tags: ['古文', '論語', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-082', text: '舉一隅不以三隅反', target: '隅', zhuyin: 'ㄩˊ',
+    distractors: ['ㄡˇ', 'ㄩˇ', 'ㄩˋ'],
+    meaning: '舉一個角落不能推想其他三個。舉一反三的出處',
+    fun: '隅是角落，唸ㄩˊ。舉一反三的原文比你想的長很多',
+    tags: ['古文', '論語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'cl-083', text: '誨人不倦', target: '誨', zhuyin: 'ㄏㄨㄟˋ',
+    distractors: ['ㄏㄨㄟˇ', 'ㄏㄞˇ', 'ㄏㄨㄟ'],
+    meaning: '教導人從不倦怠。出自《論語》',
+    fun: '誨是教導，唸ㄏㄨㄟˋ，跟後悔的悔不同調。老師的職業精神',
+    tags: ['古文', '論語'], difficulty: 2, era: 'classic'
+  },
+  {
+    id: 'cl-084', text: '曾參殺人', target: '參', zhuyin: 'ㄕㄣ',
+    distractors: ['ㄘㄢ', 'ㄘㄣ', 'ㄕㄢ'],
+    meaning: '謠言重複多次就有人信。曾參是孔子弟子',
+    fun: '人名曾參唸ㄕㄣ。假消息傳三次連他媽都信了，古代版假新聞',
+    tags: ['古文', '破音字', '大考'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'cl-085', text: '莫春者春服既成', target: '莫', zhuyin: 'ㄇㄨˋ',
+    distractors: ['ㄇㄛˋ', 'ㄇㄛ', 'ㄇㄨˇ'],
+    meaning: '暮春時節，春衣已穿得住。莫通暮。出自《論語》',
+    fun: '這個莫通暮，唸ㄇㄨˋ。唸成ㄇㄛˋ，曾點的春遊直接取消',
+    tags: ['古文', '論語', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-086', text: '浴乎沂', target: '沂', zhuyin: 'ㄧˊ',
+    distractors: ['ㄑㄧˊ', 'ㄒㄧ', 'ㄧㄣˊ'],
+    meaning: '在沂水裡洗澡。出自《論語》曾點言志',
+    fun: '沂水的沂唸ㄧˊ。孔子最羨慕的人生：洗澡吹風唱歌回家',
+    tags: ['古文', '論語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'cl-087', text: '吾不忍其觳觫', target: '觫', zhuyin: 'ㄙㄨˋ',
+    distractors: ['ㄕㄨˋ', 'ㄙㄨ', 'ㄐㄧㄠˇ'],
+    meaning: '不忍心看牛恐懼發抖的樣子。出自《孟子》',
+    fun: '觳觫唸ㄏㄨˊ ㄙㄨˋ，嚇到發抖。齊宣王看牛發抖就放了牠，反差萌',
+    tags: ['古文', '孟子', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-088', text: '謹庠序之教', target: '庠', zhuyin: 'ㄒㄧㄤˊ',
+    distractors: ['ㄧㄤˊ', 'ㄒㄧㄤ', 'ㄒㄩˊ'],
+    meaning: '辦好地方學校的教育。庠序是古代學校。出自《孟子》',
+    fun: '庠唸ㄒㄧㄤˊ，古代的學校。唸錯等於在校門口唸錯校名',
+    tags: ['古文', '孟子', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-089', text: '槁木死灰', target: '槁', zhuyin: 'ㄍㄠˇ',
+    distractors: ['ㄍㄠ', 'ㄎㄠˇ', 'ㄏㄠˋ'],
+    meaning: '枯木與冷灰，形容毫無生氣。出自《莊子》',
+    fun: '槁是枯乾，唸ㄍㄠˇ。週一早八的教室，整排槁木死灰',
+    tags: ['古文', '莊子'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'cl-090', text: '敏而好學', target: '好', zhuyin: 'ㄏㄠˋ',
+    distractors: ['ㄏㄠˇ', 'ㄏㄠ', 'ㄏㄠˊ'],
+    meaning: '聰敏又愛好學習。出自《論語》',
+    fun: '愛好的好唸ㄏㄠˋ。君子好逑唸三聲，敏而好學唸四聲，別搞混',
+    tags: ['古文', '論語', '破音字'], difficulty: 2, era: 'classic'
+  },
+  {
+    id: 'cl-091', text: '遠上寒山石徑斜', target: '斜', zhuyin: 'ㄒㄧㄝˊ',
+    distractors: ['ㄒㄧㄚˊ', 'ㄒㄧㄝˇ', 'ㄑㄧㄝˊ'],
+    meaning: '石頭小路歪斜向上。杜牧〈山行〉',
+    fun: '教育部說斜就唸ㄒㄧㄝˊ，ㄒㄧㄚˊ是古音情懷，考試寫了會哭',
+    tags: ['唐詩', '新聞常錯'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'cl-092', text: '風吹草低見牛羊', target: '見', zhuyin: 'ㄒㄧㄢˋ',
+    distractors: ['ㄐㄧㄢˋ', 'ㄐㄧㄢ', 'ㄒㄧㄢ'],
+    meaning: '草被吹低，牛羊顯現。見通現。〈敕勒歌〉',
+    fun: '這個見通現，唸ㄒㄧㄢˋ。草原名場面，唸錯牛羊不出來',
+    tags: ['古文', '破音字', '大考'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'cl-093', text: '將進酒', target: '將', zhuyin: 'ㄐㄧㄤ',
+    distractors: ['ㄑㄧㄤ', 'ㄐㄧㄤˋ', 'ㄑㄧㄤˊ'],
+    meaning: '且飲酒吧。將：且、又。李白名作（修訂本標ㄐㄧㄤ）',
+    fun: '老師教ㄑㄧㄤ，但教育部修訂本標ㄐㄧㄤ。這題連國文老師都會錯愕',
+    tags: ['唐詩', '破音字', '大考'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'cl-094', text: '呦呦鹿鳴', target: '呦', zhuyin: 'ㄧㄡ',
+    distractors: ['ㄧㄡˋ', 'ㄠ', 'ㄧㄡˇ'],
+    meaning: '鹿叫聲。出自《詩經・小雅》',
+    fun: '呦唸一聲，是鹿叫。屠呦呦的名字就是從這來的，得諾貝爾獎那位',
+    tags: ['詩經', '大考'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'cl-095', text: '猿猱欲度愁攀援', target: '猱', zhuyin: 'ㄋㄠˊ',
+    distractors: ['ㄖㄡˊ', 'ㄋㄠˇ', 'ㄇㄠˊ'],
+    meaning: '猿猴想過去都愁沒地方抓。李白〈蜀道難〉',
+    fun: '猱是猴子，唸ㄋㄠˊ。連猴子都過不去的路，李白還是寫出來了',
+    tags: ['唐詩', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-096', text: '捫參歷井', target: '捫', zhuyin: 'ㄇㄣˊ',
+    distractors: ['ㄇㄣˇ', 'ㄇㄣˋ', 'ㄇㄛ'],
+    meaning: '伸手可摸到星宿，形容山高。李白〈蜀道難〉',
+    fun: '捫是摸，唸ㄇㄣˊ。捫心自問也是這個字，摸著良心唸對它',
+    tags: ['唐詩', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-097', text: '鈿頭銀篦', target: '鈿', zhuyin: 'ㄉㄧㄢˋ',
+    distractors: ['ㄊㄧㄢˊ', 'ㄉㄧㄢ', 'ㄗㄢ'],
+    meaning: '鑲金花的髮飾。白居易〈琵琶行〉',
+    fun: '鈿唸ㄉㄧㄢˋ，金花首飾。琵琶女的精品，唸錯買不起',
+    tags: ['唐詩', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-098', text: '潯陽江頭夜送客', target: '潯', zhuyin: 'ㄒㄩㄣˊ',
+    distractors: ['ㄒㄩㄣ', 'ㄔㄣˊ', 'ㄒㄧㄣˊ'],
+    meaning: '潯陽江邊夜裡送別客人。〈琵琶行〉首句',
+    fun: '潯唸ㄒㄩㄣˊ。琵琶行第一句就考你，白居易開局直接出題',
+    tags: ['唐詩'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'cl-099', text: '楓葉荻花秋瑟瑟', target: '荻', zhuyin: 'ㄉㄧˊ',
+    distractors: ['ㄓㄨˊ', 'ㄉㄧˋ', 'ㄑㄧㄡ'],
+    meaning: '荻是水邊蘆葦類植物。〈琵琶行〉',
+    fun: '荻唸ㄉㄧˊ，跟筆畫多它一點的萩不同字。秋天河邊那片白毛草',
+    tags: ['唐詩'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'cl-100', text: '兩個黃鸝鳴翠柳', target: '鸝', zhuyin: 'ㄌㄧˊ',
+    distractors: ['ㄌㄧˋ', 'ㄌㄧˇ', 'ㄧㄥ'],
+    meaning: '黃鸝是黃鶯。杜甫絕句',
+    fun: '鸝唸ㄌㄧˊ。國小必背詩，但很多人到高中還唸不對這隻鳥',
+    tags: ['唐詩'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'cl-101', text: '一行白鷺上青天', target: '行', zhuyin: 'ㄏㄤˊ',
+    distractors: ['ㄒㄧㄥˊ', 'ㄏㄤˋ', 'ㄒㄧㄥˋ'],
+    meaning: '一排白鷺飛上天。行：行列。杜甫絕句',
+    fun: '一行是一排，唸ㄏㄤˊ。唸ㄒㄧㄥˊ的話白鷺就是用走的上天',
+    tags: ['唐詩', '破音字', '大考'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'cl-102', text: '車轔轔馬蕭蕭', target: '轔', zhuyin: 'ㄌㄧㄣˊ',
+    distractors: ['ㄌㄧㄣˋ', 'ㄌㄨㄣˊ', 'ㄌㄧㄣˇ'],
+    meaning: '車聲隆隆馬嘶鳴。杜甫〈兵車行〉',
+    fun: '轔轔是車輪聲，唸ㄌㄧㄣˊ。古代的引擎聲，配音請唸對',
+    tags: ['唐詩', '大考'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'cl-103', text: '干戈寥落四周星', target: '寥', zhuyin: 'ㄌㄧㄠˊ',
+    distractors: ['ㄌㄧㄠˇ', 'ㄇㄧㄠˋ', 'ㄌㄧㄡˊ'],
+    meaning: '戰事零落歷經四年。文天祥〈過零丁洋〉',
+    fun: '寥唸ㄌㄧㄠˊ，寥寥無幾也是它。文天祥的悲壯，從唸對開始',
+    tags: ['宋詞', '大考'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'cl-104', text: '瀚海闌干百丈冰', target: '瀚', zhuyin: 'ㄏㄢˋ',
+    distractors: ['ㄏㄢˊ', 'ㄍㄢˋ', 'ㄏㄢ'],
+    meaning: '沙漠上縱橫都是冰。岑參〈白雪歌〉',
+    fun: '瀚是廣大，唸ㄏㄢˋ。浩瀚也是它，沙漠跟宇宙共用一個字',
+    tags: ['唐詩'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'cl-105', text: '狐裘不暖錦衾薄', target: '衾', zhuyin: 'ㄑㄧㄣ',
+    distractors: ['ㄐㄧㄣ', 'ㄑㄧㄣˊ', 'ㄑㄧㄣˇ'],
+    meaning: '皮袍不暖、錦被嫌薄。衾：棉被。岑參〈白雪歌〉',
+    fun: '衾是棉被，唸一聲ㄑㄧㄣ。天太冷連名牌被都沒用',
+    tags: ['唐詩', '大考'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'cl-106', text: '中軍置酒飲歸客', target: '飲', zhuyin: 'ㄧㄣˋ',
+    distractors: ['ㄧㄣˇ', 'ㄧㄣ', 'ㄧㄣˊ'],
+    meaning: '設酒宴請回京的客人。飲：使⋯⋯喝。岑參〈白雪歌〉',
+    fun: '請人喝的飲唸ㄧㄣˋ，自己喝才唸ㄧㄣˇ。請客連讀音都要升級',
+    tags: ['唐詩', '破音字', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-107', text: '一蓑煙雨任平生', target: '蓑', zhuyin: 'ㄙㄨㄛ',
+    distractors: ['ㄕㄨㄞ', 'ㄙㄨㄛˇ', 'ㄕㄨㄚ'],
+    meaning: '披著蓑衣在煙雨中過一生。蘇軾〈定風波〉',
+    fun: '蓑是草編雨衣，唸ㄙㄨㄛ。蘇軾的人生態度：雨衣一穿就出門',
+    tags: ['宋詞', '大考'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'cl-108', text: '料峭春風吹酒醒', target: '峭', zhuyin: 'ㄑㄧㄠˋ',
+    distractors: ['ㄒㄧㄠˋ', 'ㄑㄧㄠ', 'ㄕㄠˋ'],
+    meaning: '微寒的春風吹醒酒意。蘇軾〈定風波〉',
+    fun: '料峭是微寒，峭唸ㄑㄧㄠˋ。春天那種假溫暖真冷的風',
+    tags: ['宋詞'], difficulty: 2, era: 'classic'
+  },
+  {
+    id: 'cl-109', text: '早生華髮', target: '華', zhuyin: 'ㄏㄨㄚ',
+    distractors: ['ㄏㄨㄚˊ', 'ㄏㄨㄚˋ', 'ㄏㄨㄛˊ'],
+    meaning: '早早長出花白頭髮。華通花。蘇軾〈念奴嬌〉',
+    fun: '華髮的華通花，唸一聲。蘇軾的白頭髮，考卷的送分題兼陷阱題',
+    tags: ['宋詞', '破音字', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-110', text: '一尊還酹江月', target: '酹', zhuyin: 'ㄌㄟˋ',
+    distractors: ['ㄌㄠˋ', 'ㄌㄟˊ', 'ㄗㄨㄣ'],
+    meaning: '把酒灑在地上祭月。蘇軾〈念奴嬌〉',
+    fun: '酹是把酒灑地上敬天地，唸ㄌㄟˋ。蘇軾跟江月乾杯的方式',
+    tags: ['宋詞', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-111', text: '驀然回首', target: '驀', zhuyin: 'ㄇㄛˋ',
+    distractors: ['ㄇㄨˋ', 'ㄇㄛ', 'ㄇㄞˋ'],
+    meaning: '突然回頭。辛棄疾〈青玉案〉',
+    fun: '驀唸ㄇㄛˋ。那人就在燈火闌珊處，但你先把驀唸對再回頭',
+    tags: ['宋詞', '新聞常錯'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'cl-112', text: '醉裡挑燈看劍', target: '挑', zhuyin: 'ㄊㄧㄠˇ',
+    distractors: ['ㄊㄧㄠ', 'ㄊㄧㄠˋ', 'ㄉㄧㄠ'],
+    meaning: '撥亮燈芯看劍。挑：撥動。辛棄疾〈破陣子〉',
+    fun: '挑燈是把燈芯撥亮，唸ㄊㄧㄠˇ。挑燈夜戰的挑也是這個音',
+    tags: ['宋詞', '破音字', '大考'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'cl-113', text: '久在樊籠裡', target: '樊', zhuyin: 'ㄈㄢˊ',
+    distractors: ['ㄆㄢˊ', 'ㄈㄢˇ', 'ㄈㄢ'],
+    meaning: '長久關在籠中。陶淵明〈歸園田居〉',
+    fun: '樊籠是鳥籠，樊唸ㄈㄢˊ。陶淵明辭職的理由，寫得比離職信漂亮',
+    tags: ['古文'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'cl-114', text: '唧唧復唧唧', target: '唧', zhuyin: 'ㄐㄧ',
+    distractors: ['ㄐㄧˊ', 'ㄑㄧ', 'ㄐㄧˋ'],
+    meaning: '織布機聲。〈木蘭詩〉首句',
+    fun: '唧唸一聲。木蘭詩開頭的音效，唸成二聲織布機會壞掉',
+    tags: ['古文'], difficulty: 2, era: 'classic'
+  },
+  {
+    id: 'cl-115', text: '朔氣傳金柝', target: '柝', zhuyin: 'ㄊㄨㄛˋ',
+    distractors: ['ㄔㄞ', 'ㄊㄨㄛ', 'ㄒㄧ'],
+    meaning: '北方寒氣中傳來打更聲。柝：打更的梆子。〈木蘭詩〉',
+    fun: '柝是打更梆子，唸ㄊㄨㄛˋ，跟拆只差一個木。軍營的鬧鐘',
+    tags: ['古文', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-116', text: '霪雨霏霏', target: '霪', zhuyin: 'ㄧㄣˊ',
+    distractors: ['ㄧㄥˊ', 'ㄧㄣˇ', 'ㄌㄧㄣˊ'],
+    meaning: '連綿不停的雨。范仲淹〈岳陽樓記〉',
+    fun: '霪是久雨，唸ㄧㄣˊ。梅雨季的天空，范仲淹早就寫過',
+    tags: ['古文', '大考'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'cl-117', text: '薄暮冥冥', target: '冥', zhuyin: 'ㄇㄧㄥˊ',
+    distractors: ['ㄇㄧㄥˇ', 'ㄇㄧㄢˇ', 'ㄇㄧㄥˋ'],
+    meaning: '傍晚天色昏暗。〈岳陽樓記〉',
+    fun: '冥唸ㄇㄧㄥˊ，昏暗的意思。傍晚的洞庭湖，自帶濾鏡',
+    tags: ['古文'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'cl-118', text: '岸芷汀蘭', target: '汀', zhuyin: 'ㄊㄧㄥ',
+    distractors: ['ㄉㄧㄥ', 'ㄊㄧㄥˊ', 'ㄓㄥ'],
+    meaning: '岸邊香草、小洲蘭花。汀：水中小洲。〈岳陽樓記〉',
+    fun: '汀是水邊平地，唸一聲ㄊㄧㄥ。西門汀？不，那是町',
+    tags: ['古文', '大考'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'cl-119', text: '山肴野蔌', target: '蔌', zhuyin: 'ㄙㄨˋ',
+    distractors: ['ㄕㄨˋ', 'ㄙㄨ', 'ㄌㄠˋ'],
+    meaning: '山產野菜。蔌：蔬菜。歐陽脩〈醉翁亭記〉',
+    fun: '蔌是野菜，唸ㄙㄨˋ。歐陽脩的野餐菜單，唸對才能開動',
+    tags: ['古文', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-120', text: '樹林陰翳', target: '翳', zhuyin: 'ㄧˋ',
+    distractors: ['ㄧ', 'ㄝˋ', 'ㄓˋ'],
+    meaning: '樹蔭濃密遮蔽。翳：遮蔽。〈醉翁亭記〉',
+    fun: '翳是遮蔽，唸ㄧˋ。樹蔭濃到變天然遮陽棚',
+    tags: ['古文', '大考'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'cl-121', text: '詣太守', target: '詣', zhuyin: 'ㄧˋ',
+    distractors: ['ㄓˇ', 'ㄐㄧㄝ', 'ㄑㄧˇ'],
+    meaning: '前往拜見太守。詣：往見。〈桃花源記〉',
+    fun: '詣是拜訪，唸ㄧˋ。造詣也是它。漁夫去打小報告的那一段',
+    tags: ['古文', '大考'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'cl-122', text: '豁然開朗', target: '豁', zhuyin: 'ㄏㄨㄛˋ',
+    distractors: ['ㄏㄨㄛ', 'ㄎㄨㄛˋ', 'ㄏㄜˊ'],
+    meaning: '視野突然開闊明亮。〈桃花源記〉',
+    fun: '豁唸ㄏㄨㄛˋ。鑽過小洞看到桃花源的那一秒，解題解通也是這感覺',
+    tags: ['古文'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'cl-123', text: '孔子師老聃', target: '聃', zhuyin: 'ㄉㄢ',
+    distractors: ['ㄖㄢˇ', 'ㄉㄢˋ', 'ㄋㄢˊ'],
+    meaning: '孔子曾向老聃（老子）請教。韓愈〈師說〉',
+    fun: '聃唸ㄉㄢ，老子的名字。連孔子都要拜師，你還不虛心一點',
+    tags: ['古文', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-124', text: '山川相繆', target: '繆', zhuyin: 'ㄌㄧㄠˊ',
+    distractors: ['ㄇㄡˊ', 'ㄇㄧㄡˋ', 'ㄐㄧㄡ'],
+    meaning: '山水互相環繞。繆通繚。蘇軾〈赤壁賦〉',
+    fun: '這個繆通繚，唸ㄌㄧㄠˊ；未雨綢繆才唸ㄇㄡˊ。一字多音的魔王',
+    tags: ['古文', '破音字', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-125', text: '舉匏樽以相屬', target: '匏', zhuyin: 'ㄆㄠˊ',
+    distractors: ['ㄅㄠ', 'ㄆㄠ', 'ㄎㄨㄚ'],
+    meaning: '舉起葫蘆酒杯互相勸酒。匏：葫蘆。〈赤壁賦〉',
+    fun: '匏是葫蘆，唸ㄆㄠˊ。匏瓜湯的匏，菜市場跟赤壁賦同一個字',
+    tags: ['古文', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-126', text: '寄蜉蝣於天地', target: '蜉', zhuyin: 'ㄈㄨˊ',
+    distractors: ['ㄈㄨ', 'ㄈㄨˇ', 'ㄧㄡˊ'],
+    meaning: '人生如蜉蝣般短暫。蜉蝣朝生暮死。〈赤壁賦〉',
+    fun: '蜉蝣唸ㄈㄨˊ ㄧㄡˊ，活一天的小蟲。蘇軾的人生感慨，比你的週一還短',
+    tags: ['古文', '大考'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'cl-127', text: '靜女其姝', target: '姝', zhuyin: 'ㄕㄨ',
+    distractors: ['ㄓㄨ', 'ㄕㄨˊ', 'ㄗㄨ'],
+    meaning: '文靜的女孩很美。姝：美好。《詩經・靜女》',
+    fun: '姝是美麗，唸一聲ㄕㄨ。詩經的告白詞，唸錯就不美了',
+    tags: ['詩經', '大考'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'cl-128', text: '在水之湄', target: '湄', zhuyin: 'ㄇㄟˊ',
+    distractors: ['ㄇㄟˇ', 'ㄇㄧˊ', 'ㄨㄟˊ'],
+    meaning: '在水邊。湄：水草交接的岸邊。《詩經・蒹葭》',
+    fun: '湄是水岸，唸ㄇㄟˊ。伊人這次站在湄，上次在水一方，很會跑',
+    tags: ['詩經'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'cl-129', text: '道阻且躋', target: '躋', zhuyin: 'ㄐㄧ',
+    distractors: ['ㄑㄧˊ', 'ㄐㄧˇ', 'ㄐㄧˋ'],
+    meaning: '路又險又越走越高。躋：升高。《詩經・蒹葭》',
+    fun: '躋是往上爬，唸ㄐㄧ。追伊人追到要爬坡，詩經版越野跑',
+    tags: ['詩經', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-130', text: '溯洄從之', target: '溯', zhuyin: 'ㄙㄨˋ',
+    distractors: ['ㄕㄨㄛˋ', 'ㄙㄨ', 'ㄋㄧˋ'],
+    meaning: '逆流而上去追尋。《詩經・蒹葭》',
+    fun: '溯是逆流而上，唸ㄙㄨˋ。追溯、回溯都是它，追人追到上游',
+    tags: ['詩經'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'cl-131', text: '白露未晞', target: '晞', zhuyin: 'ㄒㄧ',
+    distractors: ['ㄑㄧˊ', 'ㄒㄧˇ', 'ㄍㄢ'],
+    meaning: '露水還沒曬乾。晞：乾。《詩經・蒹葭》',
+    fun: '晞是曬乾，唸ㄒㄧ。露水沒乾就出門追人，詩經主角很拚',
+    tags: ['詩經', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-132', text: '碩鼠碩鼠', target: '碩', zhuyin: 'ㄕㄨㄛˋ',
+    distractors: ['ㄕˊ', 'ㄕㄨㄛ', 'ㄊㄨㄛˋ'],
+    meaning: '大老鼠啊大老鼠。《詩經・魏風》諷刺剝削者',
+    fun: '碩是大，唸ㄕㄨㄛˋ。碩士的碩，跟詩經罵的大老鼠同字，自己體會',
+    tags: ['詩經'], difficulty: 2, era: 'classic'
+  },
+  {
+    id: 'cl-133', text: '不可褻玩', target: '褻', zhuyin: 'ㄒㄧㄝˋ',
+    distractors: ['ㄒㄧㄝ', 'ㄓㄜˊ', 'ㄕㄚˋ'],
+    meaning: '不可輕慢地玩弄。周敦頤〈愛蓮說〉',
+    fun: '褻是輕慢，唸ㄒㄧㄝˋ。蓮花只可遠觀，這個字只可唸對',
+    tags: ['古文', '大考'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'cl-134', text: '可以調素琴', target: '調', zhuyin: 'ㄊㄧㄠˊ',
+    distractors: ['ㄉㄧㄠˋ', 'ㄊㄧㄠˇ', 'ㄓㄡ'],
+    meaning: '可以彈彈樸素的琴。調：彈奏。劉禹錫〈陋室銘〉',
+    fun: '調琴的調唸ㄊㄧㄠˊ，曲調的調才唸ㄉㄧㄠˋ。陋室裡的文青時光',
+    tags: ['古文', '破音字', '大考'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'cl-135', text: '舸艦彌津', target: '舸', zhuyin: 'ㄍㄜˇ',
+    distractors: ['ㄎㄜˇ', 'ㄍㄜ', 'ㄏㄜˊ'],
+    meaning: '大船小艦擠滿渡口。舸：大船。王勃〈滕王閣序〉',
+    fun: '舸是大船，唸ㄍㄜˇ。百舸爭流也是它，划船比賽的文言說法',
+    tags: ['古文', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-136', text: '叨陪鯉對', target: '叨', zhuyin: 'ㄊㄠ',
+    distractors: ['ㄉㄠ', 'ㄊㄠˊ', 'ㄉㄠˋ'],
+    meaning: '謙稱承蒙教誨。叨：忝、承受。〈滕王閣序〉',
+    fun: '謙詞的叨唸ㄊㄠ，叨擾也是；唸叨才唸ㄉㄠ。客氣也要客氣對音',
+    tags: ['古文', '破音字', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-137', text: '妃嬪媵嬙', target: '媵', zhuyin: 'ㄧㄥˋ',
+    distractors: ['ㄊㄥˊ', 'ㄧㄥˊ', 'ㄑㄧㄤˊ'],
+    meaning: '宮中各等級的女官姬妾。媵：陪嫁侍女。杜牧〈阿房宮賦〉',
+    fun: '媵唸ㄧㄥˋ，陪嫁的侍女。阿房宮人事編制表，每個職稱都難唸',
+    tags: ['古文', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-138', text: '鼎鐺玉石', target: '鐺', zhuyin: 'ㄔㄥ',
+    distractors: ['ㄉㄤ', 'ㄊㄤˊ', 'ㄔㄥˋ'],
+    meaning: '把寶鼎當鐵鍋、美玉當石頭，極度奢侈。鐺：平底鍋。〈阿房宮賦〉',
+    fun: '鍋子的鐺唸ㄔㄥ，鋃鐺入獄才唸ㄉㄤ。秦宮的暴殄天物實錄',
+    tags: ['古文', '破音字', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-139', text: '燕然未勒歸無計', target: '勒', zhuyin: 'ㄌㄜˋ',
+    distractors: ['ㄌㄟ', 'ㄌㄜ', 'ㄌㄧˋ'],
+    meaning: '尚未刻石記功，無法歸鄉。勒：刻。范仲淹〈漁家傲〉',
+    fun: '刻石的勒唸ㄌㄜˋ，勒緊褲帶才唸ㄌㄟ。沒立功不回家，宋朝武將的浪漫',
+    tags: ['宋詞', '破音字', '大考'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'cl-140', text: '羌管悠悠霜滿地', target: '羌', zhuyin: 'ㄑㄧㄤ',
+    distractors: ['ㄐㄧㄤ', 'ㄑㄧㄤˊ', 'ㄧㄤˊ'],
+    meaning: '羌笛聲在滿地霜中迴盪。〈漁家傲〉',
+    fun: '羌唸ㄑㄧㄤ，西北民族的笛子。邊塞夜裡的BGM',
+    tags: ['宋詞'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'cl-141', text: '猥自枉屈', target: '猥', zhuyin: 'ㄨㄟˇ',
+    distractors: ['ㄨㄟˋ', 'ㄨㄟ', 'ㄍㄨㄟˇ'],
+    meaning: '謙詞，指劉備降低身分屈就。諸葛亮〈出師表〉',
+    fun: '猥這裡是謙詞，唸ㄨㄟˇ。劉備三顧茅廬，諸葛亮寫得很客氣',
+    tags: ['古文', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-142', text: '簡拔以遺陛下', target: '遺', zhuyin: 'ㄨㄟˋ',
+    distractors: ['ㄧˊ', 'ㄧˋ', 'ㄨㄟˊ'],
+    meaning: '挑選出來留給陛下。遺：給予。〈出師表〉',
+    fun: '給予的遺唸ㄨㄟˋ，遺失才唸ㄧˊ。先帝留的是人才不是遺物',
+    tags: ['古文', '破音字', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-143', text: '性行淑均', target: '行', zhuyin: 'ㄒㄧㄥˋ',
+    distractors: ['ㄒㄧㄥˊ', 'ㄏㄤˊ', 'ㄏㄥˊ'],
+    meaning: '品性行為善良公正。行：品行。〈出師表〉',
+    fun: '品行的行唸ㄒㄧㄥˋ。出師表的人事評語，比期末評語誠懇',
+    tags: ['古文', '破音字', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-144', text: '嘆息痛恨於桓靈', target: '桓', zhuyin: 'ㄏㄨㄢˊ',
+    distractors: ['ㄏㄥˊ', 'ㄒㄩㄢ', 'ㄏㄨㄢ'],
+    meaning: '對桓帝靈帝的昏庸感到痛心。〈出師表〉',
+    fun: '桓唸ㄏㄨㄢˊ，跟恆只差一撇但不同字。齊桓公也是這個桓',
+    tags: ['古文', '新聞常錯'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'cl-145', text: '箕畚運於渤海之尾', target: '畚', zhuyin: 'ㄅㄣˇ',
+    distractors: ['ㄆㄣˊ', 'ㄅㄣ', 'ㄈㄣˊ'],
+    meaning: '用畚箕把土運到渤海邊。〈愚公移山〉',
+    fun: '畚箕的畚唸ㄅㄣˇ。掃地用具進了課文，愚公的搬家神器',
+    tags: ['古文'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'cl-146', text: '始齔跳往助之', target: '齔', zhuyin: 'ㄔㄣˋ',
+    distractors: ['ㄌㄧㄥˊ', 'ㄔㄣˊ', 'ㄑㄧˇ'],
+    meaning: '剛換乳牙的小孩也跑去幫忙。齔：換牙，約七八歲。〈愚公移山〉',
+    fun: '齔是換乳牙，唸ㄔㄣˋ。小一生都去搬山了，你的作業寫了嗎',
+    tags: ['古文', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-147', text: '子子孫孫無窮匱也', target: '匱', zhuyin: 'ㄎㄨㄟˋ',
+    distractors: ['ㄍㄨㄟˋ', 'ㄎㄨㄟ', 'ㄎㄨㄤ'],
+    meaning: '子孫綿延不會匱乏。匱：竭盡。〈愚公移山〉',
+    fun: '匱是缺乏，唸ㄎㄨㄟˋ。愚公的算法：人力無限，山是有限的',
+    tags: ['古文', '大考'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'cl-148', text: '鏗爾舍瑟而作', target: '鏗', zhuyin: 'ㄎㄥ',
+    distractors: ['ㄐㄧㄢ', 'ㄎㄥˇ', 'ㄑㄧㄥ'],
+    meaning: '鏗一聲放下瑟站起來。出自《論語》曾點言志',
+    fun: '鏗是金石聲，唸ㄎㄥ。曾點放樂器的音效，孔門最帥起身',
+    tags: ['古文', '論語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'cl-149', text: '夜泊秦淮', target: '淮', zhuyin: 'ㄏㄨㄞˊ',
+    distractors: ['ㄓㄨㄣˇ', 'ㄨㄟˊ', 'ㄏㄨㄞ'],
+    meaning: '夜裡停船在秦淮河。杜牧〈泊秦淮〉',
+    fun: '淮唸ㄏㄨㄞˊ，跟準只差兩點水的差別。淮河流域的淮',
+    tags: ['唐詩'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'cl-150', text: '舊時王謝堂前燕', target: '燕', zhuyin: 'ㄧㄢˋ',
+    distractors: ['ㄧㄢ', 'ㄧㄢˇ', 'ㄧㄢˊ'],
+    meaning: '燕子。劉禹錫〈烏衣巷〉',
+    fun: '燕子唸ㄧㄢˋ，燕國姓燕才唸ㄧㄢ。豪宅的燕子後來飛進平民家',
+    tags: ['唐詩', '破音字'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'cl-151', text: '安得廣廈千萬間', target: '廈', zhuyin: 'ㄕㄚˋ',
+    distractors: ['ㄒㄧㄚˋ', 'ㄕㄚ', 'ㄒㄧㄚ'],
+    meaning: '哪裡能有千萬間大房子。杜甫〈茅屋為秋風所破歌〉',
+    fun: '大廈的廈唸ㄕㄚˋ，廈門才唸ㄒㄧㄚˋ。杜甫的社會住宅願望',
+    tags: ['唐詩', '破音字', '大考'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'cl-152', text: '八月秋高風怒號', target: '號', zhuyin: 'ㄏㄠˊ',
+    distractors: ['ㄏㄠˋ', 'ㄏㄠ', 'ㄍㄠ'],
+    meaning: '秋風猛烈呼嘯。號：呼嘯。〈茅屋為秋風所破歌〉',
+    fun: '呼號的號唸ㄏㄠˊ，號碼才唸ㄏㄠˋ。颱風天的風聲就是怒號',
+    tags: ['唐詩', '破音字', '大考'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'cl-153', text: '下者飄轉沉塘坳', target: '坳', zhuyin: 'ㄠ',
+    distractors: ['ㄠˋ', 'ㄋㄧㄡˋ', 'ㄧㄠ'],
+    meaning: '茅草飛落沉進水塘窪地。坳：低窪處。〈茅屋為秋風所破歌〉',
+    fun: '坳是窪地，唸一聲ㄠ。杜甫的屋頂飛走的落點之一',
+    tags: ['唐詩', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-154', text: '俄頃風定雲墨色', target: '頃', zhuyin: 'ㄑㄧㄥˇ',
+    distractors: ['ㄑㄧㄥ', 'ㄑㄧㄥˋ', 'ㄐㄧㄥˇ'],
+    meaning: '不一會兒風停了，烏雲像墨。俄頃：片刻。〈茅屋為秋風所破歌〉',
+    fun: '頃唸ㄑㄧㄥˇ，一下子的意思。風停雨來，杜甫的慘還在後面',
+    tags: ['唐詩'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'cl-155', text: '謫居臥病潯陽城', target: '謫', zhuyin: 'ㄓㄜˊ',
+    distractors: ['ㄉㄧˊ', 'ㄓㄞˊ', 'ㄓㄜ'],
+    meaning: '被貶官住在潯陽城又生病。謫：貶官。〈琵琶行〉',
+    fun: '謫是被貶官，唸ㄓㄜˊ。李白人稱謫仙人，從天上被貶下來那位',
+    tags: ['唐詩', '大考'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'cl-156', text: '封狼居胥', target: '胥', zhuyin: 'ㄒㄩ',
+    distractors: ['ㄒㄩˋ', 'ㄒㄩˇ', 'ㄙㄨˋ'],
+    meaning: '霍去病在狼居胥山築壇祭天，指建立大軍功。辛棄疾詞用典',
+    fun: '胥唸一聲ㄒㄩ。漢朝戰神的最高成就，運動員的金牌等級',
+    tags: ['宋詞', '大考'], difficulty: 5, era: 'classic'
   }
 ];

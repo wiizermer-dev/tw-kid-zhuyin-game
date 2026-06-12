@@ -1,6 +1,6 @@
 /**
  * 流行歌詞 — KTV 點歌前先學會唸
- * schema 同 tricky.js；注音以教育部《重編國語辭典修訂本》為準
+ * schema 同 tricky.js；注音以教育部《國語辭典簡編本》為主（查無才退《重編國語辭典修訂本》）
  */
 export default [
   {
@@ -15,7 +15,7 @@ export default [
     distractors: ['ㄗㄢˋ', 'ㄐㄧㄢˇ', 'ㄔㄢˋ'],
     meaning: '供旅客投宿的處所。周杰倫〈紅塵客棧〉歌名',
     fun: '棧字唸錯，老闆娘直接跟你說客滿',
-    tags: ['歌詞', '周杰倫'], difficulty: 3, era: 'modern'
+    tags: ['歌詞', '周杰倫'], difficulty: 2, era: 'modern'
   },
   {
     id: 'ly-003', text: '爾虞我詐', target: '虞', zhuyin: 'ㄩˊ',
@@ -29,35 +29,35 @@ export default [
     distractors: ['ㄒㄧㄠ', 'ㄋㄧㄠˊ', 'ㄋㄧㄠˋ'],
     meaning: '煙氣繚繞上升的樣子。周杰倫〈青花瓷〉「炊煙裊裊昇起」',
     fun: '中國風歌詞之王，KTV 大家都用哼的帶過，唸出來才見真章',
-    tags: ['歌詞', '周杰倫'], difficulty: 4, era: 'modern'
+    tags: ['歌詞', '周杰倫'], difficulty: 3, era: 'modern'
   },
   {
     id: 'ly-005', text: '芭蕉惹驟雨', target: '驟', zhuyin: 'ㄗㄡˋ',
     distractors: ['ㄓㄡˋ', 'ㄐㄩˋ', 'ㄗㄡˊ'],
     meaning: '驟雨：急而大的雨。周杰倫〈青花瓷〉「簾外芭蕉惹驟雨」',
     fun: '全台灣都唸ㄓㄡˋ，教育部審訂音偏偏是ㄗㄡˋ，比驟雨還讓人措手不及',
-    tags: ['歌詞', '周杰倫'], difficulty: 5, era: 'modern'
+    tags: ['歌詞', '周杰倫'], difficulty: 4, era: 'modern'
   },
   {
     id: 'ly-006', text: '臨摹宋體', target: '摹', zhuyin: 'ㄇㄛˊ',
     distractors: ['ㄇㄨˊ', 'ㄇㄛˋ', 'ㄇㄛ'],
     meaning: '照著範本摹寫。周杰倫〈青花瓷〉「臨摹宋體落款時卻惦記著你」',
     fun: '摹跟模長得太像，連方文山都救不了你',
-    tags: ['歌詞', '周杰倫'], difficulty: 4, era: 'modern'
+    tags: ['歌詞', '周杰倫'], difficulty: 3, era: 'modern'
   },
   {
     id: 'ly-007', text: '釉色渲染', target: '渲', zhuyin: 'ㄒㄩㄢˋ',
     distractors: ['ㄒㄩㄢ', 'ㄒㄩㄢˊ', 'ㄒㄩㄢˇ'],
     meaning: '渲染：國畫技法，以水墨暈染畫面。周杰倫〈青花瓷〉「釉色渲染仕女圖」',
     fun: '渲是四聲，唸一聲的人仕女圖直接沒暈開',
-    tags: ['歌詞', '周杰倫'], difficulty: 4, era: 'modern'
+    tags: ['歌詞', '周杰倫'], difficulty: 3, era: 'modern'
   },
   {
     id: 'ly-008', text: '伽藍寺', target: '伽', zhuyin: 'ㄑㄧㄝˊ',
     distractors: ['ㄐㄧㄚ', 'ㄍㄚ', 'ㄑㄧㄝˇ'],
     meaning: '伽藍：佛寺。周杰倫〈煙花易冷〉「伽藍寺聽雨聲盼永恆」',
     fun: '瑜伽唸一個音、伽藍唸另一個音，這個字根本變色龍',
-    tags: ['歌詞', '周杰倫'], difficulty: 5, era: 'modern'
+    tags: ['歌詞', '周杰倫'], difficulty: 4, era: 'modern'
   },
   {
     id: 'ly-009', text: '斑駁', target: '駁', zhuyin: 'ㄅㄛˊ',
@@ -78,14 +78,14 @@ export default [
     distractors: ['ㄋㄤˊ', 'ㄋㄨㄥˋ', 'ㄋㄨㄥˇ'],
     meaning: '形容蘇州一帶柔軟好聽的口音。周杰倫〈上海一九四三〉「說著一口吳儂軟語的姑娘」',
     fun: '儂唸錯就不軟了，直接變吳硬硬語',
-    tags: ['歌詞', '周杰倫'], difficulty: 4, era: 'modern'
+    tags: ['歌詞', '周杰倫'], difficulty: 3, era: 'modern'
   },
   {
     id: 'ly-012', text: '嗜血的螞蟻', target: '嗜', zhuyin: 'ㄕˋ',
     distractors: ['ㄕˊ', 'ㄑㄧˋ', 'ㄕˇ'],
     meaning: '嗜：特別愛好。周杰倫〈夜曲〉「一群嗜血的螞蟻被腐肉所吸引」',
     fun: '為你彈奏蕭邦的夜曲，先把嗜唸對才有資格紀念我的死去',
-    tags: ['歌詞', '周杰倫'], difficulty: 3, era: 'modern'
+    tags: ['歌詞', '周杰倫'], difficulty: 2, era: 'modern'
   },
   {
     id: 'ly-013', text: '止戰之殤', target: '殤', zhuyin: 'ㄕㄤ',
@@ -99,7 +99,7 @@ export default [
     distractors: ['ㄊㄧㄝˋ', 'ㄊㄧㄝ', 'ㄊㄧㄝˊ'],
     meaning: '臨帖：照著字帖練字。周杰倫〈蘭亭序〉「蘭亭臨帖 行書如行雲流水」',
     fun: '臨帖、字帖、碑帖都唸三聲ㄊㄧㄝˇ，KTV 唱錯就破功',
-    tags: ['歌詞', '周杰倫'], difficulty: 4, era: 'modern'
+    tags: ['歌詞', '周杰倫'], difficulty: 3, era: 'modern'
   },
   {
     id: 'ly-015', text: '微醺的歲月', target: '醺', zhuyin: 'ㄒㄩㄣ',
@@ -162,14 +162,14 @@ export default [
     distractors: ['ㄌㄡˊ', 'ㄌㄩˊ', 'ㄌㄩˋ'],
     meaning: '縷：量詞，計算細長柔軟的東西。周杰倫〈菊花台〉「夢在遠方 化成一縷香」',
     fun: '唸成一樓香，夢直接從遠方掉到一樓',
-    tags: ['歌詞', '周杰倫'], difficulty: 4, era: 'modern'
+    tags: ['歌詞', '周杰倫'], difficulty: 3, era: 'modern'
   },
   {
     id: 'ly-024', text: '山峰沒有稜角', target: '稜', zhuyin: 'ㄌㄥˊ',
     distractors: ['ㄌㄧㄥˊ', 'ㄌㄥˋ', 'ㄌㄥ'],
     meaning: '稜角：物體的邊角。動力火車〈當〉「當山峰沒有稜角的時候」',
     fun: '還珠格格主題曲，山無稜之前你先別無能',
-    tags: ['歌詞', '動力火車'], difficulty: 3, era: 'modern'
+    tags: ['歌詞', '動力火車'], difficulty: 2, era: 'modern'
   },
   {
     id: 'ly-025', text: '挪威的森林', target: '挪', zhuyin: 'ㄋㄨㄛˊ',
@@ -190,14 +190,14 @@ export default [
     distractors: ['ㄒㄧˋ', 'ㄌㄨㄥˊ', 'ㄒㄧ'],
     meaning: '侵襲：侵犯襲擊。任賢齊〈傷心太平洋〉「一波還未平息 一波又來侵襲」',
     fun: '一波唸錯還未平息，一波又來唸錯，深深太平洋底深深傷心',
-    tags: ['歌詞', '任賢齊'], difficulty: 3, era: 'modern'
+    tags: ['歌詞', '任賢齊'], difficulty: 2, era: 'modern'
   },
   {
     id: 'ly-028', text: '舞孃', target: '孃', zhuyin: 'ㄋㄧㄤˊ',
     distractors: ['ㄖㄤˊ', 'ㄋㄤˊ', 'ㄋㄧㄤˇ'],
     meaning: '以舞蹈表演為業的女子。蔡依林〈舞孃〉歌名',
     fun: '孃跟娘同音不同字，看到一堆筆畫不要嚇到唸ㄖㄤˊ',
-    tags: ['歌詞', '蔡依林'], difficulty: 4, era: 'modern'
+    tags: ['歌詞', '蔡依林'], difficulty: 3, era: 'modern'
   },
   {
     id: 'ly-029', text: '睫毛彎彎', target: '睫', zhuyin: 'ㄐㄧㄝˊ',
@@ -218,7 +218,7 @@ export default [
     distractors: ['ㄇㄛˊ', 'ㄇㄨˋ', 'ㄇㄛ'],
     meaning: '寂寞：孤單冷清。田馥甄〈寂寞寂寞就好〉歌名',
     fun: '寞唸對就好，這樣的結局好不好',
-    tags: ['歌詞', '田馥甄'], difficulty: 2, era: 'modern'
+    tags: ['歌詞', '田馥甄'], difficulty: 1, era: 'modern'
   },
   {
     id: 'ly-032', text: '言不由衷', target: '衷', zhuyin: 'ㄓㄨㄥ',
@@ -239,14 +239,14 @@ export default [
     distractors: ['ㄐㄧㄣˋ', 'ㄐㄧㄢˇ', 'ㄐㄧㄣ'],
     meaning: '儘管：縱使、即使。蕭敬騰〈王妃〉「夜太美 儘管再危險」',
     fun: '老蕭唱得再霸氣，你唸四聲就破音',
-    tags: ['歌詞', '蕭敬騰'], difficulty: 3, era: 'modern'
+    tags: ['歌詞', '蕭敬騰'], difficulty: 2, era: 'modern'
   },
   {
     id: 'ly-035', text: '倒數', target: '倒', zhuyin: 'ㄉㄠˋ',
     distractors: ['ㄉㄠˇ', 'ㄉㄠ', 'ㄉㄠˊ'],
     meaning: '由大到小逆向計數。鄧紫棋〈倒數〉歌名',
     fun: '倒數的倒是四聲，跌倒的倒才三聲，唸錯重新倒數三秒',
-    tags: ['歌詞', '鄧紫棋'], difficulty: 2, era: 'modern'
+    tags: ['歌詞', '鄧紫棋'], difficulty: 1, era: 'modern'
   },
   {
     id: 'ly-036', text: '泡沫', target: '沫', zhuyin: 'ㄇㄛˋ',
@@ -295,14 +295,14 @@ export default [
     distractors: ['ㄗㄨˊ', 'ㄘㄨㄟˊ', 'ㄘㄨㄟ'],
     meaning: '憔悴：面容枯瘦疲憊。周杰倫〈髮如雪〉「狼牙月 伊人憔悴」',
     fun: '為注音消得人憔悴，衣帶漸寬終不悔',
-    tags: ['歌詞', '周杰倫'], difficulty: 3, era: 'modern'
+    tags: ['歌詞', '周杰倫'], difficulty: 2, era: 'modern'
   },
   {
     id: 'ly-043', text: '一盞離愁', target: '盞', zhuyin: 'ㄓㄢˇ',
     distractors: ['ㄗㄢˇ', 'ㄐㄧㄢˇ', 'ㄓㄢˊ'],
     meaning: '盞：量詞，計算燈或杯。周杰倫〈東風破〉「一盞離愁孤單佇立在窗口」',
     fun: '一盞唸錯，離愁直接變離譜',
-    tags: ['歌詞', '周杰倫'], difficulty: 3, era: 'modern'
+    tags: ['歌詞', '周杰倫'], difficulty: 2, era: 'modern'
   },
   {
     id: 'ly-044', text: '孤單佇立', target: '佇', zhuyin: 'ㄓㄨˋ',
@@ -323,7 +323,7 @@ export default [
     distractors: ['ㄋㄧˊ', 'ㄇㄧˇ', 'ㄇㄧˋ'],
     meaning: '瀰漫：煙霧散布充滿。周杰倫〈雙截棍〉「岩燒店的煙味瀰漫」',
     fun: '快使用雙截棍之前，先把瀰唸對，哼',
-    tags: ['歌詞', '周杰倫'], difficulty: 4, era: 'modern'
+    tags: ['歌詞', '周杰倫'], difficulty: 3, era: 'modern'
   },
   {
     id: 'ly-047', text: '雙截棍', target: '截', zhuyin: 'ㄐㄧㄝˊ',
@@ -338,5 +338,173 @@ export default [
     meaning: '隸：隸書，漢代盛行的字體。周杰倫〈青花瓷〉「在瓶底書漢隸仿前朝的飄逸」',
     fun: '瓶底寫的是漢隸，你嘴裡唸出來的是哪一朝',
     tags: ['歌詞', '周杰倫'], difficulty: 4, era: 'modern'
+  },
+  {
+    id: 'ly-049', text: '潑墨山水畫', target: '潑', zhuyin: 'ㄆㄛ',
+    distractors: ['ㄆㄛˋ', 'ㄅㄛ', 'ㄆㄟ'],
+    meaning: '潑灑墨汁的畫法。周杰倫〈青花瓷〉「天青色等煙雨」段',
+    fun: '潑唸一聲。唱的時候含滷蛋帶過去，唸的時候就現形了',
+    tags: ['歌詞', '周杰倫', '唱腔誤導'], difficulty: 1, era: 'modern'
+  },
+  {
+    id: 'ly-050', text: '嫣然的一笑', target: '嫣', zhuyin: 'ㄧㄢ',
+    distractors: ['ㄧㄢˋ', 'ㄧㄢˊ', 'ㄧㄢˇ'],
+    meaning: '笑得嬌媚動人。周杰倫〈青花瓷〉「妳嫣然的一笑如含苞待放」',
+    fun: '嫣唸一聲，旋律一拐大家就跟著唱成二聲，跟著歌學注音很危險',
+    tags: ['歌詞', '周杰倫', '唱腔誤導'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'ly-051', text: '籬笆外的古道', target: '籬', zhuyin: 'ㄌㄧˊ',
+    distractors: ['ㄌㄧˇ', 'ㄌㄧˋ', 'ㄅㄚ'],
+    meaning: '竹編圍欄。周杰倫〈東風破〉「籬笆外的古道我牽著你走過」',
+    fun: '籬唸ㄌㄧˊ。歌裡唱得很快，快到沒人發現自己唸錯',
+    tags: ['歌詞', '周杰倫'], difficulty: 2, era: 'modern'
+  },
+  {
+    id: 'ly-052', text: '淒美了離別', target: '淒', zhuyin: 'ㄑㄧ',
+    distractors: ['ㄑㄧˇ', 'ㄐㄧ', 'ㄑㄧˋ'],
+    meaning: '悲傷而美。周杰倫〈髮如雪〉「妳髮如雪淒美了離別」',
+    fun: '淒唸一聲。歌詞越虐，越要唸對才有資格傷心',
+    tags: ['歌詞', '周杰倫'], difficulty: 1, era: 'modern'
+  },
+  {
+    id: 'ly-053', text: '哼哼哈兮', target: '兮', zhuyin: 'ㄒㄧ',
+    distractors: ['ㄒㄧˋ', 'ㄎㄜ', 'ㄑㄧˋ'],
+    meaning: '文言語助詞。周杰倫〈雙截棍〉的招牌吆喝',
+    fun: '兮唸一聲，楚辭等級的語助詞。周杰倫把它喊成全民口號',
+    tags: ['歌詞', '周杰倫', '唱腔誤導'], difficulty: 1, era: 'modern'
+  },
+  {
+    id: 'ly-054', text: '愛溢出就像雨水', target: '溢', zhuyin: 'ㄧˋ',
+    distractors: ['ㄧㄠˋ', 'ㄧ', 'ㄧˊ'],
+    meaning: '滿出來。周杰倫〈七里香〉「雨下整夜我的愛溢出就像雨水」',
+    fun: '溢唸ㄧˋ。愛可以滿出來，注音不能歪出去',
+    tags: ['歌詞', '周杰倫'], difficulty: 2, era: 'modern'
+  },
+  {
+    id: 'ly-055', text: '穿梭時間的畫面', target: '梭', zhuyin: 'ㄙㄨㄛ',
+    distractors: ['ㄕㄨㄛ', 'ㄙㄨㄛˋ', 'ㄐㄩㄣ'],
+    meaning: '來回快速移動。周杰倫〈反方向的鐘〉',
+    fun: '梭唸ㄙㄨㄛ，織布的梭子。時光梭來梭去，讀音不要跟著飄',
+    tags: ['歌詞', '周杰倫'], difficulty: 2, era: 'modern'
+  },
+  {
+    id: 'ly-056', text: '黃金葛爬滿雕花門窗', target: '葛', zhuyin: 'ㄍㄜˊ',
+    distractors: ['ㄍㄜˇ', 'ㄍㄜˋ', 'ㄍㄜ'],
+    meaning: '黃金葛：常見觀葉植物。周杰倫〈上海一九四三〉',
+    fun: '植物的葛唸二聲，姓氏才唸三聲。全台灣的盆栽行都在唸錯',
+    tags: ['歌詞', '周杰倫', '唱腔誤導'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'ly-057', text: '禮物不需挑最貴', target: '挑', zhuyin: 'ㄊㄧㄠ',
+    distractors: ['ㄊㄧㄠˇ', 'ㄊㄧㄠˋ', 'ㄉㄧㄠ'],
+    meaning: '挑選。周杰倫〈告白氣球〉',
+    fun: '挑選唸一聲，挑燈、挑釁才唸三聲。送禮跟讀音都不能隨便',
+    tags: ['歌詞', '周杰倫'], difficulty: 2, era: 'modern'
+  },
+  {
+    id: 'ly-058', text: '香榭的落葉', target: '榭', zhuyin: 'ㄒㄧㄝˋ',
+    distractors: ['ㄒㄧㄝ', 'ㄒㄧㄝˇ', 'ㄕㄜˋ'],
+    meaning: '香榭大道，巴黎名街。周杰倫〈告白氣球〉',
+    fun: '榭唸ㄒㄧㄝˋ，臺榭的榭。歌唱得浪漫，唸錯就不巴黎了',
+    tags: ['歌詞', '周杰倫', '唱腔誤導'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'ly-059', text: '仁慈的父我已墜入', target: '墜', zhuyin: 'ㄓㄨㄟˋ',
+    distractors: ['ㄉㄨㄛˋ', 'ㄓㄨㄟ', 'ㄙㄨㄟˋ'],
+    meaning: '掉落。周杰倫〈以父之名〉開場',
+    fun: '墜唸ㄓㄨㄟˋ，跟墮落的墮不同字。氣氛全到位，就差讀音沒到',
+    tags: ['歌詞', '周杰倫'], difficulty: 2, era: 'modern'
+  },
+  {
+    id: 'ly-060', text: '晨曦的光', target: '曦', zhuyin: 'ㄒㄧ',
+    distractors: ['ㄒㄧˇ', 'ㄑㄧˊ', 'ㄒㄧˊ'],
+    meaning: '清晨的陽光。周杰倫〈夜的第七章〉「晨曦的光風乾最後一行憂傷」',
+    fun: '曦唸一聲ㄒㄧ。偵探故事的收尾，別讓讀音變懸案',
+    tags: ['歌詞', '周杰倫'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'ly-061', text: '琥珀色黃昏像糖', target: '珀', zhuyin: 'ㄆㄛˋ',
+    distractors: ['ㄅㄛˊ', 'ㄆㄛ', 'ㄆㄚ'],
+    meaning: '琥珀：金黃透明的樹脂化石。周杰倫〈園遊會〉',
+    fun: '珀唸ㄆㄛˋ不是ㄅㄛˊ。琥珀色的黃昏很美，唸錯就糊掉',
+    tags: ['歌詞', '周杰倫', '唱腔誤導'], difficulty: 2, era: 'modern'
+  },
+  {
+    id: 'ly-062', text: '跟著稻香河流繼續奔跑', target: '奔', zhuyin: 'ㄅㄣ',
+    distractors: ['ㄅㄣˋ', 'ㄆㄣ', 'ㄅㄥ'],
+    meaning: '快跑。周杰倫〈稻香〉',
+    fun: '奔跑唸一聲，投奔才唸四聲。回家的路上順便把音唸對',
+    tags: ['歌詞', '周杰倫'], difficulty: 1, era: 'modern'
+  },
+  {
+    id: 'ly-063', text: '頒布了漢摩拉比法典', target: '頒', zhuyin: 'ㄅㄢ',
+    distractors: ['ㄅㄢˋ', 'ㄈㄣ', 'ㄆㄢ'],
+    meaning: '公布法令。周杰倫〈愛在西元前〉',
+    fun: '頒唸一聲，頒獎的頒。巴比倫王頒法典，你頒對讀音',
+    tags: ['歌詞', '周杰倫'], difficulty: 2, era: 'modern'
+  },
+  {
+    id: 'ly-064', text: '深埋在美索不達米亞平原', target: '埋', zhuyin: 'ㄇㄞˊ',
+    distractors: ['ㄇㄢˊ', 'ㄇㄞˇ', 'ㄌㄧˊ'],
+    meaning: '埋藏。周杰倫〈愛在西元前〉',
+    fun: '埋藏唸ㄇㄞˊ，埋怨才唸ㄇㄢˊ。愛情史詩級的埋，別唸成抱怨',
+    tags: ['歌詞', '周杰倫'], difficulty: 2, era: 'modern'
+  },
+  {
+    id: 'ly-065', text: '喋喋不休時不我予的哀愁', target: '喋', zhuyin: 'ㄉㄧㄝˊ',
+    distractors: ['ㄓㄚ', 'ㄉㄧㄝˋ', 'ㄕㄜˋ'],
+    meaning: '說個不停。李宗盛〈山丘〉',
+    fun: '喋唸ㄉㄧㄝˊ。李宗盛咬字再鬆，這個字也輪不到你自由發揮',
+    tags: ['歌詞', '李宗盛', '唱腔誤導'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'ly-066', text: '漂洋過海來看你', target: '漂', zhuyin: 'ㄆㄧㄠ',
+    distractors: ['ㄆㄧㄠˋ', 'ㄆㄧㄠˇ', 'ㄅㄧㄠ'],
+    meaning: '漂浮渡海。李宗盛詞、娃娃原唱',
+    fun: '漂流唸一聲，漂亮唸四聲，漂白唸三聲。一個字三張臉',
+    tags: ['歌詞', '李宗盛'], difficulty: 2, era: 'modern'
+  },
+  {
+    id: 'ly-067', text: '愛你孤身走暗巷', target: '巷', zhuyin: 'ㄒㄧㄤˋ',
+    distractors: ['ㄏㄤˋ', 'ㄒㄧㄤˇ', 'ㄒㄧㄤ'],
+    meaning: '小街道。陳奕迅〈孤勇者〉',
+    fun: '巷唸ㄒㄧㄤˋ，礦坑的巷道才唸ㄏㄤˋ。小朋友的國歌，讀音要顧',
+    tags: ['歌詞', '陳奕迅'], difficulty: 1, era: 'modern'
+  },
+  {
+    id: 'ly-068', text: '寧靜的夏天', target: '寧', zhuyin: 'ㄋㄧㄥˊ',
+    distractors: ['ㄋㄧㄥˋ', 'ㄋㄧㄥ', 'ㄇㄧㄥˊ'],
+    meaning: '安靜。梁靜茹〈寧夏〉',
+    fun: '安寧的寧唸二聲，寧可的寧唸四聲。歌名寧夏就是寧靜的夏天',
+    tags: ['歌詞', '梁靜茹'], difficulty: 2, era: 'modern'
+  },
+  {
+    id: 'ly-069', text: '不淋漓盡致不痛快', target: '漓', zhuyin: 'ㄌㄧˊ',
+    distractors: ['ㄌㄧˇ', 'ㄌㄧㄣˊ', 'ㄌㄧˋ'],
+    meaning: '酣暢透澈。信樂團〈死了都要愛〉',
+    fun: '漓唸ㄌㄧˊ。飆高音前先把字唸對，不然只有破音淋漓',
+    tags: ['歌詞', '唱腔誤導'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'ly-070', text: '不打擾是我的溫柔', target: '擾', zhuyin: 'ㄖㄠˇ',
+    distractors: ['ㄋㄠˇ', 'ㄖㄠˊ', 'ㄧㄡ'],
+    meaning: '打攪、驚動。五月天〈溫柔〉',
+    fun: '擾唸ㄖㄠˇ。最溫柔的距離，是連讀音都不打擾',
+    tags: ['歌詞', '五月天'], difficulty: 1, era: 'modern'
+  },
+  {
+    id: 'ly-071', text: '刻在我心底的名字', target: '刻', zhuyin: 'ㄎㄜˋ',
+    distractors: ['ㄎㄜ', 'ㄎㄜˇ', 'ㄏㄜˊ'],
+    meaning: '雕刻、銘記。盧廣仲同名電影主題曲',
+    fun: '刻唸四聲。刻在心底的名字，不要連注音也刻錯',
+    tags: ['歌詞', '盧廣仲'], difficulty: 1, era: 'modern'
+  },
+  {
+    id: 'ly-072', text: '抓住那隻蟬', target: '蟬', zhuyin: 'ㄔㄢˊ',
+    distractors: ['ㄕㄢˋ', 'ㄉㄢ', 'ㄔㄢ'],
+    meaning: '夏天會叫的昆蟲。五月天〈如煙〉「七歲的那一年抓住那隻蟬」',
+    fun: '蟬唸ㄔㄢˊ，跟禪修的禪同音不同字。抓蟬之前先抓對音',
+    tags: ['歌詞', '五月天'], difficulty: 1, era: 'modern'
   }
 ];

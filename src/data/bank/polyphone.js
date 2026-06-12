@@ -50,7 +50,7 @@ export default [
     distractors: ['ㄧˋ', 'ㄞˇ', 'ㄟˋ'],
     meaning: '正在發展，尚未停止',
     fun: '這裡的艾是「停止」，唸回ㄞˋ。同一個字兩種唸法，AI 都要混亂了',
-    tags: ['破音字', '成語', '新聞常錯'], difficulty: 3, era: 'classic'
+    tags: ['破音字', '成語', '新聞常錯'], difficulty: 2, era: 'classic'
   },
   {
     id: 'pp-008', text: '乳臭未乾', target: '臭', zhuyin: 'ㄒㄧㄡˋ',
@@ -64,7 +64,7 @@ export default [
     distractors: ['ㄐㄧㄠˊ', 'ㄐㄩㄝˇ', 'ㄑㄩㄝˊ'],
     meaning: '用牙齒磨碎食物，也指反覆體會',
     fun: '單獨嚼東西唸ㄐㄧㄠˊ，咀嚼唸ㄐㄩㄝˊ。口香糖表示困惑',
-    tags: ['破音字', '日常'], difficulty: 3, era: 'classic'
+    tags: ['破音字', '日常'], difficulty: 2, era: 'classic'
   },
   {
     id: 'pp-010', text: '丟三落四', target: '落', zhuyin: 'ㄌㄚˋ',
@@ -120,7 +120,7 @@ export default [
     distractors: ['ㄘㄤˊ', 'ㄗㄤ', 'ㄗㄤˇ'],
     meaning: '蓄藏的珍貴財物',
     fun: '「寶ㄗㄤˋ男孩」才是標準讀音，雖然大家都唸ㄘㄤˊ',
-    tags: ['破音字', '日常'], difficulty: 2, era: 'modern'
+    tags: ['破音字', '日常'], difficulty: 1, era: 'modern'
   },
   {
     id: 'pp-018', text: '埋怨', target: '埋', zhuyin: 'ㄇㄢˊ',
@@ -169,7 +169,7 @@ export default [
     distractors: ['ㄨㄟˊ', 'ㄨㄟ', 'ㄨㄟˇ'],
     meaning: '幫壞人做壞事',
     fun: '為了誰唸ㄨㄟˋ，成為唸ㄨㄟˊ。幫老虎打工的鬼叫倀，職場寓言',
-    tags: ['破音字', '成語'], difficulty: 4, era: 'classic'
+    tags: ['破音字', '成語'], difficulty: 5, era: 'classic'
   },
   {
     id: 'pp-025', text: '銀行行員', target: '行', zhuyin: 'ㄏㄤˊ',
@@ -190,21 +190,21 @@ export default [
     distractors: ['ㄋㄧㄥˋ', 'ㄋㄧㄥ', 'ㄋㄧㄥˇ'],
     meaning: '寧可缺少，也不要不合格的',
     fun: '寧可的寧唸二聲。交友軟體滑到麻木的你，記住這四個字',
-    tags: ['破音字', '成語'], difficulty: 3, era: 'classic'
+    tags: ['破音字', '成語'], difficulty: 2, era: 'classic'
   },
   {
     id: 'pp-029', text: '混水摸魚', target: '混', zhuyin: 'ㄏㄨㄣˋ',
     distractors: ['ㄏㄨㄣˊ', 'ㄏㄨㄣ', 'ㄏㄨㄣˇ'],
     meaning: '趁混亂時撈取利益，或敷衍做事',
     fun: '教育部辭典「混水摸魚」唸ㄏㄨㄣˋ（四聲）；要二聲ㄏㄨㄣˊ得寫成「渾水」。上班前先學會唸',
-    tags: ['破音字', '成語'], difficulty: 4, era: 'classic'
+    tags: ['破音字', '成語'], difficulty: 3, era: 'classic'
   },
   {
     id: 'pp-030', text: '汗流浹背', target: '浹', zhuyin: 'ㄐㄧㄚˊ',
     distractors: ['ㄐㄧㄚ', 'ㄒㄧㄚˊ', 'ㄐㄧㄚˇ'],
     meaning: '汗水濕透背部',
     fun: '夏天沒冷氣教室的集體回憶，浹唸二聲',
-    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
+    tags: ['易讀錯', '成語'], difficulty: 2, era: 'classic'
   },
   {
     id: 'pp-031', text: '螳臂當車', target: '當', zhuyin: 'ㄉㄤˇ',
@@ -292,7 +292,7 @@ export default [
   },
   {
     id: 'pp-043', text: '漲價', target: '漲', zhuyin: 'ㄓㄤˇ',
-    distractors: ['ㄓㄤˋ', 'ㄓㄤ', 'ㄓㄤˊ'],
+    distractors: ['ㄓㄤˋ', 'ㄔㄤˊ', 'ㄓㄤ'],
     meaning: '價格上升，漲指價格升高時唸ㄓㄤˇ',
     fun: '什麼都漲（ㄓㄤˇ）就薪水不漲，唸對讀音不用錢，先賺一題',
     tags: ['破音字', '日常', '新聞常錯'], difficulty: 2, era: 'modern'
@@ -337,14 +337,14 @@ export default [
     distractors: ['ㄘㄥˊ', 'ㄗㄥˇ', 'ㄗㄥˋ'],
     meaning: '孫子的兒子，曾指隔兩代的親屬時唸ㄗㄥ',
     fun: '曾（ㄗㄥ）孫和曾（ㄘㄥˊ）經，差一個音差了三代人',
-    tags: ['破音字', '日常'], difficulty: 2, era: 'classic'
+    tags: ['破音字', '日常'], difficulty: 1, era: 'classic'
   },
   {
     id: 'pp-050', text: '鑽研', target: '鑽', zhuyin: 'ㄗㄨㄢ',
     distractors: ['ㄗㄨㄢˋ', 'ㄗㄨㄢˊ', 'ㄗㄨㄢˇ'],
     meaning: '深入研究，鑽當動詞唸一聲',
     fun: '鑽（ㄗㄨㄢ）研十年也許能買得起鑽（ㄗㄨㄢˋ）戒，加油',
-    tags: ['破音字', '日常'], difficulty: 2, era: 'modern'
+    tags: ['破音字', '日常'], difficulty: 1, era: 'modern'
   },
   {
     id: 'pp-051', text: '撒嬌', target: '撒', zhuyin: 'ㄙㄚ',
@@ -358,7 +358,7 @@ export default [
     distractors: ['ㄅㄟˋ', 'ㄅㄟˊ', 'ㄆㄟˇ'],
     meaning: '背在肩上的包包，背當動詞指負荷時唸一聲',
     fun: '背（ㄅㄟ）包背久了，背（ㄅㄟˋ）就痠了，一個字寫完痠痛人生',
-    tags: ['破音字', '日常'], difficulty: 2, era: 'modern'
+    tags: ['破音字', '日常'], difficulty: 1, era: 'modern'
   },
   {
     id: 'pp-053', text: '負荷', target: '荷', zhuyin: 'ㄏㄜˋ',
@@ -372,28 +372,28 @@ export default [
     distractors: ['ㄐㄧㄠˋ', 'ㄐㄧㄠˊ', 'ㄐㄧㄠˇ'],
     meaning: '傳授知識，教當動詞單用時唸一聲',
     fun: '老師教（ㄐㄧㄠ）書是動詞，教（ㄐㄧㄠˋ）育是名詞，老師：我全都要',
-    tags: ['破音字', '日常'], difficulty: 2, era: 'classic'
+    tags: ['破音字', '日常'], difficulty: 1, era: 'classic'
   },
   {
     id: 'pp-055', text: '扭轉乾坤', target: '乾', zhuyin: 'ㄑㄧㄢˊ',
     distractors: ['ㄍㄢ', 'ㄑㄧㄢˇ', 'ㄑㄧㄢˋ'],
     meaning: '徹底改變局勢，乾指天時唸ㄑㄧㄢˊ',
     fun: '乾（ㄑㄧㄢˊ）坤是天地，乾（ㄍㄢ）杯是天意，都很重要',
-    tags: ['破音字', '成語'], difficulty: 2, era: 'classic'
+    tags: ['破音字', '成語'], difficulty: 1, era: 'classic'
   },
   {
     id: 'pp-056', text: '奇數', target: '奇', zhuyin: 'ㄐㄧ',
     distractors: ['ㄑㄧˊ', 'ㄐㄧˇ', 'ㄐㄧˋ'],
     meaning: '不能被2整除的數，奇指單數時唸ㄐㄧ',
     fun: '數學課唸奇（ㄐㄧ）數，唸成奇（ㄑㄧˊ）數的話，分數才會很奇怪',
-    tags: ['破音字', '日常'], difficulty: 2, era: 'modern'
+    tags: ['破音字', '日常'], difficulty: 1, era: 'modern'
   },
   {
     id: 'pp-057', text: '隨聲附和', target: '和', zhuyin: 'ㄏㄜˋ',
     distractors: ['ㄏㄜˊ', 'ㄏㄢˋ', 'ㄏㄜˇ'],
     meaning: '跟著別人應聲贊同，和指應和時唸ㄏㄜˋ',
     fun: '會議上只會附和（ㄏㄜˋ）的人，跟和（ㄏㄜˊ）事佬一樣多',
-    tags: ['破音字', '成語'], difficulty: 3, era: 'classic'
+    tags: ['破音字', '成語'], difficulty: 2, era: 'classic'
   },
   {
     id: 'pp-058', text: '伺候', target: '伺', zhuyin: 'ㄘˋ',
@@ -414,7 +414,7 @@ export default [
     distractors: ['ㄅㄚ', 'ㄆㄚˇ', 'ㄆㄚˋ'],
     meaning: '偷竊別人財物的小偷，扒指竊取時唸ㄆㄚˊ',
     fun: '扒（ㄆㄚˊ）手扒你錢包，扒（ㄅㄚ）著欄杆是捷運通勤族',
-    tags: ['破音字', '日常'], difficulty: 3, era: 'modern'
+    tags: ['破音字', '日常'], difficulty: 2, era: 'modern'
   },
   {
     id: 'pp-061', text: '籠罩', target: '籠', zhuyin: 'ㄌㄨㄥˊ',
@@ -435,7 +435,7 @@ export default [
     distractors: ['ㄅㄤˋ', 'ㄆㄤˊ', 'ㄆㄤˇ'],
     meaning: '形容氣勢盛大，磅礴的磅唸ㄆㄤ',
     fun: '氣勢磅（ㄆㄤ）礴，體重磅（ㄅㄤˋ）秤，運動完只想面對前者',
-    tags: ['破音字', '成語'], difficulty: 3, era: 'classic'
+    tags: ['破音字', '成語'], difficulty: 2, era: 'classic'
   },
   {
     id: 'pp-064', text: '弱不禁風', target: '禁', zhuyin: 'ㄐㄧㄣ',
@@ -449,17 +449,17 @@ export default [
     distractors: ['ㄔㄠˊ', 'ㄓㄠˇ', 'ㄓㄠˋ'],
     meaning: '早上的命令晚上就改，朝指早晨時唸ㄓㄠ',
     fun: '朝（ㄓㄠ）令夕改的政策，比朝（ㄔㄠˊ）代更迭還快',
-    tags: ['破音字', '成語', '新聞常錯'], difficulty: 3, era: 'classic'
+    tags: ['破音字', '成語', '新聞常錯'], difficulty: 2, era: 'classic'
   },
   {
     id: 'pp-066', text: '調虎離山', target: '調', zhuyin: 'ㄉㄧㄠˋ',
     distractors: ['ㄊㄧㄠˊ', 'ㄉㄧㄠ', 'ㄉㄧㄠˇ'],
     meaning: '引誘對方離開據點，調指調動時唸ㄉㄧㄠˋ',
     fun: '調（ㄉㄧㄠˋ）虎離山是計謀，調（ㄊㄧㄠˊ）整心態是輸了之後的事',
-    tags: ['破音字', '成語'], difficulty: 3, era: 'classic'
+    tags: ['破音字', '成語'], difficulty: 2, era: 'classic'
   },
   {
-    id: 'pp-067', text: '大夫', target: '大', zhuyin: 'ㄉㄞˋ',
+    id: 'pp-067', text: '去看大夫', target: '大', zhuyin: 'ㄉㄞˋ',
     distractors: ['ㄉㄚˋ', 'ㄉㄞ', 'ㄉㄞˇ'],
     meaning: '醫生的俗稱，大夫指醫生時唸ㄉㄞˋ',
     fun: '大（ㄉㄞˋ）夫是醫生，大（ㄉㄚˋ）夫沒這個人，掛號前先掛讀音',
@@ -491,7 +491,7 @@ export default [
     distractors: ['ㄈㄥˊ', 'ㄈㄥ', 'ㄈㄥˇ'],
     meaning: '事物完美沒有破綻，縫當名詞指接合處時唸ㄈㄥˋ',
     fun: '計畫天衣無縫（ㄈㄥˋ），破功通常是因為隊友嘴巴有縫',
-    tags: ['破音字', '成語'], difficulty: 3, era: 'classic'
+    tags: ['破音字', '成語'], difficulty: 2, era: 'classic'
   },
   {
     id: 'pp-072', text: '盛飯', target: '盛', zhuyin: 'ㄔㄥˊ',
@@ -519,14 +519,14 @@ export default [
     distractors: ['ㄐㄧㄤˋ', 'ㄒㄧㄤˇ', 'ㄒㄧㄤ'],
     meaning: '制伏使順從，降指使屈服時唸ㄒㄧㄤˊ',
     fun: '降（ㄒㄧㄤˊ）伏惡龍的勇者，最怕氣溫驟降（ㄐㄧㄤˋ）忘了帶外套',
-    tags: ['破音字', '大考'], difficulty: 3, era: 'classic'
+    tags: ['破音字', '大考'], difficulty: 2, era: 'classic'
   },
   {
     id: 'pp-076', text: '冠冕堂皇', target: '冠', zhuyin: 'ㄍㄨㄢ',
     distractors: ['ㄍㄨㄢˋ', 'ㄍㄨㄢˊ', 'ㄍㄨㄢˇ'],
     meaning: '表面莊嚴體面，冠指帽子時唸一聲',
     fun: '冠（ㄍㄨㄢ）冕堂皇的理由，拿不到冠（ㄍㄨㄢˋ）軍的藉口',
-    tags: ['破音字', '成語', '大考'], difficulty: 3, era: 'classic'
+    tags: ['破音字', '成語', '大考'], difficulty: 2, era: 'classic'
   },
   {
     id: 'pp-077', text: '深惡痛絕', target: '惡', zhuyin: 'ㄨˋ',
@@ -547,7 +547,7 @@ export default [
     distractors: ['ㄌㄜˋ', 'ㄩㄝˋ', 'ㄧㄠˇ'],
     meaning: '仁德的人喜愛山，樂指喜好時唸ㄧㄠˋ',
     fun: '樂字三連音：音樂ㄩㄝˋ、快樂ㄌㄜˋ、樂山ㄧㄠˋ，孔子聽了都想出選擇題',
-    tags: ['破音字', '成語', '大考'], difficulty: 5, era: 'classic'
+    tags: ['破音字', '成語', '大考'], difficulty: 4, era: 'classic'
   },
   {
     id: 'pp-080', text: '押解', target: '解', zhuyin: 'ㄐㄧㄝˋ',
@@ -575,7 +575,7 @@ export default [
     distractors: ['ㄊㄨㄛˋ', 'ㄊㄚ', 'ㄊㄚˇ'],
     meaning: '從碑刻上拓印下來的文本，拓指摹印時唸ㄊㄚˋ',
     fun: '拓（ㄊㄚˋ）本是古人的影印，開拓（ㄊㄨㄛˋ）是古人的開外掛',
-    tags: ['破音字', '大考'], difficulty: 4, era: 'classic'
+    tags: ['破音字', '大考'], difficulty: 3, era: 'classic'
   },
   {
     id: 'pp-084', text: '博聞強識', target: '識', zhuyin: 'ㄓˋ',
@@ -589,21 +589,21 @@ export default [
     distractors: ['ㄆㄤˋ', 'ㄆㄢˇ', 'ㄆㄢ'],
     meaning: '心胸開朗身體舒泰，胖指安舒時唸ㄆㄢˊ',
     fun: '心廣體胖（ㄆㄢˊ）是心靈雞湯，唸成ㄆㄤˋ就變成雞湯喝太多',
-    tags: ['破音字', '成語', '大考'], difficulty: 5, era: 'classic'
+    tags: ['破音字', '成語', '大考'], difficulty: 4, era: 'classic'
   },
   {
     id: 'pp-086', text: '禪讓', target: '禪', zhuyin: 'ㄕㄢˋ',
     distractors: ['ㄔㄢˊ', 'ㄕㄢ', 'ㄕㄢˇ'],
     meaning: '帝王把王位讓給賢人，禪指讓位時唸ㄕㄢˋ',
     fun: '堯舜禪（ㄕㄢˋ）讓天下，不是邊打禪（ㄔㄢˊ）邊讓位',
-    tags: ['破音字', '大考'], difficulty: 5, era: 'classic'
+    tags: ['破音字', '大考'], difficulty: 4, era: 'classic'
   },
   {
     id: 'pp-087', text: '句讀', target: '讀', zhuyin: 'ㄉㄡˋ',
     distractors: ['ㄉㄨˊ', 'ㄉㄡ', 'ㄉㄡˇ'],
     meaning: '文章中停頓的地方，讀指語句停頓時唸ㄉㄡˋ',
     fun: '古人沒有標點，全靠句讀（ㄉㄡˋ），是最早的斷行 linter',
-    tags: ['破音字', '大考'], difficulty: 5, era: 'classic'
+    tags: ['破音字', '大考'], difficulty: 4, era: 'classic'
   },
   {
     id: 'pp-088', text: '拾級而上', target: '拾', zhuyin: 'ㄕㄜˋ',
@@ -624,7 +624,7 @@ export default [
     distractors: ['ㄐㄧㄢˋ', 'ㄒㄧㄢˇ', 'ㄒㄧㄢ'],
     meaning: '事情發展到最後真相顯露，見指顯露時唸ㄒㄧㄢˋ',
     fun: '圖窮匕見（ㄒㄧㄢˋ），荊軻的簡報做到最後一頁才放大招',
-    tags: ['破音字', '成語', '大考'], difficulty: 4, era: 'classic'
+    tags: ['破音字', '成語', '大考'], difficulty: 3, era: 'classic'
   },
   {
     id: 'pp-091', text: '屬意', target: '屬', zhuyin: 'ㄓㄨˇ',
@@ -645,14 +645,14 @@ export default [
     distractors: ['ㄘㄨㄥˊ', 'ㄘㄨㄥˇ', 'ㄘㄨㄥˋ'],
     meaning: '態度鎮定不慌張，從容的從唸一聲',
     fun: '從（ㄘㄨㄥ）容不迫是修養，從（ㄘㄨㄥˊ）來不急是擺爛，一聲之差',
-    tags: ['破音字', '成語', '大考'], difficulty: 4, era: 'classic'
+    tags: ['破音字', '成語', '大考'], difficulty: 3, era: 'classic'
   },
   {
     id: 'pp-094', text: '折本', target: '折', zhuyin: 'ㄕㄜˊ',
     distractors: ['ㄓㄜˊ', 'ㄕㄜˇ', 'ㄕㄜˋ'],
     meaning: '虧本、賠錢，折指虧損時唸ㄕㄜˊ',
     fun: '做生意折（ㄕㄜˊ）本，跟打折（ㄓㄜˊ）打到賠錢是同一個故事',
-    tags: ['破音字', '日常', '大考'], difficulty: 4, era: 'classic'
+    tags: ['破音字', '日常', '大考'], difficulty: 5, era: 'classic'
   },
   {
     id: 'pp-095', text: '顫抖', target: '顫', zhuyin: 'ㄓㄢˋ',
@@ -680,7 +680,7 @@ export default [
     distractors: ['ㄏㄨㄥˇ', 'ㄏㄨㄥˊ', 'ㄎㄨㄥ'],
     meaning: '人群吵雜地一下子散去，哄在此唸一聲',
     fun: '下課鐘一響全班一哄（ㄏㄨㄥ）而散，哄（ㄏㄨㄥˇ）都哄不回來',
-    tags: ['破音字', '成語', '大考'], difficulty: 4, era: 'classic'
+    tags: ['破音字', '成語', '大考'], difficulty: 3, era: 'classic'
   },
   {
     id: 'pp-099', text: '葉公好龍', target: '葉', zhuyin: 'ㄕㄜˋ',

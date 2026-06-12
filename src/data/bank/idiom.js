@@ -29,7 +29,7 @@ export default [
     distractors: ['ㄍㄚ', 'ㄓㄠˊ', 'ㄐㄧㄚ'],
     meaning: '聲音突然中斷',
     fun: '音樂戛然而止，全場安靜，只剩你唸錯的「ㄍㄚ然而止」迴盪',
-    tags: ['成語', '新聞常錯'], difficulty: 3, era: 'classic'
+    tags: ['成語', '新聞常錯'], difficulty: 2, era: 'classic'
   },
   {
     id: 'id-005', text: '力能扛鼎', target: '扛', zhuyin: 'ㄍㄤ',
@@ -50,21 +50,21 @@ export default [
     distractors: ['ㄍㄨㄢˇ', 'ㄨㄢˊ', 'ㄨㄢ'],
     meaning: '微笑的樣子',
     fun: '莞爾的莞唸ㄨㄢˇ。東莞的莞才唸ㄍㄨㄢˇ，地理和國文同時上課',
-    tags: ['成語'], difficulty: 3, era: 'classic'
+    tags: ['成語'], difficulty: 2, era: 'classic'
   },
   {
     id: 'id-008', text: '相形見絀', target: '絀', zhuyin: 'ㄔㄨˋ',
     distractors: ['ㄓㄨㄛˊ', 'ㄑㄩ', 'ㄔㄨ'],
     meaning: '互相比較之下顯得不足',
     fun: '絀唸ㄔㄨˋ不唸「拙」。唸錯的瞬間，你就相形見絀了',
-    tags: ['成語', '新聞常錯'], difficulty: 3, era: 'classic'
+    tags: ['成語', '新聞常錯'], difficulty: 4, era: 'classic'
   },
   {
     id: 'id-009', text: '鞭辟入裡', target: '辟', zhuyin: 'ㄅㄧˋ',
     distractors: ['ㄆㄧˋ', 'ㄆㄧ', 'ㄅㄧ'],
     meaning: '分析透徹、切中要點',
     fun: '教育部辭典標準唸ㄅㄧㄢ ㄅㄧˋ ㄖㄨˋ ㄌㄧˇ，很多人唸成ㄆㄧˋ。評論寫得鞭辟入裡，字唸對才算入裡',
-    tags: ['成語', '大考'], difficulty: 4, era: 'classic'
+    tags: ['成語', '大考'], difficulty: 3, era: 'classic'
   },
   {
     id: 'id-010', text: '怙惡不悛', target: '悛', zhuyin: 'ㄑㄩㄢ',
@@ -127,7 +127,7 @@ export default [
     distractors: ['ㄇㄠˋ', 'ㄠˊ', 'ㄨ'],
     meaning: '專心一意，沒有別的念頭',
     fun: '騖是馬亂跑。寫作業不滑手機就是心無旁騖，做得到嗎？',
-    tags: ['成語'], difficulty: 3, era: 'classic'
+    tags: ['成語'], difficulty: 2, era: 'classic'
   },
   {
     id: 'id-019', text: '趨之若鶩', target: '鶩', zhuyin: 'ㄨˋ',
@@ -169,7 +169,7 @@ export default [
     distractors: ['ㄑㄧˋ', 'ㄒㄧˋ', 'ㄎㄞ'],
     meaning: '共同懷著對敵人的憤恨',
     fun: '愾唸ㄎㄞˋ。電競比賽輸了之後，全隊看教練的眼神',
-    tags: ['成語'], difficulty: 4, era: 'classic'
+    tags: ['成語'], difficulty: 3, era: 'classic'
   },
   {
     id: 'id-025', text: '厲兵秣馬', target: '秣', zhuyin: 'ㄇㄛˋ',
@@ -183,7 +183,7 @@ export default [
     distractors: ['ㄆㄨˋ', 'ㄅㄠ', 'ㄅㄠˊ'],
     meaning: '任意糟蹋東西',
     fun: '陷阱題！這裡的暴唸ㄅㄠˋ（殘害），一暴十寒的暴才唸ㄆㄨˋ。剛剛答對的人小心翻車',
-    tags: ['成語', '破音字'], difficulty: 4, era: 'classic'
+    tags: ['成語', '破音字'], difficulty: 3, era: 'classic'
   },
   {
     id: 'id-027', text: '熙來攘往', target: '攘', zhuyin: 'ㄖㄤˊ',
@@ -197,7 +197,7 @@ export default [
     distractors: ['ㄔㄨㄛ', 'ㄉㄨ', 'ㄉㄨㄛ'],
     meaning: '氣勢凌人，使人難堪',
     fun: '咄咄唸「ㄉㄨㄛˋ ㄉㄨㄛˋ」。辯論社學長的氣場',
-    tags: ['成語', '新聞常錯'], difficulty: 3, era: 'classic'
+    tags: ['成語', '新聞常錯'], difficulty: 2, era: 'classic'
   },
   {
     id: 'id-029', text: '繁文縟節', target: '縟', zhuyin: 'ㄖㄨˋ',
@@ -211,7 +211,7 @@ export default [
     distractors: ['ㄈㄚ', 'ㄈㄚˋ', 'ㄈㄚˊ'],
     meaning: '憤怒到頭髮豎起來',
     fun: '髮唸三聲。氣到頭髮站起來，聲調也要站對位置',
-    tags: ['成語', '新聞常錯'], difficulty: 2, era: 'classic'
+    tags: ['成語', '新聞常錯'], difficulty: 1, era: 'classic'
   },
   {
     id: 'id-031', text: '鬼鬼祟祟', target: '祟', zhuyin: 'ㄙㄨㄟˋ',
@@ -222,7 +222,7 @@ export default [
   },
   {
     id: 'id-032', text: '怦然心動', target: '怦', zhuyin: 'ㄆㄥ',
-    distractors: ['ㄆㄧㄥ', 'ㄆㄥˊ', 'ㄆㄥˇ'],
+    distractors: ['ㄆㄤ', 'ㄆㄧㄥ', 'ㄆㄥˊ'],
     meaning: '心跳加速、被打動',
     fun: '怦唸ㄆㄥ一聲。心動歸心動，聲調不要亂動',
     tags: ['成語', '日常'], difficulty: 2, era: 'classic'
@@ -253,14 +253,14 @@ export default [
     distractors: ['ㄓㄜˊ', 'ㄔㄜ', 'ㄔㄜˊ'],
     meaning: '重犯過去的錯誤',
     fun: '轍唸ㄔㄜˋ。上次唸錯這次又錯，就是字面上的重蹈覆轍',
-    tags: ['成語', '新聞常錯'], difficulty: 2, era: 'classic'
+    tags: ['成語', '新聞常錯'], difficulty: 3, era: 'classic'
   },
   {
     id: 'id-037', text: '諄諄教誨', target: '諄', zhuyin: 'ㄓㄨㄣ',
     distractors: ['ㄔㄨㄣˊ', 'ㄗㄨㄣ', 'ㄓㄨㄣˋ'],
     meaning: '懇切耐心地教導',
     fun: '諄唸ㄓㄨㄣ。老師講了八百次你還唸錯，老師的諄諄教誨呢',
-    tags: ['成語'], difficulty: 2, era: 'classic'
+    tags: ['成語'], difficulty: 3, era: 'classic'
   },
   {
     id: 'id-038', text: '滄海一粟', target: '粟', zhuyin: 'ㄙㄨˋ',
@@ -288,7 +288,7 @@ export default [
     distractors: ['ㄓˋ', 'ㄑㄧˋ', 'ㄔㄜ'],
     meaning: '速度極快',
     fun: '掣唸ㄔㄜˋ。下課鐘響衝福利社的速度',
-    tags: ['成語', '新聞常錯'], difficulty: 3, era: 'classic'
+    tags: ['成語', '新聞常錯'], difficulty: 4, era: 'classic'
   },
   {
     id: 'id-042', text: '妄自菲薄', target: '菲', zhuyin: 'ㄈㄟˇ',
@@ -316,14 +316,14 @@ export default [
     distractors: ['ㄉㄧㄥˋ', 'ㄊㄧㄥˊ', 'ㄊㄧㄥ'],
     meaning: '走投無路而冒險',
     fun: '鋌唸ㄊㄧㄥˇ不是錠。考前一晚才翻課本，就是鋌而走險',
-    tags: ['成語', '新聞常錯'], difficulty: 3, era: 'classic'
+    tags: ['成語', '新聞常錯'], difficulty: 2, era: 'classic'
   },
   {
     id: 'id-046', text: '噤若寒蟬', target: '噤', zhuyin: 'ㄐㄧㄣˋ',
     distractors: ['ㄑㄧㄣˊ', 'ㄐㄧㄣ', 'ㄐㄧㄣˊ'],
     meaning: '不敢作聲',
     fun: '噤唸ㄐㄧㄣˋ。老師問「誰沒交作業」之後的教室',
-    tags: ['成語', '大考'], difficulty: 3, era: 'classic'
+    tags: ['成語', '大考'], difficulty: 2, era: 'classic'
   },
   {
     id: 'id-047', text: '未雨綢繆', target: '繆', zhuyin: 'ㄇㄡˊ',
@@ -365,7 +365,7 @@ export default [
     distractors: ['ㄔㄚˋ', 'ㄗㄚ', 'ㄓㄚ'],
     meaning: '聲勢威力極大',
     fun: '吒唸ㄓㄚˋ，哪吒的吒。但這裡威風的是你的注音',
-    tags: ['成語', '新聞常錯'], difficulty: 4, era: 'classic'
+    tags: ['成語', '新聞常錯'], difficulty: 3, era: 'classic'
   },
   {
     id: 'id-053', text: '數典忘祖', target: '數', zhuyin: 'ㄕㄨˇ',
@@ -393,7 +393,7 @@ export default [
     distractors: ['ㄍㄨㄤ', 'ㄏㄨㄤˊ', 'ㄍㄨㄥˊ'],
     meaning: '宴會熱鬧暢飲的樣子',
     fun: '觥是酒杯唸ㄍㄨㄥ。過年圍爐大人桌的盛況',
-    tags: ['成語', '大考'], difficulty: 4, era: 'classic'
+    tags: ['成語', '大考'], difficulty: 3, era: 'classic'
   },
   {
     id: 'id-057', text: '買櫝還珠', target: '櫝', zhuyin: 'ㄉㄨˊ',
@@ -457,5 +457,460 @@ export default [
     meaning: '命運坎坷不順',
     fun: '舛唸ㄔㄨㄢˇ。連續抽卡不中還踩到樂高，命途多舛',
     tags: ['成語', '新聞常錯'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'id-066', text: '兢兢業業', target: '兢', zhuyin: 'ㄐㄧㄥ',
+    distractors: ['ㄐㄧㄥˋ', 'ㄎㄜˋ', 'ㄐㄧㄥˇ'],
+    meaning: '做事謹慎勤懇',
+    fun: '兢跟競長得像但唸一聲，上班族唸成競競業業等於自爆內卷',
+    tags: ['成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'id-067', text: '不卑不亢', target: '亢', zhuyin: 'ㄎㄤˋ',
+    distractors: ['ㄎㄤ', 'ㄏㄤˊ', 'ㄍㄤ'],
+    meaning: '待人態度得體，不自卑也不高傲',
+    fun: '亢唸四聲跟亢奮同音，唸成一聲整個人就洩氣了',
+    tags: ['成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'id-068', text: '沽名釣譽', target: '沽', zhuyin: 'ㄍㄨ',
+    distractors: ['ㄍㄨˇ', 'ㄍㄨˋ', 'ㄏㄨˊ'],
+    meaning: '故意做作以騙取名聲',
+    fun: '沽是買賣，唸一聲。發限動做公益還標註自己，小心被說沽名釣譽',
+    tags: ['成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'id-069', text: '暴戾恣睢', target: '睢', zhuyin: 'ㄙㄨㄟ',
+    distractors: ['ㄐㄩ', 'ㄏㄨㄟ', 'ㄙㄨㄟˊ'],
+    meaning: '凶殘橫暴，任意妄為',
+    fun: '睢唸ㄙㄨㄟ，跟雎鳩的雎是兩個字，考卷上認錯字直接雙重損失',
+    tags: ['成語', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'id-070', text: '睚眥必報', target: '眥', zhuyin: 'ㄗˋ',
+    distractors: ['ㄘˊ', 'ㄗㄞ', 'ㄗˇ'],
+    meaning: '連瞪一眼的小怨都要報復，形容心胸狹窄',
+    fun: '睚眥是瞪眼。被已讀不回就記仇三年，就叫睚眥必報',
+    tags: ['成語', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'id-071', text: '掎角之勢', target: '掎', zhuyin: 'ㄐㄧˇ',
+    distractors: ['ㄑㄧˊ', 'ㄐㄧ', 'ㄧˇ'],
+    meaning: '分兵牽制或夾擊敵人的態勢',
+    fun: '掎是拉住腿，角是抓住角，前後包夾。唸ㄐㄧˇ不是ㄑㄧˊ',
+    tags: ['成語', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'id-072', text: '力有未逮', target: '逮', zhuyin: 'ㄉㄞˋ',
+    distractors: ['ㄉㄞˇ', 'ㄌㄧˋ', 'ㄊㄞˋ'],
+    meaning: '能力達不到',
+    fun: '逮捕、未逮都唸ㄉㄞˋ，口語逮住才唸ㄉㄞˇ。月底存款就是力有未逮',
+    tags: ['成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'id-073', text: '瞭若指掌', target: '瞭', zhuyin: 'ㄌㄧㄠˇ',
+    distractors: ['ㄌㄧㄠˋ', 'ㄌㄜˋ', 'ㄌㄧㄠ'],
+    meaning: '清楚得像看自己的手掌',
+    fun: '瞭解的瞭唸ㄌㄧㄠˇ，瞭望台的瞭才唸ㄌㄧㄠˋ',
+    tags: ['成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'id-074', text: '言簡意賅', target: '賅', zhuyin: 'ㄍㄞ',
+    distractors: ['ㄍㄞˋ', 'ㄏㄞˊ', 'ㄎㄞ'],
+    meaning: '言辭簡單而意思完備',
+    fun: '賅是完備，唸一聲。報告寫三頁不如一句言簡意賅',
+    tags: ['成語', '大考'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'id-075', text: '恃才傲物', target: '恃', zhuyin: 'ㄕˋ',
+    distractors: ['ㄔˊ', 'ㄙˋ', 'ㄉㄞˋ'],
+    meaning: '仗著才能而驕傲自大',
+    fun: '恃是依仗，唸ㄕˋ。有實力還唸錯字，傲不太起來',
+    tags: ['成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'id-076', text: '韋編三絕', target: '韋', zhuyin: 'ㄨㄟˊ',
+    distractors: ['ㄨㄟˇ', 'ㄨㄟˋ', 'ㄏㄨㄟ'],
+    meaning: '孔子讀易經翻到皮繩斷三次，形容勤學',
+    fun: '韋是熟皮繩，唸ㄨㄟˊ。你的課本連折痕都沒有，跟人家差在哪',
+    tags: ['成語', '大考'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'id-077', text: '蹉跎歲月', target: '蹉', zhuyin: 'ㄘㄨㄛ',
+    distractors: ['ㄔㄚ', 'ㄘㄨㄛˋ', 'ㄗㄨㄛ'],
+    meaning: '虛度光陰',
+    fun: '蹉跎唸ㄘㄨㄛ ㄊㄨㄛˊ。滑手機滑到半夜兩點，就是最具體的示範',
+    tags: ['成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'id-078', text: '紈褲子弟', target: '紈', zhuyin: 'ㄨㄢˊ',
+    distractors: ['ㄨㄢˋ', 'ㄓˊ', 'ㄨㄢ'],
+    meaning: '只知享樂的富家子弟',
+    fun: '紈是細絹，唸ㄨㄢˊ。穿絲綢褲的古代富二代，唸錯字會被他們笑',
+    tags: ['成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'id-079', text: '助紂為虐', target: '紂', zhuyin: 'ㄓㄡˋ',
+    distractors: ['ㄓㄡ', 'ㄔㄡˇ', 'ㄉㄡˋ'],
+    meaning: '幫壞人做壞事',
+    fun: '紂王的紂唸四聲。幫同學把作業借給全班抄，嚴格說也算助紂為虐',
+    tags: ['成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'id-080', text: '鳩占鵲巢', target: '鳩', zhuyin: 'ㄐㄧㄡ',
+    distractors: ['ㄐㄧㄡˋ', 'ㄐㄧㄡˇ', 'ㄑㄧㄡ'],
+    meaning: '強占別人的居所或成果',
+    fun: '鳩唸一聲。室友的零食被你吃光，他就有資格罵這句',
+    tags: ['成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'id-081', text: '居心叵測', target: '叵', zhuyin: 'ㄆㄛˇ',
+    distractors: ['ㄈㄢˇ', 'ㄆㄛ', 'ㄎㄜˇ'],
+    meaning: '心思難以預料，含貶義',
+    fun: '叵是「不可」二字合體，唸ㄆㄛˇ。長得像反但不是反',
+    tags: ['成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'id-082', text: '一傅眾咻', target: '咻', zhuyin: 'ㄒㄧㄡ',
+    distractors: ['ㄒㄧㄡˋ', 'ㄏㄨ', 'ㄒㄧㄠ'],
+    meaning: '一人教導、眾人吵鬧，環境差難有成效',
+    fun: '咻是喧鬧聲，唸一聲。線上課開著遊戲群語音，就是一傅眾咻',
+    tags: ['成語', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'id-083', text: '椎心泣血', target: '椎', zhuyin: 'ㄓㄨㄟ',
+    distractors: ['ㄔㄨㄟˊ', 'ㄓㄨㄟˋ', 'ㄔㄨㄟ'],
+    meaning: '捶胸痛哭，形容極度悲痛',
+    fun: '簡編本標ㄓㄨㄟ，跟脊椎同音。以為要唸文讀ㄔㄨㄟˊ的反而中招',
+    tags: ['成語', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'id-084', text: '曲突徙薪', target: '徙', zhuyin: 'ㄒㄧˇ',
+    distractors: ['ㄕㄨˇ', 'ㄒㄧ', 'ㄊㄨˊ'],
+    meaning: '把煙囪改彎、柴火搬開，比喻事先防範',
+    fun: '徙是搬移，唸ㄒㄧˇ，跟徒弟的徒差一撇。防災演練的古文版',
+    tags: ['成語', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'id-085', text: '撲朔迷離', target: '朔', zhuyin: 'ㄕㄨㄛˋ',
+    distractors: ['ㄙㄨˋ', 'ㄕㄨㄛ', 'ㄕㄨˋ'],
+    meaning: '事情錯綜複雜難以分辨',
+    fun: '朔唸ㄕㄨㄛˋ。劇情反轉再反轉，比你的人際關係還撲朔迷離',
+    tags: ['成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'id-086', text: '戮力同心', target: '戮', zhuyin: 'ㄌㄨˋ',
+    distractors: ['ㄌㄧㄡˋ', 'ㄌㄨ', 'ㄓㄨㄛˊ'],
+    meaning: '齊心合力',
+    fun: '戮唸ㄌㄨˋ，這裡是合力不是殺戮。分組報告要是能戮力同心就好了',
+    tags: ['成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'id-087', text: '喟然長嘆', target: '喟', zhuyin: 'ㄎㄨㄟˋ',
+    distractors: ['ㄨㄟˋ', 'ㄍㄨㄟˋ', 'ㄎㄨㄟ'],
+    meaning: '感慨地深深嘆氣',
+    fun: '喟唸ㄎㄨㄟˋ。看到月考成績的那一聲，就叫喟然長嘆',
+    tags: ['成語', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'id-088', text: '偃旗息鼓', target: '偃', zhuyin: 'ㄧㄢˇ',
+    distractors: ['ㄧㄢˋ', 'ㄧㄢ', 'ㄨㄢˇ'],
+    meaning: '放倒軍旗停敲戰鼓，指停止行動',
+    fun: '偃是放倒，唸ㄧㄢˇ。吵架吵一半各自回房滑手機，就是偃旗息鼓',
+    tags: ['成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'id-089', text: '千乘之國', target: '乘', zhuyin: 'ㄕㄥˋ',
+    distractors: ['ㄔㄥˊ', 'ㄕㄥ', 'ㄔㄥˋ'],
+    meaning: '擁有千輛兵車的大國',
+    fun: '兵車的乘唸ㄕㄥˋ，搭乘才唸ㄔㄥˊ。論語必考，唸錯孔子搖頭',
+    tags: ['成語', '破音字', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'id-090', text: '嘖嘖稱奇', target: '嘖', zhuyin: 'ㄗㄜˊ',
+    distractors: ['ㄗㄜˋ', 'ㄗㄚ', 'ㄔㄜˋ'],
+    meaning: '讚嘆不已',
+    fun: '嘖唸ㄗㄜˊ。看魔術看到嘴巴合不起來發出的那個聲音',
+    tags: ['成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'id-091', text: '萬頭攢動', target: '攢', zhuyin: 'ㄘㄨㄢˊ',
+    distractors: ['ㄗㄢˇ', 'ㄗㄢˋ', 'ㄘㄨㄢ'],
+    meaning: '人群密集聚在一起',
+    fun: '聚集的攢唸ㄘㄨㄢˊ，攢錢的攢唸ㄗㄢˇ。跨年晚會就是萬頭攢動',
+    tags: ['成語', '破音字'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'id-092', text: '鶼鰈情深', target: '鰈', zhuyin: 'ㄉㄧㄝˊ',
+    distractors: ['ㄧㄝˋ', 'ㄉㄧㄝˋ', 'ㄊㄚˇ'],
+    meaning: '比翼鳥與比目魚，比喻夫妻恩愛',
+    fun: '鰈是比目魚，唸ㄉㄧㄝˊ。喜帖上最常出現又最常被唸錯的兩個字',
+    tags: ['成語', '新聞常錯'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'id-093', text: '琴瑟和鳴', target: '瑟', zhuyin: 'ㄙㄜˋ',
+    distractors: ['ㄅㄧˋ', 'ㄙㄜ', 'ㄒㄧㄢˊ'],
+    meaning: '夫妻感情和睦',
+    fun: '瑟唸ㄙㄜˋ，是古代撥弦樂器。婚禮主持人唸錯，新人臉上三條線',
+    tags: ['成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'id-094', text: '韜光養晦', target: '韜', zhuyin: 'ㄊㄠ',
+    distractors: ['ㄊㄠˊ', 'ㄓㄠ', 'ㄉㄠˋ'],
+    meaning: '收斂鋒芒，隱藏才能不外露',
+    fun: '韜是藏，唸一聲。新人裝萌不搶功，職場版韜光養晦',
+    tags: ['成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'id-095', text: '倒行逆施', target: '倒', zhuyin: 'ㄉㄠˋ',
+    distractors: ['ㄉㄠˇ', 'ㄉㄠ', 'ㄋㄧˋ'],
+    meaning: '違背常理行事',
+    fun: '倒退的倒唸ㄉㄠˋ，跌倒的倒唸ㄉㄠˇ。方向不對努力白費',
+    tags: ['成語', '破音字'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'id-096', text: '酩酊大醉', target: '酊', zhuyin: 'ㄉㄧㄥˇ',
+    distractors: ['ㄉㄧㄥ', 'ㄉㄧㄥˋ', 'ㄔㄥˊ'],
+    meaning: '醉得很厲害',
+    fun: '酩酊唸ㄇㄧㄥˇ ㄉㄧㄥˇ。尾牙喝掛還能唸對這兩個字，算你清醒',
+    tags: ['成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'id-097', text: '期期艾艾', target: '艾', zhuyin: 'ㄞˋ',
+    distractors: ['ㄧˋ', 'ㄞˇ', 'ㄋㄞˋ'],
+    meaning: '形容口吃結巴',
+    fun: '這裡的艾唸ㄞˋ，自怨自艾才唸ㄧˋ。同一個字兩個讀音都會考',
+    tags: ['成語', '破音字', '大考'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'id-098', text: '眾矢之的', target: '的', zhuyin: 'ㄉㄧˋ',
+    distractors: ['ㄉㄜ˙', 'ㄉㄧˊ', 'ㄉㄧ'],
+    meaning: '大家攻擊的目標',
+    fun: '箭靶的的唸ㄉㄧˋ。群組裡第一個說不去聚餐的人就是眾矢之的',
+    tags: ['成語', '破音字'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'id-099', text: '矯枉過正', target: '矯', zhuyin: 'ㄐㄧㄠˇ',
+    distractors: ['ㄑㄧㄠˊ', 'ㄐㄧㄠ', 'ㄐㄧㄠˋ'],
+    meaning: '糾正過了頭，反而又偏了',
+    fun: '矯唸ㄐㄧㄠˇ。減糖減到連水果都不敢吃，就是矯枉過正',
+    tags: ['成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'id-100', text: '鳶飛魚躍', target: '鳶', zhuyin: 'ㄩㄢ',
+    distractors: ['ㄧㄠˋ', 'ㄨㄢ', 'ㄩㄢˋ'],
+    meaning: '萬物各得其所、自得其樂',
+    fun: '鳶是老鷹，唸ㄩㄢ。風箏古名紙鳶，放風箏前先學會唸它',
+    tags: ['成語', '大考'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'id-101', text: '飢腸轆轆', target: '轆', zhuyin: 'ㄌㄨˋ',
+    distractors: ['ㄌㄨˊ', 'ㄌㄨ', 'ㄍㄨˇ'],
+    meaning: '餓得肚子直叫',
+    fun: '轆轆是車輪聲，唸ㄌㄨˋ。第四節課的你的肚子就是這個音效',
+    tags: ['成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'id-102', text: '高瞻遠矚', target: '矚', zhuyin: 'ㄓㄨˇ',
+    distractors: ['ㄓㄨˊ', 'ㄕㄨˇ', 'ㄓㄨˋ'],
+    meaning: '眼光遠大',
+    fun: '矚唸ㄓㄨˇ，注視的意思。萬眾矚目也是這個字，順便一起記',
+    tags: ['成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'id-103', text: '縱橫捭闔', target: '捭', zhuyin: 'ㄅㄞˇ',
+    distractors: ['ㄆㄧˊ', 'ㄅㄟˋ', 'ㄅㄞ'],
+    meaning: '以分化拉攏的手段在政治外交上周旋',
+    fun: '捭是分開，唸ㄅㄞˇ。戰國縱橫家的看家本領，先學會唸再學會用',
+    tags: ['成語', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'id-104', text: '風聲鶴唳', target: '唳', zhuyin: 'ㄌㄧˋ',
+    distractors: ['ㄌㄟˋ', 'ㄌㄧˊ', 'ㄧˋ'],
+    meaning: '驚慌疑懼，自相驚擾',
+    fun: '唳是鶴叫，唸ㄌㄧˋ。連風聲鳥叫都當成追兵，淝水之戰嚇出來的成語',
+    tags: ['成語', '大考'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'id-105', text: '黃粱一夢', target: '粱', zhuyin: 'ㄌㄧㄤˊ',
+    distractors: ['ㄌㄧㄤˋ', 'ㄌㄧㄤˇ', 'ㄌㄤˊ'],
+    meaning: '榮華富貴如夢一場',
+    fun: '粱是小米，下面是米不是木。飯還沒蒸熟，一輩子的榮華已經夢完',
+    tags: ['成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'id-106', text: '嫉惡如仇', target: '嫉', zhuyin: 'ㄐㄧˊ',
+    distractors: ['ㄐㄧˋ', 'ㄑㄧˊ', 'ㄗㄜˊ'],
+    meaning: '痛恨壞人壞事如同仇敵',
+    fun: '嫉唸二聲ㄐㄧˊ，嫉妒也是。十個人九個唸四聲，你別跟著錯',
+    tags: ['成語', '新聞常錯'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'id-107', text: '深孚眾望', target: '孚', zhuyin: 'ㄈㄨˊ',
+    distractors: ['ㄈㄨ', 'ㄈㄨˇ', 'ㄈㄨˋ'],
+    meaning: '深得大家的信任與期望',
+    fun: '孚是使人信服，唸ㄈㄨˊ。跟不負眾望的負不同字，寫錯比唸錯更慘',
+    tags: ['成語', '新聞常錯'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'id-108', text: '諱疾忌醫', target: '諱', zhuyin: 'ㄏㄨㄟˋ',
+    distractors: ['ㄨㄟˊ', 'ㄏㄨㄟ', 'ㄨㄟˇ'],
+    meaning: '隱瞞問題，不肯接受幫助',
+    fun: '諱是隱瞞，唸ㄏㄨㄟˋ。考卷不給爸媽簽名，就是現代版諱疾忌醫',
+    tags: ['成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'id-109', text: '奄奄一息', target: '奄', zhuyin: 'ㄧㄢ',
+    distractors: ['ㄧㄢˇ', 'ㄧㄢˋ', 'ㄧㄢˊ'],
+    meaning: '只剩微弱的一口氣',
+    fun: '奄奄唸一聲，氣若游絲的樣子。考前的你，奄奄一息還要唸對它',
+    tags: ['成語', '大考'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'id-110', text: '杯水車薪', target: '車', zhuyin: 'ㄔㄜ',
+    distractors: ['ㄐㄩ', 'ㄔㄜˋ', 'ㄐㄩˇ'],
+    meaning: '一杯水救一車著火的柴，力量太小無濟於事',
+    fun: '這裡的車就唸ㄔㄜ，下象棋的車才唸ㄐㄩ。零用錢對上購物車，杯水車薪',
+    tags: ['成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'id-111', text: '如鯁在喉', target: '鯁', zhuyin: 'ㄍㄥˇ',
+    distractors: ['ㄍㄥ', 'ㄍㄥˋ', 'ㄧㄥˋ'],
+    meaning: '像魚刺卡在喉嚨，心裡有話不吐不快',
+    fun: '鯁是魚刺，唸ㄍㄥˇ。想吐槽又不能說的感覺，就是如鯁在喉',
+    tags: ['成語', '新聞常錯'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'id-112', text: '毋庸置疑', target: '毋', zhuyin: 'ㄨˊ',
+    distractors: ['ㄇㄨˇ', 'ㄨˋ', 'ㄨ'],
+    meaning: '不必懷疑',
+    fun: '毋唸ㄨˊ，跟母只差一筆。唸成母庸置疑，全教室都會看你',
+    tags: ['成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'id-113', text: '不忮不求', target: '忮', zhuyin: 'ㄓˋ',
+    distractors: ['ㄐㄧˋ', 'ㄓ', 'ㄑㄧˊ'],
+    meaning: '不嫉妒、不貪求',
+    fun: '忮是嫉妒，唸ㄓˋ。看到同學新手機不羨慕，孔子認證的好心態',
+    tags: ['成語', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'id-114', text: '犖犖大端', target: '犖', zhuyin: 'ㄌㄨㄛˋ',
+    distractors: ['ㄧㄥˊ', 'ㄌㄠˊ', 'ㄌㄨㄛˊ'],
+    meaning: '明顯的重要事項',
+    fun: '犖唸ㄌㄨㄛˋ，跟營長得有點像但差很多。報告先講犖犖大端，細節再說',
+    tags: ['成語', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'id-115', text: '顛沛流離', target: '沛', zhuyin: 'ㄆㄟˋ',
+    distractors: ['ㄈㄟˋ', 'ㄆㄟ', 'ㄅㄟˋ'],
+    meaning: '生活困頓，四處流浪',
+    fun: '沛唸ㄆㄟˋ，充沛也是它。搬家三次找不到充電線，小型顛沛流離',
+    tags: ['成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'id-116', text: '真知灼見', target: '灼', zhuyin: 'ㄓㄨㄛˊ',
+    distractors: ['ㄕㄠ', 'ㄓㄨㄛ', 'ㄉㄧˋ'],
+    meaning: '正確透澈的見解',
+    fun: '灼是明亮透澈，唸ㄓㄨㄛˊ。留言區難得出現的那種好評論',
+    tags: ['成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'id-117', text: '意味雋永', target: '雋', zhuyin: 'ㄐㄩㄢˋ',
+    distractors: ['ㄐㄩㄣˋ', 'ㄑㄩㄢˊ', 'ㄐㄩㄢ'],
+    meaning: '意味深長，耐人尋味',
+    fun: '雋永的雋唸ㄐㄩㄢˋ，當才俊講才唸ㄐㄩㄣˋ。書評最愛用，唸對才專業',
+    tags: ['成語', '大考'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'id-118', text: '賣官鬻爵', target: '鬻', zhuyin: 'ㄩˋ',
+    distractors: ['ㄓㄡ', 'ㄍㄜˊ', 'ㄩˊ'],
+    meaning: '出賣官位爵位以斂財',
+    fun: '鬻是賣，唸ㄩˋ。這個字長得像一鍋粥，但意思是把官位煮來賣',
+    tags: ['成語', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'id-119', text: '千里迢迢', target: '迢', zhuyin: 'ㄊㄧㄠˊ',
+    distractors: ['ㄓㄠ', 'ㄕㄠˊ', 'ㄊㄧㄠ'],
+    meaning: '路途遙遠',
+    fun: '迢唸ㄊㄧㄠˊ。跨縣市排隊買甜甜圈，就是千里迢迢的現代用法',
+    tags: ['成語'], difficulty: 2, era: 'classic'
+  },
+  {
+    id: 'id-120', text: '結草銜環', target: '銜', zhuyin: 'ㄒㄧㄢˊ',
+    distractors: ['ㄐㄧㄝ', 'ㄏㄢˊ', 'ㄒㄧㄢ'],
+    meaning: '感恩圖報，至死不忘',
+    fun: '銜是用嘴叼著，唸ㄒㄧㄢˊ。黃雀叼玉環報恩，鳥都懂感恩',
+    tags: ['成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'id-121', text: '餓殍遍野', target: '殍', zhuyin: 'ㄆㄧㄠˇ',
+    distractors: ['ㄈㄨˊ', 'ㄈㄨˇ', 'ㄆㄧㄠˊ'],
+    meaning: '餓死的人到處都是，形容饑荒慘況',
+    fun: '殍是餓死的人，唸ㄆㄧㄠˇ。歷史課必出現，唸成浮就鬧笑話',
+    tags: ['成語', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'id-122', text: '並行不悖', target: '悖', zhuyin: 'ㄅㄟˋ',
+    distractors: ['ㄅㄛˊ', 'ㄆㄟˊ', 'ㄅㄟ'],
+    meaning: '同時進行而互不衝突',
+    fun: '悖是違背，唸ㄅㄟˋ。邊聽音樂邊寫作業到底悖不悖，親子永恆戰場',
+    tags: ['成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'id-123', text: '穿鑿附會', target: '鑿', zhuyin: 'ㄗㄠˊ',
+    distractors: ['ㄗㄨㄛˋ', 'ㄗㄠˋ', 'ㄘㄠˊ'],
+    meaning: '勉強解釋，硬把無關的事湊在一起',
+    fun: '鑿唸ㄗㄠˊ。星座解析什麼都能扯到你身上，就是穿鑿附會',
+    tags: ['成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'id-124', text: '字字珠璣', target: '璣', zhuyin: 'ㄐㄧ',
+    distractors: ['ㄐㄧˇ', 'ㄑㄧˊ', 'ㄐㄧˋ'],
+    meaning: '每個字都像珍珠，形容文辭精妙',
+    fun: '璣是不圓的珍珠，唸一聲。老師評語寫這四個字，作文穩了',
+    tags: ['成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'id-125', text: '自慚形穢', target: '穢', zhuyin: 'ㄏㄨㄟˋ',
+    distractors: ['ㄙㄨㄟˋ', 'ㄨㄟˋ', 'ㄏㄨㄟ'],
+    meaning: '因不如人而感到慚愧',
+    fun: '穢是骯髒，唸ㄏㄨㄟˋ。看到同學的筆記排版，瞬間自慚形穢',
+    tags: ['成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'id-126', text: '渾渾噩噩', target: '噩', zhuyin: 'ㄜˋ',
+    distractors: ['ㄜˊ', 'ㄋㄜˋ', 'ㄠˋ'],
+    meaning: '糊里糊塗，沒有目標',
+    fun: '噩唸ㄜˋ，噩夢也是它。連假最後一天的你，渾渾噩噩',
+    tags: ['成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'id-127', text: '一抔黃土', target: '抔', zhuyin: 'ㄆㄡˊ',
+    distractors: ['ㄅㄟ', 'ㄆㄡ', 'ㄈㄡˊ'],
+    meaning: '一捧黃土，多指墳墓',
+    fun: '抔是用手捧，唸ㄆㄡˊ。唸成一杯黃土，意境直接乾掉',
+    tags: ['成語', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'id-128', text: '插科打諢', target: '諢', zhuyin: 'ㄏㄨㄣˋ',
+    distractors: ['ㄏㄨㄣˊ', 'ㄍㄨㄣˋ', 'ㄏㄨㄣ'],
+    meaning: '戲曲中穿插的滑稽動作與玩笑話',
+    fun: '諢是詼諧逗趣的話，唸ㄏㄨㄣˋ。綜藝節目的本體就是插科打諢',
+    tags: ['成語', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'id-129', text: '一柱擎天', target: '擎', zhuyin: 'ㄑㄧㄥˊ',
+    distractors: ['ㄐㄧㄥˋ', 'ㄑㄧㄥˇ', 'ㄐㄧㄥ'],
+    meaning: '一根柱子撐住天，比喻能獨力承擔重任',
+    fun: '擎是往上托，唸ㄑㄧㄥˊ。引擎的擎同字，整台車就靠它撐',
+    tags: ['成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'id-130', text: '呶呶不休', target: '呶', zhuyin: 'ㄋㄠˊ',
+    distractors: ['ㄋㄨˊ', 'ㄋㄠˇ', 'ㄐㄧㄠ'],
+    meaning: '說個不停，讓人厭煩',
+    fun: '呶唸ㄋㄠˊ。聊天室裡瘋狂洗版的那位，就是呶呶不休本人',
+    tags: ['成語', '大考'], difficulty: 5, era: 'classic'
   }
 ];

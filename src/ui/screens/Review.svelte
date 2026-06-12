@@ -75,7 +75,7 @@
 
   function commitVerdict(key, note) {
     const q = session.current;
-    if (!q || session.answered === null) return;
+    if (!q) return;
     notingVerdict = null;
 
     // 本地先留底（synced=false），雲端成功再翻旗 — 旗子只能在送達後立
@@ -107,8 +107,6 @@
   onDestroy(() => session.destroy());
 
   let q = $derived(session.current);
-  let showFeedback = $derived(session.answered !== null);
-  let lastCorrect = $derived(showFeedback && session.answered >= 0 && q?.options[session.answered]?.correct);
   let sessionReviewed = $derived(Object.values(sessionCounts).reduce((a, b) => a + b, 0));
 </script>
 
@@ -189,7 +187,7 @@
         </div>
 
         <div class="qcard card pop-in">
-          <p class="qprompt">「<b class="qtarget">{q.target}</b>」怎麼唸？</p>
+          <p class="qprompt">考點「<b class="qtarget">{q.target}</b>」— 正解選項已標綠</p>
           <p class="qtext">
             {#each [...q.text] as ch}
               <span class:hl={ch === q.target}>{ch}</span>
@@ -197,25 +195,17 @@
           </p>
         </div>
 
-        <div class="options" class:locked={showFeedback}>
-          {#each q.options as opt, i}
-            <button
-              class="opt card"
-              class:right={showFeedback && opt.correct}
-              class:picked-wrong={showFeedback && session.answered === i && !opt.correct}
-              aria-label="注音選項 {opt.zhuyin}"
-              onclick={() => session.answer(i)}
-            >
+        <!-- 免作答：正解直接標示，誘答一併攤開供審查設計品質 -->
+        <div class="options locked">
+          {#each q.options as opt}
+            <div class="opt card" class:right={opt.correct} aria-label="注音選項 {opt.zhuyin}">
               <ZhuyinCol zhuyin={opt.zhuyin} size="1.7rem" />
-            </button>
+            </div>
           {/each}
         </div>
 
-        {#if showFeedback}
-          <div class="feedback card bounce-in" class:good={lastCorrect}>
-            <p class="fb-head">
-              {#if lastCorrect}答對了，正解「{q.zhuyin}」{:else}答錯，正解是「{q.zhuyin}」{/if}
-            </p>
+        <div class="feedback card bounce-in good">
+            <p class="fb-head">正解「{q.zhuyin}」</p>
             <p class="fb-meaning">{q.text}：{q.meaning}</p>
             <p class="fb-fun">{q.fun}</p>
 
@@ -243,8 +233,7 @@
                 {/each}
               </div>
             {/if}
-          </div>
-        {/if}
+        </div>
       </main>
     {/key}
 
