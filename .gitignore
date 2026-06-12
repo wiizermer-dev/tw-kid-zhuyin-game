@@ -30,3 +30,7 @@ dist-ssr
 .playwright-mcp/
 .vercel
 .env*
+
+# 審題報告快照（可由 fetch-reviews + build-review-report 重新產出）
+review-report.json
+review-report.html
