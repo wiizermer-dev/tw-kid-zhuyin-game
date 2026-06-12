@@ -115,8 +115,12 @@
 
   // 全員準備好 → 由 leader（id 最小者，避免多人同時廣播）發起開戰
   $effect(() => {
-    if (screen !== 'duel' || duelCountdown > 0 || !liveChannel) return;
+    // 必須先讀 players 再 early return：effect 依賴是「執行當下讀到的 state」。
+    // 若在 liveChannel 還是 null 時（剛切到 duel、尚未開房）先 return，
+    // 這次執行沒讀到 players → 之後 presence 更新不會重跑 effect，
+    // 全員 ready 也永遠不倒數（liveChannel 是普通變數，賦值不觸發重跑）。
     const players = liveState.players;
+    if (screen !== 'duel' || duelCountdown > 0 || !liveChannel) return;
     if (players.length < 2 || !players.every((p) => p.ready)) return;
     const leaderId = [...players].map((p) => p.id).sort()[0];
     if (leaderId !== myId) return;

@@ -23,6 +23,10 @@ export function joinLiveRoom(code, me, handlers = {}) {
   const myMeta = { id: me.id, name: me.name, ready: false };
   // 房主設過的最新難度；leader 發 start 時取此值（自己設的不會被 self:false 過濾掉）
   let hostDifficulty = null;
+  // 我是否設定過難度（= 房主）。broadcast 即發即逝，晚進房者收不到歷史訊息，
+  // 房主須在 presence sync 看到新成員時重播難度，否則晚到的人永遠顯示「隨機」。
+  let isDifficultyOwner = false;
+  let lastPlayerCount = 0;
 
   // channel 訂閱是非同步的；訂閱完成前對 channel.track() 無效甚至會壞掉 presence。
   // 統一用 pushMeta：未訂閱時只更新本地 myMeta（等 SUBSCRIBED 後一次 track 最新值），
@@ -44,7 +48,13 @@ export function joinLiveRoom(code, me, handlers = {}) {
         }
       }
     }
-    handlers.onPlayers?.([...seen.values()]);
+    const players = [...seen.values()];
+    // 有新成員進房 → 房主重播難度（給晚進房者；receiver 端設值是冪等的）
+    if (isDifficultyOwner && hostDifficulty != null && players.length > lastPlayerCount) {
+      channel.send({ type: 'broadcast', event: 'difficulty', payload: { difficulty: hostDifficulty } });
+    }
+    lastPlayerCount = players.length;
+    handlers.onPlayers?.(players);
   });
   channel.on('broadcast', { event: 'start' }, ({ payload }) => handlers.onStart?.(payload));
   channel.on('broadcast', { event: 'progress' }, ({ payload }) => handlers.onProgress?.(payload));
@@ -71,6 +81,7 @@ export function joinLiveRoom(code, me, handlers = {}) {
     },
     // 開房者設定本場難度：記在本地（leader 發 start 取用）+ broadcast 給全房 UI
     setDifficulty: (difficulty) => {
+      isDifficultyOwner = true;
       hostDifficulty = difficulty ?? null;
       channel.send({ type: 'broadcast', event: 'difficulty', payload: { difficulty: hostDifficulty } });
     },
