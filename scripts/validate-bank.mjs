@@ -26,12 +26,22 @@ for (const q of BANK) {
 
   if (!ZHUYIN_RE.test(q.zhuyin)) errors.push(`${where}: zhuyin「${q.zhuyin}」格式不合法`);
 
+  if (q.kind !== undefined && q.kind !== 'char') {
+    errors.push(`${where}: kind「${q.kind}」不合法（僅允許省略或 'char'）`);
+  }
+
   if (!Array.isArray(q.distractors) || q.distractors.length < 1 || q.distractors.length > 3) {
     errors.push(`${where}: distractors 需 1–3 個`);
   } else {
     for (const d of q.distractors) {
-      if (!ZHUYIN_RE.test(d)) errors.push(`${where}: distractor「${d}」格式不合法`);
-      if (d === q.zhuyin) errors.push(`${where}: distractor 與正解相同`);
+      if (q.kind === 'char') {
+        // 反考字：誘答是「字」，須為單一字且非正解字
+        if (typeof d !== 'string' || [...d].length !== 1) errors.push(`${where}: 誘答字「${d}」須為單一字`);
+        if (d === q.target) errors.push(`${where}: 誘答字與正解 target 相同`);
+      } else {
+        if (!ZHUYIN_RE.test(d)) errors.push(`${where}: distractor「${d}」格式不合法`);
+        if (d === q.zhuyin) errors.push(`${where}: distractor 與正解相同`);
+      }
     }
     if (new Set(q.distractors).size !== q.distractors.length) {
       errors.push(`${where}: distractors 重複`);

@@ -17,14 +17,15 @@ npm run audit      # 對教育部辭典稽核題庫注音（改題庫必跑）
 
 - **引擎只有一個狀態機**：`src/core/session.svelte.js` 的 `QuizSession`（Svelte 5 runes）所有模式共用。模式只是 config 參數差異（見 `src/modes.js`），不要為某模式另寫狀態機。
 - **選題唯一入口**：`src/core/bank.js` 的 `selectQuestions()`。所有玩法取題都走它，吃 seed（決定性 PRNG `rng.js`）/ 難度 / 類別 / excludeIds / onlyIds。連對提難另有 `drawHarderQuestion()`。
-- **題庫扁平陣列**：`src/data/bank/index.js` 匯總 7 類（tricky / polyphone / rare / idiom / modern / classical / lyrics）成單一 `BANK`。新增類別要在 index.js 註冊 `CATEGORIES`。
+- **題庫扁平陣列**：`src/data/bank/index.js` 匯總 8 類（tricky / polyphone / rare / idiom / modern / classical / lyrics / pickchar）成單一 `BANK`。新增類別要在 index.js 註冊 `CATEGORIES`。
 - **模式設定**：`src/modes.js` 的 `MODES`（daily / sprint / levels / duel）+ `LEVELS`（10 關，第 5、10 為 BOSS）。
 - **畫面**：`src/App.svelte` 是 state orchestrator（screen 切換 + 房間/連線生命週期）；`src/ui/screens/*` 為各畫面；`src/ui/components/*` 共用元件。
 - **無後端時可玩**：`hasCloud=false` 排行榜走本地、對戰退化為同題碼比分。所有雲端呼叫都先檢查 `supabase` 是否存在。
 
 ## 題庫品管（改題必讀）
 
-- 題目 schema：`{ id, text, target(單字，須在 text 中), zhuyin, distractors[1-3], meaning, fun, tags[], difficulty(1-5), era }`。id 前綴對應類別（tk/pp/rr/id/md/cl/ly）連號。
+- 題目 schema：`{ id, text, target(單字，須在 text 中), zhuyin, distractors[1-3], meaning, fun, tags[], difficulty(1-5), era }`。id 前綴對應類別（tk/pp/rr/id/md/cl/ly/fc）連號。
+- **反考字題（pickchar，`kind: 'char'`）**：給語境＋注音挑「正確的字」，distractors 放形近／常見誤寫字（非注音）；正解選項 = target。誘答字不得是教育部辭典收錄的同語境異形寫法（如「再接再礪」辭典也收，不可當誘答）。zhuyin 仍為 target 正讀，audit 照常稽核。
 - **辭典優先序**：審注音一律以教育部《國語辭典簡編本》(concised, `dict.concised.moe.edu.tw`) 為第一依據（中小學教學標準，收音嚴謹貼課綱）。**只有簡編本查不到才退查《重編國語辭典修訂本》(moedict, `moedict.tw`)**。
 - **audit 腳本打的是 moedict（修訂本），屬退階來源**：`scripts/audit-readings.mjs` 用 moedict API，會把修訂本收的冷僻又音/語音當正讀，對「整句非詞條」的題退回單字比對時常**誤報「答案非第一正音」**。判讀其輸出時，凡牽涉又讀/多音爭議，必須回簡編本覆核才算數。
 - **誤報處置**：確認題目正確（子詞覆核）後，把 id 加進 `audit-readings.mjs` 的 `VERIFIED_OK` 白名單並註明依據，**不要改題**。輕聲位置題庫寫後置（`ㄉㄨㄣ˙`）、萌典寫前置（`˙ㄉㄨㄣ`），`norm()` 已統一。

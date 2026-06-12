@@ -198,19 +198,30 @@
         <!-- 免作答：正解直接標示。顯示「全部」誘答（非實際出題時抽 2 的子集），
              否則審題員看不到沒被抽到的誘答，會誤判設計（935 筆審查中 23 筆批注因此誤會） -->
         <div class="options locked">
-          <div class="opt card right" aria-label="正解 {q.zhuyin}">
-            <ZhuyinCol zhuyin={q.zhuyin} size="1.7rem" />
-          </div>
-          {#each q.distractors as d}
-            <div class="opt card" aria-label="誘答 {d}">
-              <ZhuyinCol zhuyin={d} size="1.7rem" />
+          {#if q.kind === 'char'}
+            <div class="opt card right" aria-label="正解 {q.target}">
+              <span class="char-opt">{q.target}</span>
             </div>
-          {/each}
+            {#each q.distractors as d}
+              <div class="opt card" aria-label="誘答 {d}">
+                <span class="char-opt">{d}</span>
+              </div>
+            {/each}
+          {:else}
+            <div class="opt card right" aria-label="正解 {q.zhuyin}">
+              <ZhuyinCol zhuyin={q.zhuyin} size="1.7rem" />
+            </div>
+            {#each q.distractors as d}
+              <div class="opt card" aria-label="誘答 {d}">
+                <ZhuyinCol zhuyin={d} size="1.7rem" />
+              </div>
+            {/each}
+          {/if}
         </div>
         <p class="opt-hint">實際出題時從 {q.distractors.length} 個誘答抽 2 個；此處攤開全部供審查</p>
 
         <div class="feedback card bounce-in good">
-            <p class="fb-head">正解「{q.zhuyin}」</p>
+            <p class="fb-head">正解「{q.kind === 'char' ? `${q.target}，唸 ${q.zhuyin}` : q.zhuyin}」</p>
             <p class="fb-meaning">{q.text}：{q.meaning}</p>
             <p class="fb-fun">{q.fun}</p>
 
@@ -337,6 +348,7 @@
   .qcard { padding: 1.2rem 1.2rem; text-align: center; }
   .qprompt { margin: 0 0 0.6rem; color: var(--ink-soft); font-size: 1rem; }
   .qtarget { color: var(--berry-deep); font-family: var(--font-kai); font-size: 1.4em; }
+  .char-opt { font-family: var(--font-kai); font-size: 2.4rem; font-weight: 700; line-height: 1; }
   .qtext {
     margin: 0;
     font-family: var(--font-kai);

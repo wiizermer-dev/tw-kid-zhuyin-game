@@ -58,13 +58,16 @@ export function selectQuestions({
   return shuffleWith(rand, pool).slice(0, count).map(q => toQuestion(q, rand));
 }
 
-// 每題呈現 3 選項（1 正解 + 2 誘答）。題庫每題備 3 個 distractors，
+// 每題呈現 3 選項（1 正解 + 2 誘答）。題庫每題備至多 3 個 distractors，
 // 決定性洗牌後取前 2 個，保留 seed 可重現性（同房同題組選項一致）。
+// kind: 'char'（反考字）選項是「字」（正解 = target）；預設選項是注音（正解 = zhuyin）。
 function toQuestion(item, rand) {
   const picks = shuffleWith(rand, item.distractors).slice(0, 2);
+  const isChar = item.kind === 'char';
+  const key = isChar ? 'char' : 'zhuyin';
   const options = shuffleWith(rand, [
-    { zhuyin: item.zhuyin, correct: true },
-    ...picks.map(d => ({ zhuyin: d, correct: false }))
+    { [key]: isChar ? item.target : item.zhuyin, correct: true },
+    ...picks.map(d => ({ [key]: d, correct: false }))
   ]);
   return { ...item, options };
 }
