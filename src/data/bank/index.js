@@ -9,6 +9,7 @@ import idiom from './idiom.js';
 import modern from './modern.js';
 import classical from './classical.js';
 import lyrics from './lyrics.js';
+import pickchar from './pickchar.js';
 
 export const CATEGORIES = {
   tricky: { label: '易讀錯', icon: 'ㄘ', items: tricky },
@@ -17,7 +18,8 @@ export const CATEGORIES = {
   idiom: { label: '成語', icon: 'ㄔ', items: idiom },
   modern: { label: '現代梗', icon: 'ㄇ', items: modern },
   classical: { label: '古文詩詞', icon: 'ㄍ', items: classical },
-  lyrics: { label: '流行歌詞', icon: 'ㄎ', items: lyrics }
+  lyrics: { label: '流行歌詞', icon: 'ㄎ', items: lyrics },
+  pickchar: { label: '錯別字', icon: 'ㄗ', items: pickchar }
 };
 
 export const BANK = Object.entries(CATEGORIES).flatMap(([key, cat]) =>

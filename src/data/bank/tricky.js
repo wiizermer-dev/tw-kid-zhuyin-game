@@ -1326,5 +1326,19 @@ export default [
     meaning: '行為放縱不受約束、不拘形式禮節',
     fun: '骸唸ㄏㄞˊ，指身體軀殼。放浪形骸可以，放浪注音不行',
     tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'tk-192', text: '貯存糧食', target: '貯', zhuyin: 'ㄓㄨˇ',
+    distractors: ['ㄔㄨˇ', 'ㄔㄨˊ', 'ㄘㄨˊ'],
+    meaning: '儲藏存放',
+    fun: '貯唸ㄓㄨˇ不是ㄔㄨˇ！跟儲（ㄔㄨˊ）是不同字，倉庫分得很清楚',
+    tags: ['易讀錯', '日常'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'tk-193', text: '一招撂倒', target: '撂', zhuyin: 'ㄌㄧㄠˋ',
+    distractors: ['ㄌㄠˋ', 'ㄌㄨㄛˋ', 'ㄍㄜ'],
+    meaning: '摔放、弄倒；撂倒指把人打倒在地',
+    fun: '撂唸ㄌㄧㄠˋ。柔道課學會撂倒對手之前，先把這個音撂穩',
+    tags: ['易讀錯', '日常'], difficulty: 3, era: 'modern'
   }
 ];

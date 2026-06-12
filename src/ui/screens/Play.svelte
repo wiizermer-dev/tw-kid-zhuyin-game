@@ -238,12 +238,25 @@
     {#key q.id}
       <main class="qarea">
         <div class="qcard card pop-in" class:shake={showFeedback && !lastCorrect}>
-          <p class="qprompt">「<b class="qtarget">{q.target}</b>」怎麼唸？</p>
-          <p class="qtext">
-            {#each [...q.text] as ch}
-              <span class:hl={ch === q.target}>{ch}</span>
-            {/each}
-          </p>
+          {#if q.kind === 'char'}
+            <p class="qprompt">空格是哪個字？</p>
+            <p class="qtext">
+              {#each [...q.text] as ch}
+                {#if ch === q.target}
+                  <span class="blank"><ZhuyinCol zhuyin={q.zhuyin} size="1rem" /></span>
+                {:else}
+                  <span>{ch}</span>
+                {/if}
+              {/each}
+            </p>
+          {:else}
+            <p class="qprompt">「<b class="qtarget">{q.target}</b>」怎麼唸？</p>
+            <p class="qtext">
+              {#each [...q.text] as ch}
+                <span class:hl={ch === q.target}>{ch}</span>
+              {/each}
+            </p>
+          {/if}
         </div>
 
         <div class="options" class:locked={showFeedback}>
@@ -252,10 +265,14 @@
               class="opt card"
               class:right={showFeedback && opt.correct}
               class:picked-wrong={showFeedback && session.answered === i && !opt.correct}
-              aria-label="注音選項 {opt.zhuyin}"
+              aria-label="{q.kind === 'char' ? `選字 ${opt.char}` : `注音選項 ${opt.zhuyin}`}"
               onclick={() => choose(i)}
             >
-              <ZhuyinCol zhuyin={opt.zhuyin} size="1.7rem" />
+              {#if q.kind === 'char'}
+                <span class="char-opt">{opt.char}</span>
+              {:else}
+                <ZhuyinCol zhuyin={opt.zhuyin} size="1.7rem" />
+              {/if}
             </button>
           {/each}
         </div>
@@ -263,9 +280,9 @@
         {#if showFeedback}
           <div class="feedback card bounce-in" class:good={lastCorrect}>
             <p class="fb-head">
-              {#if session.answered === -1}時間到！正解是「{q.zhuyin}」
+              {#if session.answered === -1}時間到！正解是「{q.kind === 'char' ? q.target : q.zhuyin}」
               {:else if lastCorrect}🎉 答對了！
-              {:else}💥 唸錯啦！正解是「{q.zhuyin}」
+              {:else}{q.kind === 'char' ? '💥 寫錯啦！' : '💥 唸錯啦！'}正解是「{q.kind === 'char' ? q.target : q.zhuyin}」
               {/if}
             </p>
             <p class="fb-fun">{q.fun}</p>
@@ -367,6 +384,25 @@
     color: var(--berry-deep);
     text-decoration: underline wavy var(--sun) 3px;
     text-underline-offset: 8px;
+  }
+  /* 反考字：挖空格子，內放小注音提示 */
+  .qtext .blank {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 1.2em;
+    height: 1.2em;
+    margin: 0 0.05em;
+    border: 3px dashed var(--sun);
+    border-radius: 12px;
+    background: #fffaf0;
+    vertical-align: -0.15em;
+  }
+  .char-opt {
+    font-family: var(--font-kai);
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1;
   }
 
   .options {

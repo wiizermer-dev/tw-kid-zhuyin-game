@@ -653,5 +653,12 @@ export default [
     meaning: '胸部、胸膛；脯指胸部時唸ㄆㄨˊ',
     fun: '胸脯（ㄆㄨˊ）的脯指胸部；肉脯（ㄈㄨˇ）的脯才是乾肉，別拍錯地方',
     tags: ['破音字', '日常'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'pp-101', text: '自力更生', target: '更', zhuyin: 'ㄍㄥ',
+    distractors: ['ㄍㄥˋ', 'ㄐㄧㄥ', 'ㄍㄥˇ'],
+    meaning: '靠自己的力量重新振作起來',
+    fun: '更生的更是「改變、重新」，唸ㄍㄥ；更加才唸ㄍㄥˋ。靠自己之前先唸對',
+    tags: ['破音字', '成語'], difficulty: 3, era: 'classic'
   }
 ];
