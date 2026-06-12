@@ -69,6 +69,10 @@ export const storage = {
     set('recent_ids', merged.slice(-60));
   },
 
+  /** 審題紀錄：{ [qid]: { verdict, at, synced } }；synced=false 表示雲端還沒送成功 */
+  getReviews: () => get('reviews', {}),
+  setReviews: (r) => set('reviews', r),
+
   /** 本地排行榜：[{name, score, mode, date}] 取前 50 */
   getLocalBoard: () => get('local_board', []),
   addLocalScore: (entry) => {

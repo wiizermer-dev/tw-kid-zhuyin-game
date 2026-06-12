@@ -21,6 +21,16 @@ export function joinLiveRoom(code, me, handlers = {}) {
   // difficulty 只有開房者會設（其餘人為 null），leader 發 start 時取此值同步全房
   const myMeta = { id: me.id, name: me.name, ready: false, difficulty: null };
 
+  // channel 訂閱是非同步的；訂閱完成前對 channel.track() 無效甚至會壞掉 presence。
+  // 統一用 pushMeta：未訂閱時只更新本地 myMeta（等 SUBSCRIBED 後一次 track 最新值），
+  // 已訂閱才即時 track 廣播。避免「房主一進房就設難度」對未訂閱 channel track，
+  // 導致後續 ready 廣播失效、全房永遠等不到房主 ready 而不倒數。
+  let subscribed = false;
+  function pushMeta() {
+    if (!subscribed) return;
+    try { channel.track(myMeta); } catch (e) { console.error('presence track:', e); }
+  }
+
   channel.on('presence', { event: 'sync' }, () => {
     // 以 id 去重（同一人多個 tab 只算一個）
     const seen = new Map();
@@ -38,7 +48,9 @@ export function joinLiveRoom(code, me, handlers = {}) {
 
   channel.subscribe(async (status) => {
     if (status === 'SUBSCRIBED') {
-      try { await channel.track(myMeta); } catch (e) { console.error('presence track:', e); }
+      subscribed = true;
+      // 訂閱完成才首次 track；此時 myMeta 已含進房前先設好的 ready/difficulty
+      pushMeta();
     }
   });
 
@@ -47,12 +59,12 @@ export function joinLiveRoom(code, me, handlers = {}) {
     progress: (payload) => channel.send({ type: 'broadcast', event: 'progress', payload }),
     setReady: (ready) => {
       myMeta.ready = !!ready;
-      try { channel.track(myMeta); } catch (e) { console.error('presence track:', e); }
+      pushMeta();
     },
     // 開房者設定本場難度，重新 track 即廣播給全房
     setDifficulty: (difficulty) => {
       myMeta.difficulty = difficulty ?? null;
-      try { channel.track(myMeta); } catch (e) { console.error('presence track:', e); }
+      pushMeta();
     },
     leave: () => { try { supabase.removeChannel(channel); } catch { /* already gone */ } }
   };

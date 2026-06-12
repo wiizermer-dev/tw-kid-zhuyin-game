@@ -4,7 +4,7 @@
   import { dailySeed } from '../../core/rng.js';
   import ZhuyinGlyph from '../components/ZhuyinGlyph.svelte';
 
-  let { onPlay, onLevels, onBoard, challenge = null, invalidChallenge = false, onAcceptChallenge, onDeclineChallenge } = $props();
+  let { onPlay, onLevels, onBoard, onReview, challenge = null, invalidChallenge = false, onAcceptChallenge, onDeclineChallenge } = $props();
 
   let name = $state(storage.getPlayerName());
   let editingName = $state(!storage.getPlayerName());
@@ -18,8 +18,17 @@
 
   let nameShake = $state(false);
 
+  // 審題員暗門：名字欄輸入通關密語 → 不存名字，直接進審題模式
+  const REVIEW_PASSPHRASE = '我要審題';
+
   function saveName() {
     name = name.trim().slice(0, 12);
+    if (name === REVIEW_PASSPHRASE) {
+      name = storage.getPlayerName();   // 密語不留在輸入框
+      editingName = !name;
+      onReview();
+      return false;
+    }
     if (!name) return false;
     storage.setPlayerName(name);
     editingName = false;

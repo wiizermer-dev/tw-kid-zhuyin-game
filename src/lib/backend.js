@@ -87,6 +87,33 @@ export async function recordQuestionAttempts(attempts = []) {
 }
 
 /**
+ * 上傳一筆審題結論到 question_reviews（審題模式用，schema 見 supabase-setup-v4）。
+ * 走 record_question_review RPC（SECURITY DEFINER），同人同題 upsert 成最新結論。
+ * @param {{ question, verdict: string, name?: string, note?: string }} opts question 為 BANK 題目物件
+ * @returns {Promise<boolean>} 是否成功（呼叫端據此標 synced，失敗下次補送）
+ */
+export async function submitQuestionReview({ question, verdict, name = '', note = '' }) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase.rpc('record_question_review', {
+      p_browser_id: browserId(),
+      p_reviewer_name: name,
+      p_question_id: question.id,
+      p_word: question.text,
+      p_correct_answer: question.zhuyin,
+      p_difficulty: question.difficulty ?? null,
+      p_verdict: verdict,
+      p_note: note || null
+    });
+    if (error) console.error('submitQuestionReview:', error);
+    return !error;
+  } catch (e) {
+    console.error('submitQuestionReview:', e);
+    return false;
+  }
+}
+
+/**
  * 取全體最常錯題目榜。依錯誤率排序，需達最低樣本數才上榜（避免一兩次就洗榜）。
  * @returns {Array<{ question_id, word, target_char, correct_answer, total_attempts, wrong_attempts, wrongRate }>|null}
  */

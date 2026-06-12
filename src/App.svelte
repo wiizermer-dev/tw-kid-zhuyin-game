@@ -7,6 +7,7 @@
   import Levels from './ui/screens/Levels.svelte';
   import Board from './ui/screens/Board.svelte';
   import DuelEntry from './ui/screens/DuelEntry.svelte';
+  import Review from './ui/screens/Review.svelte';
 
   import { MODES, levelConfig, LEVELS } from './modes.js';
   import { storage } from './core/storage.js';
@@ -323,6 +324,7 @@
     onPlay={startMode}
     onLevels={() => (screen = 'levels')}
     onBoard={() => (screen = 'board')}
+    onReview={() => (screen = 'review')}
     {challenge}
     {invalidChallenge}
     onAcceptChallenge={acceptChallenge}
@@ -364,4 +366,6 @@
   />
 {:else if screen === 'board'}
   <Board onHome={goHome} initialTab={MODES[modeKey] ? modeKey : 'sprint'} />
+{:else if screen === 'review'}
+  <Review onHome={goHome} />
 {/if}
