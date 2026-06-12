@@ -12,7 +12,7 @@
   import { storage } from './core/storage.js';
   import { dailySeed } from './core/rng.js';
   import { parseChallengeFromUrl, clearChallengeFromUrl } from './lib/challenge.js';
-  import { submitRun, browserId } from './lib/backend.js';
+  import { submitRun, browserId, recordQuestionAttempts } from './lib/backend.js';
   import { joinLiveRoom } from './lib/live.js';
 
   const myId = browserId();
@@ -227,6 +227,11 @@
       else storage.clearMistake(q.id);
     });
     storage.addRecentIds(s.questions.map((q) => q.id));
+
+    // 全體常錯榜：逐題作答結果上傳雲端（fire-and-forget，無雲端時自動跳過）
+    recordQuestionAttempts(
+      s.questions.map((q, i) => ({ question: q, isCorrect: !!s.results[i] }))
+    );
 
     // 同房下一局排除這局出過的題
     if (modeKey === 'duel') {

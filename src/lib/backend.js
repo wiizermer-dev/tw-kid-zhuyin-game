@@ -57,3 +57,58 @@ export async function fetchBoard(mode, { room = null, limit = 20 } = {}) {
     return null;
   }
 }
+
+/**
+ * 累計一場對局的逐題作答結果到 question_stats（全體常錯榜資料來源）。
+ * 走 record_question_attempt RPC（SECURITY DEFINER），前端不直接寫表。
+ * @param {Array<{ question, isCorrect: boolean }>} attempts
+ *   question 為 BANK 題目物件（需 id/text/target/zhuyin）
+ */
+export async function recordQuestionAttempts(attempts = []) {
+  if (!supabase || !attempts.length) return false;
+  try {
+    // 逐題並發送出；單場最多 15 題，量小可接受。任一失敗不影響其餘
+    await Promise.all(
+      attempts.map(({ question: q, isCorrect }) =>
+        supabase.rpc('record_question_attempt', {
+          p_question_id: q.id,
+          p_word: q.text,
+          p_target_char: q.target ?? null,
+          p_correct_answer: q.zhuyin,
+          p_is_correct: !!isCorrect
+        })
+      )
+    );
+    return true;
+  } catch (e) {
+    console.error('recordQuestionAttempts:', e);
+    return false;
+  }
+}
+
+/**
+ * 取全體最常錯題目榜。依錯誤率排序，需達最低樣本數才上榜（避免一兩次就洗榜）。
+ * @returns {Array<{ question_id, word, target_char, correct_answer, total_attempts, wrong_attempts, wrongRate }>|null}
+ */
+export async function fetchWrongBoard({ limit = 20, minAttempts = 5 } = {}) {
+  if (!supabase) return null;
+  try {
+    const { data, error } = await supabase
+      .from('question_stats')
+      .select('question_id, word, target_char, correct_answer, total_attempts, wrong_attempts')
+      .gte('total_attempts', minAttempts)
+      .order('wrong_attempts', { ascending: false })
+      .limit(limit * 3); // 多抓再依錯誤率重排
+    if (error) {
+      console.error('fetchWrongBoard:', error);
+      return null;
+    }
+    return (data ?? [])
+      .map((r) => ({ ...r, wrongRate: r.total_attempts ? r.wrong_attempts / r.total_attempts : 0 }))
+      .sort((a, b) => b.wrongRate - a.wrongRate || b.wrong_attempts - a.wrong_attempts)
+      .slice(0, limit);
+  } catch (e) {
+    console.error('fetchWrongBoard:', e);
+    return null;
+  }
+}

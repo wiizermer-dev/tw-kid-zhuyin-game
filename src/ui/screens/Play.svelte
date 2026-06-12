@@ -27,6 +27,7 @@
   const mountTime = performance.now();
 
   // 即時房：每答一題回報進度給同房對手
+  // 完賽（finished）時附上逐題對錯與題目 id，供結算「本場最雷題／最菜」統計
   function reportProgress(finished = false) {
     meta.onProgress?.({
       index: Math.min(session.index + 1, session.total),
@@ -38,7 +39,13 @@
       // 即時對戰排速度用「累計作答秒數」，否則同步換題後大家牆鐘時間都一樣
       elapsedSec: isLive
         ? Math.round(session.answerTimeTotal * 10) / 10
-        : Math.round((performance.now() - mountTime) / 1000)
+        : Math.round((performance.now() - mountTime) / 1000),
+      ...(finished && isLive
+        ? {
+            results: [...session.results],
+            qids: session.questions.slice(0, session.attempted).map((q) => q.id)
+          }
+        : {})
     });
   }
 

@@ -6,6 +6,7 @@
   import { randomZhuyinCode } from '../../lib/live.js';
   import { dailySeed } from '../../core/rng.js';
   import LiveBoard from '../components/LiveBoard.svelte';
+  import DuelRoast from '../components/DuelRoast.svelte';
 
   let { summary, modeKey, modeName, level = null, challenge = null, duelSeed = null,
         liveState = null, myId = null, onReplay, onHome, onBoard, onNextLevel = null, onLevels = null } = $props();
@@ -109,6 +110,9 @@
     <div class="live-final pop-in">
       <LiveBoard progress={liveState.progress} {myId} variant="result" />
       {#if !allFinished}<p class="waiting-note">等其他人完成中…（會即時更新）</p>{/if}
+      {#if allFinished}
+        <DuelRoast progress={liveState.progress} {myId} />
+      {/if}
     </div>
   {/if}
 
