@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>審題報告 — 你ㄅㄆㄇ有ㄅ級分ㄇ</title>
+<style>
+  :root {
+    --paper: #FFF7E8; --paper-2: #FFE9F0; --card: #FFFDF7;
+    --ink: #3D2C29; --ink-soft: #8a7a72; --line: #EADFD3;
+    --red: #E5484D; --red-soft: #FF6B6B;
+    --green: #7BC96F; --amber: #FFB347; --amber-deep: #c77f1b;
+    --grape: #A78BFA; --mint: #2BB3A9;
+    --kai: 'TW-Kai', 'BiauKai', 'Kaiti TC', 'DFKai-SB', serif;
+    --sans: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; color: var(--ink); font: 15px/1.75 var(--sans);
+    background:
+      repeating-linear-gradient(transparent 0 30px, rgba(229,72,77,.045) 30px 31px),
+      linear-gradient(160deg, var(--paper) 0%, var(--paper-2) 100%);
+    background-attachment: fixed;
+  }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 3rem 1.25rem 4rem; }
+
+  header.hero { position: relative; margin-bottom: 2.4rem; }
+  .hero-rule { border-left: 5px double var(--red); padding-left: 1.1rem; }
+  h1 { font-family: var(--kai); font-size: clamp(1.9rem, 5vw, 2.7rem); margin: 0; letter-spacing: .08em; }
+  h1 .zy { color: var(--red); }
+  .hero-sub { color: var(--ink-soft); margin: .35rem 0 0; font-size: .92rem; }
+  .stamp {
+    position: absolute; right: 0; top: -.6rem; transform: rotate(7deg);
+    font-family: var(--kai); color: var(--red); border: 3px solid var(--red);
+    border-radius: 10px; padding: .15rem .8rem; font-size: 1.15rem; letter-spacing: .25em;
+    opacity: .82; background: rgba(255,255,255,.5);
+  }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: .8rem; margin: 1.6rem 0 0; }
+  .stat {
+    background: var(--card); border: 1.5px solid var(--line); border-radius: 14px;
+    padding: .85rem 1rem; box-shadow: 0 3px 0 var(--line);
+  }
+  .stat b { display: block; font-size: 1.7rem; font-family: var(--kai); line-height: 1.2; }
+  .stat span { color: var(--ink-soft); font-size: .8rem; }
+
+  h2 { font-family: var(--kai); font-size: 1.45rem; letter-spacing: .06em; margin: 2.6rem 0 .9rem; }
+  h2::before { content: '◆'; color: var(--red); margin-right: .45rem; font-size: .85em; }
+  .dist-bar { display: flex; height: 30px; border-radius: 999px; overflow: hidden; border: 1.5px solid var(--line); background: #fff; }
+  .dist-bar i { display: block; height: 100%; }
+  .legend { display: flex; flex-wrap: wrap; gap: .35rem .95rem; margin-top: .6rem; font-size: .82rem; color: var(--ink-soft); }
+  .legend .dot { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: .35rem; vertical-align: -1px; }
+
+  .reviewer {
+    background: var(--card); border: 1.5px solid var(--line); border-radius: 18px;
+    box-shadow: 0 4px 0 var(--line); padding: 1.3rem 1.4rem 1.1rem; margin: 1.2rem 0;
+  }
+  .rv-head { display: flex; align-items: baseline; gap: .8rem; flex-wrap: wrap; }
+  .rv-name { font-family: var(--kai); font-size: 1.5rem; letter-spacing: .05em; }
+  .rv-meta { color: var(--ink-soft); font-size: .85rem; }
+  .rv-strict {
+    margin-left: auto; font-family: var(--kai); font-size: .95rem;
+    color: var(--red); border-bottom: 2px dotted var(--red);
+  }
+  .rv-bars { display: flex; flex-wrap: wrap; gap: .4rem .9rem; margin: .8rem 0 .3rem; font-size: .82rem; }
+  .rv-bars .vb { display: flex; align-items: center; gap: .4rem; color: var(--ink-soft); }
+  .rv-bars .vb i { display: inline-block; height: 9px; border-radius: 99px; min-width: 4px; }
+
+  .notes { margin-top: .8rem; }
+  .note-item {
+    border-left: 3.5px solid var(--red-soft); background: rgba(255,107,107,.06);
+    border-radius: 0 10px 10px 0; padding: .5rem .85rem; margin: .5rem 0; font-size: .9rem;
+  }
+  .note-item .q { font-weight: 700; }
+  .note-item .q small { color: var(--ink-soft); font-weight: 400; margin-left: .4rem; }
+  .note-item .remark { font-family: var(--kai); color: var(--red); margin-top: .1rem; }
+  .note-item .remark::before { content: '批：'; }
+
+  details { margin-top: .9rem; border-top: 1.5px dashed var(--line); padding-top: .7rem; }
+  summary { cursor: pointer; color: var(--mint); font-weight: 700; font-size: .88rem; }
+  summary:hover { text-decoration: underline; }
+  table { border-collapse: collapse; width: 100%; margin-top: .7rem; font-size: .85rem; }
+  th, td { border: 1px solid var(--line); padding: .35rem .6rem; text-align: left; }
+  th { background: rgba(255,179,71,.12); font-family: var(--kai); font-weight: 400; letter-spacing: .1em; }
+  td.v { white-space: nowrap; }
+  .chip { display: inline-block; border-radius: 999px; padding: .05rem .55rem; font-size: .78rem; color: #fff; }
+
+  .dispute {
+    background: var(--card); border: 1.5px dashed var(--red-soft); border-radius: 14px;
+    padding: .8rem 1rem; margin: .7rem 0; font-size: .9rem;
+  }
+  .dispute .dq { font-weight: 700; }
+  .dispute .dq small { color: var(--ink-soft); font-weight: 400; margin-left: .4rem; }
+  .dispute .who { color: var(--ink-soft); margin-top: .15rem; }
+  .dispute .who .nm { font-family: var(--kai); color: var(--ink); }
+
+  .loading, .error {
+    text-align: center; margin: 4rem 0; font-family: var(--kai); font-size: 1.2rem; color: var(--ink-soft);
+  }
+  .error { color: var(--red); }
+
+  footer { margin-top: 3.2rem; color: var(--ink-soft); font-size: .8rem; border-top: 1.5px solid var(--line); padding-top: 1rem; }
+  @media (max-width: 560px) { .stamp { display: none; } .rv-strict { margin-left: 0; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="stamp">已 批 閱</div>
+    <div class="hero-rule">
+      <h1><span class="zy">ㄅㄆㄇ</span> 審題報告</h1>
+      <p class="hero-sub" id="sub">資料載入中…</p>
+    </div>
+    <div class="stats" id="stats"></div>
+  </header>
+
+  <div class="loading" id="loading">正在向教育部後台調卷…</div>
+  <div id="content" hidden>
+    <h2>全體結論分布</h2>
+    <div class="dist-bar" id="dist"></div>
+    <div class="legend" id="legend"></div>
+
+    <h2>各審題員審理內容</h2>
+    <div id="reviewers"></div>
+
+    <h2>意見分歧題（多位審題員結論不同）</h2>
+    <div id="disputes"></div>
+  </div>
+
+  <footer id="foot"></footer>
+</div>
+<script type="module" src="./report.js"></script>
+</body>
+</html>
