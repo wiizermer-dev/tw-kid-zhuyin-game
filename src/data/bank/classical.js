@@ -415,5 +415,138 @@ export default [
     meaning: '酒杯隨彎曲的水流漂送，停在誰面前誰就喝酒賦詩。出自王羲之《蘭亭集序》',
     fun: '東晉文青的喝酒遊戲，酒杯漂到你面前就要作詩，作不出來罰酒',
     tags: ['古文', '蘭亭集序'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'cl-060', text: '搔首踟躕', target: '踟', zhuyin: 'ㄔˊ',
+    distractors: ['ㄓ', 'ㄔ', 'ㄓˋ'],
+    meaning: '心情遲疑、來回走動的樣子。出自《詩經‧邶風‧靜女》',
+    fun: '踟躕唸ㄔˊ ㄔㄨˊ，就是猶豫不前。等不到人時抓頭踱步的古人寫照',
+    tags: ['古文', '詩經'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-061', text: '餽金', target: '餽', zhuyin: 'ㄎㄨㄟˋ',
+    distractors: ['ㄍㄨㄟˋ', 'ㄎㄨㄟ', 'ㄨㄟˋ'],
+    meaning: '贈送財物；同「饋」。語見《論語》「餽孔子豚」',
+    fun: '餽唸ㄎㄨㄟˋ，跟「饋贈」的饋同義。古人送禮也要送對音',
+    tags: ['古文', '論語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'cl-062', text: '怫然作色', target: '怫', zhuyin: 'ㄈㄨˊ',
+    distractors: ['ㄈㄟˋ', 'ㄈㄨˋ', 'ㄈㄨˇ'],
+    meaning: '忽然變臉、生氣的樣子。語見《莊子》',
+    fun: '怫然作色就是臉一沉發火。怫唸ㄈㄨˊ，唸錯老師也會怫然',
+    tags: ['古文'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-063', text: '愴恨', target: '愴', zhuyin: 'ㄔㄨㄤˋ',
+    distractors: ['ㄘㄤ', 'ㄔㄨㄤ', 'ㄑㄧㄤˋ'],
+    meaning: '悲傷怨恨。愴有哀傷之意',
+    fun: '愴唸ㄔㄨㄤˋ，「愴然涕下」的愴。陳子昂登幽州臺哭的就是這個',
+    tags: ['古文'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'cl-064', text: '怏怏不樂', target: '怏', zhuyin: 'ㄧㄤˋ',
+    distractors: ['ㄤ', 'ㄧㄤ', 'ㄧㄤˇ'],
+    meaning: '心中不滿、不服氣而悶悶不樂',
+    fun: '怏唸ㄧㄤˋ不是ㄧㄤ。心裡不爽寫在臉上，就是怏怏不樂',
+    tags: ['古文'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'cl-065', text: '不勝唏噓', target: '噓', zhuyin: 'ㄒㄩ',
+    distractors: ['ㄒㄩˋ', 'ㄒㄩˊ', 'ㄒㄧㄩ'],
+    meaning: '感慨嘆息不已。唏噓即嘆息聲',
+    fun: '噓唸ㄒㄩ，這裡是嘆氣不是噓人下台。往事一提就不勝唏噓',
+    tags: ['古文'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'cl-066', text: '彈箏搏髀', target: '髀', zhuyin: 'ㄅㄧˋ',
+    distractors: ['ㄆㄧˊ', 'ㄅㄟˋ', 'ㄅㄧ'],
+    meaning: '彈著箏、拍著大腿，形容秦地質樸的音樂。出自李斯《諫逐客書》',
+    fun: '髀唸ㄅㄧˋ，就是大腿。搏髀=拍大腿打拍子，古代的卡拉OK',
+    tags: ['古文', '諫逐客書', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-067', text: '變生肘腋', target: '腋', zhuyin: 'ㄧㄝˋ',
+    distractors: ['ㄧˋ', 'ㄧㄚˋ', 'ㄜˋ'],
+    meaning: '禍亂發生在極近的地方，比喻變故就在身邊',
+    fun: '肘腋是手肘和腋下，近到不能再近。腋唸ㄧㄝˋ，禍從身邊起',
+    tags: ['古文', '成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'cl-068', text: '手如柔荑', target: '荑', zhuyin: 'ㄊㄧˊ',
+    distractors: ['ㄧˊ', 'ㄉㄧˋ', 'ㄊㄧˇ'],
+    meaning: '手像初生的嫩芽般柔嫩。出自《詩經‧衛風‧碩人》',
+    fun: '荑唸ㄊㄧˊ，是草木嫩芽。古人誇美人的手白嫩，比喻得很講究',
+    tags: ['古文', '詩經'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-069', text: '領如蝤蠐', target: '蠐', zhuyin: 'ㄑㄧˊ',
+    distractors: ['ㄑㄧˋ', 'ㄐㄧ', 'ㄑㄧ'],
+    meaning: '脖子像天牛幼蟲般白嫩修長。出自《詩經‧衛風‧碩人》',
+    fun: '蝤蠐唸ㄑㄧㄡˊ ㄑㄧˊ，是白白的幼蟲。誇人脖子美，比喻有點獵奇',
+    tags: ['古文', '詩經'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-070', text: '齒如瓠犀', target: '瓠', zhuyin: 'ㄏㄨˋ',
+    distractors: ['ㄎㄨㄚ', 'ㄏㄨˊ', 'ㄍㄨㄚ'],
+    meaning: '牙齒像葫蘆籽般整齊潔白。出自《詩經‧衛風‧碩人》',
+    fun: '瓠唸ㄏㄨˋ，是葫蘆。瓠犀就是葫蘆籽，古人的潔白牙齒廣告',
+    tags: ['古文', '詩經'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-071', text: '螓首蛾眉', target: '螓', zhuyin: 'ㄑㄧㄣˊ',
+    distractors: ['ㄑㄧㄣ', 'ㄓㄣ', 'ㄐㄧㄣ'],
+    meaning: '額頭方廣如螓、眉毛細長如蛾觸鬚，形容美人。出自《詩經‧衛風‧碩人》',
+    fun: '螓唸ㄑㄧㄣˊ，是一種方頭小蟬。螓首蛾眉是古代選美的標準臉',
+    tags: ['古文', '詩經'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-072', text: '賤人就是矯情', target: '矯', zhuyin: 'ㄐㄧㄠˇ',
+    distractors: ['ㄐㄧㄠ', 'ㄐㄧㄠˋ', 'ㄑㄧㄠˊ'],
+    meaning: '故意做作、掩飾真情。《甄嬛傳》華妃名言',
+    fun: '矯唸ㄐㄧㄠˇ。華妃娘娘的經典台詞，唸錯就真的很矯情',
+    tags: ['甄嬛傳', '台詞'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'cl-073', text: '臣妾做不到', target: '妾', zhuyin: 'ㄑㄧㄝˋ',
+    distractors: ['ㄑㄧㄝ', 'ㄒㄧㄝ', 'ㄐㄧㄝˊ'],
+    meaning: '古代女子或妃嬪對己的謙稱。《甄嬛傳》皇后名句',
+    fun: '妾唸ㄑㄧㄝˋ。「臣妾做不到啊」紅遍全網，唸對才到位',
+    tags: ['甄嬛傳', '台詞'], difficulty: 2, era: 'modern'
+  },
+  {
+    id: 'cl-074', text: '嬛嬛一裊楚宮腰', target: '嬛', zhuyin: 'ㄒㄩㄢ',
+    distractors: ['ㄏㄨㄢˊ', 'ㄒㄩㄢˊ', 'ㄑㄩㄥˊ'],
+    meaning: '形容女子體態輕盈柔美。《甄嬛傳》甄嬛名字典故所出',
+    fun: '此處嬛唸ㄒㄩㄢ（便嬛，輕盈美麗），不是甄嬛念的ㄒㄩㄢˊ，皇上親自考過',
+    tags: ['甄嬛傳', '台詞', '破音字'], difficulty: 5, era: 'modern'
+  },
+  {
+    id: 'cl-075', text: '鈕祜祿氏', target: '祜', zhuyin: 'ㄏㄨˋ',
+    distractors: ['ㄍㄨˇ', 'ㄎㄨˇ', 'ㄐㄩˋ'],
+    meaning: '滿洲八大姓之一。《甄嬛傳》中甄嬛抬旗後的姓氏',
+    fun: '祜唸ㄏㄨˋ，是福分的意思。鈕祜祿氏唸錯，娘娘可是會不開心的',
+    tags: ['甄嬛傳', '台詞'], difficulty: 5, era: 'modern'
+  },
+  {
+    id: 'cl-076', text: '年羹堯', target: '羹', zhuyin: 'ㄍㄥ',
+    distractors: ['ㄍㄥˋ', 'ㄍㄢ', 'ㄎㄥ'],
+    meaning: '《甄嬛傳》華妃之兄、權傾一時的大將軍',
+    fun: '羹唸ㄍㄥ，跟肉羹的羹同字。大將軍的名字可別唸錯',
+    tags: ['甄嬛傳', '台詞'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'cl-077', text: '攛掇', target: '攛', zhuyin: 'ㄘㄨㄢ',
+    distractors: ['ㄗㄨㄢ', 'ㄘㄨㄢˋ', 'ㄐㄩㄢ'],
+    meaning: '從旁慫恿、鼓動別人去做某事。宮鬥戲常見的手段',
+    fun: '攛掇唸ㄘㄨㄢ ㄉㄨㄛ，就是在旁邊煽風點火。後宮最愛這味',
+    tags: ['甄嬛傳', '生僻字'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'cl-078', text: '齏粉', target: '齏', zhuyin: 'ㄐㄧ',
+    distractors: ['ㄑㄧˊ', 'ㄐㄧˋ', 'ㄗㄞ'],
+    meaning: '粉碎、粉身碎骨。常見於宮鬥戲的狠話',
+    fun: '齏唸ㄐㄧ，本指搗碎的細末。「化為齏粉」就是碎成渣，威脅力滿點',
+    tags: ['甄嬛傳', '生僻字'], difficulty: 5, era: 'classic'
   }
 ];

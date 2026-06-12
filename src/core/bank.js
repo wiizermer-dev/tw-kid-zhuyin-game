@@ -50,10 +50,13 @@ export function selectQuestions({
   return shuffleWith(rand, pool).slice(0, count).map(q => toQuestion(q, rand));
 }
 
+// 每題呈現 3 選項（1 正解 + 2 誘答）。題庫每題備 3 個 distractors，
+// 決定性洗牌後取前 2 個，保留 seed 可重現性（同房同題組選項一致）。
 function toQuestion(item, rand) {
+  const picks = shuffleWith(rand, item.distractors).slice(0, 2);
   const options = shuffleWith(rand, [
     { zhuyin: item.zhuyin, correct: true },
-    ...item.distractors.map(d => ({ zhuyin: d, correct: false }))
+    ...picks.map(d => ({ zhuyin: d, correct: false }))
   ]);
   return { ...item, options };
 }

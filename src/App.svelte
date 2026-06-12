@@ -102,6 +102,11 @@
     liveChannel?.setReady(myReady);
   }
 
+  // 房主選定本場難度 → 寫進 presence metadata 廣播全房
+  function setDuelDifficulty(difficulty) {
+    liveChannel?.setDifficulty(difficulty);
+  }
+
   // 全員準備好 → 由 leader（id 最小者，避免多人同時廣播）發起開戰
   $effect(() => {
     if (screen !== 'duel' || duelCountdown > 0 || !liveChannel) return;
@@ -109,10 +114,13 @@
     if (players.length < 2 || !players.every((p) => p.ready)) return;
     const leaderId = [...players].map((p) => p.id).sort()[0];
     if (leaderId !== myId) return;
+    // 難度取房內有設定者（房主），無人設則隨機
+    const hostDifficulty = players.find((p) => p.difficulty)?.difficulty ?? 'random';
     const payload = {
       code: duelRoom,
       match: Date.now().toString(36),   // 每局唯一 → 每局題目都不同
-      excludeIds: roomUsedIds
+      excludeIds: roomUsedIds,
+      difficulty: hostDifficulty
     };
     liveChannel.start(payload);
     beginCountdown(payload);
@@ -132,9 +140,10 @@
     }, 1000);
   }
 
-  /** 開打。opts 可為房號字串（無雲端直開）或 { code, match, excludeIds } */
-  function startDuelPlay(opts) {
-    const { code, match = null, excludeIds = [] } =
+  /** 開打。opts 可為房號字串（無雲端直開，難度走 difficultyArg）
+   *  或 { code, match, excludeIds, difficulty }（雲端 leader payload） */
+  function startDuelPlay(opts, difficultyArg = 'random') {
+    const { code, match = null, excludeIds = [], difficulty = difficultyArg } =
       typeof opts === 'string' ? { code: opts } : opts;
     modeKey = 'duel';
     level = null;
@@ -145,7 +154,7 @@
     liveChannel?.setReady(false);
     // 重新開打前清掉上一場的進度，但保留房裡成員
     liveState.progress = {};
-    playConfig = MODES.duel.config(duelSeed, 10, excludeIds);
+    playConfig = MODES.duel.config(duelSeed, 10, excludeIds, difficulty);
     playMeta = {
       modeName: MODES.duel.name,
       myId,
@@ -323,6 +332,7 @@
     onReady={toggleReady}
     onRoom={joinRoom}
     onPlay={startDuelPlay}
+    onDifficulty={setDuelDifficulty}
     onHome={goHome}
   />
 {:else if screen === 'levels'}

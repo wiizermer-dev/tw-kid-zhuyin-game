@@ -34,9 +34,25 @@ export const MODES = {
     tint: 'grape',
     blurb: '開房邀朋友，同題組拚輸贏',
     // 單題 4 秒：超時算錯；excludeIds 排除同房已出過的題避免重複
-    config: (seed, count = 10, excludeIds = []) =>
-      ({ count, seed, minDifficulty: 1, maxDifficulty: 5, perQuestionSeconds: 4, excludeIds })
+    // difficulty 由開房者選（見 DUEL_DIFFICULTIES），決定本場題目難度下限
+    config: (seed, count = 10, excludeIds = [], difficulty = 'random') =>
+      ({
+        count,
+        seed,
+        minDifficulty: DUEL_DIFFICULTIES[difficulty]?.min ?? 1,
+        maxDifficulty: 5,
+        perQuestionSeconds: 4,
+        excludeIds
+      })
   }
+};
+
+/** 好友對戰難度檔位：開房者選定後全房共用，決定該場題目難度下限。 */
+export const DUEL_DIFFICULTIES = {
+  random: { key: 'random', label: '隨機', blurb: '全難度都可能出', min: 1 },
+  medium: { key: 'medium', label: '中等', blurb: '難度 2 以上', min: 2 },
+  hard: { key: 'hard', label: '困難', blurb: '難度 3 以上', min: 3 },
+  insane: { key: 'insane', label: '超難', blurb: '只出難度 4-5', min: 4 }
 };
 
 /** 闖關設定：10 關，第 5、10 關是 BOSS。

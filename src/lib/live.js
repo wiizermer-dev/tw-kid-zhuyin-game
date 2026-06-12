@@ -18,14 +18,17 @@ export function joinLiveRoom(code, me, handlers = {}) {
   });
 
   // presence metadata：ready 隨大廳準備狀態更新（重新 track 即廣播）
-  const myMeta = { id: me.id, name: me.name, ready: false };
+  // difficulty 只有開房者會設（其餘人為 null），leader 發 start 時取此值同步全房
+  const myMeta = { id: me.id, name: me.name, ready: false, difficulty: null };
 
   channel.on('presence', { event: 'sync' }, () => {
     // 以 id 去重（同一人多個 tab 只算一個）
     const seen = new Map();
     for (const metas of Object.values(channel.presenceState())) {
       for (const m of metas) {
-        if (m.id && m.name) seen.set(m.id, { id: m.id, name: m.name, ready: !!m.ready });
+        if (m.id && m.name) {
+          seen.set(m.id, { id: m.id, name: m.name, ready: !!m.ready, difficulty: m.difficulty ?? null });
+        }
       }
     }
     handlers.onPlayers?.([...seen.values()]);
@@ -44,6 +47,11 @@ export function joinLiveRoom(code, me, handlers = {}) {
     progress: (payload) => channel.send({ type: 'broadcast', event: 'progress', payload }),
     setReady: (ready) => {
       myMeta.ready = !!ready;
+      try { channel.track(myMeta); } catch (e) { console.error('presence track:', e); }
+    },
+    // 開房者設定本場難度，重新 track 即廣播給全房
+    setDifficulty: (difficulty) => {
+      myMeta.difficulty = difficulty ?? null;
       try { channel.track(myMeta); } catch (e) { console.error('presence track:', e); }
     },
     leave: () => { try { supabase.removeChannel(channel); } catch { /* already gone */ } }

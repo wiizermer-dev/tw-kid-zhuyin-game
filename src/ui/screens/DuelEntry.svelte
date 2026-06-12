@@ -2,13 +2,14 @@
   /** 好友對戰入口：開房（產生注音房號）/ 輸入邀請碼 / 大廳 */
   import ZhuyinGlyph from '../components/ZhuyinGlyph.svelte';
   import { CODE_CHARS, randomZhuyinCode } from '../../lib/live.js';
+  import { DUEL_DIFFICULTIES } from '../../modes.js';
   import { hasCloud } from '../../lib/backend.js';
   import { buildRoomInviteUrl } from '../../lib/challenge.js';
   import { shareText } from '../../lib/share.js';
   import { storage } from '../../core/storage.js';
   import { playClickSound } from '../../lib/audio.js';
 
-  let { initialCode = '', players = [], myReady = false, countdown = 0, onReady, onRoom, onPlay, onHome } = $props();
+  let { initialCode = '', players = [], myReady = false, countdown = 0, onReady, onRoom, onPlay, onHome, onDifficulty } = $props();
 
   // view: pick（選開房或加入）/ enter（輸碼）/ room（大廳）
   let view = $state(initialCode ? 'room' : 'pick');
@@ -16,6 +17,16 @@
   let entered = $state([]);
   let shareState = $state('');
   let copied = $state(false);
+  // 只有開房者能定本場難度；輸碼進來的人沿用房主設定
+  let isHost = $state(false);
+  let difficulty = $state('random');
+  const difficultyList = Object.values(DUEL_DIFFICULTIES);
+
+  function pickDifficulty(key) {
+    playClickSound();
+    difficulty = key;
+    onDifficulty?.(key);
+  }
 
   function inviteUrl() {
     return buildRoomInviteUrl({ room: code, name: storage.getPlayerName(), live: hasCloud ? 1 : 0 });
@@ -30,8 +41,10 @@
 
   function host() {
     code = randomZhuyinCode();
+    isHost = true;
     view = 'room';
     onRoom?.(code);
+    onDifficulty?.(difficulty);   // 廣播房主預設難度
   }
 
   function tap(ch) {
@@ -131,6 +144,24 @@
     </div>
     {#if shareState}<p class="share-state pop-in">{shareState}</p>{/if}
 
+    {#if isHost}
+      <div class="card diff-card">
+        <b>本場難度（房主決定）</b>
+        <div class="diff-grid">
+          {#each difficultyList as d}
+            <button
+              class="diff-opt"
+              class:active={difficulty === d.key}
+              onclick={() => pickDifficulty(d.key)}
+            >
+              <span class="diff-label">{d.label}</span>
+              <small>{d.blurb}</small>
+            </button>
+          {/each}
+        </div>
+      </div>
+    {/if}
+
     {#if hasCloud}
       <div class="card lobby">
         <b>房裡的人（{players.length}）</b>
@@ -153,7 +184,7 @@
       </button>
     {:else}
       <p class="note">大家輸入同一個房號就會拿到同一組題目，各自打完比分數；唸錯的請喝飲料</p>
-      <button class="btn mint start" onclick={() => onPlay(code)}>開始對戰</button>
+      <button class="btn mint start" onclick={() => onPlay(code, difficulty)}>開始對戰</button>
     {/if}
   {/if}
 
@@ -240,6 +271,25 @@
   .invite-row { display: flex; gap: 0.6rem; justify-content: center; margin-top: 1.2rem; flex-wrap: wrap; }
   .invite-row .btn { flex: 0 1 auto; }
   .share-state { text-align: center; color: var(--mint-deep); font-weight: 700; margin: 0.5rem 0 0; }
+
+  .diff-card { margin-top: 1.2rem; padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: 0.7rem; }
+  .diff-card > b { font-size: 1rem; }
+  .diff-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+  .diff-opt {
+    display: flex; flex-direction: column; gap: 0.15rem; align-items: flex-start;
+    padding: 0.6rem 0.8rem; border-radius: 14px;
+    background: var(--paper); color: var(--ink);
+    box-shadow: 0 2px 0 #ecdfd2; text-align: left;
+    transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .diff-opt:active { transform: scale(0.94); }
+  .diff-opt.active {
+    background: #f3ecff; color: var(--grape);
+    box-shadow: 0 0 0 2px var(--grape) inset;
+  }
+  .diff-label { font-weight: 800; font-size: 1.05rem; }
+  .diff-opt small { color: var(--ink-soft); }
+  .diff-opt.active small { color: color-mix(in srgb, var(--grape) 70%, var(--ink-soft)); }
 
   .lobby { margin-top: 1.2rem; padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: 0.5rem; }
   .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }

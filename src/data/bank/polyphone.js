@@ -688,5 +688,12 @@ export default [
     meaning: '比喻表面愛好實際畏懼，葉公的葉古音唸ㄕㄜˋ',
     fun: '葉（ㄕㄜˋ）公好龍，連姓氏都跟你想的不一樣，難怪龍來了他嚇跑',
     tags: ['破音字', '成語', '大考'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'pp-100', text: '胸脯', target: '脯', zhuyin: 'ㄆㄨˊ',
+    distractors: ['ㄈㄨˇ', 'ㄆㄨˇ', 'ㄈㄨˊ'],
+    meaning: '胸部、胸膛；脯指胸部時唸ㄆㄨˊ',
+    fun: '胸脯（ㄆㄨˊ）的脯指胸部；肉脯（ㄈㄨˇ）的脯才是乾肉，別拍錯地方',
+    tags: ['破音字', '日常'], difficulty: 3, era: 'classic'
   }
 ];

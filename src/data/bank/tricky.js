@@ -1256,5 +1256,89 @@ export default [
     meaning: '初夏開白花的香花植物，常入歌入詩',
     fun: '跟桅杆的桅長超像，但人家是香的，桅杆是鹹的',
     tags: ['易讀錯', '植物'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'tk-180', text: '俄羅斯', target: '俄', zhuyin: 'ㄜˊ',
+    distractors: ['ㄛˊ', 'ㄜ', 'ㄛ'],
+    meaning: '橫跨歐亞的世界第一大國',
+    fun: '俄唸ㄜˊ，跟「鵝」同音，不是ㄛˊ。北極熊聽了會點頭',
+    tags: ['易讀錯', '地理'], difficulty: 2, era: 'modern'
+  },
+  {
+    id: 'tk-181', text: '訛詐', target: '訛', zhuyin: 'ㄜˊ',
+    distractors: ['ㄏㄨㄚˋ', 'ㄛˊ', 'ㄜˋ'],
+    meaning: '用詐術或威脅手段騙取財物',
+    fun: '訛唸ㄜˊ，別被右邊的「化」帶歪，唸ㄏㄨㄚˋ才是被訛了',
+    tags: ['易讀錯'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'tk-182', text: '法國', target: '法', zhuyin: 'ㄈㄚˇ',
+    distractors: ['ㄈㄚˋ', 'ㄈㄚ', 'ㄈㄢˇ'],
+    meaning: '西歐國家，首都巴黎',
+    fun: '老一輩愛唸ㄈㄚˋ國，但辭典只收ㄈㄚˇ，艾菲爾鐵塔表示無奈',
+    tags: ['易讀錯', '地理'], difficulty: 2, era: 'modern'
+  },
+  {
+    id: 'tk-183', text: '荒謬', target: '謬', zhuyin: 'ㄇㄧㄡˋ',
+    distractors: ['ㄌㄧㄠˋ', 'ㄇㄧㄠˋ', 'ㄇㄡˋ'],
+    meaning: '荒唐錯誤、不合常理',
+    fun: '謬唸ㄇㄧㄡˋ，唸成ㄌㄧㄠˋ才真的很荒謬',
+    tags: ['易讀錯'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'tk-184', text: '兌換', target: '兌', zhuyin: 'ㄉㄨㄟˋ',
+    distractors: ['ㄩㄝˋ', 'ㄊㄨㄟˋ', 'ㄉㄨㄟ'],
+    meaning: '把一種貨幣換成另一種，或憑券換物',
+    fun: '兌唸ㄉㄨㄟˋ，跟「對」同音；唸成ㄩㄝˋ的話銀行不收',
+    tags: ['易讀錯', '日常'], difficulty: 2, era: 'modern'
+  },
+  {
+    id: 'tk-185', text: '證券', target: '券', zhuyin: 'ㄑㄩㄢˋ',
+    distractors: ['ㄐㄩㄢˋ', 'ㄑㄩㄢˊ', 'ㄐㄩㄢ'],
+    meaning: '股票、債券等可買賣的有價憑證',
+    fun: '券唸ㄑㄩㄢˋ不是ㄐㄩㄢˋ，唸錯的人股票也容易買錯',
+    tags: ['易讀錯', '日常'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'tk-186', text: '噬臍莫及', target: '臍', zhuyin: 'ㄑㄧˊ',
+    distractors: ['ㄒㄧˊ', 'ㄑㄧ', 'ㄐㄧˋ'],
+    meaning: '比喻後悔已晚、來不及了',
+    fun: '臍就是肚臍的臍，唸ㄑㄧˊ。咬不到自己肚臍，所以後悔莫及',
+    tags: ['易讀錯', '成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'tk-187', text: '股肱大臣', target: '股', zhuyin: 'ㄍㄨˇ',
+    distractors: ['ㄍㄨ', 'ㄎㄨˇ', 'ㄍㄨˋ'],
+    meaning: '輔佐國君的得力大臣（股是大腿、肱是手臂）',
+    fun: '股唸ㄍㄨˇ，跟大腿同義。皇帝的左右手，唸錯就降級',
+    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'tk-188', text: '胯下之辱', target: '胯', zhuyin: 'ㄎㄨㄚˋ',
+    distractors: ['ㄎㄨㄚ', 'ㄎㄨˇ', 'ㄍㄨㄚˋ'],
+    meaning: '從別人胯下鑽過的屈辱，韓信的故事',
+    fun: '胯唸ㄎㄨㄚˋ，腰側到大腿那段。韓信忍得了，你的注音也要忍住',
+    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'tk-189', text: '趾高氣揚', target: '趾', zhuyin: 'ㄓˇ',
+    distractors: ['ㄔˇ', 'ㄓ', 'ㄓˋ'],
+    meaning: '走路腳抬得很高、神氣得意的樣子',
+    fun: '趾是腳趾的趾，唸ㄓˇ。別跟「齒」搞混，那是嘴裡的',
+    tags: ['易讀錯', '成語'], difficulty: 2, era: 'classic'
+  },
+  {
+    id: 'tk-190', text: '摩肩擦踵', target: '踵', zhuyin: 'ㄓㄨㄥˇ',
+    distractors: ['ㄔㄨㄥˊ', 'ㄓㄨㄥ', 'ㄓㄨㄥˋ'],
+    meaning: '形容人多擁擠，肩碰肩、腳碰腳',
+    fun: '踵是腳後跟，唸ㄓㄨㄥˇ。人擠到後腳跟都被踩，注音可別也被踩錯',
+    tags: ['易讀錯', '成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'tk-191', text: '放浪形骸', target: '骸', zhuyin: 'ㄏㄞˊ',
+    distractors: ['ㄏㄞˋ', 'ㄏㄢˊ', 'ㄎㄞˊ'],
+    meaning: '行為放縱不受約束、不拘形式禮節',
+    fun: '骸唸ㄏㄞˊ，指身體軀殼。放浪形骸可以，放浪注音不行',
+    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
   }
 ];
