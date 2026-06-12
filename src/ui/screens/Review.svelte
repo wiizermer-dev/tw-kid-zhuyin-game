@@ -195,14 +195,19 @@
           </p>
         </div>
 
-        <!-- 免作答：正解直接標示，誘答一併攤開供審查設計品質 -->
+        <!-- 免作答：正解直接標示。顯示「全部」誘答（非實際出題時抽 2 的子集），
+             否則審題員看不到沒被抽到的誘答，會誤判設計（935 筆審查中 23 筆批注因此誤會） -->
         <div class="options locked">
-          {#each q.options as opt}
-            <div class="opt card" class:right={opt.correct} aria-label="注音選項 {opt.zhuyin}">
-              <ZhuyinCol zhuyin={opt.zhuyin} size="1.7rem" />
+          <div class="opt card right" aria-label="正解 {q.zhuyin}">
+            <ZhuyinCol zhuyin={q.zhuyin} size="1.7rem" />
+          </div>
+          {#each q.distractors as d}
+            <div class="opt card" aria-label="誘答 {d}">
+              <ZhuyinCol zhuyin={d} size="1.7rem" />
             </div>
           {/each}
         </div>
+        <p class="opt-hint">實際出題時從 {q.distractors.length} 個誘答抽 2 個；此處攤開全部供審查</p>
 
         <div class="feedback card bounce-in good">
             <p class="fb-head">正解「{q.zhuyin}」</p>
@@ -361,6 +366,7 @@
   }
   .opt.right { background: #e9fbf3; box-shadow: 0 0 0 3px var(--leaf), var(--shadow-card); }
   .opt.picked-wrong { background: #fdecec; box-shadow: 0 0 0 3px var(--berry), var(--shadow-card); }
+  .opt-hint { margin: 0.4rem 0 0; font-size: 0.74rem; color: var(--ink-soft); text-align: center; }
 
   .feedback { margin-top: 1rem; padding: 1rem 1.1rem; border-left: 6px solid var(--berry); }
   .feedback.good { border-left-color: var(--leaf); }

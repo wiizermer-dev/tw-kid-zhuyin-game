@@ -68,7 +68,7 @@ export default [
   },
   {
     id: 'cl-010', text: '不亦說乎', target: '說', zhuyin: 'ㄩㄝˋ',
-    distractors: ['ㄕㄨㄛ', 'ㄕㄨㄟˋ', 'ㄩㄝˊ'],
+    distractors: ['ㄕㄨㄛ', 'ㄌㄜˋ', 'ㄕㄨㄟˋ'],
     meaning: '不也很高興嗎（說通悅）。出自《論語・學而》',
     fun: '國一第一課就考這個，唸ㄕㄨㄛ的話孔子表示不亦怒乎',
     tags: ['古文', '論語', '破音字'], difficulty: 2, era: 'classic'
@@ -104,7 +104,7 @@ export default [
   {
     id: 'cl-015', text: '數罟不入', target: '數', zhuyin: 'ㄘㄨˋ',
     distractors: ['ㄕㄨˋ', 'ㄕㄨㄛˋ', 'ㄘㄨˊ'],
-    meaning: '細密的漁網不放入池塘（數：細密）。出自《孟子・梁惠王》',
+    meaning: '「數罟不入洿池」：細密的漁網不放入池塘（數：細密；洿池：池塘）。出自《孟子・梁惠王》',
     fun: '孟子的永續漁業宣言，數唸ㄘㄨˋ是「細密」，環保署應該頒獎給他',
     tags: ['古文', '孟子', '破音字', '大考'], difficulty: 5, era: 'classic'
   },
@@ -204,7 +204,7 @@ export default [
     distractors: ['ㄕㄨˋ', 'ㄋㄧㄢˊ', 'ㄕㄨˊ'],
     meaning: '老朋友準備了雞和黃米飯。出自孟浩然〈過故人莊〉',
     fun: '唐朝的「來我家吃飯啦」，黍是黃米，古代澱粉主食擔當',
-    tags: ['古文', '唐詩'], difficulty: 3, era: 'classic'
+    tags: ['古文', '唐詩'], difficulty: 2, era: 'classic'
   },
   {
     id: 'cl-030', text: '開軒面場圃', target: '圃', zhuyin: 'ㄆㄨˇ',
@@ -453,7 +453,7 @@ export default [
   },
   {
     id: 'cl-065', text: '不勝唏噓', target: '噓', zhuyin: 'ㄒㄩ',
-    distractors: ['ㄒㄩˋ', 'ㄒㄩˊ', 'ㄒㄧㄩ'],
+    distractors: ['ㄒㄩˋ', 'ㄒㄩˊ', 'ㄒㄧ'],
     meaning: '感慨嘆息不已。唏噓即嘆息聲',
     fun: '噓唸ㄒㄩ，這裡是嘆氣不是噓人下台。往事一提就不勝唏噓',
     tags: ['古文'], difficulty: 3, era: 'classic'

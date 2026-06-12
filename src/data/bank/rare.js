@@ -198,9 +198,9 @@ export default [
   {
     id: "rr-017",
     text: "邂逅",
-    target: "邂",
-    zhuyin: "ㄒㄧㄝˋ",
-    distractors: ["ㄐㄧㄝˇ", "ㄒㄧㄝ", "ㄒㄧㄝˊ"],
+    target: "逅",
+    zhuyin: "ㄏㄡˋ",
+    distractors: ["ㄍㄡˋ", "ㄏㄡˇ", "ㄏㄡ"],
     meaning: "沒有事先約定而偶然相遇",
     fun: "邂逅唸「ㄒㄧㄝˋ ㄏㄡˋ」。在路上偶遇曖昧對象，唸錯字直接出局",
     tags: ["生僻字", "日常"],

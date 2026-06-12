@@ -482,7 +482,7 @@ export default [
   },
   {
     id: 'tk-069', text: '引吭高歌', target: '吭', zhuyin: 'ㄏㄤˊ',
-    distractors: ['ㄎㄤ', 'ㄏㄥˊ', 'ㄏㄤˇ'],
+    distractors: ['ㄎㄤˋ', 'ㄎㄤ', 'ㄏㄥˊ'],
     meaning: '放開喉嚨大聲唱歌',
     fun: 'KTV 引吭高歌之前，先把「吭」唸對再開麥',
     tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
@@ -642,10 +642,10 @@ export default [
     tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
   },
   {
-    id: 'tk-092', text: '鱗次櫛比', target: '櫛', zhuyin: 'ㄐㄧㄝˊ',
-    distractors: ['ㄓˋ', 'ㄗㄜˊ', 'ㄑㄧㄝˊ'],
-    meaning: '像魚鱗和梳齒一樣緊密排列',
-    fun: '櫛是梳子，臺灣標準唸ㄐㄧㄝˊ。大樓鱗次櫛比，錯音也是',
+    id: 'tk-092', text: '鱗次櫛比', target: '比', zhuyin: 'ㄅㄧˋ',
+    distractors: ['ㄅㄧˇ', 'ㄆㄧˊ', 'ㄅㄧ'],
+    meaning: '像魚鱗和梳齒一樣緊密排列（比：並列，簡編本標ㄅㄧˋ）',
+    fun: '櫛難唸大家有防備，反而是「比」唸ㄅㄧˋ沒人知道。出題就要出其不意',
     tags: ['易讀錯', '成語'], difficulty: 5, era: 'classic'
   },
   {
@@ -1182,7 +1182,7 @@ export default [
   },
   {
     id: 'tk-169', text: '畏葸不前', target: '葸', zhuyin: 'ㄒㄧˇ',
-    distractors: ['ㄙ', 'ㄕㄝˋ', 'ㄒㄧˋ'],
+    distractors: ['ㄙ', 'ㄒㄧ', 'ㄒㄧˋ'],
     meaning: '畏懼怯懦，不敢前進',
     fun: '葸唸ㄒㄧˇ。看到這個字就畏葸不前的話，正中出題者下懷',
     tags: ['易讀錯', '成語'], difficulty: 5, era: 'classic'

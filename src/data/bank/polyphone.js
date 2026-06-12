@@ -312,13 +312,6 @@ export default [
     tags: ['破音字', '大考'], difficulty: 2, era: 'classic'
   },
   {
-    id: 'pp-046', text: '主角', target: '角', zhuyin: 'ㄐㄩㄝˊ',
-    distractors: ['ㄐㄧㄠˇ', 'ㄐㄩㄝˇ', 'ㄑㄩㄝˊ'],
-    meaning: '戲劇或故事中的主要人物，角指角色時唸ㄐㄩㄝˊ',
-    fun: '人生的主角（ㄐㄩㄝˊ）唸成主角（ㄐㄧㄠˇ），氣勢直接少一半',
-    tags: ['破音字', '日常', '新聞常錯'], difficulty: 2, era: 'modern'
-  },
-  {
     id: 'pp-047', text: '看守', target: '看', zhuyin: 'ㄎㄢ',
     distractors: ['ㄎㄢˋ', 'ㄎㄢˊ', 'ㄎㄢˇ'],
     meaning: '守護、監視，看指守護時唸一聲',
