@@ -34,7 +34,7 @@ export const MODES = {
     icon: 'ㄉ',
     tint: 'grape',
     blurb: '開房邀朋友，同題組拚輸贏',
-    // 單題 4 秒：超時算錯；excludeIds 排除同房已出過的題避免重複
+    // 單題 5 秒：超時算錯；excludeIds 排除同房已出過的題避免重複
     // difficulty 由開房者選（見 DUEL_DIFFICULTIES），決定本場題目難度下限
     config: (seed, count = 10, excludeIds = [], difficulty = 'random') =>
       ({
@@ -42,7 +42,7 @@ export const MODES = {
         seed,
         minDifficulty: DUEL_DIFFICULTIES[difficulty]?.min ?? 1,
         maxDifficulty: 5,
-        perQuestionSeconds: 4,
+        perQuestionSeconds: 5,
         excludeIds
       })
   }

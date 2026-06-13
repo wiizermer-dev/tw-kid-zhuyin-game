@@ -101,10 +101,12 @@
     liveChannel = joinLiveRoom(code, { id: myId, name: myName }, {
       onPlayers: (players) => {
         liveState.players = players;
-        // 離房者的 progress 一併清掉：避免幽靈列卡在排行榜、結果頁「等其他人完成中」永不消失
+        // 離房者清掉「尚未完賽」的進度：避免中途離席的幽靈列卡在第 N 題，
+        // 讓結果頁「等其他人完成中」永不消失。但已完賽（finished）者一律保留——
+        // 他名次已成定局，離開不該從最終排名消失（全員完賽後等同 freeze）。
         const ids = new Set(players.map((p) => p.id));
-        for (const id of Object.keys(liveState.progress)) {
-          if (!ids.has(id)) delete liveState.progress[id];
+        for (const [id, p] of Object.entries(liveState.progress)) {
+          if (!ids.has(id) && !p.finished) delete liveState.progress[id];
         }
       },
       onStart: (payload) => { if (screen === 'duel') beginCountdown(payload ?? { code }); },

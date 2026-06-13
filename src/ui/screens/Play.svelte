@@ -54,6 +54,8 @@
    * - 否則本地 4 秒到 → 換題（各端各自計時，倒數同時開始所以幾乎同步）
    * 兩者都先留 FEEDBACK 時間讓玩家看正解 */
   const DUEL_FEEDBACK_MS = 1600;
+  // 答錯／超時者額外多留 1 秒看詳解（各端依自己本題對錯決定，不影響同步換題時機）
+  const DUEL_WRONG_EXTRA_MS = 1000;
   let duelHardTimer = null;
   let duelNextTimer = null;
   let duelAdvancing = false;
@@ -61,17 +63,20 @@
   function armDuelQuestion() {
     if (!isLive || session.finished) return;
     clearTimeout(duelHardTimer);
-    duelHardTimer = setTimeout(scheduleDuelAdvance, (config.perQuestionSeconds || 4) * 1000);
+    duelHardTimer = setTimeout(scheduleDuelAdvance, (config.perQuestionSeconds || 5) * 1000);
   }
 
   function scheduleDuelAdvance() {
     if (!isLive || duelAdvancing || session.finished) return;
     duelAdvancing = true;
     clearTimeout(duelHardTimer);
+    // 本題答錯或超時（answered === -1）→ 多留 1 秒看正解詳解
+    const wrong = session.answered === -1 || (session.answered !== null && !lastCorrect);
+    const wait = DUEL_FEEDBACK_MS + (wrong ? DUEL_WRONG_EXTRA_MS : 0);
     duelNextTimer = setTimeout(() => {
       duelAdvancing = false;
       advance();
-    }, DUEL_FEEDBACK_MS);
+    }, wait);
   }
 
   // 我已作答且全房本題都答完 → 提前換題

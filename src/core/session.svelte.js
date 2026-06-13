@@ -95,7 +95,9 @@ export class QuizSession {
         const left = Math.max(0, (this.#questionDeadline - now) / 1000);
         const display = Math.ceil(left);
         if (display !== this.questionTimeLeft) this.questionTimeLeft = display;
-        if (left <= 0) this.timeout();
+        // 顯示秒數歸 0 才判超時，對齊視覺：玩家看到「1」時選項仍可點，
+        // 不可因 left 浮點先到 0（display 還是 1）而搶在壓線點擊前判超時錯。
+        if (display <= 0) this.timeout();
       }
     }, 100);
   }
