@@ -83,13 +83,6 @@ export default [
     tags: ['錯別字', '形近字', '成語'], difficulty: 2, era: 'classic'
   },
   {
-    id: 'fc-012', kind: 'char', text: '默默無聞', target: '默', zhuyin: 'ㄇㄛˋ',
-    distractors: ['墨', '寞'],
-    meaning: '沒有名氣，不被人知道',
-    fun: '默是犬字旁（狗安靜不叫），墨是寫字的墨。墨墨無聞是被墨汁淹到沒聲音嗎',
-    tags: ['錯別字', '形近字', '成語'], difficulty: 2, era: 'classic'
-  },
-  {
     id: 'fc-013', kind: 'char', text: '食不果腹', target: '果', zhuyin: 'ㄍㄨㄛˇ',
     distractors: ['裹', '過'],
     meaning: '吃不飽肚子，形容生活窮困',
@@ -272,32 +265,11 @@ export default [
     tags: ['公文', '完竣', '錯別字', '正式文書'], difficulty: 4, era: 'modern'
   },
   {
-    id: 'fc-039', kind: 'char', text: '乾麵加滷蛋', target: '乾', zhuyin: 'ㄍㄢ',
-    distractors: ['干', '幹'],
-    meaning: '不加湯的麵，瀝乾湯汁後拌醬料',
-    fun: '麵攤招牌十之八九寫成「干麵」。干是盾牌/天干，乾才是沒水分。寫干麵其實是簡體借過來的習慣',
-    tags: ['錯別字', '形近字', '菜單'], difficulty: 2, era: 'modern'
-  },
-  {
     id: 'fc-040', kind: 'char', text: '一碗滷味', target: '滷', zhuyin: 'ㄌㄨˇ',
     distractors: ['魯', '鹵'],
     meaning: '用醬油、香料慢煮入味的小吃',
     fun: '全台灣最大宗的招牌錯字之一：滷味寫成「魯味」。魯是山東/魯鈍，滷才有水(氵)能煮。連鎖店招牌也常掛錯',
     tags: ['錯別字', '形近字', '菜單'], difficulty: 2, era: 'modern'
-  },
-  {
-    id: 'fc-041', kind: 'char', text: '蚵仔煎', target: '蚵', zhuyin: 'ㄜˊ',
-    distractors: ['蠔', '顆', '呵'],
-    meaning: '牡蠣裹粉漿香煎，淋甜辣醬的台式小吃',
-    fun: '夜市第一名小吃，台語唸 ô-á-tsian。蚵就是牡蠣(蟲字旁)，常被寫成廣東的「蠔」或數量的「顆」。注音ㄜˊ更是很多人不知道',
-    tags: ['錯別字', '形近字', '菜單'], difficulty: 3, era: 'modern'
-  },
-  {
-    id: 'fc-042', kind: 'char', text: '蘿蔔糕', target: '蔔', zhuyin: 'ㄅㄛ˙',
-    distractors: ['葡', '蔥', '葫'],
-    meaning: '白蘿蔔刨絲混米漿蒸成的粄狀糕點',
-    fun: '蘿蔔的蔔輕聲ㄅㄛ˙，常被寫成葡萄的「葡」。差別在上面：蔔是艮、葡是匍。寫蘿葡糕等於把菜頭變成葡萄',
-    tags: ['錯別字', '形近字', '菜單'], difficulty: 3, era: 'modern'
   },
   {
     id: 'fc-043', kind: 'char', text: '碗粿淋醬', target: '粿', zhuyin: 'ㄍㄨㄛˇ',
@@ -361,13 +333,6 @@ export default [
     meaning: '形容人說話不算話、反覆無常、前後矛盾。',
     fun: '留言罵人時超常打成『出而反而』，但這兩個字是『爾』（你、如此的意思，出自孟子「出乎爾者，反乎爾者」），不是連接詞的『而』，發音一樣但長得不一樣。',
     tags: ['net_slang', 'common_typo', 'idiom'], difficulty: 3, era: 'modern'
-  },
-  {
-    id: 'fc-052', kind: 'char', text: '自食其力', target: '自', zhuyin: 'ㄗˋ',
-    distractors: ['咎', '就'],
-    meaning: '靠自己的勞力生活，不依賴別人',
-    fun: '自是自己，咎是「咎由自取」的咎。兩個都念ㄗˋ又都跟「自己」沾邊，常被混寫成「咎食其力」變成靠罪過吃飯',
-    tags: ['錯別字', '同音字', '成語'], difficulty: 2, era: 'classic'
   },
   {
     id: 'fc-053', kind: 'char', text: '不計其數', target: '計', zhuyin: 'ㄐㄧˋ',
@@ -461,13 +426,6 @@ export default [
     tags: ['錯別字', '專有名詞', '形近字'], difficulty: 4, era: 'modern'
   },
   {
-    id: 'fc-066', kind: 'char', text: '麥當勞', target: '勞', zhuyin: 'ㄌㄠˊ',
-    distractors: ['撈', '嘮'],
-    meaning: '麥當勞，知名速食連鎖品牌的中文譯名',
-    fun: '麥當勞官方就是用辛勞的「勞」唸ㄌㄠˊ。手字旁的撈是打撈、口字旁的嘮是嘮叨，招牌可不能寫成麥當撈',
-    tags: ['錯別字', '專有名詞', '形近字'], difficulty: 1, era: 'modern'
-  },
-  {
     id: 'fc-067', kind: 'char', text: '自怨自艾', target: '艾', zhuyin: 'ㄧˋ',
     distractors: ['哀', '唉'],
     meaning: '悔恨自己的過錯，自我責備（艾是治理、改正之意）',
@@ -497,7 +455,7 @@ export default [
   },
   {
     id: 'fc-071', kind: 'char', text: '殺手鐧', target: '鐧', zhuyin: 'ㄐㄧㄢˋ',
-    distractors: ['鋼', '簡'],
+    distractors: ['鋼', '簡', '澗'],
     meaning: '最後關頭使出的決勝絕招（鐧是古代一種無刃鐵兵器）',
     fun: '鐧是金字旁的兵器（中間是「間」），不是煉成鋼的鋼。新聞寫成「殺手鐧」很潮，但常被誤打成殺手鋼',
     tags: ['錯別字', '形近字', '新聞常見錯字'], difficulty: 4, era: 'modern'
@@ -511,7 +469,7 @@ export default [
   },
   {
     id: 'fc-073', kind: 'char', text: '孤注一擲', target: '擲', zhuyin: 'ㄓˊ',
-    distractors: ['躑', '鄭', '擢'],
+    distractors: ['躑', '鄭', '掙'],
     meaning: '把所有賭注一次押上，比喻冒險拚一把',
     fun: '擲是用手丟，提手旁唸ㄓˊ。換成足字旁的「躑」就跑去躑躅徘徊，賭桌都翻了還在原地踏步',
     tags: ['錯別字', '形近字', '成語', '會考'], difficulty: 4, era: 'classic'
@@ -522,13 +480,6 @@ export default [
     meaning: '汗多到濕透背部，形容極度炎熱或緊張',
     fun: '浹是濕透、沾滿，水字旁唸ㄐㄧㄚˊ。寫成汗流「夾」背少了那灘水，背反而乾乾的',
     tags: ['錯別字', '形近字', '成語', '學測'], difficulty: 4, era: 'classic'
-  },
-  {
-    id: 'fc-075', kind: 'char', text: '敬請查照辦理', target: '照', zhuyin: 'ㄓㄠˋ',
-    distractors: ['昭', '招'],
-    meaning: '公文用語，請對方知悉並依此處理。「查照」是請收文者了解情形並參照辦理的客套語。',
-    fun: '公文「查照」超常被寫成「查昭」。昭是昭告天下的昭(ㄓㄠ)，照才是按照、依照。記法：你要對方「按照」做，不是「昭告」。',
-    tags: ['公文', '錯別字', '公文用語'], difficulty: 2, era: 'modern'
   },
   {
     id: 'fc-076', kind: 'char', text: '謹致歉意', target: '謹', zhuyin: 'ㄐㄧㄣˇ',
@@ -564,20 +515,6 @@ export default [
     meaning: '薄皮包肉餡的湯點，南方叫雲吞',
     fun: '餛是食字旁（讀ㄏㄨㄣˊ），招牌常寫成「混飩」少了食字旁。沒食字旁就只是一鍋混亂的湯',
     tags: ['錯別字', '菜單', '形近字'], difficulty: 3, era: 'modern'
-  },
-  {
-    id: 'fc-081', kind: 'char', text: '豆漿', target: '漿', zhuyin: 'ㄐㄧㄤ',
-    distractors: ['槳', '獎', '醬'],
-    meaning: '黃豆磨成的飲品，早餐配燒餅油條',
-    fun: '漿是水字旁的濃汁（讀ㄐㄧㄤ），招牌常寫成木字旁的「槳」（划船的槳）。喝豆槳會卡喉嚨',
-    tags: ['錯別字', '菜單', '形近字'], difficulty: 2, era: 'modern'
-  },
-  {
-    id: 'fc-082', kind: 'char', text: '鍋貼', target: '鍋', zhuyin: 'ㄍㄨㄛ',
-    distractors: ['渦', '堝', '蝸'],
-    meaning: '長條形煎餃，底部煎得金黃酥脆',
-    fun: '鍋是金字旁的炊具（讀ㄍㄨㄛ），手寫招牌常掉金字旁寫成「渦貼」。水字旁的渦是漩渦，貼不出脆底',
-    tags: ['錯別字', '菜單', '形近字'], difficulty: 2, era: 'modern'
   },
   {
     id: 'fc-083', kind: 'char', text: '鱔魚意麵', target: '鱔', zhuyin: 'ㄕㄢˋ',
