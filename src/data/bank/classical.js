@@ -539,7 +539,7 @@ export default [
     id: 'cl-077', text: '攛掇', target: '攛', zhuyin: 'ㄘㄨㄢ',
     distractors: ['ㄗㄨㄢ', 'ㄘㄨㄢˋ', 'ㄐㄩㄢ'],
     meaning: '從旁慫恿、鼓動別人去做某事。宮鬥戲常見的手段',
-    fun: '攛掇唸ㄘㄨㄢ ㄉㄨㄛ，就是在旁邊煽風點火。後宮最愛這味',
+    fun: '攛掇唸ㄘㄨㄢ ㄉㄨㄛ˙（掇輕聲），就是在旁邊煽風點火。後宮最愛這味',
     tags: ['甄嬛傳', '生僻字'], difficulty: 5, era: 'classic'
   },
   {
@@ -676,7 +676,7 @@ export default [
     tags: ['唐詩', '大考'], difficulty: 5, era: 'classic'
   },
   {
-    id: 'cl-097', text: '鈿頭銀篦', target: '鈿', zhuyin: 'ㄉㄧㄢˋ',
+    id: 'cl-097', text: '鈿頭雲篦', target: '鈿', zhuyin: 'ㄉㄧㄢˋ',
     distractors: ['ㄊㄧㄢˊ', 'ㄉㄧㄢ', 'ㄗㄢ'],
     meaning: '鑲金花的髮飾。白居易〈琵琶行〉',
     fun: '鈿唸ㄉㄧㄢˋ，金花首飾。琵琶女的精品，唸錯買不起',
@@ -795,10 +795,10 @@ export default [
     tags: ['古文'], difficulty: 4, era: 'classic'
   },
   {
-    id: 'cl-114', text: '唧唧復唧唧', target: '唧', zhuyin: 'ㄐㄧ',
-    distractors: ['ㄐㄧˊ', 'ㄑㄧ', 'ㄐㄧˋ'],
-    meaning: '織布機聲。〈木蘭詩〉首句',
-    fun: '唧唸一聲。木蘭詩開頭的音效，唸成二聲織布機會壞掉',
+    id: 'cl-114', text: '唧唧復唧唧', target: '唧', zhuyin: 'ㄐㄧˊ',
+    distractors: ['ㄐㄧ', 'ㄑㄧ', 'ㄐㄧˋ'],
+    meaning: '織布機聲（一說嘆息聲）。〈木蘭詩〉首句',
+    fun: '唧唸二聲ㄐㄧˊ。簡編本只收這個音，唸一聲會被木蘭白眼',
     tags: ['古文'], difficulty: 2, era: 'classic'
   },
   {
