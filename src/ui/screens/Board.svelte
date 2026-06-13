@@ -162,10 +162,16 @@
       <div class="reign card" class:mine>
         <span class="crown">👑</span>
         <span class="reign-text">
-          {#if mine}
-            <b>你</b>已連霸 <b>{reign.current.days}</b> 天，守住王座
+          {#if reign.current.days >= 2}
+            {#if mine}
+              <b>你</b>已連霸 <b>{reign.current.days}</b> 天，守住王座
+            {:else}
+              <b>{reign.current.name}</b> 連霸 <b>{reign.current.days}</b> 天，去終結他
+            {/if}
+          {:else if mine}
+            <b>你</b>今日登頂，明天守住就開始連霸
           {:else}
-            <b>{reign.current.name}</b> 連霸 <b>{reign.current.days}</b> 天，去終結他
+            <b>{reign.current.name}</b> 今日登頂，去搶下王座
           {/if}
         </span>
         {#if reign.longest.days > reign.current.days}
