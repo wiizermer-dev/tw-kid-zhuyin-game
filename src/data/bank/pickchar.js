@@ -510,10 +510,10 @@ export default [
     tags: ['錯別字', '音近字', '成語', '會考'], difficulty: 3, era: 'classic'
   },
   {
-    id: 'fc-073', kind: 'char', text: '孤注一擲', target: '擲', zhuyin: 'ㄓˋ',
+    id: 'fc-073', kind: 'char', text: '孤注一擲', target: '擲', zhuyin: 'ㄓˊ',
     distractors: ['躑', '鄭', '擢'],
     meaning: '把所有賭注一次押上，比喻冒險拚一把',
-    fun: '擲是用手丟，提手旁唸ㄓˋ。換成足字旁的「躑」就跑去躑躅徘徊，賭桌都翻了還在原地踏步',
+    fun: '擲是用手丟，提手旁唸ㄓˊ。換成足字旁的「躑」就跑去躑躅徘徊，賭桌都翻了還在原地踏步',
     tags: ['錯別字', '形近字', '成語', '會考'], difficulty: 4, era: 'classic'
   },
   {

@@ -55,7 +55,7 @@ const html = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>審題報告 — 你ㄅㄆㄇ有ㄅ級分ㄇ</title>
+<title>審題報告 — 注音王</title>
 <style>
   :root {
     --paper: #FFF7E8; --paper-2: #FFE9F0; --card: #FFFDF7;

@@ -67,8 +67,9 @@
       <span class="logo-zy">
         <i class="b">ㄅ</i><i class="p">ㄆ</i><i class="m">ㄇ</i>
       </span>
-      <span class="logo-txt">你有ㄅ級分嗎？</span>
+      <span class="logo-txt">注音王</span>
     </h1>
+    <p class="subtitle">挑戰ㄅ級分</p>
     <p class="tagline">生難字注音對決，唸錯的人請喝飲料</p>
   </header>
 
@@ -198,7 +199,15 @@
     color: var(--ink);
     margin-top: 0.15rem;
   }
-  .tagline { color: var(--ink-soft); font-size: 0.92rem; margin: 0.5rem 0 0; }
+  .subtitle {
+    font-family: var(--font-kai);
+    color: var(--berry-deep);
+    font-weight: 800;
+    font-size: 1.15rem;
+    letter-spacing: 0.15em;
+    margin: 0.4rem 0 0;
+  }
+  .tagline { color: var(--ink-soft); font-size: 0.92rem; margin: 0.3rem 0 0; }
 
   .challenge {
     text-align: center;

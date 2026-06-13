@@ -51,7 +51,7 @@ function drawBase(canvas, subtitle) {
 
   ctx.font = `bold 64px ${KAI}`;
   ctx.fillStyle = PALETTE.ink;
-  ctx.fillText('你ㄅㄆㄇ有ㄅ級分ㄇ', W / 2, 180);
+  ctx.fillText('注音王', W / 2, 180);
   ctx.font = `34px ${ROUND}`;
   ctx.fillStyle = '#8a7a72';
   ctx.fillText(subtitle, W / 2, 248);
