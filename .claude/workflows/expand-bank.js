@@ -7,7 +7,7 @@ export const meta = {
     { title: 'Generate', detail: '多角度平行出題（超量產生再過濾）' },
     { title: 'Verify', detail: '注音對辭典稽核（moedict 粗篩 + 簡編本覆核）' },
     { title: 'Judge', detail: '鑒別度三鏡頭評審（多數決）' },
-    { title: 'Write', detail: '寫入題庫 + validate + audit' }
+    { title: 'Write', detail: '寫入題庫 + validate（audit 移到 repo 層背景跑，避免整庫查 moedict 卡死）' }
   ]
 }
 
@@ -287,7 +287,7 @@ ${JSON.stringify(verified, null, 1)}
   log(`[${topic}] 評審後存活 ${judged.filter(Boolean).flat().length} 題，取前 ${keepers.length} 題寫入`)
   if (!keepers.length) { report[topic] = { added: 0, note: 'no survivors' }; continue }
 
-  // Write：編 id、寫檔、validate + audit
+  // Write：編 id、寫檔、validate（不在此跑 audit — 整庫逐字打 moedict 會 timeout 整個 workflow）
   phase('Write')
   const startNum = cat.maxIdNum + 1
   const withIds = keepers.map((q, i) => ({
@@ -296,29 +296,36 @@ ${JSON.stringify(verified, null, 1)}
     ...q,
     kind: topic === 'pickchar' ? 'char' : q.kind
   }))
+  const newIds = withIds.map((q) => q.id)
 
   const WRITE_SCHEMA = {
     type: 'object',
     properties: {
       added: { type: 'number' },
       dropped: { type: 'array', items: { type: 'string' } },
-      validatePass: { type: 'boolean' },
-      auditFlags: { type: 'array', items: { type: 'string' } }
+      validatePass: { type: 'boolean' }
     },
-    required: ['added', 'validatePass', 'auditFlags']
+    required: ['added', 'validatePass']
   }
   const writeResult = await agent(
     `在 repo /Users/jimmytang/Desktop/projects/tw-kid-zhuyin-game 把以下題目加進 ${guide.file}。
 步驟：
 1. 讀檔，把新題目以與既有條目一致的程式碼風格 append 在 export default 陣列結尾（最後一個元素之後、] 之前）。維持單引號、欄位順序與縮排與既有條目一致。
 2. 跑 npm run validate — 必須全過；有錯就修（schema 問題）或刪該題。
-3. 跑 npm run audit — 注意這 script 打的是修訂本（退階來源），輸出的「答案非第一正音」類誤報不要改題；只把「答案完全查不到」「明確錯讀」的題刪掉。其餘 flag 列進 auditFlags 回報（人工覆核用），不要動 VERIFIED_OK 白名單。
-4. 回報 { added, dropped: [刪掉的 id+原因], validatePass, auditFlags }。
+3. 不要跑 npm run audit（整庫逐字打 moedict 很慢會卡死）。注音稽核已在 workflow 的 Verify 階段對每題做過（moedict 粗篩 + 簡編本覆核），這裡只負責寫檔 + validate。
+4. 回報 { added, dropped: [刪掉的 id+原因], validatePass }。
 題目 JSON：
 ${JSON.stringify(withIds, null, 1)}`,
     { label: `write:${topic}`, phase: 'Write', schema: WRITE_SCHEMA, model: MODEL }
   )
-  report[topic] = writeResult ?? { added: 0, note: 'write agent failed' }
+  report[topic] = { ...(writeResult ?? { added: 0, note: 'write agent failed' }), newIds }
 }
 
-return { topics, report }
+// audit 不在 workflow 內跑（整庫逐字 moedict 查詢太慢，會撞 agent stall timeout）。
+// workflow 結束後在 repo 層背景跑一次：node scripts/audit-readings.mjs
+// 只需人工關注 report 各 topic 的 newIds 範圍是否被 flag；誤報加 VERIFIED_OK 白名單，明確錯讀才修。
+return {
+  topics,
+  report,
+  auditHint: '題庫已寫入並通過 validate。最終稽核請在 repo 層背景跑 `node scripts/audit-readings.mjs`（勿放進 workflow，整庫查 moedict 會 timeout）。只看 report.<topic>.newIds 範圍的 flag。'
+}
