@@ -13,6 +13,10 @@
   let wrongRows = $state(null);   // 雲端常錯榜（tab==='wrong'）
   let loading = $state(false);
 
+  // 朋友榜 = 房內榜：對戰 tab 可按最近進過的房號過濾
+  const savedRooms = storage.getSavedRooms();
+  let roomFilter = $state(null);
+
   let isWrongTab = $derived(tab === 'wrong');
 
   // 本機榜同樣一人一筆（按名字去重；榜已按分數排序，首見即最高分）
@@ -36,15 +40,29 @@
       .slice(0, 20)
   );
 
-  // 分數榜：雲端 fetchBoard（非常錯 tab）
+  // 分數榜：雲端 fetchBoard（非常錯 tab）。每日榜只看今天，不然永遠是歷史高分洗版
   $effect(() => {
     if (!hasCloud || isWrongTab) return;
     loading = true;
-    fetchBoard(tab).then((rows) => {
+    const since = tab === 'daily'
+      ? new Date(new Date().setHours(0, 0, 0, 0)).toISOString()
+      : null;
+    const room = tab === 'duel' ? roomFilter : null;
+    const wantTab = tab, wantRoom = roomFilter;
+    fetchBoard(tab, { since, room }).then((rows) => {
+      // 快速切 tab/房號時，舊 request 後到不可覆蓋新畫面
+      if (tab !== wantTab || roomFilter !== wantRoom) return;
       cloudRows = rows;
       loading = false;
     });
   });
+
+  // 今日平均（每日榜，一人一筆去重後）
+  let dailyAvg = $derived(
+    tab === 'daily' && cloudRows?.length
+      ? Math.round(cloudRows.reduce((s, r) => s + r.score, 0) / cloudRows.length)
+      : null
+  );
 
   // 常錯榜：雲端 fetchWrongBoard
   $effect(() => {
@@ -111,6 +129,18 @@
     {#if tab === 'levels'}
       <p class="board-note">闖關榜計「戰役累積分」：各關最佳成績加總，連擊跨關卡累計</p>
     {/if}
+    {#if tab === 'daily' && hasCloud}
+      <p class="board-note">今日挑戰榜（每天歸零）{dailyAvg !== null ? `・今日平均 ${dailyAvg} 分` : ''}</p>
+    {/if}
+    {#if tab === 'duel' && hasCloud && savedRooms.length > 0}
+      <div class="rooms">
+        <button class="room-chip" class:on={roomFilter === null} onclick={() => (roomFilter = null)}>全部</button>
+        {#each savedRooms as r (r)}
+          <button class="room-chip" class:on={roomFilter === r} onclick={() => (roomFilter = r)}>房 {r}</button>
+        {/each}
+      </div>
+      {#if roomFilter}<p class="board-note">朋友榜：只看「{roomFilter}」房的紀錄</p>{/if}
+    {/if}
 
     {#if loading}
       <p class="empty">載入中…</p>
@@ -157,6 +187,19 @@
     box-shadow: var(--shadow-card);
   }
   .tab.on { background: var(--ink); color: #fff; }
+
+  .rooms { display: flex; gap: 0.4rem; margin: -0.3rem 0 0.7rem; flex-wrap: wrap; }
+  .room-chip {
+    background: #fff;
+    border-radius: 999px;
+    padding: 0.3rem 0.75rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+    font-size: 0.8rem;
+    font-family: var(--font-kai);
+    box-shadow: var(--shadow-card);
+  }
+  .room-chip.on { background: var(--grape); color: #fff; }
 
   .list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem; }
   .row {

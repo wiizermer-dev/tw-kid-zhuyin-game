@@ -73,6 +73,15 @@ export const storage = {
   getReviews: () => get('reviews', {}),
   setReviews: (r) => set('reviews', r),
 
+  /** 常駐房：朋友榜 = 房內榜。記住最近進過的房號（rolling 5），免好友系統 */
+  getSavedRooms: () => get('saved_rooms', []),
+  addSavedRoom: (room) => {
+    if (!room) return;
+    const rooms = get('saved_rooms', []).filter((r) => r !== room);
+    rooms.unshift(room);
+    set('saved_rooms', rooms.slice(0, 5));
+  },
+
   /** 本地排行榜：[{name, score, mode, date}] 取前 50 */
   getLocalBoard: () => get('local_board', []),
   addLocalScore: (entry) => {

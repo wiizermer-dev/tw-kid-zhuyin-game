@@ -17,7 +17,8 @@ export const MODES = {
     icon: 'ㄔ',
     tint: 'berry',
     blurb: '60 秒，能答幾題是幾題',
-    config: () => ({ count: 60, timeLimit: 60, minDifficulty: 1, maxDifficulty: 4 })
+    // calibrated: 套用全體錯率校正後的難度（daily/duel 共享 seed 不可用，見 bank.js）
+    config: () => ({ count: 60, timeLimit: 60, minDifficulty: 1, maxDifficulty: 4, calibrated: true })
   },
   levels: {
     key: 'levels',
@@ -89,6 +90,7 @@ export function levelConfig(level) {
     bossHp: level.boss ? level.bossHp : 0,
     hearts: level.boss ? level.hearts : Infinity,
     perQuestionSeconds: level.boss ? level.perQuestionSeconds : 0,
+    calibrated: true,
     // 非 BOSS 關才連對提難：連對達標時把後續未答題換成更難一級的同類題。
     // BOSS 關難度已固定（min===max），且 seed 同步換題的對戰/每日不適用此機制。
     escalate: !level.boss

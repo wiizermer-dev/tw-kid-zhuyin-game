@@ -31,8 +31,8 @@ export async function submitRun({ name, score, mode, room = null, correct = 0, t
   }
 }
 
-/** 取排行榜（依模式，可選房間）。同一玩家只留最高分那筆，避免一人洗版 */
-export async function fetchBoard(mode, { room = null, limit = 20 } = {}) {
+/** 取排行榜（依模式，可選房間/起始時間）。同一玩家只留最高分那筆，避免一人洗版 */
+export async function fetchBoard(mode, { room = null, limit = 20, since = null } = {}) {
   if (!supabase) return null;
   try {
     let q = supabase.from('runs').select('browser_id, name, score, correct, total, max_combo, created_at')
@@ -40,6 +40,7 @@ export async function fetchBoard(mode, { room = null, limit = 20 } = {}) {
       .order('score', { ascending: false })
       .limit(limit * 5);   // 多抓再去重，去重後仍湊得滿一頁
     if (room) q = q.eq('room', room);
+    if (since) q = q.gte('created_at', since);
     const { data, error } = await q;
     if (error) {
       console.error('fetchBoard:', error);
@@ -54,6 +55,40 @@ export async function fetchBoard(mode, { room = null, limit = 20 } = {}) {
     }).slice(0, limit);
   } catch (e) {
     console.error('fetchBoard:', e);
+    return null;
+  }
+}
+
+/**
+ * 分數百分位（同模式，去重 browser_id 各取最高分）。分享卡「打敗 XX%」用。
+ * @returns {Promise<{ beatPct: number, rank: number, sample: number }|null>}
+ */
+export async function fetchPercentile(mode, score) {
+  if (!supabase) return null;
+  try {
+    const { data, error } = await supabase.from('runs')
+      .select('browser_id, score')
+      .eq('mode', mode)
+      .order('score', { ascending: false })
+      .limit(1000);
+    if (error || !data?.length) {
+      if (error) console.error('fetchPercentile:', error);
+      return null;
+    }
+    const seen = new Set();
+    const scores = [];
+    for (const r of data) {
+      const key = r.browser_id ?? r.name;
+      if (seen.has(key)) continue;   // 已按分數排序，首見即該玩家最高分
+      seen.add(key);
+      scores.push(r.score);
+    }
+    const sample = scores.length;
+    const below = scores.filter((s) => s < score).length;
+    const rank = scores.filter((s) => s > score).length + 1;
+    return { beatPct: Math.round((below / sample) * 100), rank, sample };
+  } catch (e) {
+    console.error('fetchPercentile:', e);
     return null;
   }
 }
@@ -110,6 +145,34 @@ export async function submitQuestionReview({ question, verdict, name = '', note 
   } catch (e) {
     console.error('submitQuestionReview:', e);
     return false;
+  }
+}
+
+/**
+ * 錯率校正：依全體答題統計建議每題難度。樣本不足的題不覆蓋。
+ * 映射：錯率 <15%→1、15-35%→2、35-55%→3、55-75%→4、>75%→5
+ * @returns {Promise<Object<string, number>|null>} { question_id: difficulty }
+ */
+export async function fetchDifficultyOverrides({ minAttempts = 30 } = {}) {
+  if (!supabase) return null;
+  try {
+    const { data, error } = await supabase
+      .from('question_stats')
+      .select('question_id, total_attempts, wrong_attempts')
+      .gte('total_attempts', minAttempts);
+    if (error) {
+      console.error('fetchDifficultyOverrides:', error);
+      return null;
+    }
+    const map = {};
+    for (const r of data ?? []) {
+      const rate = r.wrong_attempts / r.total_attempts;
+      map[r.question_id] = rate < 0.15 ? 1 : rate < 0.35 ? 2 : rate < 0.55 ? 3 : rate < 0.75 ? 4 : 5;
+    }
+    return map;
+  } catch (e) {
+    console.error('fetchDifficultyOverrides:', e);
+    return null;
   }
 }
 

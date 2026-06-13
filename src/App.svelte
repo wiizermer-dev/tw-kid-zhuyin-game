@@ -15,8 +15,10 @@
   import { parseChallengeFromUrl, clearChallengeFromUrl } from './lib/challenge.js';
   import { submitRun, browserId, recordQuestionAttempts } from './lib/backend.js';
   import { joinLiveRoom } from './lib/live.js';
+  import { initCalibration } from './lib/calibration.js';
 
   const myId = browserId();
+  initCalibration(); // 錯率校正難度覆蓋（async，sprint/levels 下一場生效）
 
   let screen = $state('home');
   let modeKey = $state('');
@@ -86,6 +88,7 @@
     if (code === duelRoom && liveChannel) return;
     duelIsHost = asHost;
     duelRoom = code;
+    storage.addSavedRoom(code);   // 常駐房：朋友榜（房內榜）資料來源
     duelSeed = `room-${code}`;
     roomUsedIds = [];
     myReady = false;
@@ -232,6 +235,7 @@
     level = null;
     duelSeed = challenge.seed;
     duelRoom = challenge.room;
+    storage.addSavedRoom(challenge.room);
     playConfig = MODES.duel.config(challenge.seed, challenge.count ?? 10);
     playMeta = { modeName: '好友對戰' };
     screen = 'play';
@@ -309,7 +313,7 @@
       storage.addLocalScore({ name, score: boardScore, mode: modeKey, maxCombo: boardCombo });
       submitRun({
         name, score: boardScore, mode: modeKey,
-        room: modeKey === 'duel' ? duelSeed : null,
+        room: modeKey === 'duel' ? duelRoom : null,   // bare 房號（朋友榜 = 房內榜過濾鍵）
         correct: s.correct, total: s.total, maxCombo: boardCombo
       });
     }

@@ -51,7 +51,8 @@ export class QuizSession {
       minDifficulty: config.minDifficulty,
       maxDifficulty: config.maxDifficulty,
       excludeIds: config.excludeIds,
-      onlyIds: config.onlyIds
+      onlyIds: config.onlyIds,
+      calibrated: config.calibrated
     });
     this.index = 0;
     this.score = 0;
@@ -146,7 +147,8 @@ export class QuizSession {
         wantDifficulty,
         categories: this.#config.categories,
         usedIds: used,
-        seed: `${this.#config.seed ?? 'esc'}-${i}-${this.#escalateTier}`
+        seed: `${this.#config.seed ?? 'esc'}-${i}-${this.#escalateTier}`,
+        calibrated: this.#config.calibrated
       });
       if (!harder) return q;
       used.delete(q.id);

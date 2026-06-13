@@ -1,7 +1,9 @@
 <script>
   import { titleFor, starsFor, emojiGrid } from '../../core/scoring.js';
   import { storage } from '../../core/storage.js';
-  import { renderShareCard, shareCard, shareText } from '../../lib/share.js';
+  import { renderShareCard, renderDuelCard, shareCard, shareText } from '../../lib/share.js';
+  import { tauntFor } from '../../lib/taunts.js';
+  import { fetchPercentile } from '../../lib/backend.js';
   import { buildScoreChallengeUrl } from '../../lib/challenge.js';
   import { randomZhuyinCode } from '../../lib/live.js';
   import { dailySeed } from '../../core/rng.js';
@@ -38,6 +40,19 @@
   let shareState = $state('');
   let busy = $state(false);
 
+  // 打敗百分比（雲端可用才有，進場抓一次）
+  let percentile = $state(null);
+  $effect(() => {
+    fetchPercentile(modeKey, summary.score).then((p) => { percentile = p; });
+  });
+
+  // 挑釁文案：每次進結算抽一句，卡片與 share text 共用（deps 靜態，實際只算一次）
+  let taunt = $derived(tauntFor({
+    rate: summary.total ? summary.correct / summary.total : 0,
+    score: summary.score,
+    hardestText: hardest?.text ?? ''
+  }));
+
   let wrongOnes = $derived(summary.questions.filter((q, i) => !summary.results[i]));
 
   // 同房是否全部完賽（決定要不要顯示「等其他人完成中」）
@@ -63,16 +78,42 @@
       : null
   );
 
+  // 對戰卡素材：非同步戰帖直接用 challenge，live 對戰取分數最高的對手
+  let duelOpp = $derived.by(() => {
+    if (challenge) return { name: challenge.name, score: challenge.score };
+    if (!liveState) return null;
+    const others = Object.values(liveState.progress).filter((p) => p.id !== myId && p.finished);
+    if (!others.length) return null;
+    const best = [...others].sort((a, b) => b.score - a.score)[0];
+    return { name: best.name, score: best.score };
+  });
+  let liveOutcome = $derived.by(() => {
+    if (duelOutcome) return duelOutcome;
+    if (!duelOpp) return null;
+    if (summary.score > duelOpp.score) return 'win';
+    if (summary.score < duelOpp.score) return 'lose';
+    return 'tie';
+  });
+
   async function doShareCard() {
     busy = true;
     try {
-      const blob = await renderShareCard({
-        title: title.title, emoji: title.emoji, quip: title.quip,
-        score: summary.score, correct: summary.correct, total: summary.total,
-        combo: summary.maxCombo, modeName, name,
-        hardest: hardest ? { text: hardest.text, zhuyin: hardest.zhuyin } : null
-      });
-      const text = `我在「你ㄅㄆㄇ有ㄅ級分ㄇ」拿到 ${summary.score} 分，獲得稱號【${title.title}】！這題你會唸嗎：「${hardest?.text ?? ''}」`;
+      const blob = modeKey === 'duel' && duelOpp
+        ? await renderDuelCard({
+            outcome: liveOutcome,
+            me: { name, score: summary.score },
+            opp: duelOpp,
+            roomCode: duelRoomCode,
+            hardest: hardest ? { text: hardest.text, zhuyin: hardest.zhuyin } : null
+          })
+        : await renderShareCard({
+            title: title.title, emoji: title.emoji, quip: title.quip,
+            score: summary.score, correct: summary.correct, total: summary.total,
+            combo: summary.maxCombo, modeName, name,
+            hardest: hardest ? { text: hardest.text, zhuyin: hardest.zhuyin } : null,
+            percentile, taunt, roomCode: duelRoomCode
+          });
+      const text = `我在「你ㄅㄆㄇ有ㄅ級分ㄇ」拿到 ${summary.score} 分，獲得稱號【${title.title}】。${taunt}\n${challengeUrl ?? location.origin}`;
       const r = await shareCard(blob, text, challengeUrl ?? location.origin);
       shareState = r === 'downloaded' ? '圖片已下載！'
         : r === 'shared' ? '已分享！'
@@ -154,6 +195,12 @@
 
   {#if modeKey === 'daily'}
     <div class="grid-line">{emojiGrid(summary.results)}</div>
+    {@const streak = storage.getDailyStreak()}
+    {#if streak.count > 0}
+      <p class="streak pop-in">
+        🔥 連續挑戰 <b>{streak.count}</b> 天<small>明天沒來就歸零，記得回來</small>
+      </p>
+    {/if}
   {/if}
 
   {#if wrongOnes.length > 0}
@@ -168,7 +215,8 @@
             {:else}
               <span class="rv-ans">「{q.target}」唸 <b>{q.zhuyin}</b></span>
             {/if}
-            <small class="rv-fun">{q.fun}</small>
+            {#if q.meaning}<small class="rv-meaning">{q.meaning}</small>{/if}
+            {#if q.fun}<small class="rv-fun">{q.fun}</small>{/if}
           </li>
         {/each}
       </ul>
@@ -241,6 +289,8 @@
   .stat small { color: var(--ink-soft); }
 
   .grid-line { font-size: 1.4rem; letter-spacing: 0.1em; margin-bottom: 0.8rem; }
+  .streak { display: flex; flex-direction: column; gap: 0.1rem; margin: -0.3rem 0 0.8rem; font-weight: 800; color: var(--berry-deep); }
+  .streak small { color: var(--ink-soft); font-weight: 600; }
 
   .review {
     width: 100%;
@@ -253,6 +303,7 @@
   .review li { display: flex; flex-direction: column; gap: 0.15rem; border-top: 1.5px dashed #f0e4d8; padding-top: 0.6rem; }
   .rv-word { font-family: var(--font-kai); font-size: 1.25rem; }
   .rv-ans b { color: var(--berry-deep); font-family: var(--font-kai); }
+  .rv-meaning { color: var(--ink); }
   .rv-fun { color: var(--ink-soft); }
 
   .actions { display: flex; flex-direction: column; gap: 0.7rem; width: 100%; max-width: 340px; }

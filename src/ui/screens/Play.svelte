@@ -167,6 +167,15 @@
   let q = $derived(session.current);
   let showFeedback = $derived(session.answered !== null);
   let lastCorrect = $derived(session.answered !== null && session.answered >= 0 && q?.options[session.answered]?.correct);
+
+  // 連擊循序增強：3-5 小火 / 6-9 大火 / 10-19 藍火 / 20+ 金色，可愛度與明顯度逐級拉高
+  let comboTier = $derived(
+    session.combo >= 20 ? 4 : session.combo >= 10 ? 3 : session.combo >= 6 ? 2 : session.combo >= 3 ? 1 : 0
+  );
+  const COMBO_FACE = ['', '🔥', '🔥🔥', '💙', '🌟'];
+
+  // 衝刺剩餘時間比例（timer ring 用）
+  let sprintFrac = $derived(isSprint ? Math.max(0, session.timeLeft / config.timeLimit) : 1);
 </script>
 
 <div class="screen play" class:wrong-flash={wrongFlash}>
@@ -183,8 +192,14 @@
     <button class="quit" onclick={quit} aria-label="離開">✕</button>
 
     {#if isSprint}
-      <div class="timer" class:urgent={session.timeLeft <= 10}>
-        {Math.ceil(session.timeLeft)}<small>s</small>
+      <div class="timer" class:warn={sprintFrac <= 0.5 && session.timeLeft > 10} class:urgent={session.timeLeft <= 10}>
+        <svg class="ring" viewBox="0 0 48 48" aria-hidden="true">
+          <circle class="ring-bg" cx="24" cy="24" r="20" />
+          <circle class="ring-fg" cx="24" cy="24" r="20" style:stroke-dashoffset={(1 - sprintFrac) * 125.66} />
+        </svg>
+        {#key session.timeLeft <= 10 ? Math.ceil(session.timeLeft) : 0}
+          <span class="timer-num" class:beat={session.timeLeft <= 10}>{Math.ceil(session.timeLeft)}</span>
+        {/key}
       </div>
     {:else}
       <div class="progress-wrap">
@@ -204,8 +219,14 @@
     </div>
   </header>
 
-  {#if session.combo >= 3}
-    <div class="combo pop-in">🔥 連擊 ×{session.combo}</div>
+  {#if comboTier > 0}
+    {#key session.combo}
+      <div class="combo t{comboTier} combo-pop">{COMBO_FACE[comboTier]} 連擊 ×{session.combo}</div>
+    {/key}
+  {/if}
+
+  {#if isSprint && session.timeLeft <= 5 && !session.finished}
+    <div class="vignette" aria-hidden="true"></div>
   {/if}
 
   {#if meta.liveState}
@@ -237,6 +258,14 @@
   {#if q}
     {#key q.id}
       <main class="qarea">
+        {#if config.perQuestionSeconds && session.answered === null}
+          <div class="qbar" aria-hidden="true">
+            <i
+              class:hurry={session.questionTimeLeft <= 2}
+              style:width="{(session.questionTimeLeft / config.perQuestionSeconds) * 100}%"
+            ></i>
+          </div>
+        {/if}
         <div class="qcard card pop-in" class:shake={showFeedback && !lastCorrect}>
           {#if q.kind === 'char'}
             <p class="qprompt">空格是哪個字？</p>
@@ -333,13 +362,70 @@
   .progress-wrap { flex: 1; display: flex; align-items: center; gap: 0.5rem; }
   .progress-wrap .meter { flex: 1; }
   .progress-num { font-size: 0.85rem; font-weight: 800; color: var(--ink-soft); }
+  /* 衝刺計時：環形 drain，綠→黃→紅三段色，倒數 10 秒數字心跳 */
   .timer {
     flex: 1;
-    font-size: 1.3rem;
-    font-weight: 900;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 52px;
   }
-  .timer.urgent, .qtimer.urgent { color: var(--berry-deep); animation: wiggle 0.4s ease-in-out infinite; }
+  .timer .ring { width: 52px; height: 52px; transform: rotate(-90deg); }
+  .ring-bg { fill: none; stroke: #f0e4d8; stroke-width: 5; }
+  .ring-fg {
+    fill: none;
+    stroke: var(--leaf, #4ECDC4);
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-dasharray: 125.66;
+    transition: stroke-dashoffset 0.3s linear, stroke 0.4s;
+  }
+  .timer.warn .ring-fg { stroke: var(--sun); }
+  .timer.urgent .ring-fg { stroke: var(--berry-deep); }
+  .timer-num {
+    position: absolute;
+    font-size: 1.15rem;
+    font-weight: 900;
+  }
+  .timer.urgent .timer-num { color: var(--berry-deep); }
+  .timer-num.beat { animation: heartbeat 0.5s ease-out both; }
+  @keyframes heartbeat {
+    0% { transform: scale(1.45); }
+    100% { transform: scale(1); }
+  }
+  .qtimer.urgent { color: var(--berry-deep); animation: wiggle 0.4s ease-in-out infinite; }
+
+  /* 最後 5 秒：畫面邊緣紅暈脈動，急迫感拉滿但不遮題目 */
+  .vignette {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 40;
+    box-shadow: inset 0 0 90px 18px rgba(214, 69, 80, 0.45);
+    animation: vignette-pulse 1s ease-in-out infinite;
+  }
+  @keyframes vignette-pulse {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 0.95; }
+  }
+
+  /* 單題倒數：題卡頂部 shrink bar，比角落小數字可感 */
+  .qbar {
+    height: 8px;
+    border-radius: 999px;
+    background: #f0e4d8;
+    overflow: hidden;
+    margin-bottom: 0.6rem;
+  }
+  .qbar i {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: var(--mint, #4ECDC4);
+    transition: width 0.15s linear, background 0.3s;
+  }
+  .qbar i.hurry { background: var(--berry-deep); }
   .score-wrap { position: relative; min-width: 64px; text-align: right; }
   .score { font-size: 1.3rem; font-weight: 900; color: var(--sun); }
   .score-pop {
@@ -350,12 +436,48 @@
     animation: score-fly 0.7s ease-out both;
   }
 
+  /* 連擊循序增強：固定位不侵入選項區，pop 只在連擊增加瞬間（#key 重掛） */
   .combo {
     align-self: center;
     margin-top: 0.5rem;
     font-weight: 900;
     color: var(--berry-deep);
     animation: flame-flicker 0.6s ease-in-out infinite;
+  }
+  .combo-pop { animation: combo-land 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both, flame-flicker 0.6s ease-in-out 0.45s infinite; }
+  @keyframes combo-land {
+    0% { transform: scale(1.7) rotate(-4deg); }
+    60% { transform: scale(0.92) rotate(2deg); }
+    100% { transform: scale(1) rotate(0); }
+  }
+  .combo.t2 {
+    font-size: 1.1rem;
+    animation-duration: 0.45s, 0.4s;
+  }
+  .combo.t3 {
+    font-size: 1.2rem;
+    color: var(--mint-deep, #2a9d8f);
+    text-shadow: 0 0 12px rgba(78, 205, 196, 0.55);
+  }
+  .combo.t4 {
+    font-size: 1.35rem;
+    background: linear-gradient(90deg, #ffb347, #ff6b6b, #ffb347);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: none;
+    filter: drop-shadow(0 0 10px rgba(255, 179, 71, 0.65));
+    animation: combo-land 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both, gold-slide 1.4s linear 0.45s infinite;
+  }
+  @keyframes gold-slide {
+    to { background-position: 200% center; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .combo, .combo-pop, .combo.t4 { animation: none; }
+    .timer-num.beat { animation: none; }
+    .vignette { animation: none; opacity: 0.5; }
   }
 
   .live-wrap { margin-top: 0.7rem; }

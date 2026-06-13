@@ -2,6 +2,19 @@
 import { BANK } from '../data/bank/index.js';
 import { mulberry32, shuffleWith } from './rng.js';
 
+/** 錯率校正後的難度覆蓋 { id: difficulty }。
+ * 只有單人非共享 seed 模式（sprint / levels）吃覆蓋：
+ * daily / duel 全玩家同 seed 同題，各人覆蓋 fetch 時間不同會選出不同題，破壞決定性。 */
+let DIFFICULTY_OVERRIDES = {};
+
+export function setDifficultyOverrides(map) {
+  DIFFICULTY_OVERRIDES = map ?? {};
+}
+
+function diffOf(q, calibrated) {
+  return calibrated ? (DIFFICULTY_OVERRIDES[q.id] ?? q.difficulty) : q.difficulty;
+}
+
 /**
  * 依條件選題並組成可直接渲染的題目物件。
  * @param {Object} opts
@@ -12,6 +25,7 @@ import { mulberry32, shuffleWith } from './rng.js';
  * @param {string[]} [opts.categories] 限定類別（bank index 的 key）
  * @param {string[]} [opts.excludeIds] 排除的題目 id（近期出過；超過池子可容納上限時只保留最近的）
  * @param {string[]} [opts.onlyIds] 只從這些 id 選（錯題特訓用）
+ * @param {boolean} [opts.calibrated=false] 套用錯率校正難度（僅限非共享 seed 模式）
  * @returns 題目陣列，每題含 options（已洗牌，正解標記 correct: true）
  */
 export function selectQuestions({
@@ -21,7 +35,8 @@ export function selectQuestions({
   maxDifficulty = 5,
   categories = null,
   excludeIds = [],
-  onlyIds = null
+  onlyIds = null,
+  calibrated = false
 } = {}) {
   const rand = mulberry32(String(seed));
 
@@ -33,8 +48,8 @@ export function selectQuestions({
 
   // 符合難度/類別的母池（不含排除）
   const inScope = BANK.filter(q =>
-    q.difficulty >= minDifficulty &&
-    q.difficulty <= maxDifficulty &&
+    diffOf(q, calibrated) >= minDifficulty &&
+    diffOf(q, calibrated) <= maxDifficulty &&
     (!categories || categories.includes(q.category))
   );
 
@@ -81,11 +96,11 @@ function toQuestion(item, rand) {
  * @param {Set<string>|string[]} [opts.usedIds] 已用過的題 id
  * @param {string|number} [opts.seed] 種子
  */
-export function drawHarderQuestion({ wantDifficulty, categories = null, usedIds = [], seed } = {}) {
+export function drawHarderQuestion({ wantDifficulty, categories = null, usedIds = [], seed, calibrated = false } = {}) {
   const rand = mulberry32(String(seed ?? `${Date.now()}-${Math.random()}`));
   const used = usedIds instanceof Set ? usedIds : new Set(usedIds);
   const matches = (q, d) =>
-    q.difficulty === d && !used.has(q.id) && (!categories || categories.includes(q.category));
+    diffOf(q, calibrated) === d && !used.has(q.id) && (!categories || categories.includes(q.category));
 
   for (let d = wantDifficulty; d >= 1; d -= 1) {
     const pool = BANK.filter(q => matches(q, d));
