@@ -193,13 +193,6 @@ export default [
     tags: ['歌詞', '蔡依林'], difficulty: 3, era: 'modern'
   },
   {
-    id: 'ly-031', text: '寂寞寂寞就好', target: '寞', zhuyin: 'ㄇㄛˋ',
-    distractors: ['ㄇㄛˊ', 'ㄇㄨˋ', 'ㄇㄛ'],
-    meaning: '寂寞：孤單冷清。田馥甄〈寂寞寂寞就好〉歌名',
-    fun: '寞唸對就好，這樣的結局好不好',
-    tags: ['歌詞', '田馥甄'], difficulty: 1, era: 'modern'
-  },
-  {
     id: 'ly-032', text: '言不由衷', target: '衷', zhuyin: 'ㄓㄨㄥ',
     distractors: ['ㄓㄨㄥˋ', 'ㄔㄨㄥˊ', 'ㄓㄨㄥˊ'],
     meaning: '說的話不是出自真心。徐佳瑩〈言不由衷〉歌名',
@@ -233,13 +226,6 @@ export default [
     meaning: '形容早出晚歸、日夜奔波。告五人〈披星戴月的想你〉歌名',
     fun: '想一個人想到披星戴月，注音也要戴好戴滿',
     tags: ['歌詞', '告五人'], difficulty: 1, era: 'modern'
-  },
-  {
-    id: 'ly-040', text: '龍捲風', target: '捲', zhuyin: 'ㄐㄩㄢˇ',
-    distractors: ['ㄐㄩㄢˋ', 'ㄑㄩㄢˊ', 'ㄐㄩㄢ'],
-    meaning: '強烈的旋轉風暴。周杰倫〈龍捲風〉歌名',
-    fun: '愛像一陣風，唸錯直接被捲走',
-    tags: ['歌詞', '周杰倫'], difficulty: 1, era: 'modern'
   },
   {
     id: 'ly-042', text: '伊人憔悴', target: '悴', zhuyin: 'ㄘㄨㄟˋ',
@@ -382,20 +368,6 @@ export default [
     tags: ['歌詞', '周杰倫', '唱腔誤導'], difficulty: 2, era: 'modern'
   },
   {
-    id: 'ly-062', text: '跟著稻香河流繼續奔跑', target: '奔', zhuyin: 'ㄅㄣ',
-    distractors: ['ㄅㄣˋ', 'ㄆㄣ', 'ㄅㄥ'],
-    meaning: '快跑。周杰倫〈稻香〉',
-    fun: '奔跑唸一聲，投奔才唸四聲。回家的路上順便把音唸對',
-    tags: ['歌詞', '周杰倫'], difficulty: 1, era: 'modern'
-  },
-  {
-    id: 'ly-063', text: '頒布了漢摩拉比法典', target: '頒', zhuyin: 'ㄅㄢ',
-    distractors: ['ㄅㄢˋ', 'ㄈㄣ', 'ㄆㄢ'],
-    meaning: '公布法令。周杰倫〈愛在西元前〉',
-    fun: '頒唸一聲，頒獎的頒。巴比倫王頒法典，你頒對讀音',
-    tags: ['歌詞', '周杰倫'], difficulty: 2, era: 'modern'
-  },
-  {
     id: 'ly-064', text: '深埋在美索不達米亞平原', target: '埋', zhuyin: 'ㄇㄞˊ',
     distractors: ['ㄇㄢˊ', 'ㄇㄞˇ', 'ㄌㄧˊ'],
     meaning: '埋藏。周杰倫〈愛在西元前〉',
@@ -420,7 +392,7 @@ export default [
     id: 'ly-067', text: '愛你孤身走暗巷', target: '巷', zhuyin: 'ㄒㄧㄤˋ',
     distractors: ['ㄏㄤˋ', 'ㄒㄧㄤˇ', 'ㄒㄧㄤ'],
     meaning: '小街道。陳奕迅〈孤勇者〉',
-    fun: '巷唸ㄒㄧㄤˋ，礦坑的巷道才唸ㄏㄤˋ。小朋友的國歌，讀音要顧',
+    fun: '巷一律唸ㄒㄧㄤˋ，連巷道也是（簡編本沒收ㄏㄤˋ）。小朋友的國歌，讀音要顧',
     tags: ['歌詞', '陳奕迅'], difficulty: 1, era: 'modern'
   },
   {
