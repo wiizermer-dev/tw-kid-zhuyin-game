@@ -1,6 +1,6 @@
 <script>
   import { storage } from '../../core/storage.js';
-  import { hasCloud, fetchBoard, fetchWrongBoard } from '../../lib/backend.js';
+  import { hasCloud, fetchBoard, fetchWrongBoard, fetchReignStreak, browserId } from '../../lib/backend.js';
   import { MODES } from '../../modes.js';
   import { BANK } from '../../core/bank.js';
 
@@ -11,7 +11,10 @@
   let tab = $state(initialTab);
   let cloudRows = $state(null);
   let wrongRows = $state(null);   // 雲端常錯榜（tab==='wrong'）
+  let reign = $state(null);       // 榜首連霸（{ current, longest }）
   let loading = $state(false);
+
+  const myId = hasCloud ? browserId() : null;
 
   // 朋友榜 = 房內榜：對戰 tab 可按最近進過的房號過濾
   const savedRooms = storage.getSavedRooms();
@@ -54,6 +57,18 @@
       if (tab !== wantTab || roomFilter !== wantRoom) return;
       cloudRows = rows;
       loading = false;
+    });
+  });
+
+  // 榜首連霸：sprint/levels/duel 顯示（daily 每天歸零、wrong 非分數榜，皆無連霸意義）
+  $effect(() => {
+    reign = null;
+    if (!hasCloud || isWrongTab || tab === 'daily') return;
+    const room = tab === 'duel' ? roomFilter : null;
+    const wantTab = tab, wantRoom = roomFilter;
+    fetchReignStreak(tab, { room }).then((r) => {
+      if (tab !== wantTab || roomFilter !== wantRoom) return;
+      reign = r;
     });
   });
 
@@ -142,6 +157,23 @@
       {#if roomFilter}<p class="board-note">朋友榜：只看「{roomFilter}」房的紀錄</p>{/if}
     {/if}
 
+    {#if reign?.current && reign.current.days >= 1}
+      {@const mine = reign.current.browserId === myId}
+      <div class="reign card" class:mine>
+        <span class="crown">👑</span>
+        <span class="reign-text">
+          {#if mine}
+            <b>你</b>已連霸 <b>{reign.current.days}</b> 天，守住王座
+          {:else}
+            <b>{reign.current.name}</b> 連霸 <b>{reign.current.days}</b> 天，去終結他
+          {/if}
+        </span>
+        {#if reign.longest.days > reign.current.days}
+          <span class="reign-record" title="歷代最長連霸">史上最長 {reign.longest.days} 天</span>
+        {/if}
+      </div>
+    {/if}
+
     {#if loading}
       <p class="empty">載入中…</p>
     {:else if rows.length === 0}
@@ -218,6 +250,22 @@
   .wq small { color: var(--berry-deep); font-weight: 700; font-size: 0.78rem; }
   .wrate { font-weight: 900; color: var(--berry-deep); font-size: 1rem; white-space: nowrap; }
   .wcnt { color: var(--ink-soft); font-size: 0.78rem; white-space: nowrap; min-width: 3.2rem; text-align: right; }
+
+  /* 榜首連霸橫幅 */
+  .reign {
+    display: flex; align-items: center; gap: 0.6rem;
+    padding: 0.7rem 1rem; margin-bottom: 0.7rem;
+    background: linear-gradient(105deg, #fff7e0, #ffe9b8);
+    box-shadow: 0 0 0 2px var(--sun), var(--shadow-card);
+  }
+  .reign.mine { background: linear-gradient(105deg, #e8fff0, #c8f5d8); box-shadow: 0 0 0 2px var(--mint), var(--shadow-card); }
+  .reign .crown { font-size: 1.4rem; }
+  .reign-text { flex: 1; font-size: 0.92rem; font-weight: 700; color: var(--ink); }
+  .reign-text b { color: var(--berry-deep); }
+  .reign-record {
+    font-size: 0.72rem; font-weight: 800; color: var(--ink-soft);
+    background: #fff; border-radius: 999px; padding: 0.2rem 0.55rem; white-space: nowrap;
+  }
 
   .empty, .note { text-align: center; color: var(--ink-soft); margin-top: 2rem; }
   .note { font-size: 0.82rem; margin-top: 1.5rem; }

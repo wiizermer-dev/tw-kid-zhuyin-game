@@ -59,6 +59,76 @@ export async function fetchBoard(mode, { room = null, limit = 20, since = null }
   }
 }
 
+/** 台灣時區（UTC+8）日期字串 YYYY-MM-DD，霸榜以「日」為單位 */
+function twDateKey(iso) {
+  const t = new Date(iso).getTime() + 8 * 60 * 60 * 1000;
+  return new Date(t).toISOString().slice(0, 10);
+}
+
+/**
+ * 榜首連霸：每日該模式分數最高者為當日榜首，連續霸佔即連霸。
+ * 純前端用 runs 既有資料推算（不動 DB schema），跨裝置一致性靠每次重抓重算。
+ * @returns {Promise<{ current: { browserId, name, days, since }|null, longest: { name, days } }|null>}
+ *   current 為「目前連霸中」的榜首（最近一日榜首往前連續同人的天數）；longest 為歷代最長連霸。
+ */
+export async function fetchReignStreak(mode, { room = null, lookbackDays = 120 } = {}) {
+  if (!supabase) return null;
+  try {
+    const since = new Date(Date.now() - lookbackDays * 24 * 60 * 60 * 1000).toISOString();
+    let q = supabase.from('runs').select('browser_id, name, score, created_at')
+      .eq('mode', mode)
+      .gte('created_at', since)
+      .order('created_at', { ascending: true });
+    if (room) q = q.eq('room', room);
+    const { data, error } = await q;
+    if (error) {
+      console.error('fetchReignStreak:', error);
+      return null;
+    }
+    if (!data?.length) return { current: null, longest: { name: '', days: 0 } };
+
+    // 每日榜首：同日多筆取最高分（同分取先達成者）
+    const champByDay = new Map(); // dateKey -> { browser_id, name, score }
+    for (const r of data) {
+      const day = twDateKey(r.created_at);
+      const cur = champByDay.get(day);
+      if (!cur || r.score > cur.score) {
+        champByDay.set(day, { browser_id: r.browser_id ?? r.name, name: r.name, score: r.score });
+      }
+    }
+
+    // 依日期排序後掃連續同人段落
+    const days = [...champByDay.keys()].sort();
+    let longest = { name: '', days: 0 };
+    let runId = null, runName = '', runLen = 0, runStart = null;
+    const flushLongest = () => {
+      if (runLen > longest.days) longest = { name: runName, days: runLen };
+    };
+    for (const day of days) {
+      const champ = champByDay.get(day);
+      if (champ.browser_id === runId) {
+        runLen += 1;
+      } else {
+        flushLongest();
+        runId = champ.browser_id;
+        runName = champ.name;
+        runLen = 1;
+        runStart = day;
+      }
+    }
+    flushLongest();
+
+    // current = 最後一段（含最近一日）
+    const current = runLen > 0
+      ? { browserId: runId, name: runName, days: runLen, since: runStart }
+      : null;
+    return { current, longest };
+  } catch (e) {
+    console.error('fetchReignStreak:', e);
+    return null;
+  }
+}
+
 /**
  * 分數百分位（同模式，去重 browser_id 各取最高分）。分享卡「打敗 XX%」用。
  * @returns {Promise<{ beatPct: number, rank: number, sample: number }|null>}
