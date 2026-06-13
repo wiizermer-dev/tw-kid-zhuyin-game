@@ -1245,7 +1245,7 @@ export default [
   },
   {
     id: 'tk-180', text: '俄羅斯', target: '俄', zhuyin: 'ㄜˊ',
-    distractors: ['ㄛˊ', 'ㄜ', 'ㄛ'],
+    distractors: ['ㄛˊ', 'ㄜ', 'ㄜˋ'],
     meaning: '橫跨歐亞的世界第一大國',
     fun: '俄唸ㄜˊ，跟「鵝」同音，不是ㄛˊ。北極熊聽了會點頭',
     tags: ['易讀錯', '地理'], difficulty: 2, era: 'modern'

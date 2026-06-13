@@ -321,7 +321,7 @@ export default [
   {
     id: 'cl-046', text: '黃髮垂髫', target: '髫', zhuyin: 'ㄊㄧㄠˊ',
     distractors: ['ㄓㄠˋ', 'ㄕㄠˊ', 'ㄊㄧㄠˇ'],
-    meaning: '老人與小孩（垂髫：小孩垂下的頭髮）。出自《桃花源記》',
+    meaning: '老人與小孩（垂髫：小孩垂下的頭髮）。出自〈桃花源記〉',
     fun: '髫是小孩的瀏海，桃花源老少都笑咪咪，比任何長照政策都猛',
     tags: ['古文', '桃花源記'], difficulty: 4, era: 'classic'
   },
