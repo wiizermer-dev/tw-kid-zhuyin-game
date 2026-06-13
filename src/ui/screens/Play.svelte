@@ -518,7 +518,8 @@
     border: 3px dashed var(--sun);
     border-radius: 12px;
     background: #fffaf0;
-    vertical-align: -0.15em;
+    /* 0.2em 讓框視覺中心對齊 CJK 字 glyph 中心（middle 對齊 x-height 中線會偏低）*/
+    vertical-align: 0.2em;
   }
   .char-opt {
     font-family: var(--font-kai);
