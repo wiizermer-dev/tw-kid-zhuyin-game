@@ -16,12 +16,23 @@ export function browserId() {
   return id;
 }
 
-/** 上傳一筆成績（runs 資料表，schema 見 supabase-setup-v2.sql） */
+/**
+ * 上傳一筆成績。走 submit_run RPC（SECURITY DEFINER），server 端做合理性驗算 +
+ * 頻率限制後才寫入；前端不再直接 insert runs（insert policy 已收緊為 false）。
+ * schema/RPC 見 supabase-setup-v5-submit-run-rpc.sql。
+ */
 export async function submitRun({ name, score, mode, room = null, correct = 0, total = 0, maxCombo = 0 }) {
   if (!supabase) return false;
   try {
-    const { error } = await supabase.from('runs').insert({
-      browser_id: browserId(), name, score, mode, room, correct, total, max_combo: maxCombo
+    const { error } = await supabase.rpc('submit_run', {
+      p_browser_id: browserId(),
+      p_name: name,
+      p_score: score,
+      p_mode: mode,
+      p_room: room,
+      p_correct: correct,
+      p_total: total,
+      p_max_combo: maxCombo
     });
     if (error) console.error('submitRun:', error);
     return !error;
