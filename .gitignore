@@ -37,3 +37,7 @@ review-report.html
 
 # 字型子集化中間產物（由 scripts/subset-font.mjs 產出）
 scripts/.font-unicodes.txt
+
+# 簡編本官方原始 xlsx（6.7MB 中間產物，可從教育部下載頁重新取得；轉出的 concised-dict.json 才進 git）
+# 來源：https://language.moe.gov.tw/001/Upload/Files/site_content/M0001/respub/dict_concised_download.html
+scripts/data/dict_concised.xlsx

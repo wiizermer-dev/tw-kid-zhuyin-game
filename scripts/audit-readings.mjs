@@ -12,9 +12,22 @@
  *  2. 否則查單字 → 答案須出現在該字讀音清單；若答案僅為「又音/語音/讀音」而某個錯項才是「正音(第一條)」→ 標為可疑。
  * 純唯讀稽核，不改檔。
  */
+import { readFileSync, existsSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { BANK } from '../src/data/bank/index.js';
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// 教育部《國語辭典簡編本》官方離線資料（第一依據，權威來源）。
+// 由 scripts/build-concised-dict.mjs 從官方 xlsx 轉出；不存在則退回線上 fallback + moedict 粗篩。
+const CONCISED_JSON = join(__dirname, 'data', 'concised-dict.json');
+const CONCISED = existsSync(CONCISED_JSON) ? JSON.parse(readFileSync(CONCISED_JSON, 'utf-8')) : null;
+if (!CONCISED) {
+  console.warn('⚠️  找不到簡編本離線資料 scripts/data/concised-dict.json，將退回 moedict 修訂本粗篩。');
+  console.warn('   建議先跑：node scripts/build-concised-dict.mjs（需先下載官方 xlsx）');
+}
 
 async function moedict(word) {
   try {
@@ -28,6 +41,28 @@ async function moedict(word) {
   } catch {
     return null;
   }
+}
+
+// 教育部《國語辭典簡編本》= 第一依據（權威來源），用官方離線資料查證。
+// 若離線檔缺失需臨時線上查單一詞（純 curl、無套件依賴）：
+//   UA='Mozilla/5.0 ... Chrome/120.0 Safari/537.36'
+//   curl -sL -A "$UA" --data-urlencode "word=剽竊" -G \
+//     https://dict.concised.moe.edu.tw/search.jsp | grep 'name="Description"'
+//   → content="字詞:剽竊,注音:ㄆㄧㄠˋ　ㄑㄧㄝˋ,…"（search.jsp 對查得到的詞 302 轉 dictView，-L 直達 meta）
+
+// 簡編本查詞：讀官方離線資料，查無回 null。回傳該詞所有注音字串陣列。
+function lookupConcised(word) {
+  if (CONCISED && CONCISED[word]) return CONCISED[word];
+  return null;
+}
+
+// 簡編本整詞注音 → 抽目標字音節，回傳該音節 norm 後的值；對不上回 null。
+function concisedSyllable(zhuyinStr, text, target) {
+  const syllables = zhuyinStr.split(/[\s　]+/).filter(Boolean);
+  const chars = [...text];
+  const idx = chars.indexOf(target);
+  if (idx < 0 || syllables.length !== chars.length) return null;
+  return norm(syllables[idx]);
 }
 
 // 萌典聲調記號 → 我們題庫用的格式（輕聲˙、二聲ˊ、三聲ˇ、四聲ˋ；一聲無符號）已一致
@@ -134,7 +169,15 @@ const VERIFIED_OK = new Set([
   // 2026-06-13 注音王正名 + pickchar 擴題後 audit 誤報覆核：
   'cl-079', // 學而不思則罔 罔=ㄨㄤˇ（論語課本標準音；整句非詞條，單字 fallback 誤報「辭典查無」）
   // 2026-06-13 新一輪審題覆核：審題員標 wrong_answer，回簡編本確認後修正/維持：
-  'cl-114'  // 唧唧復唧唧 唧=ㄐㄧˊ（簡編本只收 ㄐㄧˊ 二聲，原題誤標 ㄐㄧ 一聲已修；修訂本把 ㄐㄧ 當第一正音屬退階來源，依簡編本）
+  'cl-114', // 唧唧復唧唧 唧=ㄐㄧˊ（簡編本只收 ㄐㄧˊ 二聲，原題誤標 ㄐㄧ 一聲已修；修訂本把 ㄐㄧ 當第一正音屬退階來源，依簡編本）
+  // 2026-06-14 常見誤讀音表（圖片 490/491）匯入：題目 text 為「語境句」非辭典詞條，
+  // 簡編本層查無整句 → 退 moedict 粗篩誤報。核心詞已逐一回簡編本離線資料覆核確認：
+  'tk-195', // 菜脯蛋 脯=ㄈㄨˇ（菜脯為台語借音詞，簡編本未收「菜脯」詞條；果脯義 ㄈㄨˇ，胸脯才 ㄆㄨˊ）
+  'tk-216', // 毫無瓜葛 葛=ㄍㄜˊ（簡編本「瓜葛」ㄍㄨㄚ ㄍㄜˊ；ㄍㄜˇ 限姓氏與諸葛）
+  'tk-217', // 偶然邂逅 逅=ㄏㄡˋ（簡編本「邂逅」ㄒㄧㄝˋ ㄏㄡˋ）
+  'tk-239', // 衣服褪色 褪=ㄊㄨㄣˋ（簡編本「褪色」ㄊㄨㄣˋ ㄙㄜˋ）
+  'tk-242', // 全民連署 署=ㄕㄨˋ（簡編本「連署」ㄌㄧㄢˊ ㄕㄨˋ；moedict 把布署義 ㄕㄨˇ 當第一正音屬退階）
+  'tk-254'  // 湮滅證據 湮=ㄧㄣ（簡編本「湮滅」ㄧㄣ ㄇㄧㄝˋ；moedict 把 ㄧㄢ 當第一正音屬退階）
 ]);
 
 const problems = [];
@@ -144,6 +187,32 @@ for (const q of BANK) {
   const text = q.text;
   const target = q.target;
   const ans = norm(q.zhuyin);
+
+  // === 簡編本權威覆核（第一依據）===
+  // 簡編本收此詞 → 抽目標字音節，對得上即 pass；對不上即高信度錯誤（權威打臉，不必再退 moedict）。
+  // 多音字詞（同詞多注音）只要任一讀音的目標字音節對得上即 pass。
+  const concisedReadings = lookupConcised(text);
+  if (concisedReadings && concisedReadings.length) {
+    let okByConcised = false;
+    const seen = [];
+    for (const zhuyinStr of concisedReadings) {
+      const syl = concisedSyllable(zhuyinStr, text, target);
+      if (syl == null) continue;
+      seen.push(syl);
+      if (syl === ans) { okByConcised = true; break; }
+    }
+    if (okByConcised) continue; // 簡編本權威確認正確
+    if (seen.length) {
+      // 簡編本明確收錄、音節抽得出來，但都不等於答案 → 高信度錯誤
+      problems.push({
+        id: q.id, text, target, ans,
+        kind: '簡編本音節不符(權威)',
+        dict: `簡編本=${seen.join(' / ')}`
+      });
+      continue;
+    }
+    // 音節抽不出來（詞長與注音音節數不一致，如含輕聲變體）→ 落到 moedict 流程粗篩
+  }
 
   // 先嘗試整個詞條
   const compound = await moedict(text);

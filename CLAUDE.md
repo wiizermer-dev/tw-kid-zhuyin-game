@@ -27,8 +27,9 @@ npm run audit      # 對教育部辭典稽核題庫注音（改題庫必跑）
 - 題目 schema：`{ id, text, target(單字，須在 text 中), zhuyin, distractors[1-3], meaning, fun, tags[], difficulty(1-5), era }`。id 前綴對應類別（tk/pp/rr/id/md/cl/ly/fc）連號。
 - **反考字題（pickchar，`kind: 'char'`）**：給語境＋注音挑「正確的字」，distractors 放形近／常見誤寫字（非注音）；正解選項 = target。誘答字不得是教育部辭典收錄的同語境異形寫法（如「再接再礪」辭典也收，不可當誘答）。zhuyin 仍為 target 正讀，audit 照常稽核。
 - **辭典優先序**：審注音一律以教育部《國語辭典簡編本》(concised, `dict.concised.moe.edu.tw`) 為第一依據（中小學教學標準，收音嚴謹貼課綱）。**只有簡編本查不到才退查《重編國語辭典修訂本》(moedict, `moedict.tw`)**。
-- **audit 腳本打的是 moedict（修訂本），屬退階來源**：`scripts/audit-readings.mjs` 用 moedict API，會把修訂本收的冷僻又音/語音當正讀，對「整句非詞條」的題退回單字比對時常**誤報「答案非第一正音」**。判讀其輸出時，凡牽涉又讀/多音爭議，必須回簡編本覆核才算數。
-- **誤報處置**：確認題目正確（子詞覆核）後，把 id 加進 `audit-readings.mjs` 的 `VERIFIED_OK` 白名單並註明依據，**不要改題**。輕聲位置題庫寫後置（`ㄉㄨㄣ˙`）、萌典寫前置（`˙ㄉㄨㄣ`），`norm()` 已統一。
+- **audit 雙層架構（2026-06-14 升級）**：`scripts/audit-readings.mjs` 先查**簡編本官方離線資料** `scripts/data/concised-dict.json`（權威層，第一依據）—— 詞條收錄即抽目標字音節，對得上 pass、對不上即高信度錯誤；簡編本查無該詞才退 **moedict 修訂本 API**（退階粗篩層）。離線資料由 `npm run build-dict` 從教育部官方 xlsx 轉出（44399 詞，CC 授權；xlsx 6.7MB 不進 git，json 1.6MB 進 git）。
+- **moedict 退階層仍會誤報**：moedict 會把修訂本冷僻又音/語音當正讀，對「整句非詞條」的題退回單字比對時常**誤報「答案非第一正音」**。判讀牽涉又讀/多音爭議的 moedict 輸出，必須回簡編本覆核才算數（簡編本 `dict[詞]` 查詞、或 build-dict 註解內的 curl 線上查單詞）。**真實教訓**：曾靠 moedict + 記憶把「熙熙攘攘」改成 ㄖㄤˇ（修訂本音）、「逮捕」寫 ㄉㄞˋ、「連署」寫 ㄕㄨˇ、「湮滅」寫 ㄧㄢ，全被簡編本權威層打臉糾正回 ㄖㄤˊ / ㄉㄞˇ / ㄕㄨˋ / ㄧㄣ。
+- **誤報處置**：題目 text 為「語境句」非辭典詞條時，簡編本層查無整句 → 退 moedict 粗篩誤報。確認核心詞已回簡編本覆核正確後，把 id 加進 `VERIFIED_OK` 白名單並註明簡編本依據，**不要改題**。輕聲位置題庫寫後置（`ㄉㄨㄣ˙`）、萌典寫前置（`˙ㄉㄨㄣ`），`norm()` 已統一。
 - distractor 不得是 target 該字的另一個合法讀音（會變成「選項其實也對」的不公平題）。
 
 ## Realtime 好友對戰
