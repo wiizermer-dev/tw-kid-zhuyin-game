@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "validate": "node scripts/validate-bank.mjs",
-    "audit": "node scripts/audit-readings.mjs"
+    "audit": "node scripts/audit-readings.mjs",
+    "build-dict": "node scripts/build-concised-dict.mjs"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^5.0.0",

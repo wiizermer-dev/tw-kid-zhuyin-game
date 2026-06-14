@@ -1347,5 +1347,559 @@ export default [
     meaning: '聰慧靈敏；慧黠形容人既聰明又機靈',
     fun: '黠唸ㄒㄧㄚˊ不是ㄐㄧㄝˊ。旁邊雖有個「吉」，但這字聰明到不照偏旁出牌',
     tags: ['易讀錯', '成語'], difficulty: 4, era: 'classic'
+  },
+  // === 常見誤讀音表（圖片 490/491）匯入；訃聞、如法炮製已存在故略過 ===
+  {
+    id: 'tk-195', text: '菜脯蛋', target: '脯', zhuyin: 'ㄈㄨˇ',
+    distractors: ['ㄆㄨˊ', 'ㄅㄨˇ', 'ㄈㄨˊ'],
+    meaning: '菜脯即蘿蔔乾，菜脯蛋是台式家常菜',
+    fun: '同一個「脯」字，胸脯唸ㄆㄨˊ、菜脯唸ㄈㄨˇ，別把早餐店的菜脯蛋唸成菜ㄆㄨˊ蛋',
+    tags: ['易讀錯', '日常'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'tk-196', text: '茼蒿', target: '蒿', zhuyin: 'ㄏㄠ',
+    distractors: ['ㄍㄠ', 'ㄎㄠ', 'ㄏㄠˊ'],
+    meaning: '一種蔬菜，火鍋常見的「打某菜」',
+    fun: '蒿唸ㄏㄠ。冬天吃火鍋必點，唸對才點得到菜',
+    tags: ['易讀錯', '日常'], difficulty: 2, era: 'modern'
+  },
+  {
+    id: 'tk-197', text: '茭白筍', target: '茭', zhuyin: 'ㄐㄧㄠ',
+    distractors: ['ㄐㄧㄠˊ', 'ㄒㄧㄠ', 'ㄍㄠ'],
+    meaning: '一種水生蔬菜，又稱美人腿',
+    fun: '茭唸ㄐㄧㄠ。美人腿的正名要唸對才不失禮',
+    tags: ['易讀錯', '日常'], difficulty: 2, era: 'modern'
+  },
+  {
+    id: 'tk-198', text: '指桑罵槐', target: '槐', zhuyin: 'ㄏㄨㄞˊ',
+    distractors: ['ㄍㄨㄟˇ', 'ㄎㄨㄞˊ', 'ㄨㄞˇ'],
+    meaning: '比喻表面罵這個、實際針對那個',
+    fun: '槐唸ㄏㄨㄞˊ是槐樹。罵錯音的話就變成指桑罵「鬼」了',
+    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'tk-199', text: '戶樞不蠹', target: '蠹', zhuyin: 'ㄉㄨˋ',
+    distractors: ['ㄓㄨˋ', 'ㄉㄨˊ', 'ㄕㄨˇ'],
+    meaning: '常轉動的門軸不會被蟲蛀，比喻常運動就不易生病',
+    fun: '蠹唸ㄉㄨˋ，是蛀蟲。這字筆畫多到像被蟲蛀過',
+    tags: ['易讀錯', '成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'tk-200', text: '水中蛟龍', target: '蛟', zhuyin: 'ㄐㄧㄠ',
+    distractors: ['ㄐㄧㄠˇ', 'ㄐㄧㄠˋ', 'ㄒㄧㄠ'],
+    meaning: '蛟龍是傳說中能興雲雨的龍',
+    fun: '蛟唸ㄐㄧㄠ不是ㄐㄧㄠˇ。別把蛟龍唸成「攪」龍，那是在攪局',
+    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'tk-201', text: '占卜吉凶', target: '卜', zhuyin: 'ㄅㄨˇ',
+    distractors: ['ㄅㄨˊ', 'ㄆㄨˇ', 'ㄅㄛˋ'],
+    meaning: '用龜甲等方式預測吉凶',
+    fun: '卜唸ㄅㄨˇ。蘿蔔的蔔輕聲，但占卜的卜要唸三聲',
+    tags: ['易讀錯', '成語'], difficulty: 2, era: 'classic'
+  },
+  {
+    id: 'tk-202', text: '傾圮的古牆', target: '圮', zhuyin: 'ㄆㄧˇ',
+    distractors: ['ㄐㄧˇ', 'ㄅㄚ', 'ㄆㄠ'],
+    meaning: '圮指毀壞、倒塌',
+    fun: '圮唸ㄆㄧˇ不是ㄐㄧˇ。雖然長得像「己」，但它是會倒的牆',
+    tags: ['易讀錯', '文言'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'tk-203', text: '政治庇護', target: '庇', zhuyin: 'ㄅㄧˋ',
+    distractors: ['ㄆㄧˋ', 'ㄅㄧ', 'ㄆㄧˊ'],
+    meaning: '庇護指保護、袒護',
+    fun: '庇唸ㄅㄧˋ。庇護所要唸對音才庇得了你',
+    tags: ['易讀錯', '新聞常錯'], difficulty: 2, era: 'modern'
+  },
+  {
+    id: 'tk-204', text: '態度輕佻', target: '佻', zhuyin: 'ㄊㄧㄠ',
+    distractors: ['ㄊㄧㄠˊ', 'ㄊㄧㄠˇ', 'ㄓㄠˋ'],
+    meaning: '佻指言行不莊重、輕浮',
+    fun: '佻唸ㄊㄧㄠ。別跟「挑」食的挑混了',
+    tags: ['易讀錯'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'tk-205', text: '百折不撓', target: '撓', zhuyin: 'ㄋㄠˊ',
+    distractors: ['ㄋㄠˇ', 'ㄖㄠˊ', 'ㄠˊ'],
+    meaning: '意志堅定，無論受多少挫折都不屈服',
+    fun: '撓唸ㄋㄠˊ。百折不撓的人，連這個音都不會被折服',
+    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'tk-206', text: '木製砧板', target: '砧', zhuyin: 'ㄓㄣ',
+    distractors: ['ㄓㄢ', 'ㄔㄣ', 'ㄉㄧㄢˇ'],
+    meaning: '砧板是切菜用的墊板',
+    fun: '砧唸ㄓㄣ。廚房天天用，唸成「沾」板就尷尬了',
+    tags: ['易讀錯', '日常'], difficulty: 2, era: 'modern'
+  },
+  {
+    id: 'tk-207', text: '以蠡測海', target: '蠡', zhuyin: 'ㄌㄧˊ',
+    distractors: ['ㄌㄧˇ', 'ㄔㄨㄥˊ', 'ㄒㄧ'],
+    meaning: '用瓢來量海水，比喻見識淺薄',
+    fun: '蠡唸ㄌㄧˊ。范蠡的蠡也是這個音，唸對才測得了海',
+    tags: ['易讀錯', '成語'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'tk-208', text: '床單被褥', target: '褥', zhuyin: 'ㄖㄨˋ',
+    distractors: ['ㄖㄨˇ', 'ㄋㄨˋ', 'ㄖㄨˊ'],
+    meaning: '褥是墊在床上的鋪墊物',
+    fun: '褥唸ㄖㄨˋ。月子做的是坐月「子」，但被褥唸ㄖㄨˋ',
+    tags: ['易讀錯', '日常'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'tk-209', text: '觥籌交錯', target: '觥', zhuyin: 'ㄍㄨㄥ',
+    distractors: ['ㄏㄨㄤˊ', 'ㄍㄨㄤ', 'ㄐㄩㄝˊ'],
+    meaning: '酒杯與酒籌交互錯雜，形容宴飲熱鬧',
+    fun: '觥唸ㄍㄨㄥ，是古代酒器。唸對這題敬你一杯',
+    tags: ['易讀錯', '成語'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'tk-210', text: '大筆如椽', target: '椽', zhuyin: 'ㄔㄨㄢˊ',
+    distractors: ['ㄩㄢˊ', 'ㄊㄨㄢˊ', 'ㄔㄨㄢˇ'],
+    meaning: '椽是屋頂的木條，如椽大筆比喻寫作氣魄宏大',
+    fun: '椽唸ㄔㄨㄢˊ。雖然旁邊有個「彖」，但別唸成「緣」',
+    tags: ['易讀錯', '成語'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'tk-211', text: '嘉南大圳', target: '圳', zhuyin: 'ㄗㄨㄣˋ',
+    distractors: ['ㄔㄨㄢ', 'ㄓㄣˋ', 'ㄒㄩㄣˋ'],
+    meaning: '圳是田間的水溝，嘉南大圳是台灣著名水利工程',
+    fun: '圳唸ㄗㄨㄣˋ。深圳的圳也是這個音，台灣囝仔一定要會',
+    tags: ['易讀錯', '台灣'], difficulty: 4, era: 'modern'
+  },
+  {
+    id: 'tk-212', text: '街坊鄰居', target: '坊', zhuyin: 'ㄈㄤ',
+    distractors: ['ㄈㄤˊ', 'ㄈㄤˋ', 'ㄈㄤˇ'],
+    meaning: '坊指街市、里巷，街坊即左鄰右舍',
+    fun: '街坊鄰居的坊唸ㄈㄤ一聲，跟「房」ㄈㄤˊ不一樣',
+    tags: ['易讀錯', '日常'], difficulty: 2, era: 'modern'
+  },
+  {
+    id: 'tk-213', text: '絢麗多姿', target: '絢', zhuyin: 'ㄒㄩㄢˋ',
+    distractors: ['ㄒㄩㄣˊ', 'ㄐㄩㄢ', 'ㄒㄩㄢ'],
+    meaning: '絢指燦爛美麗',
+    fun: '絢唸ㄒㄩㄢˋ。別跟「詢」問的詢ㄒㄩㄣˊ搞混',
+    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'tk-214', text: '海市蜃樓', target: '蜃', zhuyin: 'ㄕㄣˋ',
+    distractors: ['ㄔㄣˊ', 'ㄉㄢˋ', 'ㄓㄣˋ'],
+    meaning: '光線折射形成的虛幻景象，比喻虛無不實的事物',
+    fun: '蜃唸ㄕㄣˋ，傳說是大蛤吐氣造成的幻景。唸對才不是幻覺',
+    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'tk-215', text: '鍥而不捨', target: '鍥', zhuyin: 'ㄑㄧㄝˋ',
+    distractors: ['ㄑㄧˋ', 'ㄐㄧㄝˊ', 'ㄒㄧㄝˊ'],
+    meaning: '不停地刻，比喻有恆心、堅持到底',
+    fun: '鍥唸ㄑㄧㄝˋ。鍥而不捨唸對音，你的注音也鍥而不捨了',
+    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'tk-216', text: '毫無瓜葛', target: '葛', zhuyin: 'ㄍㄜˊ',
+    distractors: ['ㄍㄜˇ', 'ㄏㄜˊ', 'ㄐㄧㄝˊ'],
+    meaning: '瓜葛比喻牽連、關係',
+    fun: '瓜葛的葛唸ㄍㄜˊ；姓諸葛、姓葛時才唸ㄍㄜˇ',
+    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'tk-217', text: '偶然邂逅', target: '逅', zhuyin: 'ㄏㄡˋ',
+    distractors: ['ㄍㄡˋ', 'ㄏㄡˇ', 'ㄎㄡˋ'],
+    meaning: '邂逅指不期而遇',
+    fun: '逅唸ㄏㄡˋ。和正確讀音來場美麗的邂逅',
+    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'tk-218', text: '販賣贗品', target: '贗', zhuyin: 'ㄧㄢˋ',
+    distractors: ['ㄧㄥ', 'ㄧㄢˊ', 'ㄢˋ'],
+    meaning: '贗品指假冒的物品',
+    fun: '贗唸ㄧㄢˋ。唸對音才分得清真品跟贗品',
+    tags: ['易讀錯', '新聞常錯'], difficulty: 4, era: 'modern'
+  },
+  {
+    id: 'tk-219', text: '逮捕犯人', target: '逮', zhuyin: 'ㄉㄞˇ',
+    distractors: ['ㄉㄞˋ', 'ㄉㄧˋ', 'ㄉㄟˇ'],
+    meaning: '逮捕指捉拿',
+    fun: '簡編本「逮捕」收ㄉㄞˇ；ㄉㄞˋ是「力有未逮」的逮，別搞混',
+    tags: ['易讀錯', '破音字', '新聞常錯'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'tk-220', text: '剽竊機密', target: '剽', zhuyin: 'ㄆㄧㄠˋ',
+    distractors: ['ㄆㄧㄠ', 'ㄆㄧㄠˇ', 'ㄅㄧㄠ'],
+    meaning: '剽竊指抄襲、竊取',
+    fun: '剽竊唸ㄆㄧㄠˋ。剽竊別人成果，連音都偷不對',
+    tags: ['易讀錯', '新聞常錯'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'tk-221', text: '面目可憎', target: '憎', zhuyin: 'ㄗㄥ',
+    distractors: ['ㄗㄣ', 'ㄘㄥˊ', 'ㄗㄥˋ'],
+    meaning: '憎指厭惡，面目可憎形容人外表令人討厭',
+    fun: '憎唸ㄗㄥ一聲。唸對音才不會面目可憎',
+    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'tk-222', text: '擄人勒贖', target: '勒', zhuyin: 'ㄌㄜˋ',
+    distractors: ['ㄌㄟ', 'ㄌㄟˋ', 'ㄌㄜ'],
+    meaning: '勒贖指綁架後索取財物',
+    fun: '勒贖唸ㄌㄜˋ；勒緊褲帶口語才唸ㄌㄟ',
+    tags: ['易讀錯', '破音字', '新聞常錯'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'tk-223', text: '車過枋寮', target: '枋', zhuyin: 'ㄈㄤ',
+    distractors: ['ㄈㄤˊ', 'ㄅㄤ', 'ㄈㄤˋ'],
+    meaning: '枋寮是屏東的鄉鎮名',
+    fun: '枋唸ㄈㄤ。搭南迴鐵路會經過，唸對才上得了車',
+    tags: ['易讀錯', '台灣'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'tk-224', text: '怏怏不樂', target: '怏', zhuyin: 'ㄧㄤˋ',
+    distractors: ['ㄧㄤ', 'ㄤˋ', 'ㄔㄤˋ'],
+    meaning: '怏怏形容不服氣、不快樂的樣子',
+    fun: '怏唸ㄧㄤˋ，不是「快」也不是「央」。心情怏怏，但音要唸對',
+    tags: ['易讀錯', '成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'tk-225', text: '泠泠作響', target: '泠', zhuyin: 'ㄌㄧㄥˊ',
+    distractors: ['ㄌㄥˇ', 'ㄌㄧㄥˋ', 'ㄌㄧㄥˇ'],
+    meaning: '泠泠形容清脆的聲音',
+    fun: '泠唸ㄌㄧㄥˊ，旁邊是「令」不是「冫」。別跟冷ㄌㄥˇ搞混',
+    tags: ['易讀錯', '文言'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'tk-226', text: '白雪皚皚', target: '皚', zhuyin: 'ㄞˊ',
+    distractors: ['ㄎㄞˇ', 'ㄐㄧㄝ', 'ㄞˇ'],
+    meaning: '皚皚形容潔白的樣子，多用來形容雪',
+    fun: '皚唸ㄞˊ。白雪皚皚唸對，畫面就乾淨了',
+    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'tk-227', text: '精神抖擻', target: '擻', zhuyin: 'ㄙㄡˇ',
+    distractors: ['ㄕㄡˋ', 'ㄙㄡ', 'ㄌㄡˇ'],
+    meaning: '抖擻指振作、有精神',
+    fun: '擻唸ㄙㄡˇ。唸對這題，精神都抖擻起來了',
+    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'tk-228', text: '話匣子', target: '匣', zhuyin: 'ㄒㄧㄚˊ',
+    distractors: ['ㄐㄧㄚˇ', 'ㄒㄧㄚˋ', 'ㄎㄚˇ'],
+    meaning: '匣是小盒子，打開話匣子比喻打開話題滔滔不絕',
+    fun: '匣唸ㄒㄧㄚˊ。一打開話匣子就停不下來',
+    tags: ['易讀錯', '日常'], difficulty: 2, era: 'modern'
+  },
+  {
+    id: 'tk-229', text: '閘道管制', target: '閘', zhuyin: 'ㄓㄚˊ',
+    distractors: ['ㄓㄚ', 'ㄓㄚˋ', 'ㄐㄧㄚˊ'],
+    meaning: '閘道是高速公路的出入口',
+    fun: '閘唸ㄓㄚˊ。連假塞在閘道時，唸對音排隊比較不無聊',
+    tags: ['易讀錯', '日常'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'tk-230', text: '紛至沓來', target: '沓', zhuyin: 'ㄊㄚˋ',
+    distractors: ['ㄉㄚˊ', 'ㄊㄚ', 'ㄓㄚˊ'],
+    meaning: '形容事情接連不斷地到來',
+    fun: '沓唸ㄊㄚˋ。好消息紛至沓來，唸對的音也是',
+    tags: ['易讀錯', '成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'tk-231', text: '斷壁殘垣', target: '垣', zhuyin: 'ㄩㄢˊ',
+    distractors: ['ㄏㄥˊ', 'ㄒㄩㄢ', 'ㄍㄥˋ'],
+    meaning: '垣是矮牆，斷壁殘垣形容房屋倒塌後的荒涼景象',
+    fun: '垣唸ㄩㄢˊ。別跟「恒」「桓」搞混，這是牆',
+    tags: ['易讀錯', '成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'tk-232', text: '身陷囹圄', target: '圄', zhuyin: 'ㄩˇ',
+    distractors: ['ㄨˊ', 'ㄐㄩ', 'ㄒㄩˇ'],
+    meaning: '囹圄是監牢，身陷囹圄指坐牢',
+    fun: '圄唸ㄩˇ，囹圄唸ㄌㄧㄥˊ ㄩˇ。被關進去前先把音唸對',
+    tags: ['易讀錯', '成語'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'tk-233', text: '針砭時事', target: '砭', zhuyin: 'ㄅㄧㄢ',
+    distractors: ['ㄅㄧㄢˇ', 'ㄈㄚˊ', 'ㄆㄧㄢ'],
+    meaning: '砭是古代治病的石針，針砭時事指評論時事缺失',
+    fun: '砭唸ㄅㄧㄢ。針砭時事的人，先把這個音針對好',
+    tags: ['易讀錯', '成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'tk-234', text: '棋高一著', target: '著', zhuyin: 'ㄓㄨㄛˊ',
+    distractors: ['ㄓㄠˊ', 'ㄓㄨˋ', 'ㄓㄜ'],
+    meaning: '棋藝高一步，比喻技高一籌',
+    fun: '簡編本「棋高一著」的著唸ㄓㄨㄛˊ，指下棋的一步；別唸成ㄓㄠˊ',
+    tags: ['易讀錯', '破音字', '成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'tk-235', text: '提綱挈領', target: '挈', zhuyin: 'ㄑㄧㄝˋ',
+    distractors: ['ㄑㄧˋ', 'ㄐㄧㄝˊ', 'ㄒㄧㄝˊ'],
+    meaning: '提起綱繩、抓住衣領，比喻抓住重點',
+    fun: '挈唸ㄑㄧㄝˋ。提綱挈領就是把重點音先挈起來',
+    tags: ['易讀錯', '成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'tk-236', text: '宵衣旰食', target: '旰', zhuyin: 'ㄍㄢˋ',
+    distractors: ['ㄏㄢˋ', 'ㄍㄢ', 'ㄩˋ'],
+    meaning: '天未亮就穿衣、天黑才吃飯，形容勤於政事',
+    fun: '旰唸ㄍㄢˋ。日字旁加干，是太陽下山的時候',
+    tags: ['易讀錯', '文言'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'tk-237', text: '繫上鞋帶', target: '繫', zhuyin: 'ㄐㄧˋ',
+    distractors: ['ㄒㄧˋ', 'ㄐㄧ', 'ㄐㄧˊ'],
+    meaning: '繫指綁、結',
+    fun: '繫鞋帶唸ㄐㄧˋ；聯繫、維繫才唸ㄒㄧˋ',
+    tags: ['易讀錯', '破音字', '日常'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'tk-238', text: '租賃契約', target: '賃', zhuyin: 'ㄌㄧㄣˋ',
+    distractors: ['ㄖㄣˋ', 'ㄌㄧㄣˊ', 'ㄐㄧㄣ'],
+    meaning: '賃指租用',
+    fun: '賃唸ㄌㄧㄣˋ。簽租賃契約前，先把這個音租對',
+    tags: ['易讀錯', '日常'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'tk-239', text: '衣服褪色', target: '褪', zhuyin: 'ㄊㄨㄣˋ',
+    distractors: ['ㄊㄨㄟˋ', 'ㄊㄨㄣ', 'ㄊㄨㄟ'],
+    meaning: '褪色指顏色脫落變淡',
+    fun: '褪色唸ㄊㄨㄣˋ；褪去衣物口語常唸ㄊㄨㄟˋ',
+    tags: ['易讀錯', '破音字', '日常'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'tk-240', text: '混為一談', target: '混', zhuyin: 'ㄏㄨㄣˋ',
+    distractors: ['ㄏㄨㄣˊ', 'ㄍㄨㄣˇ', 'ㄎㄨㄣˋ'],
+    meaning: '把不同的事情當成同一件事',
+    fun: '混唸ㄏㄨㄣˋ。別把ㄏㄨㄣˋ跟ㄏㄨㄣˊ混為一談',
+    tags: ['易讀錯', '成語'], difficulty: 2, era: 'classic'
+  },
+  {
+    id: 'tk-241', text: '命運多舛', target: '舛', zhuyin: 'ㄔㄨㄢˇ',
+    distractors: ['ㄔㄨㄢ', 'ㄔㄨㄢˋ', 'ㄐㄧㄝˊ'],
+    meaning: '舛指不順、差錯，命運多舛指一生坎坷',
+    fun: '舛唸ㄔㄨㄢˇ。唸錯這個音也算是命運多舛',
+    tags: ['易讀錯', '成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'tk-242', text: '全民連署', target: '署', zhuyin: 'ㄕㄨˋ',
+    distractors: ['ㄕㄨˇ', 'ㄓㄨˇ', 'ㄔㄨˇ'],
+    meaning: '署指簽名',
+    fun: '簡編本「連署」收ㄕㄨˋ。連署、簽署都是這個音',
+    tags: ['易讀錯', '新聞常錯'], difficulty: 2, era: 'modern'
+  },
+  {
+    id: 'tk-243', text: '懾人心魄', target: '懾', zhuyin: 'ㄓㄜˊ',
+    distractors: ['ㄕㄜˋ', 'ㄋㄧㄝˋ', 'ㄓㄜˋ'],
+    meaning: '懾指使人害怕、震懾',
+    fun: '懾唸ㄓㄜˊ。氣勢懾人，唸對音才震懾得了人',
+    tags: ['易讀錯', '成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'tk-244', text: '朝暾東升', target: '暾', zhuyin: 'ㄊㄨㄣ',
+    distractors: ['ㄉㄨㄣ', 'ㄔㄨㄣ', 'ㄊㄨㄣˊ'],
+    meaning: '暾指初升的太陽',
+    fun: '暾唸ㄊㄨㄣ。日字旁加敦，是早上剛升起的太陽',
+    tags: ['易讀錯', '文言'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'tk-245', text: '一畦菜園', target: '畦', zhuyin: 'ㄑㄧˊ',
+    distractors: ['ㄍㄨㄟ', 'ㄒㄧˊ', 'ㄨㄚ'],
+    meaning: '畦是田園中分區的小塊土地',
+    fun: '畦唸ㄑㄧˊ。一畦一畦的菜園，量詞唸對才種得整齊',
+    tags: ['易讀錯', '日常'], difficulty: 4, era: 'modern'
+  },
+  {
+    id: 'tk-246', text: '誨人不倦', target: '誨', zhuyin: 'ㄏㄨㄟˋ',
+    distractors: ['ㄏㄨㄟˇ', 'ㄇㄟˇ', 'ㄏㄨㄟ'],
+    meaning: '不厭倦地教導他人',
+    fun: '誨唸ㄏㄨㄟˋ。誨人不倦的誨，別跟後悔的悔ㄏㄨㄟˇ搞混',
+    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'tk-247', text: '討伐敵人', target: '伐', zhuyin: 'ㄈㄚ',
+    distractors: ['ㄈㄚˊ', 'ㄈㄚˋ', 'ㄈㄚˇ'],
+    meaning: '伐指攻打、征討',
+    fun: '討伐的伐其實唸ㄈㄚ一聲，很多人習慣唸ㄈㄚˊ',
+    tags: ['易讀錯', '成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'tk-248', text: '食髓知味', target: '髓', zhuyin: 'ㄙㄨㄟˇ',
+    distractors: ['ㄙㄨㄟˋ', 'ㄓㄨㄟˇ', 'ㄙㄨㄛˇ'],
+    meaning: '嘗到骨髓的美味，比喻嘗到甜頭後想再得到',
+    fun: '髓唸ㄙㄨㄟˇ。骨髓、精髓都唸這個音',
+    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'tk-249', text: '三折肱為良醫', target: '肱', zhuyin: 'ㄍㄨㄥ',
+    distractors: ['ㄏㄨㄥˊ', 'ㄍㄨㄥˇ', 'ㄐㄩㄥ'],
+    meaning: '多次折斷手臂就懂醫術，比喻經驗多自然精通',
+    fun: '肱唸ㄍㄨㄥ，是手臂。肱二頭肌的肱也是這個音',
+    tags: ['易讀錯', '成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'tk-250', text: '重大創傷', target: '創', zhuyin: 'ㄔㄨㄤ',
+    distractors: ['ㄔㄨㄤˋ', 'ㄔㄨㄤˇ', 'ㄘㄤˋ'],
+    meaning: '創指傷口、損傷',
+    fun: '創傷唸ㄔㄨㄤ；創造、創新才唸ㄔㄨㄤˋ',
+    tags: ['易讀錯', '破音字', '新聞常錯'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'tk-251', text: '笑靨迷人', target: '靨', zhuyin: 'ㄧㄝˋ',
+    distractors: ['ㄧㄢˋ', 'ㄝˋ', 'ㄧㄚˋ'],
+    meaning: '靨指酒窩，笑靨指微笑時的甜美樣子',
+    fun: '靨唸ㄧㄝˋ。笑靨如花，唸對音笑容更迷人',
+    tags: ['易讀錯', '文言'], difficulty: 5, era: 'classic'
+  },
+  {
+    id: 'tk-252', text: '新聞主播', target: '播', zhuyin: 'ㄅㄛˋ',
+    distractors: ['ㄅㄛ', 'ㄅㄞˋ', 'ㄆㄛˋ'],
+    meaning: '播指傳布、廣播',
+    fun: '播唸ㄅㄛˋ。主播、播報都是四聲，別唸成ㄅㄛ',
+    tags: ['易讀錯', '日常'], difficulty: 2, era: 'modern'
+  },
+  {
+    id: 'tk-253', text: '文壇巨擘', target: '擘', zhuyin: 'ㄅㄛˋ',
+    distractors: ['ㄅㄞ', 'ㄅㄧˋ', 'ㄆㄛˋ'],
+    meaning: '擘指大拇指，巨擘比喻傑出的人物',
+    fun: '擘唸ㄅㄛˋ。文壇巨擘就是該領域的大拇指',
+    tags: ['易讀錯', '成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'tk-254', text: '湮滅證據', target: '湮', zhuyin: 'ㄧㄣ',
+    distractors: ['ㄧㄢ', 'ㄓㄣ', 'ㄧㄢˋ'],
+    meaning: '湮滅指消滅、埋沒',
+    fun: '簡編本「湮滅」收ㄧㄣ；很多人受「煙」「淹」影響誤唸ㄧㄢ',
+    tags: ['易讀錯', '新聞常錯'], difficulty: 4, era: 'modern'
+  },
+  {
+    id: 'tk-255', text: '舉國哀悼', target: '悼', zhuyin: 'ㄉㄠˋ',
+    distractors: ['ㄓㄠˋ', 'ㄉㄧㄠˋ', 'ㄉㄠˇ'],
+    meaning: '悼指追念死者、哀傷',
+    fun: '悼唸ㄉㄠˋ。哀悼、追悼都是這個音',
+    tags: ['易讀錯', '新聞常錯'], difficulty: 2, era: 'modern'
+  },
+  {
+    id: 'tk-256', text: '庖丁解牛', target: '庖', zhuyin: 'ㄆㄠˊ',
+    distractors: ['ㄅㄠ', 'ㄆㄠ', 'ㄈㄨˇ'],
+    meaning: '廚師宰牛技術純熟，比喻技藝高超、得心應手',
+    fun: '庖唸ㄆㄠˊ，是廚師。庖丁是個叫「丁」的廚師',
+    tags: ['易讀錯', '成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'tk-257', text: '驀然回首', target: '驀', zhuyin: 'ㄇㄛˋ',
+    distractors: ['ㄇㄨˋ', 'ㄇㄨˇ', 'ㄇㄞ'],
+    meaning: '驀然指突然、忽然',
+    fun: '驀唸ㄇㄛˋ。驀然回首，唸對音那人就在燈火闌珊處',
+    tags: ['易讀錯', '成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'tk-258', text: '豢養動物', target: '豢', zhuyin: 'ㄏㄨㄢˋ',
+    distractors: ['ㄐㄩㄢˋ', 'ㄏㄨㄢˊ', 'ㄑㄩㄢ'],
+    meaning: '豢指餵養牲畜',
+    fun: '豢唸ㄏㄨㄢˋ。豢養跟「圈」養意思像，但音完全不同',
+    tags: ['易讀錯', '文言'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'tk-259', text: '風馳電掣', target: '掣', zhuyin: 'ㄔㄜˋ',
+    distractors: ['ㄓˋ', 'ㄓㄜˋ', 'ㄕˋ'],
+    meaning: '形容速度極快，像風和閃電一樣',
+    fun: '掣唸ㄔㄜˋ。風馳電掣，唸對音速度感才到位',
+    tags: ['易讀錯', '成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'tk-260', text: '大聲咆哮', target: '哮', zhuyin: 'ㄒㄧㄠ',
+    distractors: ['ㄒㄧㄠˋ', 'ㄒㄧㄠˊ', 'ㄒㄧㄠˇ'],
+    meaning: '哮指野獸吼叫、大聲叫喊',
+    fun: '哮唸ㄒㄧㄠ一聲。咆哮、哮喘都是這個音',
+    tags: ['易讀錯', '日常'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'tk-261', text: '剛毅木訥', target: '訥', zhuyin: 'ㄋㄜˋ',
+    distractors: ['ㄋㄚˋ', 'ㄋㄨˋ', 'ㄋㄟˋ'],
+    meaning: '訥指言語遲鈍、不善言辭',
+    fun: '訥唸ㄋㄜˋ。木訥的人話少，但這個音要唸清楚',
+    tags: ['易讀錯', '成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'tk-262', text: '沙渚', target: '渚', zhuyin: 'ㄓㄨˇ',
+    distractors: ['ㄓㄜˇ', 'ㄕㄨˇ', 'ㄉㄨˇ'],
+    meaning: '渚指水中的小塊陸地',
+    fun: '渚唸ㄓㄨˇ。江邊的小沙洲，唸對音才靠得了岸',
+    tags: ['易讀錯', '文言'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'tk-263', text: '熙熙攘攘', target: '攘', zhuyin: 'ㄖㄤˊ',
+    distractors: ['ㄖㄤˇ', 'ㄋㄤˊ', 'ㄖㄤˋ'],
+    meaning: '形容人來人往、熱鬧擁擠的樣子',
+    fun: '簡編本「熙熙攘攘」收ㄖㄤˊ。街上熙熙攘攘，唸對音才不會被人潮帶歪',
+    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'tk-264', text: '雌雄莫辨', target: '雌', zhuyin: 'ㄘ',
+    distractors: ['ㄘˊ', 'ㄗ', 'ㄔ'],
+    meaning: '分不出公母，比喻難分高下或真假',
+    fun: '雌唸ㄘ一聲。雌雄莫辨，但這個音不能莫辨',
+    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'tk-265', text: '喟然而嘆', target: '喟', zhuyin: 'ㄎㄨㄟˋ',
+    distractors: ['ㄨㄟˋ', 'ㄍㄨㄟˋ', 'ㄎㄨㄟˇ'],
+    meaning: '喟然指嘆氣的樣子',
+    fun: '喟唸ㄎㄨㄟˋ。喟然而嘆，連嘆氣前都要唸對音',
+    tags: ['易讀錯', '文言'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'tk-266', text: '脊椎側彎', target: '脊', zhuyin: 'ㄐㄧˇ',
+    distractors: ['ㄐㄧˊ', 'ㄑㄧˊ', 'ㄐㄧ'],
+    meaning: '脊指背脊、脊椎骨',
+    fun: '脊唸ㄐㄧˇ三聲。脊椎、脊樑都唸這個音，別唸成ㄐㄧˊ',
+    tags: ['易讀錯', '日常'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'tk-267', text: '集腋成裘', target: '腋', zhuyin: 'ㄧㄝˋ',
+    distractors: ['ㄧˋ', 'ㄧㄚˋ', 'ㄧㄠˋ'],
+    meaning: '聚集許多狐狸腋下的毛皮做成皮衣，比喻積少成多',
+    fun: '腋唸ㄧㄝˋ。腋下的腋，集腋成裘靠的是一點一點累積',
+    tags: ['易讀錯', '成語'], difficulty: 4, era: 'classic'
+  },
+  {
+    id: 'tk-268', text: '肌肉痙攣', target: '痙', zhuyin: 'ㄐㄧㄥˋ',
+    distractors: ['ㄐㄧㄥ', 'ㄐㄧㄥˇ', 'ㄎㄨㄥˋ'],
+    meaning: '痙攣指肌肉不自主地抽搐收縮',
+    fun: '痙唸ㄐㄧㄥˋ。痙攣ㄐㄧㄥˋ ㄌㄩㄢˊ，運動完抽筋就是它',
+    tags: ['易讀錯', '日常'], difficulty: 4, era: 'modern'
+  },
+  {
+    id: 'tk-269', text: '一陣抽搐', target: '搐', zhuyin: 'ㄔㄨˋ',
+    distractors: ['ㄒㄩˋ', 'ㄔㄨˇ', 'ㄓㄨˊ'],
+    meaning: '搐指肌肉不自主地抽動',
+    fun: '搐唸ㄔㄨˋ。抽搐的搐，旁邊有個「畜」但不唸ㄒㄩˋ',
+    tags: ['易讀錯', '日常'], difficulty: 4, era: 'modern'
+  },
+  {
+    id: 'tk-270', text: '文壇奇葩', target: '葩', zhuyin: 'ㄆㄚ',
+    distractors: ['ㄆㄚˊ', 'ㄅㄚ', 'ㄈㄚˊ'],
+    meaning: '葩指花，奇葩比喻奇特出眾的人或事物',
+    fun: '葩唸ㄆㄚ一聲。奇葩本是美好的花，別唸成ㄆㄚˊ',
+    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
+  },
+  {
+    id: 'tk-271', text: '有稜有角', target: '稜', zhuyin: 'ㄌㄥˊ',
+    distractors: ['ㄌㄧㄥˊ', 'ㄌㄥˋ', 'ㄌㄧㄥˋ'],
+    meaning: '稜指物體的邊角，有稜有角形容性格鮮明或物體輪廓分明',
+    fun: '稜唸ㄌㄥˊ。有稜有角，連這個音都有個性',
+    tags: ['易讀錯', '日常'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'tk-272', text: '出現紕漏', target: '紕', zhuyin: 'ㄆㄧ',
+    distractors: ['ㄆㄧˊ', 'ㄅㄧˇ', 'ㄆㄧˋ'],
+    meaning: '紕漏指疏忽造成的錯誤',
+    fun: '紕唸ㄆㄧ一聲。出了紕漏，先別讓讀音也出紕漏',
+    tags: ['易讀錯', '日常'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'tk-273', text: '身世坎坷', target: '坷', zhuyin: 'ㄎㄜˇ',
+    distractors: ['ㄎㄜ', 'ㄎㄜˋ', 'ㄎㄚˇ'],
+    meaning: '坎坷指道路不平，比喻遭遇困頓不順',
+    fun: '坷唸ㄎㄜˇ。身世坎坷已經夠慘，別連音也唸坷',
+    tags: ['易讀錯', '成語'], difficulty: 3, era: 'classic'
   }
 ];
