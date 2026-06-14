@@ -1,6 +1,6 @@
 /** 選題器 — 所有玩法唯一的取題入口 */
 import { BANK } from '../data/bank/index.js';
-import { mulberry32, shuffleWith } from './rng.js';
+import { mulberry32, shuffleWith, dailySeed } from './rng.js';
 
 /** 錯率校正後的難度覆蓋 { id: difficulty }。
  * 只有單人非共享 seed 模式（sprint / levels）吃覆蓋：
@@ -107,6 +107,33 @@ export function drawHarderQuestion({ wantDifficulty, categories = null, usedIds 
     if (pool.length) return toQuestion(shuffleWith(rand, pool)[0], rand);
   }
   return null;
+}
+
+/**
+ * 算出今天每日挑戰要排除的題 id：逐日往前重現過去 `days` 天各自選出的題。
+ * 全球同日得到同一份排除清單（皆由日期決定），不破壞「全世界今天同一份考卷」。
+ * 難度下限由呼叫端傳入的 `minForDate` 提供（真相來源在 modes.js，避免複製檔位邏輯）。
+ * @param {Date} date 今天
+ * @param {number} days 往前回溯天數
+ * @param {number} count 每日題數（須與 daily config 一致）
+ * @param {(d: Date) => number} minForDate 給日期回傳該天 minDifficulty
+ * @returns {string[]} 近期出過的題 id
+ */
+export function dailyExcludeIds(date, days, count, minForDate) {
+  const seen = [];
+  // 由最舊往今天逐日重現，每天帶入「更早已出過的題」與 daily 實際取題一致
+  for (let d = days; d >= 1; d -= 1) {
+    const day = new Date(date.getTime() - d * 86400000);
+    const ids = selectQuestions({
+      count,
+      seed: dailySeed(day),
+      minDifficulty: minForDate(day),
+      maxDifficulty: 5,
+      excludeIds: seen
+    }).map(q => q.id);
+    seen.push(...ids);
+  }
+  return [...new Set(seen)];
 }
 
 export { BANK };

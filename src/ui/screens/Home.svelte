@@ -1,5 +1,5 @@
 <script>
-  import { MODES } from '../../modes.js';
+  import { MODES, dailyDifficulty } from '../../modes.js';
   import { storage } from '../../core/storage.js';
   import { dailySeed } from '../../core/rng.js';
   import ZhuyinGlyph from '../components/ZhuyinGlyph.svelte';
@@ -11,6 +11,7 @@
 
   let streak = $derived(storage.getDailyStreak());
   let dailyDone = $derived(!!storage.getDailyRecord(dailySeed()));
+  const todayDifficulty = dailyDifficulty();
   let sprintBest = $derived(storage.getSprintBest());
   let levelStars = $derived(storage.getLevelStars());
   let totalStars = $derived(Object.values(levelStars).reduce((a, b) => a + b, 0));
@@ -131,7 +132,7 @@
       </span>
       <span class="mode-body">
         <b>{MODES.daily.name}</b>
-        <small>{MODES.daily.blurb}</small>
+        <small>{MODES.daily.blurb}・今日難度 <strong class="daily-diff">{todayDifficulty.label}</strong></small>
       </span>
       <span class="mode-badge">
         {#if dailyDone}看今日成績{:else if streak.count > 0}連 {streak.count} 天{:else}NEW{/if}
@@ -282,6 +283,7 @@
   .mode-body { flex: 1; display: flex; flex-direction: column; gap: 0.15rem; }
   .mode-body b { font-size: 1.1rem; }
   .mode-body small { color: var(--ink-soft); }
+  .daily-diff { color: var(--sun, #e8a200); font-weight: 700; }
   .mode-badge {
     font-size: 0.78rem;
     font-weight: 800;

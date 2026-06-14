@@ -1,5 +1,25 @@
 /** 模式設定 — 玩法只是引擎的不同參數 */
-import { dailySeed } from './core/rng.js';
+import { dailySeed, hashSeed } from './core/rng.js';
+import { dailyExcludeIds } from './core/bank.js';
+
+/** 每日挑戰難度檔位：用當日 seed 決定性挑一檔，全球同日同檔。
+ * 最低檔 min:2（排掉最簡單的難度 1），呼應「每日是全民考卷但不該太水」。 */
+export const DAILY_DIFFICULTIES = {
+  medium: { key: 'medium', label: '中等', min: 2 },
+  hard: { key: 'hard', label: '困難', min: 3 },
+  insane: { key: 'insane', label: '超難', min: 4 }
+};
+
+/** 依當日 seed 決定性挑出今天的難度檔位（全球一致）。 */
+export function dailyDifficulty(date = new Date()) {
+  const keys = Object.keys(DAILY_DIFFICULTIES);
+  const idx = hashSeed(`difficulty-${dailySeed(date)}`) % keys.length;
+  return DAILY_DIFFICULTIES[keys[idx]];
+}
+
+// 每日挑戰排除近 7 天出過的題（決定性，全球一致，不破壞同題）
+const DAILY_EXCLUDE_DAYS = 7;
+const DAILY_COUNT = 15;
 
 // icon 為注音符號（以 ZhuyinGlyph SVG 呈現），tint 對應 theme.css 色票
 export const MODES = {
@@ -9,7 +29,14 @@ export const MODES = {
     icon: 'ㄖ',
     tint: 'sun',
     blurb: '全世界今天同一份考卷',
-    config: () => ({ count: 10, seed: dailySeed(), minDifficulty: 1, maxDifficulty: 5 })
+    // 難度由當日 seed 決定性挑檔；excludeIds 由近 7 天每日題決定性重現（皆全球一致）。
+    config: (date = new Date()) => ({
+      count: DAILY_COUNT,
+      seed: dailySeed(date),
+      minDifficulty: dailyDifficulty(date).min,
+      maxDifficulty: 5,
+      excludeIds: dailyExcludeIds(date, DAILY_EXCLUDE_DAYS, DAILY_COUNT, d => dailyDifficulty(d).min)
+    })
   },
   sprint: {
     key: 'sprint',
