@@ -143,17 +143,15 @@
         font-style: normal;
         font-display: swap;
       }
-      /* SEO fallback：Svelte mount 時會清掉 #app 內容，只有不跑 JS 的爬蟲看得到 */
+      /*
+       * SEO fallback：給不跑 JS 的爬蟲讀的純文字。
+       * display:none 讓真人瀏覽器不渲染它（避免 main.js 清除前那一瞬的 FOUC 閃動），
+       * 但 DOM 文字仍在 HTML 裡，爬蟲讀 raw HTML 不受 display:none 影響。
+       * 真人路徑：main.js mount 前 innerHTML='' 清掉，本來就看不到。
+       */
       .seo-fallback {
-        max-width: 42rem;
-        margin: 0 auto;
-        padding: 2rem 1.25rem;
-        font-family: system-ui, -apple-system, "Noto Sans TC", sans-serif;
-        line-height: 1.7;
-        color: #3a2a1a;
+        display: none;
       }
-      .seo-fallback h1 { font-size: 1.8rem; }
-      .seo-fallback h2 { font-size: 1.25rem; margin-top: 1.5rem; }
     </style>
   </head>
   <body>
