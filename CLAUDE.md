@@ -24,6 +24,8 @@ npm run audit      # 對教育部辭典稽核題庫注音（改題庫必跑）
 
 ## 題庫品管（改題必讀）
 
+> 審注音標準流程與血淚教訓見 **[docs/audit-playbook.md](docs/audit-playbook.md)**（改 zhuyin 前必讀）。鐵則：簡編本唯一第一依據、moedict 退階會帶人歪、白名單可能掩蓋真錯（要定期 `node scripts/reaudit-concised.mjs` 忽略白名單全庫重審）。
+
 - 題目 schema：`{ id, text, target(單字，須在 text 中), zhuyin, distractors[1-3], meaning, fun, tags[], difficulty(1-5), era }`。id 前綴對應類別（tk/pp/rr/id/md/cl/ly/fc）連號。
 - **反考字題（pickchar，`kind: 'char'`）**：給語境＋注音挑「正確的字」，distractors 放形近／常見誤寫字（非注音）；正解選項 = target。誘答字不得是教育部辭典收錄的同語境異形寫法（如「再接再礪」辭典也收，不可當誘答）。zhuyin 仍為 target 正讀，audit 照常稽核。
 - **辭典優先序**：審注音一律以教育部《國語辭典簡編本》(concised, `dict.concised.moe.edu.tw`) 為第一依據（中小學教學標準，收音嚴謹貼課綱）。**只有簡編本查不到才退查《重編國語辭典修訂本》(moedict, `moedict.tw`)**。
