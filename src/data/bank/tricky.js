@@ -1340,5 +1340,12 @@ export default [
     meaning: '摔放、弄倒；撂倒指把人打倒在地',
     fun: '撂唸ㄌㄧㄠˋ。柔道課學會撂倒對手之前，先把這個音撂穩',
     tags: ['易讀錯', '日常'], difficulty: 3, era: 'modern'
+  },
+  {
+    id: 'tk-194', text: '慧黠機伶', target: '黠', zhuyin: 'ㄒㄧㄚˊ',
+    distractors: ['ㄐㄧㄝˊ', 'ㄐㄧㄚˊ', 'ㄐㄧˊ'],
+    meaning: '聰慧靈敏；慧黠形容人既聰明又機靈',
+    fun: '黠唸ㄒㄧㄚˊ不是ㄐㄧㄝˊ。旁邊雖有個「吉」，但這字聰明到不照偏旁出牌',
+    tags: ['易讀錯', '成語'], difficulty: 4, era: 'classic'
   }
 ];

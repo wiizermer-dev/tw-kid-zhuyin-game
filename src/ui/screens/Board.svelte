@@ -93,6 +93,10 @@
   let wrongList = $derived(isWrongTab ? (wrongRows ?? localWrong) : []);
   const myName = storage.getPlayerName();
   const MEDALS = ['🥇', '🥈', '🥉'];
+
+  // 長名字壓著顯示全名：按住該列名字解除截斷展開全名，手放開即復原。
+  // 桌面另靠 title 屬性 hover 顯示。
+  let heldName = $state(null);   // 目前壓住展開的列 index（null = 無）
 </script>
 
 <div class="screen">
@@ -189,7 +193,15 @@
         {#each rows as r, i}
           <li class="card row pop-in" class:me={r.name === myName} style:animation-delay="{i * 0.03}s">
             <span class="rank">{MEDALS[i] ?? i + 1}</span>
-            <span class="name">{r.name}</span>
+            <span
+              class="name"
+              class:held={heldName === i}
+              title={r.name}
+              onpointerdown={() => (heldName = i)}
+              onpointerup={() => (heldName = null)}
+              onpointerleave={() => (heldName = null)}
+              onpointercancel={() => (heldName = null)}
+            >{r.name}</span>
             {#if (r.maxCombo ?? r.max_combo) > 0}
               <span class="combo" title="最高連擊">連擊 ×{r.maxCombo ?? r.max_combo}</span>
             {/if}
@@ -246,7 +258,15 @@
   }
   .row.me { box-shadow: 0 0 0 3px var(--mint), var(--shadow-card); }
   .rank { width: 2rem; text-align: center; font-weight: 900; }
-  .name { flex: 1; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .name {
+    flex: 1; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    cursor: pointer; user-select: none; -webkit-user-select: none; touch-action: none;
+  }
+  /* 壓住時展開全名：解除截斷、允許換行，名字佔多行也完整可讀 */
+  .name.held {
+    overflow: visible; text-overflow: clip; white-space: normal;
+    word-break: break-word; color: var(--berry-deep);
+  }
   .combo { color: var(--berry-deep); font-weight: 800; font-size: 0.85rem; }
   .pts { font-weight: 900; color: var(--sun); font-size: 1.1rem; }
 

@@ -66,10 +66,15 @@ function twDateKey(iso) {
 }
 
 /**
- * 榜首連霸：每日該模式分數最高者為當日榜首，連續霸佔即連霸。
+ * 榜首連霸：每日「截至當日為止 all-time 累積最高分」最高者為當日王座持有者，連續霸佔即連霸。
  * 純前端用 runs 既有資料推算（不動 DB schema），跨裝置一致性靠每次重抓重算。
+ *
+ * 王座口徑刻意與 fetchBoard 一致（all-time 最高分），故 current 榜首必然 = 分數榜第一名，
+ * 不會出現「橫幅說你登頂但榜上有人更高」的矛盾。
+ * （舊版用「當日單日最高分」當榜首，與 all-time 排序的分數榜口徑不符，已修正。）
+ *
  * @returns {Promise<{ current: { browserId, name, days, since }|null, longest: { name, days } }|null>}
- *   current 為「目前連霸中」的榜首（最近一日榜首往前連續同人的天數）；longest 為歷代最長連霸。
+ *   current 為「目前連霸中」的王座持有者（最近一日往前連續同人的天數）；longest 為歷代最長連霸。
  */
 export async function fetchReignStreak(mode, { room = null, lookbackDays = 120 } = {}) {
   if (!supabase) return null;
@@ -87,15 +92,33 @@ export async function fetchReignStreak(mode, { room = null, lookbackDays = 120 }
     }
     if (!data?.length) return { current: null, longest: { name: '', days: 0 } };
 
-    // 每日榜首：同日多筆取最高分（同分取先達成者）
+    // 當日王座 = 截至當日為止「各人 all-time 最高分」中分數最高者。
+    // 逐筆按時間累積各人歷史最高分，每天結束時取榜首快照，得出該日王座持有者。
+    // 同分時王座留給先達到該分數者（先達成者保有寶座，後來者追平不奪位）。
     const champByDay = new Map(); // dateKey -> { browser_id, name, score }
+    const bestById = new Map();   // browser_id -> { name, score, since }（all-time 累積最高分）
+    let curDay = null;
+    const snapshotChamp = (day) => {
+      let top = null;
+      for (const [id, b] of bestById) {
+        if (!top || b.score > top.score || (b.score === top.score && b.since < top.since)) {
+          top = { browser_id: id, name: b.name, score: b.score, since: b.since };
+        }
+      }
+      if (top) champByDay.set(day, { browser_id: top.browser_id, name: top.name, score: top.score });
+    };
     for (const r of data) {
       const day = twDateKey(r.created_at);
-      const cur = champByDay.get(day);
-      if (!cur || r.score > cur.score) {
-        champByDay.set(day, { browser_id: r.browser_id ?? r.name, name: r.name, score: r.score });
+      if (curDay !== null && day !== curDay) snapshotChamp(curDay);
+      curDay = day;
+      const id = r.browser_id ?? r.name;
+      const prev = bestById.get(id);
+      if (!prev || r.score > prev.score) {
+        // since 記「達到此最高分的時間」，供同分王座爭奪時讓先達成者保有寶座
+        bestById.set(id, { name: r.name, score: r.score, since: r.created_at });
       }
     }
+    if (curDay !== null) snapshotChamp(curDay);
 
     // 依日期排序後掃連續同人段落
     const days = [...champByDay.keys()].sort();
