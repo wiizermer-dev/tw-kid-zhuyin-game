@@ -796,10 +796,10 @@ export default [
     tags: ['易讀錯', '日常'], difficulty: 2, era: 'classic'
   },
   {
-    id: 'tk-116', text: '果實累累', target: '累', zhuyin: 'ㄌㄟˊ',
-    distractors: ['ㄌㄟˇ', 'ㄌㄟˋ', 'ㄌㄟ'],
+    id: 'tk-116', text: '果實累累', target: '累', zhuyin: 'ㄌㄟˇ',
+    distractors: ['ㄌㄟˊ', 'ㄌㄟˋ', 'ㄌㄟ'],
     meaning: '果實成串繁多的樣子',
-    fun: '結果用的累唸ㄌㄟˊ。果樹結果結到很累？那是你',
+    fun: '簡編本「累累」收ㄌㄟˇ ㄌㄟˇ；別唸成ㄌㄟˊ或勞累的ㄌㄟˋ',
     tags: ['易讀錯', '破音字'], difficulty: 4, era: 'classic'
   },
   {
@@ -1413,10 +1413,10 @@ export default [
     tags: ['易讀錯', '新聞常錯'], difficulty: 2, era: 'modern'
   },
   {
-    id: 'tk-204', text: '態度輕佻', target: '佻', zhuyin: 'ㄊㄧㄠ',
-    distractors: ['ㄊㄧㄠˊ', 'ㄊㄧㄠˇ', 'ㄓㄠˋ'],
+    id: 'tk-204', text: '態度輕佻', target: '佻', zhuyin: 'ㄊㄧㄠˊ',
+    distractors: ['ㄊㄧㄠ', 'ㄊㄧㄠˇ', 'ㄓㄠˋ'],
     meaning: '佻指言行不莊重、輕浮',
-    fun: '佻唸ㄊㄧㄠ。別跟「挑」食的挑混了',
+    fun: '簡編本「輕佻」收ㄊㄧㄠˊ；別唸成一聲ㄊㄧㄠ',
     tags: ['易讀錯'], difficulty: 3, era: 'classic'
   },
   {
