@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+# 審題報告頁為內部稽核用途，不需收錄
+Disallow: /%E3%84%95%E3%84%A3%CB%87%E3%84%8A%E3%84%A7%CB%8A/
+
+Sitemap: https://zhuyin-run.vercel.app/sitemap.xml

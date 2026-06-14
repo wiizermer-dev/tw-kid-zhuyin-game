@@ -1,0 +1,31 @@
+{
+  "name": "注音王 — 台灣生難字注音對決遊戲",
+  "short_name": "注音王",
+  "description": "台灣生難字注音對決遊戲，收錄 900+ 題易讀錯字、破音字、成語、古文詩詞與流行歌詞。每日挑戰、限時衝刺、闖關冒險、好友對戰。",
+  "lang": "zh-Hant-TW",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFF7E8",
+  "theme_color": "#FFF7E8",
+  "categories": ["education", "games"],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

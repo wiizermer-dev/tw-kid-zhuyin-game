@@ -34,3 +34,6 @@ dist-ssr
 # 審題報告快照（可由 fetch-reviews + build-review-report 重新產出）
 review-report.json
 review-report.html
+
+# 字型子集化中間產物（由 scripts/subset-font.mjs 產出）
+scripts/.font-unicodes.txt
