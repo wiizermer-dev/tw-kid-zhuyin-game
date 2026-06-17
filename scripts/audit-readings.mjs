@@ -188,6 +188,7 @@ const problems = [];
 const unverified = [];
 
 for (const q of BANK) {
+  if (q.kind === 'fact') continue; // 端午 fun fact 知識題無 zhuyin，走史實人工核非字音 audit（spec §1.2）
   const text = q.text;
   const target = q.target;
   const ans = norm(q.zhuyin);

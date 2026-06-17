@@ -2,6 +2,10 @@
 import { BANK } from '../data/bank/index.js';
 import { mulberry32, shuffleWith, dailySeed } from './rng.js';
 
+/** Event 限定類別：categories=null（一般模式全選）時母池排除這些，
+ * 只有顯式 categories 帶到才抽得到。避免端午題全年亂入 daily/sprint/levels。 */
+export const EVENT_ONLY_CATEGORIES = ['duanwu'];
+
 /** 錯率校正後的難度覆蓋 { id: difficulty }。
  * 只有單人非共享 seed 模式（sprint / levels）吃覆蓋：
  * daily / duel 全玩家同 seed 同題，各人覆蓋 fetch 時間不同會選出不同題，破壞決定性。 */
@@ -22,7 +26,8 @@ function diffOf(q, calibrated) {
  * @param {string|number} [opts.seed] 種子；不給則隨機
  * @param {number} [opts.minDifficulty=1]
  * @param {number} [opts.maxDifficulty=5]
- * @param {string[]} [opts.categories] 限定類別（bank index 的 key）
+ * @param {string[]} [opts.categories] 限定類別（bank index 的 key）；不給時排除 event-only 類別
+ * @param {string} [opts.chapter] 限定章節（duanwu 關用，鎖主題；只在帶 categories 時有意義）
  * @param {string[]} [opts.excludeIds] 排除的題目 id（近期出過；超過池子可容納上限時只保留最近的）
  * @param {string[]} [opts.onlyIds] 只從這些 id 選（錯題特訓用）
  * @param {boolean} [opts.calibrated=false] 套用錯率校正難度（僅限非共享 seed 模式）
@@ -34,6 +39,7 @@ export function selectQuestions({
   minDifficulty = 1,
   maxDifficulty = 5,
   categories = null,
+  chapter = null,
   excludeIds = [],
   onlyIds = null,
   calibrated = false
@@ -46,11 +52,17 @@ export function selectQuestions({
     return shuffleWith(rand, pool).slice(0, count).map(q => toQuestion(q, rand));
   }
 
+  // 類別範圍：顯式 categories 用 includes；categories=null 排除 event-only 類別。
+  // chapter 另外鎖主題（只在 duanwu 這種帶 chapter 的題上有意義；其他題無 chapter 欄位）。
+  const inCategory = q =>
+    (categories ? categories.includes(q.category) : !EVENT_ONLY_CATEGORIES.includes(q.category)) &&
+    (!chapter || q.chapter === chapter);
+
   // 符合難度/類別的母池（不含排除）
   const inScope = BANK.filter(q =>
     diffOf(q, calibrated) >= minDifficulty &&
     diffOf(q, calibrated) <= maxDifficulty &&
-    (!categories || categories.includes(q.category))
+    inCategory(q)
   );
 
   // 排除清單上限：最多排到「母池容得下且本場仍抽得滿」的程度。
@@ -62,21 +74,29 @@ export function selectQuestions({
 
   let pool = inScope.filter(q => !excluded.has(q.id));
 
-  // 仍不夠（排除上限已收斂，理論上罕見）時放寬難度限制
+  // 仍不夠（排除上限已收斂，理論上罕見）時放寬難度限制（仍守類別/章節範圍）
   if (pool.length < count) {
-    pool = BANK.filter(q => !excluded.has(q.id) && (!categories || categories.includes(q.category)));
+    pool = BANK.filter(q => !excluded.has(q.id) && inCategory(q));
   }
   if (pool.length < count) {
-    pool = BANK.filter(q => !categories || categories.includes(q.category));
+    pool = BANK.filter(q => inCategory(q));
   }
 
   return shuffleWith(rand, pool).slice(0, count).map(q => toQuestion(q, rand));
 }
 
-// 每題呈現 3 選項（1 正解 + 2 誘答）。題庫每題備至多 3 個 distractors，
-// 決定性洗牌後取前 2 個，保留 seed 可重現性（同房同題組選項一致）。
-// kind: 'char'（反考字）選項是「字」（正解 = target）；預設選項是注音（正解 = zhuyin）。
+// 每題呈現選項物件陣列，正解標記 correct: true，決定性洗牌（同 seed 同題組選項一致）。
+// kind: 'fact'（端午知識題）選項是預建多字文字陣列（item.options），正解由 item.answer index 標；
+//   4 選項全留、只洗牌（無 distractors 機制）。
+// kind: 'char'（反考字）選項是「字」（正解 = target）；其餘為注音題（正解 = zhuyin），取至多 3 個 distractors 的前 2 個。
 function toQuestion(item, rand) {
+  if (item.kind === 'fact') {
+    const options = shuffleWith(
+      rand,
+      item.options.map((text, i) => ({ text, correct: i === item.answer }))
+    );
+    return { ...item, options };
+  }
   const picks = shuffleWith(rand, item.distractors).slice(0, 2);
   const isChar = item.kind === 'char';
   const key = isChar ? 'char' : 'zhuyin';
