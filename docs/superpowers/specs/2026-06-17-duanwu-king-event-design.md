@@ -114,7 +114,7 @@ home（端午王入口卡）
 
 ### 2.3 跨場進度鉤（CEO review 11A，Phase 1 必做）
 
-DuanwuQuest 畫面頂部常駐一條進度鉤：`🍡 {zongziTotal}/50 · 還差 {5-levelsCleared} 關救屈原`。成本極低（讀 progress 推文字），但這是跨場回訪的主動力來源 — 孩子看到「還差 2 關就救出屈原」會明天再玩。屬 Phase 1 scope，不是 polish 後補。
+DuanwuQuest 畫面頂部常駐一條進度鉤：`[Q版粽子SVG] {zongziTotal}/50 · 還差 {5-levelsCleared} 關救屈原`（圖示用 §5.1/§3 的 Q 版粽子 SVG component，**非 emoji**）。成本極低（讀 progress 推文字），但這是跨場回訪的主動力來源 — 孩子看到「還差 2 關就救出屈原」會明天再玩。屬 Phase 1 scope，不是 polish 後補。
 
 ### 2.4 解鎖規則
 
@@ -158,7 +158,7 @@ DuanwuQuest 畫面頂部常駐一條進度鉤：`🍡 {zongziTotal}/50 · 還差
   - 空白鍵 / 點螢幕中間 → 跳起（短暫無敵躍過障礙）。**滯空中再按跳無效**（忽略輸入直到落地，不做 double-jump）
 - **河面向下捲動**，從頂端隨機生成兩種物件：
   - 障礙物（石頭 🪨 / 漩渦 🌀）→ 撞到 -1 條命
-  - 粽子 🍡 → 撿到 +1，目標採滿 10 顆
+  - 粽子（Q 版粽子 SVG，非 emoji）→ 撿到 +1，目標採滿 10 顆
 - **碰撞**：AABB（軸對齊矩形），物件陣列每幀更新 y 位置、檢查與龍舟重疊。**物件捲出畫面底部即從陣列移除**（cull），避免陣列在一輪內無上限成長
 - **生命**：龍舟 3 條命。撞障礙 -1。**命歸零 = 這輪龍舟失敗，重跑該關龍舟（題目不用重答）**
 - **完成合約（CEO review 1A）**：`onComplete(n)` 一律回傳實際採到的粽子數 `n`（0-10），不分成功/失敗走同一個 callback。
@@ -170,7 +170,9 @@ DuanwuQuest 畫面頂部常駐一條進度鉤：`🍡 {zongziTotal}/50 · 還差
 
 ### 果汁感（純 Canvas，零 3D）
 
-- sprite：**核心碰撞物（粽子、障礙、龍舟）用 inline SVG/path，不用 emoji**（Codex #9）。emoji 跨平台外觀/尺寸/baseline/缺字不穩，拿來當碰撞物 hitbox 會漂、視覺不一致。emoji 只可用在非碰撞的純裝飾（背景點綴）。
+- sprite：**核心碰撞物（粽子、障礙、龍舟）用 inline SVG/path，不用 emoji**（Codex #9 + user 指示）。emoji 跨平台外觀/尺寸/baseline/缺字不穩，拿來當碰撞物 hitbox 會漂、視覺不一致。
+- **粽子一律用「Q 版粽子 SVG」，禁用 emoji 糰子（🍡 其實是日式糰子 dango，非粽子）**：手繪一個 Q 版粽子 inline SVG —— 三角粽形、深綠粽葉包裹（用 `--reed`）、露出米白／糯米色尖角、可加一條綁繩，圓潤可愛貼 candy 調性。此 SVG 是**全 event 唯一的粽子資產**，arcade collectible、進度鉤、result/結局慶祝、分享卡全部共用同一個 SVG component（如 `src/ui/components/Zongzi.svelte` 或 theme 內的 SVG symbol），不得各畫面各畫一版。
+- 其餘 sprite：龍舟 🐉🛶 改 inline SVG（江上龍舟剪影 + 龍頭）、障礙改 SVG（石頭/漩渦）。emoji 只可用在純裝飾背景點綴（非碰撞、非核心識別物）。
 - 河面漸層波光（canvas gradient + 簡單正弦波動）
 - 撿粽子彈跳 particle、龍舟左右擺動 tween
 - 不做 3D model、相機、光照
@@ -230,6 +232,68 @@ export const levelsCleared = (p) => p.clearedLevels.length;
 
 ---
 
+## 5. 視覺設計（Design review）
+
+> 校準基準：現有 `src/ui/theme.css` 設計系統 —— 糖果色 × 課本楷書 × 果凍彈跳。所有 event 視覺貼這套，不引入新視覺語言（避免 AI slop；本 event AI-slop 風險低 9/10，因繼承獨特設計系統）。
+
+### 5.1 端午配色（Design review D3 + user：結合端午元素）
+
+現有 5 tint（berry/mint/sun/grape/leaf）已被 daily/sprint/levels/duel 佔用。端午 event 需獨立視覺認同，新增一組**端午專屬配色**，每色綁一個真實端午元素，加進 `theme.css`：
+
+| token | 色值 | 端午元素 | 用途 |
+|---|---|---|---|
+| `--reed` | `#5BA86B` | 艾草／菖蒲綠（掛門驅邪） | **event 主 tint** — 入口卡、quest hero、主 CTA |
+| `--reed-deep` | `#3E8A52` | 深艾草 | jelly 按鈕下緣陰影（對齊 `.btn` offset shadow 慣例） |
+| `--river` | `#3FA7C4` | 汨羅江青藍（龍舟競渡） | arcade 河面、次要 accent |
+| `--zong` | `#C97B3A` | 粽葉烤糯米褐 | Q 版粽子 SVG 的米色尖角、進度鉤、粽子 collectible 高亮 |
+| `--cinnabar` | `#E5544A` | 雄黃酒／硃砂避邪 | 障礙物 / 扣命 accent（與既有 berry 同色系，和諧不衝突） |
+
+- 艾草綠是現有 5 色缺的冷暖中間點，雄黃紅是 berry 的近親 → 整組塞進 candy 系統不打架。
+- 視覺敘事：入口卡/quest = 艾草綠（驅邪祈福），arcade = 江水青藍 + 粽褐 + 障礙硃砂，結局 = 艾草綠收束。**一眼是端午，不是某現有模式 recolor。**
+- 仍守 theme.css 既有形（`--radius` 24px、jelly `.btn` offset shadow、楷書標題）。
+
+### 5.2 各畫面視覺階層（Design review D4，Pass 1）
+
+**DuanwuQuest（孩子反覆回來的主畫面）— 三層階層：**
+
+```
+┌─────────────────────────────────┐
+│  ① 進度鉤（情緒錨，艾草綠底）        │  ← hero：[Q版粽子SVG] N/50 · 還差 X 關救屈原
+│     楷書大字，視覺重但不可點          │     （5 秒掃描第一眼落這）
+├─────────────────────────────────┤
+│  ② 關卡路徑（主體佔版面）            │  ← 5 關卡片，沿用 Levels.svelte 路徑排版
+│     [1汨羅]→[2龍舟]→[3粽子]...      │     已過關打勾、鎖關灰階
+│                                   │
+│  ③ ▶ 下一關（唯一主 CTA）           │  ← 當前可玩關用 reed 果凍彈跳高亮
+│     果凍彈跳，最搶眼                  │     孩子一眼知道點哪（don't make me think）
+└─────────────────────────────────┘
+```
+
+- 階層服務（hierarchy as service）：進度鉤給「為何而戰」的情緒，路徑給「打到哪」的位置感，CTA 給「現在點這」的明確動作。三者大小/色彩/動態分明，不互搶。
+- 「下一關」CTA 是唯一果凍彈跳元素 → 三秒掃描即知下一步（Krug don't-make-me-think）。
+
+### 5.3 救屈原結局「記憶點」幕（Design review D2，Pass 3）
+
+> save-quyuan 是整個 event 的情緒高潮（孩子磨 50 題 + 5 輪龍舟才到）。**不做純靜態最小版**，做一個有記憶點的 5 秒視覺高潮，全用現有 theme 的 pop/bounce keyframes（不加重依賴）：
+
+- **視覺高潮**（CSS keyframes，複用 theme 果凍彈跳）：龍舟駛近 → 粽子雨落下 → 屈原被接上岸的彈跳定格。艾草綠收束色。
+- **成就文字**：一句讀者文 + 戰績數字（用了 N 天、最高連擊 X、答對率）。
+- **一鍵分享卡**：走 `src/lib/share.js` 海報（見 §2.2）。
+- 時間視野：5 秒視覺（彈跳動畫）+ 5 分鐘行為（分享）+ 長期（這個 moment 是孩子記得這 event 的原因）。
+
+### 5.4 互動狀態與空狀態（Pass 2）
+
+- **DuanwuQuest 首次空狀態**（只開 L1、0/50）：不可冷清。進度鉤顯「[Q版粽子SVG] 0/50 · 救屈原大冒險開始！」+ L1 卡果凍彈跳召喚，其餘關卡灰階預告主題（給「還有什麼可玩」的期待）。空狀態是 feature 不是空白。
+- **duanwu-result 兩態**：全對 → 滿分慶祝（粽子+10 彈跳、艾草綠）；有錯 → 仍正向（「採滿 10 顆粽子！下關見」），不羞辱答錯。
+- 鎖關 toast 沿用 Levels.svelte（「先通過第 N 關」）。
+
+### 5.5 RWD 與無障礙（Pass 6）
+
+- **DragonBoat 觸控目標 ≥ 44px**：左右切道/跳躍的觸控熱區（點螢幕左右/中）本就是大區塊，確認熱區 ≥ 44px。
+- **DuanwuQuest 關卡卡鍵盤可達**：沿用 Levels.svelte 的 `<button>` 結構（原生 focus/Enter 可達），新卡片維持 button 語意。
+- **Canvas a11y fallback**：Canvas 遊戲本質純視覺，`<canvas>` 加 `aria-label="龍舟撿粽子小遊戲"`，並在 canvas 旁放 sr-only 文字說明操作（左右鍵切道、空白鍵跳）。龍舟非核心學習內容（答題才是），a11y 以「可感知+可跳過」為度，不強求螢幕報讀者完整可玩。
+- **配色對比**：reed/river/zong/cinnabar 用於大色塊與圖示，文字仍走既有 `--ink`（深褐）on candy paper，維持 ≥4.5:1；端午色不用於小字本文。
+
 ## 上線時機與分階段（CEO review 9A）
 
 > 今天 2026-06-17，端午節 2026-06-19/20。節慶 event 過了節點價值掃半。最費時的長杆是 50 題逐題過簡編本 audit（部分詞簡編本查無要退 moedict 覆核）。兩天未必跑得完整包 → 拆兩階段，arcade 與骨架不被 audit 卡住。
@@ -249,7 +313,7 @@ export const levelsCleared = (p) => p.clearedLevels.length;
 - 不碰雲端 / 排行榜 / Supabase
 - 不上遊戲框架（Three.js / Pixi.js / Phaser）— 詳見 §3 渲染選型。介面凍結後將來真走系列再抽 Phaser，現在不付框架稅
 - 不重寫或污染 QuizSession 狀態機
-- 救屈原結局先做最小版（單畫面 + 文字 + 簡單動畫）
+- 救屈原結局做「記憶點」幕（§5.3）：5 秒果凍彈跳高潮 + 成就文字 + 分享卡，**不做**過場動畫大片 / 多場景過場（Design review D2 把「純靜態最小版」升級為單畫面記憶點幕，仍是單畫面，但有情緒高潮）
 - 龍舟不做關卡難度遞增（每關龍舟同難度即可，先求能玩；之後要加再說）
 
 ---
@@ -259,6 +323,8 @@ export const levelsCleared = (p) => p.clearedLevels.length;
 | 檔案 | 動作 | Session |
 |---|---|---|
 | `src/ui/components/DragonBoat.svelte` | 新增（Canvas arcade） | **A** |
+| `src/ui/components/Zongzi.svelte`（或 theme SVG symbol） | 新增（Q 版粽子 SVG，全 event 共用，arcade 也用） | **A**（資產，B 也引用） |
+| `src/ui/theme.css` | 加端午配色 token（reed/river/zong/cinnabar，§5.1） | B |
 | `src/data/bank/duanwu.js` | 新增（50 題，按難度區分配） | B |
 | `src/data/bank/index.js` | 註冊 duanwu 類別 | B |
 | `src/modes.js` | 新增 `DUANWU_LEVELS` + 鎖 category wrapper | B |
@@ -346,14 +412,14 @@ Synthesized from CEO + Eng review findings. P1 blocks ship; P2 same-branch follo
   - Surfaced by: Sec2 2B + Eng D5（類別隔離）+ D8（取消動態降級）
   - Files: `scripts/validate-bank.mjs`, `src/modes.js`
   - Verify: 某 chapter 題不足時 validate 紅；duanwu 不出現在 daily/sprint 抽樣
-- [ ] **T6 (P1, human: ~45min / CC: ~10min)** — 跨場進度鉤 — DuanwuQuest 頂部「🍡 N/50 · 還差 X 關救屈原」
+- [ ] **T6 (P1, human: ~45min / CC: ~10min)** — 跨場進度鉤 — DuanwuQuest 頂部「[Q版粽子SVG] N/50 · 還差 X 關救屈原」
   - Surfaced by: Sec11 11A
   - Files: `src/ui/screens/DuanwuQuest.svelte`
   - Verify: 進度變動即時更新文字
-- [ ] **T7 (P2, human: ~1.5h / CC: ~20min)** — 救屈原結局 — 最小版單畫面+文字+簡單動畫
-  - Surfaced by: Sec11 design
+- [ ] **T7 (P1, human: ~3h / CC: ~30min)** — 救屈原「記憶點」結局幕（Design D2）— 單畫面但有 5 秒果凍彈跳高潮（龍舟駛近→粽子雨→屈原上岸定格）+ 成就文字 + 分享卡，全用 theme pop/bounce keyframes
+  - Surfaced by: Design review D2（Pass 3 情緒弧 4/10）+ §5.3
   - Files: `src/ui/screens/SaveQuyuan.svelte`
-  - Verify: 5 關全破觸發、rescued flag idempotent
+  - Verify: 5 關全破觸發；彈跳動畫順；rescued flag idempotent；分享卡走 share.js
 - [ ] **T8 (P1, 阻擋項)** — duanwu 題庫隔離 — `selectQuestions` 加 `EVENT_ONLY_CATEGORIES` 預設排除，一般模式不抽到端午題（**ship blocker**）
   - Surfaced by: Codex #1（端午題全年亂入）= Eng D5
   - Files: `src/core/bank.js`
@@ -366,6 +432,22 @@ Synthesized from CEO + Eng review findings. P1 blocks ship; P2 same-branch follo
   - Surfaced by: Sec9 9A + Eng D8 + Codex #4/#7（取消動態降級的自相矛盾）
   - Files: 本 spec（執行紀律）
   - Verify: 不上「看得到完不了」的半成品
+- [ ] **T11 (P1, human: ~30min / CC: ~5min)** — 端午配色 token（Design D3 + user）— theme.css 加 reed/reed-deep/river/zong/cinnabar，各綁端午元素（§5.1）
+  - Surfaced by: Design review D3（Pass 5 設計系統對齊 6/10）+ user「結合端午元素」
+  - Files: `src/ui/theme.css`
+  - Verify: 入口卡/quest 用 reed；arcade 用 river+zong+cinnabar；不與現有 5 tint 撞色
+- [ ] **T12 (P1, human: ~1h / CC: ~15min)** — Q 版粽子 SVG（user 指示）— 手繪三角粽形 inline SVG（粽葉 reed 綠 + 米色尖角 + 綁繩），全 event 唯一粽子資產，arcade/進度鉤/result/結局/分享卡共用，**禁 emoji 糰子**
+  - Surfaced by: user 指示 + Codex #9（SVG sprite）
+  - Files: `src/ui/components/Zongzi.svelte`（或 theme SVG symbol）
+  - Verify: 全 event 粽子皆此 SVG；零 emoji 糰子（🍡）出現
+- [ ] **T13 (P1, human: ~1h / CC: ~10min)** — DuanwuQuest 視覺階層（Design D4）— 進度鉤 hero / 關卡路徑主體 / 「下一關」唯一果凍彈跳 CTA（§5.2）+ 首次空狀態暖場（§5.4）
+  - Surfaced by: Design review D4（Pass 1 IA 5/10）+ Pass 2 空狀態
+  - Files: `src/ui/screens/DuanwuQuest.svelte`
+  - Verify: 三秒掃描即知下一步；首次進場（0/50 只開 L1）不冷清
+- [ ] **T14 (P2, human: ~30min / CC: ~8min)** — 無障礙 + RWD（Design Pass 6）— canvas aria-label + sr-only 操作說明；觸控熱區 ≥44px；端午色不用於小字本文（對比 ≥4.5:1）
+  - Surfaced by: Design review Pass 6（6/10）
+  - Files: `src/ui/components/DragonBoat.svelte`, `src/ui/screens/DuanwuQuest.svelte`
+  - Verify: 鍵盤可達關卡卡；canvas 有 aria-label；觸控目標夠大
 
 _Sec3 (Security)、Sec5 (Quality)、Sec7 (Perf)、Sec8 (Observability)、Sec10 (Trajectory): No new tasks。_
 
@@ -379,10 +461,11 @@ _Sec3 (Security)、Sec5 (Quality)、Sec7 (Perf)、Sec8 (Observability)、Sec10 (
 | CEO Review | `/plan-ceo-review` | Scope & strategy | 1 | clean | SELECTIVE EXPANSION, 0 scope expansions, 7 findings resolved (1A/2A/2B/4A/6A/9A/11A) |
 | Codex Review | outside voice | Independent 2nd opinion | 1 | issues_found | 11 raised, 8 folded into spec, 1 deferred (narrative), 2 already-covered |
 | Eng Review | `/plan-eng-review` | Architecture & tests (required) | 1 | clean | 9 issues, 0 critical gaps (D1 flow module, D2/D2b completion path, D3 progress fn, + 5 Codex-driven) |
-| Design Review | `/plan-design-review` | UI/UX gaps | 0 | — | not run |
+| Design Review | `/plan-design-review` | UI/UX gaps | 1 | clean | score 6/10 → 9/10, 4 decisions (D2 ending, D3 palette, D4 hierarchy, + Q版粽子 SVG per user) |
 | DX Review | `/plan-devex-review` | Developer experience gaps | 0 | — | not run |
 
 - **CODEX:** found the ship blocker both Claude passes missed — duanwu questions leak into daily/sprint/levels year-round (D5). Also caught the Phase-1 vs rescue contradiction (D8), BOSS/flow conflict (D7), theme-vs-difficulty modeling gap (D6), and cloud question-stats pollution (D2 ext). 8 of 11 folded in.
-- **CROSS-MODEL:** No tension — Codex did not contradict Claude findings; it found a layer underneath them (concrete code-level leaks the plan-level review abstracted over).
+- **DESIGN:** plan was strong on interaction logic (Eng pass) but weak on visual decisions (6/10). Added: 端午 palette (reed/river/zong/cinnabar tied to festival elements), DuanwuQuest hierarchy, memory-point 救屈原 ending, Q版粽子 SVG (no emoji dango per user). Now 9/10.
+- **CROSS-MODEL:** No tension — Codex found a layer under the Claude findings (concrete code-level leaks); design review found an orthogonal axis (visual decisions) the eng review correctly didn't cover.
 - **UNRESOLVED:** 0 blocking. 1 deferred taste call (救屈原 narrative, your decision).
-- **VERDICT:** CEO + ENG CLEARED — ready to implement. 10 P1 tasks (T1-T10), 4 of them ship blockers (D5/T8 bank isolation, T4 bank-50, D2/T2b leaderboard isolation, D6/T9 theme lock).
+- **VERDICT:** CEO + ENG + DESIGN CLEARED — ready to implement. 14 P1/P2 tasks (T1-T14). Ship blockers: T8 bank isolation, T4 bank-50, T2b leaderboard isolation, T9 theme lock.
