@@ -30,12 +30,75 @@
 
 ## 1. 題庫：duanwu 類別
 
-- **新檔** `src/data/bank/duanwu.js`，schema 在現有基礎上**加一個 `chapter` 欄位**（Eng review D6）：
-  `{ id, text, target, zhuyin, distractors[1-3], meaning, fun, tags[], difficulty(1-5), era, chapter }`
-  `chapter` 值對應 5 關主題：`'quyuan' | 'boat' | 'zongzi' | 'poem' | 'king'`。**選題用 chapter 鎖主題，不只靠難度**（見 §2.1 與 D6 findings）。
+> **題型本質（user 定案，2026-06-17）**：端午 event **不考字音**，全部是**端午史實 fun fact 知識題**（單選）。圍繞端午史實發散找冷知識（屈原星座/生肖考生日、屈原的老闆是誰=楚懷王、汨羅江在中國哪=湖南…），重點是「大家不知道、但帶出歷史」。**唯一例外**：詩詞關（poem）若有值得考的讀音，可加一兩題字音題。這推翻了原 spec「沿用字音對決玩法、target/zhuyin 圍繞端午」的假設——那個方向作廢。
+
+### 1.1 題型與 schema（Devex review D1：向下相容引擎，新增 `kind: 'fact'`）
+
+引擎 `toQuestion()`（`src/core/bank.js:79`）已用 `kind` 切換選項形狀（`'char'`→target、else→zhuyin）。**新增第三種 `kind: 'fact'`**，選項直接是預建多字文字，與既有機制一致，**`QuizSession` 狀態機零改動**（`session.answer` 只讀 `options[i].correct` 與 `difficulty`，已驗證 `session.svelte.js:114,127`）。對齊 CLAUDE.md「引擎只有一個狀態機，不為某模式另寫狀態機」鐵則。
+
+**知識題 schema（主力，約 48-49 題）**：
+```js
+{
+  id: 'dw-001', kind: 'fact', chapter: 'quyuan',
+  question: '屈原投江的汨羅江，在今天中國哪個省？',   // 題幹是完整問句（不是「target 在句中」）
+  options: ['湖南省', '湖北省', '江西省', '浙江省'],   // 多字選項，第一個為正解（toQuestion 會洗牌）
+  answer: 0,                                          // 正解 index（或用 correctText，見下）
+  fun: '汨羅江是湘江支流，在湖南省東北部。屈原流放期間在此投江。',  // fun fact / 史實補充
+  source: '《史記·屈原列傳》',                          // 史實依據（取代字音題的辭典依據）
+  tags: ['屈原', '地理'], difficulty: 2, era: 'classic'
+}
+```
+
+**字音題 schema（僅 poem 關 1-2 題例外）**：沿用現有字音題 schema（`kind` 省略或 `'char'`、`target`/`zhuyin`/`distractors`），與其他類別同規格，**照走 audit**。
+
 - **id 前綴 `dw`**，連號 `dw-001`～`dw-050`（格式對齊現有 `tk-001` 有 hyphen 慣例）
 - **註冊**：`src/data/bank/index.js` 的 `CATEGORIES` 加一筆 `duanwu: { label: '端午', icon: <注音>, items: duanwu }`
 - **先寫滿 50 題**（5 關各 10），event 上線即可玩滿全程
+- **`toQuestion()` 改動**：加一個 `kind === 'fact'` 分支——選項由 `item.options` 直接建（`{ text, correct }`），正解由 `answer` index 或 `correctText` 標記。字音題分支不動。
+
+### fun fact 取材方向（user 指示：發散找冷知識）
+
+- 一題不用塞滿史實，可拆多題。例：屈原生日 → 星座題 + 生肖題兩題。
+- 取材軸：人物（屈原星座/生肖/老闆楚懷王/官職三閭大夫）、地理（汨羅江在湖南/楚國位置）、習俗由來（為何划龍舟/包粽子/掛艾草/喝雄黃酒）、時間（端午是農曆幾月幾日/別稱端陽/重午）、詩詞典故（離騷/天問作者）。
+- **同時代對照軸（user 提議：跟屈原同時代/同空間的偉人）**——超強冷知識素材，命中「原來同個時代地球另一邊在幹嘛」：
+  - 史實底：屈原約前 340–前 278（戰國中後期）。
+  - **東方同代**：孟子（約前 372–前 289）、莊子（約前 369–前 286）幾乎完全重疊。題例：「屈原跟哪位儒家亞聖是同時代人？」
+  - **西方同代（跨空間，最有 fun）**：亞里斯多德（前 384–前 322）、亞歷山大大帝（前 356–前 323）。題例：「屈原寫《離騷》前後，古希臘哪位哲學家正在教亞歷山大大帝？」
+  - **誠實邊界（對齊 §1.2 冷知識易誤傳風險）**：屈原**確切西曆生日不可考**，**不做「跟誰同一天生日」題**（查不到、必誤傳）。生肖題可做——傳說生於寅年/寅日（《離騷》「惟庚寅吾以降」），可推屬虎，標 source 即安全。
+- **科學破迷思軸（user 提議：立蛋等帶科學理論的習俗）**——fun fact 調的甜蜜點，破解「大家以為的」迷思 = 最強的「蛤?真的假的」：
+  - **立蛋**：民俗說端午正午陽氣最盛才立得起來；科學真相是**跟端午/節氣無關**，任何天氣任何時間都立得起來，靠的是蛋殼表面凸點 + 重心 + 手穩（NASA/物理學家平常日子也示範過）。fun 點：「所以你平常也能立蛋，只是端午大家才一起玩」。題例：「端午立蛋立得起來，是因為?」誘答放「正午陽氣最盛」（民俗迷思）、正解「其實任何時候都立得起來」。
+  - 同軸可發散：雄黃酒能不能喝（其實含砷有毒，現代多改塗不喝）、艾草菖蒲驅蚊是真有效還是純儀式（艾草確有驅蟲成分，半真）。
+  - **品管注意**：破迷思題的「真相」必須有科學/權威來源（標 source），別自己變成新的誤傳。
+- **台灣在地宗教民俗軸（user 提議）**——把 event 從「中國史實」拉到台灣小孩的在地連結，命中「原來這跟端午有關」+「我玩過/戴過」的雙重共鳴，貼產品「給台灣小孩」定位：
+  - **午時水**：台灣民俗，端午正午（午時）取的水傳說能化煞、久放不壞，鹿港龍山寺等宮廟有午時水活動。fun 點：科學上是普通水，但在地信仰玩很大。
+  - **鍾馗**：台灣端午掛鍾馗像驅五毒，鍾馗是道教捉鬼的神。題例：「端午掛的不是門神，是專門抓鬼的__?」正解鍾馗。
+  - **香包（香囊）**：裝艾草雄黃，台灣小孩端午常戴、廟會常見——在地記憶點，避邪概念。
+  - **驅瘟/惡月惡日**：端午本是「惡月惡日」要驅瘟避邪，連得上台灣王爺/瘟神信仰、部分地區送瘟遶境。
+  - **誠實邊界**：台灣民俗有地域差異（北中南不一），且碰信仰 vs 史實界線。題用「台灣民俗相信…」「有些地方會…」框架，**不下「午時水真能化煞」這種斷言**（fun fact 角度安全，信仰真偽不評斷）。別硬扯無關習俗（如擲筊跟端午無直接關聯）。
+- 「大家不知道但帶出歷史」優先於「課本背得到的」——冷知識才有 fun。
+
+### 題目調性：fun fact 感，不是考歷史（Devex review D4，user 定案）
+
+**核心**：要的是「蛤?真的假的」「原來是這樣」的**驚奇感**，不是「記不記得」的默背壓力。題目是冷知識的載體，**答錯也學到一個好玩的事**。fun 在題幹問法、選項趣味、`fun` 欄位，不在「答對證明你會」。
+
+| | 考歷史（避免） | fun fact 感（要的） |
+|---|---|---|
+| 題幹 | 「屈原是哪一國人?」 | 「屈原投江那年，地球另一邊的亞歷山大大帝正在幹嘛?」 |
+| 誘答選項 | 隨便三個錯的廢答案 | 錯選項本身也好笑/有梗（例：問屈原老闆，誘答放「秦始皇」明顯時代不對但好笑） |
+| `fun` 欄位 | 補充說明 | **一句想轉發給別人的冷知識** |
+| 重點 | 記得住 | 想講給別人聽 |
+
+**出題原則（每題自檢）**：
+1. 題幹用勾奇問法（「其實…」「你知道嗎」「同一時間地球另一邊」），不用考卷句型。
+2. 誘答選項要有梗或似是而非，不放廢答案——錯得有道理或錯得好笑。
+3. `fun` 欄位必寫一句「想轉發」等級的冷知識補充（答對答錯都讀得到）。
+4. 通過測試：這題講給朋友聽，對方會不會「哦~」一聲。不會 → 重寫。
+
+**難度梯度改「驚奇度/冷門度」而非「難背度」（D4）**：
+- difficulty 1：大家模糊聽過的端午趣事（為何吃粽子、划龍舟紀念誰）
+- difficulty 2-3：知道的人會說「對對對」、不知道的會「原來如此」（汨羅江在湖南、艾草菖蒲為何掛）
+- difficulty 4-5：**連大人都會驚呼**的冷知識（屈原與亞里斯多德同時代、端午別稱重午的由來、屈原官職三閭大夫）
+- difficulty 仍是 1-5 數字（引擎計分用，§5 難度區分配照舊），只是**選題標準改成驚奇度**——L1 抽「溫和趣味」、L5 抽「最冷最炸」。
 
 ### 題庫隔離：event-only 類別不進一般模式選池（Eng review D5，ship blocker）
 
@@ -45,21 +108,27 @@
 - 對齊既有「單一扁平 BANK」架構（duanwu 照樣進 BANK，不另開題池），只在選題層加排除規則。daily/sprint/levels 一行不改。
 - validate 加一條：BANK 中標 event-only 的類別，不出現在任一非 event 模式的預設選池抽樣裡。
 
-- **題目走 audit/validate**：簡編本權威層優先，與其他類別同規格。注音以教育部《國語辭典簡編本》為第一依據（見 `docs/audit-playbook.md`）
+### 1.2 品管：知識題核史實、字音題走 audit（Devex review D2，混合）
 
-### 50 題的主題分佈（對應 5 關）
+- **知識題（kind: 'fact'）不走字音 audit**：沒有 zhuyin 可稽核。`npm run audit` 跳過 `kind: 'fact'` 題（或 audit 掃描時略過無 zhuyin 的 duanwu 題）。
+- **改人工核史實**：知識題品管改為「史實正確性」人工核——每題的 `answer` 與 `fun` 必須有可靠來源（標 `source` 欄位，如《史記·屈原列傳》/教育部資料/可信百科）。**新風險面**：冷知識易誤傳（民間傳說 vs 史實常混），下筆前查證、`source` 標清楚，避免教小孩錯的史實。
+- **字音題（poem 關 1-2 題例外）仍走 audit**：照簡編本權威層稽核注音，與其他類別同規格（見 `docs/audit-playbook.md`）。
+- **validate（schema）對全部 duanwu 題跑**：`kind: 'fact'` 題驗 `{question, options[2-4], answer/correctText, fun, source, difficulty, chapter}` 齊全；字音題驗原字音 schema。
+- **上線長杆變化**：原本「50 題逐題過字音 audit」是最費時長杆（CEO 9A）。改知識題後，**字音 audit 只剩 1-2 題**，但**換成「史實查證 + 寫 fun fact」的新長杆**——查冷知識、確認 source、寫得有趣不枯燥，仍是 event 的關鍵路徑工作量（非機械）。
 
-| 關 | 主題 | 難度 | 題數 |
-|---|---|---|---|
-| 1 汨羅江畔 | 屈原生平、楚辭 | 1-2 | 10 |
-| 2 划龍舟 | 龍舟、競渡習俗 | 2-3 | 10 |
-| 3 包粽子 | 粽子、飲食、艾草菖蒲雄黃 | 2-3 | 10 |
-| 4 詩詞關 | 端午詩詞、典故 | 3-4 | 10 |
-| 5 端午王（BOSS）| 綜合深度歷史 | 4-5 | 10 |
+### 50 題的主題分佈（對應 5 關，全知識題 + poem 關可混 1-2 字音題）
 
-> 題目仍是「給語境＋注音的字音對決」（沿用引擎玩法），只是 text/target/meaning/fun 全圍繞端午主題。例：target 取自端午相關生難字（如「菖蒲」「角黍」「汨羅」等）。
+| 關 | chapter | 主題（fun fact 知識題） | 難度 | 題數 |
+|---|---|---|---|---|
+| 1 汨羅江畔 | `quyuan` | 屈原本人 + **同時代對照軸**（生平/星座/生肖/老闆楚懷王/官職、汨羅江地理、投江典故、孟子莊子同代、亞里斯多德跨空間對照） | 1-2 | 10 |
+| 2 划龍舟 | `boat` | 龍舟習俗由來：為何划龍舟、競渡起源、龍舟形制冷知識 | 2-3 | 10 |
+| 3 包粽子 | `zongzi` | 粽子 + 避邪習俗 + **科學破迷思軸**（粽子由來、南北粽、艾草菖蒲、**立蛋科學**、雄黃酒含砷） | 2-3 | 10 |
+| 4 詩詞關 | `poem` | 端午詩詞典故 + **可混 1-2 題字音題**（值得考的讀音） | 3-4 | 10 |
+| 5 端午王 | `king` | 綜合最冷知識 + **台灣在地宗教民俗軸**（別稱端陽/重午、農曆時間、惡月惡日驅瘟、**午時水/鍾馗/香包台灣民俗**、跨主題大雜燴） | 4-5 | 10 |
 
-**題庫足量驗證（CEO review 2B）**：50 題必須**按 5 關的難度區間分配**（L1 難度 1-2 ×10、L2 難度 2-3 ×10、L3 難度 2-3 ×10、L4 難度 3-4 ×10、L5 難度 4-5 ×10），確保每關 `selectQuestions(categories:['duanwu'], minDifficulty, maxDifficulty, count:10)` 都選得滿 10 題。`npm run validate` 加一條斷言：對每個 `DUANWU_LEVELS` 關卡，duanwu 類別中落在其難度區間的題數 ≥ 該關 count。題庫不足會在建置期就紅，不會到孩子手上才發現關卡變短（靜默失敗）。
+> **chapter = 主題桶（Devex D5），非嚴格分類**：5 關保留 5×10=50（不動前面 review 過的架構），新取材軸各歸最貼的桶——同時代對照→quyuan、立蛋等科學破迷思→zongzi、台灣在地宗教民俗→king。第 5 關非 boss（Eng D7），靠最高驚奇度 + 綜合主題包裝（也最適合放台灣在地題，給小孩在地共鳴收尾）。poem 關是唯一可混字音題的關卡。難度=驚奇度梯度（見 §1 題目調性 D4）。
+
+**題庫足量驗證（CEO review 2B + Devex D2）**：50 題按 5 關 chapter + 驚奇度（difficulty）分配，確保每關 `selectQuestions(categories:['duanwu'], chapter, minDifficulty, maxDifficulty, count:10)` 選得滿 10 題。`npm run validate` 加斷言：對每個 `DUANWU_LEVELS` 關卡，duanwu 類別中符合其 chapter 且落在難度區間的題數 ≥ 該關 count。題庫不足建置期就紅，不靜默縮關。
 
 ---
 
@@ -333,6 +402,16 @@ export const levelsCleared = (p) => p.clearedLevels.length;
 - **Canvas a11y fallback**：Canvas 遊戲本質純視覺，`<canvas>` 加 `aria-label="龍舟撿粽子小遊戲"`，並在 canvas 旁放 sr-only 文字說明操作（左右鍵切道、空白鍵跳）。龍舟非核心學習內容（答題才是），a11y 以「可感知+可跳過」為度，不強求螢幕報讀者完整可玩。
 - **配色對比**：reed/river/zong/cinnabar 用於大色塊與圖示，文字仍走既有 `--ink`（深褐）on candy paper，維持 ≥4.5:1；端午色不用於小字本文。
 
+### 5.6 知識題長選項 UI（Devex review D3）
+
+> 現有答題畫面選項是為「注音」設計（短，`Play.svelte` 字音題用大字/格子排）。端午知識題選項是多字句子（「湖南省」「楚懷王」「划龍舟是為了驅趕江中魚蝦」），塞進短注音格子會爆格、高度不一、手機難點。
+
+- **知識題（kind: 'fact'）選項改垂直堆疊清單**：每選項一整橫條、全寬、左對齊文字、可自動換行（多字/長句不爆格）、觸控目標高度 ≥ 44px。沿用 theme `.card` 圓角 + jelly press，但**不用字音題的格子排版**。
+- **`Play.svelte` 依 `kind` 切換選項排版**：`kind === 'fact'` → 垂直長條清單（讀文字）；`kind === 'char'`/字音 → 維持原格子/大字（`ZhuyinCol`）。題幹也依 kind 切：fact → 顯示 `question` 完整問句；字音 → 原「target 在句中 / 怎麼唸」。
+- **題幹區**：知識題題幹是完整問句（可能兩行），用楷書 + 適當行高，與選項清單拉開間距（heading 靠近其選項，遠離上一題殘影）。
+- **回饋態**：答完顯示正解選項高亮（綠）+ 選錯紅 + `fun` 史實補充（知識題的 fun 是史實冷知識，比字音題的「唸錯啦」更長，回饋區要容得下）。
+- 對齊 Krug「選項可讀 > 形式一致」：知識題與字音題排版不同是對的（clarity trumps consistency）。
+
 ## 上線時機與分階段（CEO review 9A）
 
 > 今天 2026-06-17，端午節 2026-06-19/20。節慶 event 過了節點價值掃半。最費時的長杆是 50 題逐題過簡編本 audit（部分詞簡編本查無要退 moedict 覆核）。兩天未必跑得完整包 → 拆兩階段，arcade 與骨架不被 audit 卡住。
@@ -444,10 +523,14 @@ Synthesized from CEO + Eng review findings. P1 blocks ship; P2 same-branch follo
   - Surfaced by: Sec6 6A + Sec1 1A + Eng D3（盲 +1 重玩超累 bug）
   - Files: `src/core/duanwu.js`(純函式), `src/core/storage.js`(clearedLevels key), `scripts/duanwu-progress-check.mjs`(自檢)
   - Verify: 5 案例全綠，含「重玩第 1 關 5 次不誤觸 rescue」
-- [ ] **T4 (P1, human: ~3-4d / CC: ~3-4h)** — duanwu 題庫 — 50 題（5 chapter 各 10，按難度區分配），加 chapter 欄位，全過簡編本 audit，註冊類別。**長杆，event 上線時程的關鍵路徑**
-  - Surfaced by: Sec2 2B + Eng D6（chapter 欄位）+ Codex #11（估算修正）
+- [ ] **T4 (P1, human: ~3-4d / CC: ~3-4h)** — duanwu 題庫（**fun fact 知識題**，Devex D1/D2/D4 + user）— 50 題 `kind:'fact'`（5 chapter 各 10，難度=驚奇度梯度），題幹勾奇問法、誘答有梗、`fun` 一句想轉發、每題標 `source` 史實/科學來源。poem 關可混 1-2 字音題。**長杆改「史實查證+寫 fun fact」非字音 audit**
+  - Surfaced by: Devex D1（kind:fact schema）+ D2（核史實非字音 audit）+ D4（fun fact 調/驚奇度）+ user（同時代對照/科學破迷思取材）
   - Files: `src/data/bank/duanwu.js`, `src/data/bank/index.js`
-  - Verify: `npm run validate` + `npm run audit` 過；50 題各掛正確 chapter
+  - Verify: `npm run validate` 過（fact schema 齊全）；每題 source 可靠；fun fact「講給朋友會哦一聲」測試；poem 字音題過 audit；50 題各掛正確 chapter
+- [ ] **T4b (P1, human: ~1h / CC: ~15min)** — 引擎 `toQuestion` 支援 `kind:'fact'`（Devex D1）— 加分支：選項由 `item.options` 直接建 `{text, correct}`、正解由 answer/correctText 標。字音題分支不動，QuizSession 零改動
+  - Surfaced by: Devex D1（向下相容引擎）
+  - Files: `src/core/bank.js`(toQuestion)
+  - Verify: fact 題選項正確洗牌+判定；既有字音題回歸無破壞
 - [ ] **T5 (P1, human: ~45min / CC: ~10min)** — validate 斷言 — 每關 chapter 題數 ≥ count（硬性，無降級）+ event-only 類別不進一般模式選池
   - Surfaced by: Sec2 2B + Eng D5（類別隔離）+ D8（取消動態降級）
   - Files: `scripts/validate-bank.mjs`, `src/modes.js`
@@ -488,8 +571,19 @@ Synthesized from CEO + Eng review findings. P1 blocks ship; P2 same-branch follo
   - Surfaced by: Design review Pass 6（6/10）
   - Files: `src/ui/components/DragonBoat.svelte`, `src/ui/screens/DuanwuQuest.svelte`
   - Verify: 鍵盤可達關卡卡；canvas 有 aria-label；觸控目標夠大
+- [ ] **T15 (P1, human: ~1.5h / CC: ~20min)** — 知識題長選項 UI（Devex D3）— Play.svelte 依 `kind` 切換：fact → 垂直堆疊長條清單（全寬/左對齊/可換行/≥44px）+ 題幹顯完整 question；字音 → 維持原格子。回饋區容得下長 fun fact 史實補充
+  - Surfaced by: Devex review D3（長選項排版）
+  - Files: `src/ui/screens/Play.svelte`
+  - Verify: 長選項不爆格/可換行；fact 與字音題排版各自正確；手機觸控目標夠大
 
 _Sec3 (Security)、Sec5 (Quality)、Sec7 (Perf)、Sec8 (Observability)、Sec10 (Trajectory): No new tasks。_
+
+### 題型 pivot 對前面 review 的影響（2026-06-17 user 定案後補記）
+> end-user 澄清「端午不考字音、全 fun fact 知識題」是在 CEO/Eng/Design 三 review **之後**才定案，推翻了原 spec「沿用字音對決」假設。影響評估：
+> - **架構（Eng）仍成立**：QuizSession 零改動（kind:'fact' 向下相容，Devex D1 已驗證），festival wrapper/進度純函式/排行榜隔離全不受影響。
+> - **CEO 9A 長杆改變**：字音 audit 不再是長杆（剩 poem 1-2 題），換成「史實/科學查證 + 寫 fun fact」新長杆，時程量級相當，Phase 1「50 題才上」原則不變。
+> - **Design 不受影響**：arcade/結局/配色/SVG 與題型無關；唯一新增 Play.svelte 長選項 UI（T15）。
+> - **未重跑三 review**：題型 pivot 不動架構骨幹，屬內容層 + 一個 UI 排版，不需重跑 CEO/Eng/Design；但若實作時發現 kind:'fact' 牽動更多引擎，回頭補 Eng review。
 
 ### 待你拍板（非阻擋，Codex #10）
 - **「救屈原」敘事**：歷史上粽子是投江餵魚蝦、護屈原遺體，非「撿 50 顆救活屈原」。當前用「救屈原」作遊戲化框架（非史實宣稱）。主打深度歷史下這敘事是否要改（如改「祭屈原/護屈原」），是你的 taste call，未改。
