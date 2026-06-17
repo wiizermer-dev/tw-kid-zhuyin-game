@@ -531,15 +531,15 @@ Synthesized from CEO + Eng review findings. P1 blocks ship; P2 same-branch follo
   - Surfaced by: Sec6 6A + Sec1 1A + Eng D3（盲 +1 重玩超累 bug）
   - Files: `src/core/duanwu.js`(純函式), `src/core/storage.js`(clearedLevels key), `scripts/duanwu-progress-check.mjs`(自檢)
   - Verify: 5 案例全綠，含「重玩第 1 關 5 次不誤觸 rescue」
-- [ ] **T4 (P1, human: ~3-4d / CC: ~3-4h)** — duanwu 題庫（**fun fact 知識題**，Devex D1/D2/D4 + user）— 50 題 `kind:'fact'`（5 chapter 各 10，難度=驚奇度梯度），題幹勾奇問法、誘答有梗、`fun` 一句想轉發、每題標 `source` 史實/科學來源。poem 關可混 1-2 字音題。**長杆改「史實查證+寫 fun fact」非字音 audit**
+- [x] **T4 (P1, human: ~3-4d / CC: ~3-4h)** — duanwu 題庫（**fun fact 知識題**，Devex D1/D2/D4 + user）— 50 題 `kind:'fact'`（5 chapter 各 10，難度=驚奇度梯度），題幹勾奇問法、誘答有梗、`fun` 一句想轉發、每題標 `source` 史實/科學來源。poem 關可混 1-2 字音題。**長杆改「史實查證+寫 fun fact」非字音 audit** ✅ **DONE 2026-06-18（Session B）— 交付 89 題（80~100 範圍，超原 50 題目標），multi-agent workflow 廣建 150 → 3 輪獨立審查濃縮（史實查證 81 題實查/5 fix、fun 品質去重、配額收斂）→ 89。每 chapter ≥10、難度 1-5 全覆蓋、8 取材軸全有。審查紀錄+報告見 docs/superpowers/duanwu-bank-build/**
   - Surfaced by: Devex D1（kind:fact schema）+ D2（核史實非字音 audit）+ D4（fun fact 調/驚奇度）+ user（同時代對照/科學破迷思取材）
   - Files: `src/data/bank/duanwu.js`, `src/data/bank/index.js`
   - Verify: `npm run validate` 過（fact schema 齊全）；每題 source 可靠；fun fact「講給朋友會哦一聲」測試；poem 字音題過 audit；50 題各掛正確 chapter
-- [ ] **T4b (P1, human: ~1h / CC: ~15min)** — 引擎 `toQuestion` 支援 `kind:'fact'`（Devex D1）— 加分支：選項由 `item.options` 直接建 `{text, correct}`、正解由 answer/correctText 標。字音題分支不動，QuizSession 零改動
+- [x] **T4b (P1, human: ~1h / CC: ~15min)** — 引擎 `toQuestion` 支援 `kind:'fact'`（Devex D1）— 加分支：選項由 `item.options` 直接建 `{text, correct}`、正解由 answer/correctText 標。字音題分支不動，QuizSession 零改動 ✅ **DONE 2026-06-18（Session B）— fact 分支用 `item.options.map((text,i)=>({text,correct:i===item.answer}))` 洗牌；字音/反考字分支零改動；回歸自檢驗過**
   - Surfaced by: Devex D1（向下相容引擎）
   - Files: `src/core/bank.js`(toQuestion)
   - Verify: fact 題選項正確洗牌+判定；既有字音題回歸無破壞
-- [ ] **T5 (P1, human: ~45min / CC: ~10min)** — validate 斷言 — 每關 chapter 題數 ≥ count（硬性，無降級）+ event-only 類別不進一般模式選池
+- [x] **T5 (P1, human: ~45min / CC: ~10min)** — validate 斷言 — 每關 chapter 題數 ≥ count（硬性，無降級）+ event-only 類別不進一般模式選池 ✅ **DONE 2026-06-18（Session B）— validate-bank.mjs 加 fact schema 分支 + 兩條足量斷言（chapter+難度 ≥count、隔離抽樣）。斷言當場抓出 quyuan 難度 1-2 僅 7 題，據此把該關 max 1→3**
   - Surfaced by: Sec2 2B + Eng D5（類別隔離）+ D8（取消動態降級）
   - Files: `scripts/validate-bank.mjs`, `src/modes.js`
   - Verify: 某 chapter 題不足時 validate 紅；duanwu 不出現在 daily/sprint 抽樣
@@ -551,11 +551,11 @@ Synthesized from CEO + Eng review findings. P1 blocks ship; P2 same-branch follo
   - Surfaced by: Design review D2（Pass 3 情緒弧 4/10）+ D5（否決嵌影片）+ §5.3 + user 提供 `A_joyful_cinematic_first_perso.mp4` 美術參考
   - Files: `src/ui/screens/SaveQuyuan.svelte`, `src/ui/components/Quyuan.svelte`（Q 版屈原 SVG，髮髻粽葉/reed 綠緣漢服/雙手前伸）；粽子複用 Zongzi SVG
   - Verify: 5 關全破觸發；雙手互握→轉→粽子飛散彈跳動畫順；rescued idempotent；分享卡走 share.js；零嵌影片/零新依賴
-- [ ] **T8 (P1, 阻擋項)** — duanwu 題庫隔離 — `selectQuestions` 加 `EVENT_ONLY_CATEGORIES` 預設排除，一般模式不抽到端午題（**ship blocker**）
+- [x] **T8 (P1, 阻擋項)** — duanwu 題庫隔離 — `selectQuestions` 加 `EVENT_ONLY_CATEGORIES` 預設排除，一般模式不抽到端午題（**ship blocker**）✅ **DONE 2026-06-18（Session B）— `EVENT_ONLY_CATEGORIES=['duanwu']`，母池+兩處 fallback 都套；daily/sprint 抽樣零 duanwu，顯式 categories:['duanwu'] 仍抽得到。隔離測試逆向驗證有鑑別力**
   - Surfaced by: Codex #1（端午題全年亂入）= Eng D5
   - Files: `src/core/bank.js`
   - Verify: daily/sprint/levels 抽樣零 duanwu；duanwu 模式顯式抽得到
-- [ ] **T9 (P1, human: ~1h / CC: ~15min)** — 關卡主題鎖 + escalate 關 — DUANWU_LEVELS 加 chapter，selectQuestions 支援 chapter 過濾，端午關 escalate:false（+ 視情況 calibrated:false），第 5 關非 boss
+- [x] **T9 (P1, human: ~1h / CC: ~15min)** — 關卡主題鎖 + escalate 關 — DUANWU_LEVELS 加 chapter，selectQuestions 支援 chapter 過濾，端午關 escalate:false（+ 視情況 calibrated:false），第 5 關非 boss ✅ **DONE 2026-06-18（Session B）— modes.js DUANWU_LEVELS（5 關 chapter 鎖題）+ duanwuLevelConfig（escalate:false、calibrated:false、無 boss）+ selectQuestions chapter 參數。回歸自檢：5 關各選滿 10 題且全鎖對 chapter**
   - Surfaced by: Eng D6（主題分關 + escalate）+ Eng D7（第 5 關非 boss）+ Codex #3/#5/#6
   - Files: `src/modes.js`, `src/core/bank.js`(chapter 過濾)
   - Verify: 龍舟關只出 boat 題、粽子關只出 zongzi 題；連對後不冒出跨 chapter 題；第 5 關答完進龍舟不卡 boss
