@@ -1,8 +1,33 @@
 # 端午王 — 五關 mini-game 設計
 
 > 日期：2026-06-18
-> 狀態：設計定案（brainstorming 產出），待轉實作
+> 狀態：**五個元件全部實作完成（Session A）；registry 接線待 Session B**
 > 緣由：end-user 親測發現「每關都玩同一個龍舟撿粽子有點無聊」，要每關各配不同 mini-game。
+
+## 實作進度（2026-06-18 更新）
+
+### Session A 已完成 ✅（PR #8 branch `feat/duanwu-dragonboat-arcade`）
+
+五個 mini-game 元件全部寫好、各自 agent-browser 實測過、build 過、契約驗證（win→`onComplete(10)`、fail→不回呼）：
+
+| 關 | 元件 | 技術 | commit | 審查狀態 |
+|---|---|---|---|---|
+| L1 龍舟撿粽子 | `src/ui/components/DragonBoat.svelte`（+`dragonBoatSprites.js`） | canvas | ceab… / 70d08da 系列 | ✅ 三輪 + codex + ponytail |
+| L2 加速龍舟競渡 | `src/ui/components/minigames/PaddleRace.svelte`（+`paddleRaceSprites.js`） | canvas | 70d08da | ✅ 零 bug |
+| L3 包粽子節奏 | `src/ui/components/minigames/WrapZongzi.svelte` | DOM | 70d08da | ✅ 零 bug |
+| L4 詩句拼句 | `src/ui/components/minigames/PoemPuzzle.svelte`（+`poemData.js` 佔位句） | DOM | 70d08da | ✅ 拖曳+點擊都驗 |
+| L5 食人魚救屈原 | `src/ui/components/minigames/Piranha.svelte`（+`piranhaSprites.js`） | canvas | 70d08da | ✅ 平衡修正（idle 必 fail/走位才守得住） |
+
+- demo 頁：`dragonboat-demo.html`（L1）、`minigames-demo.html`（L2-L5 下拉切換）。皆 ephemeral 測試頁，未進 vite build input。
+- 注意 **L1 DragonBoat 還在 `src/ui/components/`**（尚未搬進 `minigames/`），因搬移屬 registry 接線範圍，Session A 刻意不碰。
+- 所有 dev-only `window.__x` hook 經 `import.meta.env.DEV` 守衛，production tree-shake 確認乾淨。
+
+### Session B 待接（registry 接線 + 內容）
+
+1. **registry 接線**（本 doc「共用架構」section）：`modes.js` `DUANWU_LEVELS` 每關加 `game` 欄位；App.svelte 建 `MINIGAMES` map + `<svelte:component>` 派發；把 L1 `DragonBoat.svelte`+`dragonBoatSprites.js` **搬進 `minigames/`**（同時更新所有 import）。
+2. **L4 真詩句資料**：`poemData.js` 目前是佔位示例句，需備齊 10+ 句端午/屈原名句（離騷/天問/端午詩）並查證可靠出處 + 白話。
+3. **L5→結局 fade**：過關目前回 quest；玩法→§5.3 救屈原結局幕的 fade 接續是 Session B 後續。
+4. 其餘 Session B 原有範圍（題庫、闖關流程、進度純函式、排行榜隔離）見端午 spec。
 
 ## 一句話
 
