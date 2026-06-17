@@ -104,6 +104,26 @@ home（端午王入口卡）
 - 元件 props：`{ onComplete: (zongziCollected) => void }`（callback 走 JSX prop，不進 store — 對齊 coding-style.md「狀態存資料不存 callback」）。
 - `onDestroy` 清掉 rAF。
 
+### 渲染選型決策：Canvas 2D（已評估否決 Three.js / Pixi.js / Phaser）
+
+| 方案 | 包大小 | 對本玩法的實質幫助 | 適合時機 |
+|---|---|---|---|
+| **Canvas 2D + rAF** | 0 | 全手寫，但此遊戲簡單到手寫很短（碰撞 AABB 十行、輸入三事件、物件一陣列每幀更新 y） | **本案** |
+| Pixi.js | ~130KB | 幾乎沒有（純渲染器，邏輯仍自寫；程式碼量一樣，只換 WebGL 後端） | 同屏上千 sprite/particle |
+| Phaser | ~250KB | 有（scene/physics/input/tween 現成） | 要做**多個**或更複雜的 arcade |
+| Three.js | ~150KB | 無（玩法本質 2D，3D 維度用不到，還要生 3D 資產） | 真 3D 場景 |
+
+本案同屏物件 <20 個，WebGL 批次渲染優勢完全發揮不出來；框架省的 boilerplate 換不回包大小與新心智模型。故選 Canvas 2D。
+
+### 介面凍結（保留未來換框架的彈性，但現在不付框架稅）
+
+> 背景：使用者未定是否走「節慶 arcade 系列」（中秋打月餅、過年放鞭炮…）。若真走系列，Phaser 當共用引擎才划算（一次學多次用，成本攤平）。為此**現在不上框架，但把龍舟對外介面凍結成最小契約**，將來換引擎只改一個檔。
+
+- **對外契約**：`DragonBoat.svelte` 只暴露 `props: { onComplete: (zongziCollected: number) => void }`。內部自管 canvas、game loop、命數；採滿 10 顆或失敗時呼叫 `onComplete`。
+- quest orchestrator 與 `App.svelte` **只認這個介面，不知道裡面是 Canvas 還是 Phaser**。
+- 將來要換 Phaser/Pixi：只重寫 `DragonBoat.svelte` 內部，props 介面不變，流程一行不改。換引擎成本鎖在單一檔案。
+- 對齊 CLAUDE.md「well-defined interfaces，可獨立替換內部不破壞 consumer」。
+
 ### 玩法
 
 - **3 條水道**，龍舟在底部某一道
@@ -145,7 +165,7 @@ setDuanwuProgress: (p) => set('duanwu_progress', p),
 ## 不做（YAGNI）
 
 - 不碰雲端 / 排行榜 / Supabase
-- 不做 Three.js / 3D
+- 不上遊戲框架（Three.js / Pixi.js / Phaser）— 詳見 §3 渲染選型。介面凍結後將來真走系列再抽 Phaser，現在不付框架稅
 - 不重寫或污染 QuizSession 狀態機
 - 救屈原結局先做最小版（單畫面 + 文字 + 簡單動畫）
 - 龍舟不做關卡難度遞增（每關龍舟同難度即可，先求能玩；之後要加再說）
