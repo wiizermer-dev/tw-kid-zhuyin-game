@@ -1,6 +1,6 @@
 <script>
   /** DragonBoat 獨立 demo —— 不碰 App/storage/modes/bank，純測手感。 */
-  import DragonBoat from './ui/components/DragonBoat.svelte';
+  import DragonBoat from './ui/components/minigames/DragonBoat.svelte';
 
   let lastResult = $state(null);
   let runId = $state(0);   // key 換新 → 重建元件重玩

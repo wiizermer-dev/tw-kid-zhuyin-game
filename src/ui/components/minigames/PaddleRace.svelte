@@ -80,13 +80,16 @@
                   vx: -60 - Math.random() * 80, vy: (Math.random() - 0.5) * 40, life: 0.5 });
   }
 
+  let paused = false;   // tab 隱藏暫停
+  function onVis() { paused = document.hidden; if (!paused) lastT = performance.now(); }
+
   function tick(now) {
     raf = requestAnimationFrame(tick);
     if (!ctx) return;
     let dt = (now - lastT) / 1000; lastT = now;
     if (!isFinite(dt) || dt < 0) dt = 0;
     if (dt > DT_CAP) dt = DT_CAP;
-    if (phase === 'play') update(dt);
+    if (phase === 'play' && !paused) update(dt);
     draw();
   }
 
@@ -204,6 +207,7 @@
     window.addEventListener('keydown', onKey);
     window.addEventListener('resize', resize);
     window.addEventListener('orientationchange', resize);
+    document.addEventListener('visibilitychange', onVis);
     lastT = performance.now(); raf = requestAnimationFrame(tick);
     if (import.meta.env?.DEV) window.__paddle = { state: () => ({ phase, x: +me.x.toFixed(3), rank, timeLeft: +timeLeft.toFixed(1) }), stroke };
   });
@@ -212,6 +216,7 @@
     window.removeEventListener('keydown', onKey);
     window.removeEventListener('resize', resize);
     window.removeEventListener('orientationchange', resize);
+    document.removeEventListener('visibilitychange', onVis);
     if (import.meta.env?.DEV) delete window.__paddle;
   });
 </script>

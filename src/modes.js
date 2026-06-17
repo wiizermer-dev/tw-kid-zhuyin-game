@@ -128,11 +128,12 @@ export function levelConfig(level) {
  * 每關 chapter 鎖主題（光靠難度分不開主題，見 spec §2.1 Eng D6）；
  * 全程知識題（kind:'fact'），無 BOSS（第 5 關靠最高驚奇度+主題包裝，非血條，Eng D7）。 */
 export const DUANWU_LEVELS = [
-  { n: 1, name: '汨羅江畔', chapter: 'quyuan', min: 1, max: 3, count: 10 },
-  { n: 2, name: '划龍舟',   chapter: 'boat',   min: 2, max: 3, count: 10 },
-  { n: 3, name: '包粽子',   chapter: 'zongzi', min: 2, max: 3, count: 10 },
-  { n: 4, name: '詩詞關',   chapter: 'poem',   min: 3, max: 4, count: 10 },
-  { n: 5, name: '端午王',   chapter: 'king',   min: 4, max: 5, count: 10 }
+  // game：該關答完後玩的 mini-game（registry key → App.svelte MINIGAMES map）
+  { n: 1, name: '汨羅江畔', chapter: 'quyuan', min: 1, max: 3, count: 10, game: 'dragonboat' },
+  { n: 2, name: '划龍舟',   chapter: 'boat',   min: 2, max: 3, count: 10, game: 'paddle' },
+  { n: 3, name: '包粽子',   chapter: 'zongzi', min: 2, max: 3, count: 10, game: 'wrap' },
+  { n: 4, name: '詩詞關',   chapter: 'poem',   min: 3, max: 4, count: 10, game: 'poem' },
+  { n: 5, name: '端午王',   chapter: 'king',   min: 4, max: 5, count: 10, game: 'piranha' }
 ];
 
 /** 端午關選題 config：鎖 duanwu 類別 + chapter 主題；

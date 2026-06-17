@@ -138,6 +138,12 @@
   }
 
   // ── 主迴圈 ──
+  let paused = false;   // tab 隱藏暫停（切走不會偷跑遊戲）
+  function onVis() {
+    paused = document.hidden;
+    if (!paused) lastT = performance.now();   // 回來重設時間基準，避免累積大 dt
+  }
+
   function tick(now) {
     raf = requestAnimationFrame(tick);
     if (!ctx) return;
@@ -146,7 +152,7 @@
     if (!isFinite(dt) || dt < 0) dt = 0;
     if (dt > DT_CAP) dt = DT_CAP;       // clamp，切 tab 回來不穿透
 
-    if (phase === 'play') update(dt);
+    if (phase === 'play' && !paused) update(dt);
     draw();
   }
 
@@ -443,6 +449,7 @@
     window.addEventListener('keydown', onKey);
     window.addEventListener('resize', resize);
     window.addEventListener('orientationchange', resize);
+    document.addEventListener('visibilitychange', onVis);
 
     lastT = performance.now();
     raf = requestAnimationFrame(tick);
@@ -468,6 +475,7 @@
     window.removeEventListener('keydown', onKey);
     window.removeEventListener('resize', resize);
     window.removeEventListener('orientationchange', resize);
+    document.removeEventListener('visibilitychange', onVis);
   });
 
   function retry() {

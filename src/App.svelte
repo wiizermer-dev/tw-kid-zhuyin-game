@@ -7,6 +7,11 @@
   import Result from './ui/screens/Result.svelte';
   import Levels from './ui/screens/Levels.svelte';
   import DuanwuQuest from './ui/screens/DuanwuQuest.svelte';
+  import DragonBoat from './ui/components/minigames/DragonBoat.svelte';
+  import PaddleRace from './ui/components/minigames/PaddleRace.svelte';
+  import WrapZongzi from './ui/components/minigames/WrapZongzi.svelte';
+  import PoemPuzzle from './ui/components/minigames/PoemPuzzle.svelte';
+  import Piranha from './ui/components/minigames/Piranha.svelte';
   import Board from './ui/screens/Board.svelte';
   import DuelEntry from './ui/screens/DuelEntry.svelte';
   import Review from './ui/screens/Review.svelte';
@@ -227,7 +232,10 @@
     screen = 'play';
   }
 
-  // 端午 event：開一關（stub 流程 — 龍舟 arcade 與完成路徑在 T2/T2b，先答完直接記進度回 quest）
+  // game registry：DUANWU_LEVELS.game → mini-game 元件（spec §共用架構）
+  const MINIGAMES = { dragonboat: DragonBoat, paddle: PaddleRace, wrap: WrapZongzi, poem: PoemPuzzle, piranha: Piranha };
+
+  // 端午 event：開一關（答完 10 題 → 進該關 mini-game → 採滿粽子才過關）
   function startDuanwuLevel(lv) {
     modeKey = 'duanwu';
     level = lv;
@@ -237,14 +245,21 @@
     screen = 'play';
   }
 
-  // 端午完成：純本地記進度（絕不 submitRun / recordQuestionAttempts，守 spec §2.2 不碰雲端）。
-  // 進度以 clearedLevels set 去重（重玩已過關卡不膨脹）。龍舟 arcade 接上後改由採滿觸發。
-  function finishDuanwu() {
-    const prev = storage.getDuanwuProgress();
-    const list = prev.clearedLevels ?? [];
-    if (level && !list.includes(level.n)) {
-      const clearedLevels = [...list, level.n];
-      storage.setDuanwuProgress({ clearedLevels, rescued: prev.rescued || clearedLevels.length >= 5 });
+  // 答完該關 10 題 → 進 mini-game arcade（還沒過關，要採滿粽子）
+  function finishDuanwuQuiz() {
+    screen = 'duanwu-arcade';
+  }
+
+  // mini-game 結束：採滿 10（n===10）才過關記進度；不滿不過關，回 quest 可重玩該關。
+  // 純本地（絕不 submitRun / recordQuestionAttempts，守 spec §2.2 不碰雲端）；clearedLevels set 去重（重玩不膨脹）。
+  function duanwuArcadeComplete(n) {
+    if (n >= 10 && level) {
+      const prev = storage.getDuanwuProgress();
+      const list = prev.clearedLevels ?? [];
+      if (!list.includes(level.n)) {
+        const clearedLevels = [...list, level.n];
+        storage.setDuanwuProgress({ clearedLevels, rescued: prev.rescued || clearedLevels.length >= 5 });
+      }
     }
     screen = 'duanwu-quest';
   }
@@ -371,7 +386,7 @@
   }
 </script>
 
-{#if screen === 'duanwu-quest' || (screen === 'play' && modeKey === 'duanwu')}
+{#if screen === 'duanwu-quest' || screen === 'duanwu-arcade' || (screen === 'play' && modeKey === 'duanwu')}
   <FloatingDuanwu />
 {:else}
   <FloatingBg />
@@ -391,6 +406,12 @@
   />
 {:else if screen === 'duanwu-quest'}
   <DuanwuQuest onPick={startDuanwuLevel} onHome={goHome} />
+{:else if screen === 'duanwu-arcade'}
+  {#key level?.n}
+    <div class="arcade-wrap">
+      <svelte:component this={MINIGAMES[level?.game] ?? DragonBoat} onComplete={duanwuArcadeComplete} />
+    </div>
+  {/key}
 {:else if screen === 'duel'}
   <DuelEntry
     initialCode={challenge?.room ?? duelRoom ?? ''}
@@ -410,7 +431,7 @@
 {:else if screen === 'play'}
   {#key playConfig}
     {#if modeKey === 'duanwu'}
-      <Play config={playConfig} meta={playMeta} onFinish={finishDuanwu} onQuit={() => (screen = 'duanwu-quest')} />
+      <Play config={playConfig} meta={playMeta} onFinish={finishDuanwuQuiz} onQuit={() => (screen = 'duanwu-quest')} />
     {:else}
       <Play config={playConfig} meta={playMeta} onFinish={finishGame} onQuit={goHome} />
     {/if}
@@ -436,3 +457,16 @@
 {:else if screen === 'review'}
   <Review onHome={goHome} />
 {/if}
+
+<style>
+  /* mini-game 容器：佔滿視窗高度（mini-game 內部量 rect 尺寸自適應，需明確 height），窄欄置中貼 app 調性 */
+  .arcade-wrap {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 520px;
+    height: 100dvh;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+</style>

@@ -4,7 +4,7 @@
       對外契約：擊退足夠魚 → onComplete(10)；屈原體力歸零 → 再救一次 overlay（不回呼）。 */
   import { onMount, onDestroy } from 'svelte';
   import { PIRANHA_SVG, QUYUAN_STRUGGLE_SVG, CANNON_BOAT_SVG } from './piranhaSprites.js';
-  import { ZONGZI_SVG } from '../dragonBoatSprites.js';
+  import { ZONGZI_SVG } from './dragonBoatSprites.js';
 
   let { onComplete = () => {} } = $props();
 
@@ -101,13 +101,16 @@
   }
   function onUp() { stick = { ...stick, active: false, dx: 0, dy: 0 }; }
 
+  let paused = false;   // tab 隱藏暫停（屈原不會在你不在時被咬死）
+  function onVis() { paused = document.hidden; if (!paused) lastT = performance.now(); }
+
   function tick(now) {
     raf = requestAnimationFrame(tick);
     if (!ctx) return;
     let dt = (now - lastT) / 1000; lastT = now;
     if (!isFinite(dt) || dt < 0) dt = 0;
     if (dt > DT_CAP) dt = DT_CAP;
-    if (phase === 'play') update(dt);
+    if (phase === 'play' && !paused) update(dt);
     draw();
   }
 
@@ -255,6 +258,7 @@
     window.addEventListener('orientationchange', resize);
     window.addEventListener('pointermove', onMove);
     window.addEventListener('pointerup', onUp);
+    document.addEventListener('visibilitychange', onVis);
     lastT = performance.now(); raf = requestAnimationFrame(tick);
     if (import.meta.env?.DEV) window.__piranha = { state: () => ({ phase, hp, repelled, wave, fish: fish.length }), reset };
     cleanup = () => { window.removeEventListener('keydown', kd); window.removeEventListener('keyup', ku); };
@@ -267,6 +271,7 @@
     window.removeEventListener('orientationchange', resize);
     window.removeEventListener('pointermove', onMove);
     window.removeEventListener('pointerup', onUp);
+    document.removeEventListener('visibilitychange', onVis);
     cleanup();
     if (import.meta.env?.DEV) delete window.__piranha;
   });
