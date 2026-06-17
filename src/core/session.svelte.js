@@ -48,6 +48,7 @@ export class QuizSession {
       count: config.count ?? 10,
       seed: config.seed,
       categories: config.categories,
+      chapter: config.chapter,
       minDifficulty: config.minDifficulty,
       maxDifficulty: config.maxDifficulty,
       excludeIds: config.excludeIds,

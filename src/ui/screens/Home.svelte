@@ -3,8 +3,18 @@
   import { storage } from '../../core/storage.js';
   import { dailySeed } from '../../core/rng.js';
   import ZhuyinGlyph from '../components/ZhuyinGlyph.svelte';
+  import DuanwuIcon from '../components/DuanwuIcon.svelte';
 
-  let { onPlay, onLevels, onBoard, onReview, challenge = null, invalidChallenge = false, onAcceptChallenge, onDeclineChallenge } = $props();
+  let { onPlay, onLevels, onBoard, onReview, onDuanwu, challenge = null, invalidChallenge = false, onAcceptChallenge, onDeclineChallenge } = $props();
+
+  // 端午 event 進度（回訪鉤前移到入口）
+  let duanwuProgress = $derived(storage.getDuanwuProgress());
+  let duanwuCleared = $derived(duanwuProgress.clearedLevels?.length ?? 0);
+
+  function pickDuanwu() {
+    if (!requireName()) return;
+    onDuanwu();
+  }
 
   let name = $state(storage.getPlayerName());
   let editingName = $state(!storage.getPlayerName());
@@ -111,6 +121,19 @@
   </div>
 
   <nav class="modes">
+    <button class="card duanwu-hero bounce-in" onclick={pickDuanwu}>
+      <span class="dh-glow" aria-hidden="true"></span>
+      <span class="dh-icon"><DuanwuIcon name="boat" size={56} /></span>
+      <span class="dh-body">
+        <span class="dh-badge">端午限定</span>
+        <b class="dh-title">端午王</b>
+        <small class="dh-blurb">划龍舟撿粽子・救屈原大冒險</small>
+      </span>
+      <span class="dh-cta">
+        {#if duanwuCleared === 0}NEW{:else if duanwuCleared >= 5}已救出{:else}還差 {5 - duanwuCleared} 關{/if}
+      </span>
+    </button>
+
     <p class="group-label friends">揪朋友一起</p>
 
     <button class="card mode duel bounce-in" style:animation-delay="0.08s" onclick={() => pick('duel')}>
@@ -252,6 +275,74 @@
   }
 
   .modes { display: flex; flex-direction: column; gap: 0.7rem; }
+
+  /* 端午王限定 hero 卡 — 節慶橫幅，艾草綠主調 */
+  .duanwu-hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 1.05rem 1.15rem;
+    margin-bottom: 0.5rem;
+    text-align: left;
+    overflow: hidden;
+    background:
+      radial-gradient(120% 140% at 12% 18%, color-mix(in srgb, var(--reed) 22%, white) 0%, transparent 60%),
+      linear-gradient(135deg, color-mix(in srgb, var(--reed) 14%, white) 0%, color-mix(in srgb, var(--river) 10%, white) 100%);
+    border: 2.5px solid color-mix(in srgb, var(--reed) 55%, white);
+    box-shadow: 0 6px 0 color-mix(in srgb, var(--reed-deep) 60%, white), var(--shadow-card);
+    transition: transform 0.14s ease, box-shadow 0.14s ease;
+  }
+  .duanwu-hero:hover { transform: translateY(-2px); }
+  .duanwu-hero:active { transform: translateY(4px); box-shadow: 0 2px 0 color-mix(in srgb, var(--reed-deep) 60%, white); }
+  .dh-glow {
+    position: absolute;
+    right: -30px; top: -30px;
+    width: 120px; height: 120px;
+    background: radial-gradient(circle, color-mix(in srgb, var(--zong) 30%, transparent) 0%, transparent 70%);
+    animation: float-slow 5s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .dh-icon {
+    flex-shrink: 0;
+    width: 64px; height: 64px;
+    display: grid; place-items: center;
+    border-radius: 18px;
+    background: color-mix(in srgb, var(--river) 16%, white);
+    box-shadow: inset 0 -3px 8px color-mix(in srgb, var(--river) 18%, transparent);
+    animation: wiggle 4s ease-in-out infinite;
+  }
+  .dh-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.12rem; }
+  .dh-badge {
+    align-self: flex-start;
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: #fff;
+    background: var(--cinnabar);
+    border-radius: 999px;
+    padding: 0.12rem 0.55rem;
+    margin-bottom: 0.1rem;
+  }
+  .dh-title {
+    font-family: var(--font-kai);
+    font-size: 1.5rem;
+    line-height: 1.1;
+    color: var(--reed-deep);
+  }
+  .dh-blurb { color: var(--ink-soft); font-size: 0.82rem; }
+  .dh-cta {
+    flex-shrink: 0;
+    align-self: center;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--reed-deep);
+    background: #fff;
+    border-radius: 999px;
+    padding: 0.4rem 0.8rem;
+    box-shadow: 0 3px 0 color-mix(in srgb, var(--reed) 35%, white);
+    white-space: nowrap;
+  }
   .group-label {
     margin: 0.3rem 0 0;
     font-size: 0.8rem;

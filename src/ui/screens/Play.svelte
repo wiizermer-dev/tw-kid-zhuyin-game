@@ -271,8 +271,10 @@
             ></i>
           </div>
         {/if}
-        <div class="qcard card pop-in" class:shake={showFeedback && !lastCorrect}>
-          {#if q.kind === 'char'}
+        <div class="qcard card pop-in" class:fact={q.kind === 'fact'} class:shake={showFeedback && !lastCorrect}>
+          {#if q.kind === 'fact'}
+            <p class="qfact">{q.question}</p>
+          {:else if q.kind === 'char'}
             <p class="qprompt">空格是哪個字？</p>
             <p class="qtext">
               {#each [...q.text] as ch}
@@ -293,16 +295,19 @@
           {/if}
         </div>
 
-        <div class="options" class:locked={showFeedback}>
+        <div class="options" class:locked={showFeedback} class:fact={q.kind === 'fact'}>
           {#each q.options as opt, i}
             <button
               class="opt card"
+              class:fact-opt={q.kind === 'fact'}
               class:right={showFeedback && opt.correct}
               class:picked-wrong={showFeedback && session.answered === i && !opt.correct}
-              aria-label="{q.kind === 'char' ? `選字 ${opt.char}` : `注音選項 ${opt.zhuyin}`}"
+              aria-label="{q.kind === 'fact' ? opt.text : q.kind === 'char' ? `選字 ${opt.char}` : `注音選項 ${opt.zhuyin}`}"
               onclick={() => choose(i)}
             >
-              {#if q.kind === 'char'}
+              {#if q.kind === 'fact'}
+                <span class="text-opt">{opt.text}</span>
+              {:else if q.kind === 'char'}
                 <span class="char-opt">{opt.char}</span>
               {:else}
                 <ZhuyinCol zhuyin={opt.zhuyin} size="1.7rem" />
@@ -312,15 +317,25 @@
         </div>
 
         {#if showFeedback}
+          {@const factAnswer = q.kind === 'fact' ? q.options.find(o => o.correct)?.text : null}
           <div class="feedback card bounce-in" class:good={lastCorrect}>
             <p class="fb-head">
-              {#if session.answered === -1}時間到！正解是「{q.kind === 'char' ? q.target : q.zhuyin}」
+              {#if q.kind === 'fact'}
+                {#if session.answered === -1}時間到！答案是「{factAnswer}」
+                {:else if lastCorrect}🎉 答對了！
+                {:else}原來如此！答案是「{factAnswer}」
+                {/if}
+              {:else if session.answered === -1}時間到！正解是「{q.kind === 'char' ? q.target : q.zhuyin}」
               {:else if lastCorrect}🎉 答對了！
               {:else}{q.kind === 'char' ? '💥 寫錯啦！' : '💥 唸錯啦！'}正解是「{q.kind === 'char' ? q.target : q.zhuyin}」
               {/if}
             </p>
             <p class="fb-fun">{q.fun}</p>
-            <p class="fb-meaning">{q.text}：{q.meaning}</p>
+            {#if q.kind === 'fact'}
+              <p class="fb-source">📜 {q.source}</p>
+            {:else}
+              <p class="fb-meaning">{q.text}：{q.meaning}</p>
+            {/if}
             {#if isLive}
               <p class="fb-wait">等大家答完馬上換題…</p>
             {:else if !isSprint}
@@ -564,4 +579,57 @@
   .fb-meaning { margin: 0.4rem 0 0; color: var(--ink-soft); font-size: 0.9rem; }
   .fb-wait { margin: 0.7rem 0 0; color: var(--ink-soft); font-size: 0.85rem; font-weight: 700; }
   .next { margin-top: 0.9rem; width: 100%; }
+
+  /* ── 端午知識題（kind: 'fact'）：完整問句題幹 + 垂直長條選項 ── */
+  .qcard.fact { text-align: left; padding: 1.3rem 1.3rem; }
+  .qfact {
+    margin: 0;
+    font-family: var(--font-kai);
+    font-size: clamp(1.2rem, 5.2vw, 1.55rem);
+    line-height: 1.55;
+    color: var(--ink);
+    letter-spacing: 0.01em;
+  }
+  /* 垂直堆疊長條：全寬、左對齊、可換行、觸控目標 ≥44px */
+  .options.fact {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .opt.fact-opt {
+    min-height: 0;
+    padding: 0.95rem 1.1rem;
+    justify-content: flex-start;
+    text-align: left;
+    border: 2.5px solid transparent;
+  }
+  .opt.fact-opt:hover { transform: translateY(-2px); }
+  .text-opt {
+    font-family: var(--font-round);
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+  .fb-source {
+    margin: 0.5rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  /* 端午皮膚：fact 題時答題畫面染艾草／江水色（正解綠用 reed，題卡邊框 reed） */
+  /* 鋪一層淡端午漸層蓋過全域粉橘 body，把端午身分釘進答題畫面（spec §5.5：大色塊用端午色，本文仍 --ink） */
+  .play:has(.qcard.fact)::after {
+    content: '';
+    position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background: linear-gradient(165deg,
+      color-mix(in srgb, var(--reed) 12%, var(--paper)) 0%,
+      color-mix(in srgb, var(--river) 10%, var(--paper)) 100%);
+  }
+  .play:has(.qcard.fact) .qcard { box-shadow: 0 0 0 2.5px color-mix(in srgb, var(--reed) 28%, white), var(--shadow-card); }
+  .play:has(.qcard.fact) .meter > i { background: linear-gradient(90deg, var(--river), var(--reed)); }
+  .opt.fact-opt.right { background: color-mix(in srgb, var(--reed) 14%, white); box-shadow: 0 0 0 3px var(--reed), var(--shadow-card); }
+  .play:has(.qcard.fact) .feedback.good { border-left-color: var(--reed); }
+  .play:has(.qcard.fact) .feedback { border-left-color: var(--cinnabar); }
 </style>

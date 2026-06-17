@@ -1,15 +1,17 @@
 <script>
   import './ui/theme.css';
   import FloatingBg from './ui/components/FloatingBg.svelte';
+  import FloatingDuanwu from './ui/components/FloatingDuanwu.svelte';
   import Home from './ui/screens/Home.svelte';
   import Play from './ui/screens/Play.svelte';
   import Result from './ui/screens/Result.svelte';
   import Levels from './ui/screens/Levels.svelte';
+  import DuanwuQuest from './ui/screens/DuanwuQuest.svelte';
   import Board from './ui/screens/Board.svelte';
   import DuelEntry from './ui/screens/DuelEntry.svelte';
   import Review from './ui/screens/Review.svelte';
 
-  import { MODES, levelConfig, LEVELS } from './modes.js';
+  import { MODES, levelConfig, LEVELS, DUANWU_LEVELS, duanwuLevelConfig } from './modes.js';
   import { storage } from './core/storage.js';
   import { dailySeed } from './core/rng.js';
   import { parseChallengeFromUrl, clearChallengeFromUrl } from './lib/challenge.js';
@@ -225,6 +227,28 @@
     screen = 'play';
   }
 
+  // 端午 event：開一關（stub 流程 — 龍舟 arcade 與完成路徑在 T2/T2b，先答完直接記進度回 quest）
+  function startDuanwuLevel(lv) {
+    modeKey = 'duanwu';
+    level = lv;
+    playConfig = { ...duanwuLevelConfig(lv), seed: `duanwu-${lv.n}-${Date.now()}` };
+    playMeta = { modeName: `${lv.n}・${lv.name}` };
+    duelSeed = null;
+    screen = 'play';
+  }
+
+  // 端午完成：純本地記進度（絕不 submitRun / recordQuestionAttempts，守 spec §2.2 不碰雲端）。
+  // 進度以 clearedLevels set 去重（重玩已過關卡不膨脹）。龍舟 arcade 接上後改由採滿觸發。
+  function finishDuanwu() {
+    const prev = storage.getDuanwuProgress();
+    const list = prev.clearedLevels ?? [];
+    if (level && !list.includes(level.n)) {
+      const clearedLevels = [...list, level.n];
+      storage.setDuanwuProgress({ clearedLevels, rescued: prev.rescued || clearedLevels.length >= 5 });
+    }
+    screen = 'duanwu-quest';
+  }
+
   function acceptChallenge() {
     clearChallengeFromUrl();
     if (challenge.score === null) {
@@ -347,12 +371,17 @@
   }
 </script>
 
-<FloatingBg />
+{#if screen === 'duanwu-quest' || (screen === 'play' && modeKey === 'duanwu')}
+  <FloatingDuanwu />
+{:else}
+  <FloatingBg />
+{/if}
 
 {#if screen === 'home'}
   <Home
     onPlay={startMode}
     onLevels={() => (screen = 'levels')}
+    onDuanwu={() => (screen = 'duanwu-quest')}
     onBoard={() => (screen = 'board')}
     onReview={() => (screen = 'review')}
     {challenge}
@@ -360,6 +389,8 @@
     onAcceptChallenge={acceptChallenge}
     onDeclineChallenge={declineChallenge}
   />
+{:else if screen === 'duanwu-quest'}
+  <DuanwuQuest onPick={startDuanwuLevel} onHome={goHome} />
 {:else if screen === 'duel'}
   <DuelEntry
     initialCode={challenge?.room ?? duelRoom ?? ''}
@@ -378,7 +409,11 @@
   <Levels onPick={startLevel} onHome={goHome} />
 {:else if screen === 'play'}
   {#key playConfig}
-    <Play config={playConfig} meta={playMeta} onFinish={finishGame} onQuit={goHome} />
+    {#if modeKey === 'duanwu'}
+      <Play config={playConfig} meta={playMeta} onFinish={finishDuanwu} onQuit={() => (screen = 'duanwu-quest')} />
+    {:else}
+      <Play config={playConfig} meta={playMeta} onFinish={finishGame} onQuit={goHome} />
+    {/if}
   {/key}
 {:else if screen === 'result'}
   <Result
