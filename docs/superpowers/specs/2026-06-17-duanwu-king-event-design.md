@@ -507,10 +507,18 @@ Synthesized from CEO + Eng review findings. P1 blocks ship; P2 same-branch follo
 
 > 估算修正（Codex #11）：50 題逐題查簡編本 + 合理 distractors + 過 audit + 白名單，是**真實長杆**，非機械任務；Canvas mobile arcade 含手感調校也遠超 25min。下列 CC 估算已上修。
 
-- [ ] **T1 (P1, human: ~2d / CC: ~1.5h)** — DragonBoat arcade（Session A）— Canvas 2D 3 道/切道/跳躍/障礙/粽子/3命/`onComplete(n)` 契約 + SVG sprite + 手感調校
+- [x] **T1 (P1, human: ~2d / CC: ~1.5h)** — DragonBoat arcade（Session A）— Canvas 2D 3 道/切道/跳躍/障礙/粽子/3命/`onComplete(n)` 契約 + SVG sprite + 手感調校 ✅ **DONE 2026-06-18**
   - Surfaced by: Sec1 1A + Sec2 2A（ctx null + dt clamp）+ Sec4 4A（resize/DPR）+ Codex #9（SVG sprite）+ input ownership
-  - Files: `src/ui/components/DragonBoat.svelte`
+  - Files: `src/ui/components/DragonBoat.svelte`（新增）, `src/ui/components/dragonBoatSprites.js`（新增 SVG sprite 字串：龍舟/粽子/石頭/漩渦）
   - Verify: 獨立 demo 頁測手感；切 tab 碰撞不穿透；手機轉向不爆版；空白鍵不捲頁/canvas touch-action:none
+  - **實作狀態**：全部防雷項落實（ctx null 守衛 / dt clamp 50ms / ResizeObserver+DPR / preventDefault+touch-action:none / 出界 cull）。果汁感：SVG sprite（禁 emoji）+ 河面漸層波光 + 撿粽 particle + 龍舟擺動。a11y：aria-label + sr-only 操作說明。
+  - **agent-browser 三輪實測迭代（demo 頁 `dragonboat-demo.html`，dev-only `window.__boat` hook 經 `import.meta.env.DEV` 守衛、production tree-shake 掉）**：
+    - R1 難度爆表（幾秒冤死）→ 障礙 44%→28%、捲動 0.32→0.26、生成間隔 0.62→0.85、粽子 hitbox 放大/障礙 hitbox 縮小。
+    - R2 邊角驗證：碰撞扣命/跳躍躲避/retry 歸零/橫式轉向不爆版 皆通過，無元件 bug。
+    - R3 程式碼隱患：finish() setTimeout 對 stale 元件回呼 → onDestroy + retry 清 finishTimer；無解障礙牆取樣 61 次 0 命中。
+    - 最終：`npm run build` 過；bot 完整跑通 win→`onComplete(10)`、fail→回傳實際採到數。
+  - **demo 頁（ephemeral 測試）**：`dragonboat-demo.html` + `src/DragonBoatDemo.svelte` + `src/dragonBoatDemo.js`，未進 vite rollupOptions build input（不入正式產物）。
+  - **未做（YAGNI，移交 Session B/上層）**：「收手」中途離開的 onComplete 部分回傳路徑屬 App.svelte 接線層，非元件範圍。
 - [ ] **T2 (P1, human: ~1d / CC: ~30min)** — festival 流程 + flow 模組（Session B）— Approach B wrapper（quiz關→arcade→結算→寫進度），流程狀態抽 `src/core/duanwu.svelte.js`（不堆進 App.svelte），對 DragonBoat stub 開發
   - Surfaced by: Sec1 architecture（Approach B）+ Eng D1（flow 狀態歸屬）
   - Files: `src/core/duanwu.svelte.js`(新增 flow 模組), `src/App.svelte`(只認 duanwuStep 旗號), `src/ui/screens/DuanwuQuest.svelte`, `src/ui/screens/Home.svelte`
@@ -559,10 +567,11 @@ Synthesized from CEO + Eng review findings. P1 blocks ship; P2 same-branch follo
   - Surfaced by: Design review D3（Pass 5 設計系統對齊 6/10）+ user「結合端午元素」
   - Files: `src/ui/theme.css`
   - Verify: 入口卡/quest 用 reed；arcade 用 river+zong+cinnabar；不與現有 5 tint 撞色
-- [ ] **T12 (P1, human: ~1h / CC: ~15min)** — Q 版粽子 SVG（user 指示）— 手繪三角粽形 inline SVG（粽葉 reed 綠 + 米色尖角 + 綁繩），全 event 唯一粽子資產，arcade/進度鉤/result/結局/分享卡共用，**禁 emoji 糰子**
+- [x] **T12 (P1, human: ~1h / CC: ~15min)** — Q 版粽子 SVG（user 指示）— 手繪三角粽形 inline SVG（粽葉 reed 綠 + 米色尖角 + 綁繩），全 event 唯一粽子資產，arcade/進度鉤/result/結局/分享卡共用，**禁 emoji 糰子** ✅ **DONE 2026-06-18（Session A 先交付資產）**
   - Surfaced by: user 指示 + Codex #9（SVG sprite）
-  - Files: `src/ui/components/Zongzi.svelte`（或 theme SVG symbol）
+  - Files: `src/ui/components/Zongzi.svelte`（DOM 用，props: size/reed/reedDeep/rice/tie）
   - Verify: 全 event 粽子皆此 SVG；零 emoji 糰子（🍡）出現
+  - **實作狀態**：Zongzi.svelte 供 DOM 場景（進度鉤/result/結局/分享卡）；arcade canvas 內用 `dragonBoatSprites.js` 的 `ZONGZI_SVG` 字串（同造型同色，drawImage 繪製）保證視覺一致。色值直接寫端午 palette（reed #5BA86B / reedDeep #3E8A52 / rice #F3E4C0 / tie #C97B3A），**未依賴 theme.css token**（token 屬 Session B T11，避免跨 session 衝突）；T11 落地後可改引 var()。
 - [ ] **T13 (P1, human: ~1h / CC: ~10min)** — DuanwuQuest 視覺階層（Design D4）— 進度鉤 hero / 關卡路徑主體 / 「下一關」唯一果凍彈跳 CTA（§5.2）+ 首次空狀態暖場（§5.4）
   - Surfaced by: Design review D4（Pass 1 IA 5/10）+ Pass 2 空狀態
   - Files: `src/ui/screens/DuanwuQuest.svelte`
