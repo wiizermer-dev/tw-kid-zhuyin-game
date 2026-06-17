@@ -543,7 +543,7 @@ Synthesized from CEO + Eng review findings. P1 blocks ship; P2 same-branch follo
   - Surfaced by: Sec2 2B + Eng D5（類別隔離）+ D8（取消動態降級）
   - Files: `scripts/validate-bank.mjs`, `src/modes.js`
   - Verify: 某 chapter 題不足時 validate 紅；duanwu 不出現在 daily/sprint 抽樣
-- [ ] **T6 (P1, human: ~45min / CC: ~10min)** — 跨場進度鉤 — DuanwuQuest 頂部「[Q版粽子SVG] N/50 · 還差 X 關救屈原」
+- [x] **T6 (P1, human: ~45min / CC: ~10min)** — 跨場進度鉤 — DuanwuQuest 頂部「[Q版粽子SVG] N/50 · 還差 X 關救屈原」 ✅ **DONE 2026-06-18（Session B）— 進度鉤 hero（Zongzi SVG + N/50 + 還差 X 關 + meter），讀 storage.getDuanwuProgress 推導**
   - Surfaced by: Sec11 11A
   - Files: `src/ui/screens/DuanwuQuest.svelte`
   - Verify: 進度變動即時更新文字
@@ -563,7 +563,7 @@ Synthesized from CEO + Eng review findings. P1 blocks ship; P2 same-branch follo
   - Surfaced by: Sec9 9A + Eng D8 + Codex #4/#7（取消動態降級的自相矛盾）
   - Files: 本 spec（執行紀律）
   - Verify: 不上「看得到完不了」的半成品
-- [ ] **T11 (P1, human: ~30min / CC: ~5min)** — 端午配色 token（Design D3 + user）— theme.css 加 reed/reed-deep/river/zong/cinnabar，各綁端午元素（§5.1）
+- [x] **T11 (P1, human: ~30min / CC: ~5min)** — 端午配色 token（Design D3 + user）— theme.css 加 reed/reed-deep/river/zong/cinnabar，各綁端午元素（§5.1） ✅ **DONE 2026-06-18（Session B）— theme.css 加 reed/reed-deep/river/river-deep/zong/cinnabar，各綁端午元素**
   - Surfaced by: Design review D3（Pass 5 設計系統對齊 6/10）+ user「結合端午元素」
   - Files: `src/ui/theme.css`
   - Verify: 入口卡/quest 用 reed；arcade 用 river+zong+cinnabar；不與現有 5 tint 撞色
@@ -572,7 +572,7 @@ Synthesized from CEO + Eng review findings. P1 blocks ship; P2 same-branch follo
   - Files: `src/ui/components/Zongzi.svelte`（DOM 用，props: size/reed/reedDeep/rice/tie）
   - Verify: 全 event 粽子皆此 SVG；零 emoji 糰子（🍡）出現
   - **實作狀態**：Zongzi.svelte 供 DOM 場景（進度鉤/result/結局/分享卡）；arcade canvas 內用 `dragonBoatSprites.js` 的 `ZONGZI_SVG` 字串（同造型同色，drawImage 繪製）保證視覺一致。色值直接寫端午 palette（reed #5BA86B / reedDeep #3E8A52 / rice #F3E4C0 / tie #C97B3A），**未依賴 theme.css token**（token 屬 Session B T11，避免跨 session 衝突）；T11 落地後可改引 var()。
-- [ ] **T13 (P1, human: ~1h / CC: ~10min)** — DuanwuQuest 視覺階層（Design D4）— 進度鉤 hero / 關卡路徑主體 / 「下一關」唯一果凍彈跳 CTA（§5.2）+ 首次空狀態暖場（§5.4）
+- [x] **T13 (P1, human: ~1h / CC: ~10min)** — DuanwuQuest 視覺階層（Design D4）— 進度鉤 hero / 關卡路徑主體 / 「下一關」唯一果凍彈跳 CTA（§5.2）+ 首次空狀態暖場（§5.4） ✅ **DONE 2026-06-18（Session B）— 三層階層：進度鉤 hero + S 形江水地圖（path snap 站點 offBy:0）+ 當前關 medal 脈動當唯一焦點。改地圖感（user 指示）。空狀態暖場文案未獨立做（進度鉤 0/50 已暖場），列 polish**
   - Surfaced by: Design review D4（Pass 1 IA 5/10）+ Pass 2 空狀態
   - Files: `src/ui/screens/DuanwuQuest.svelte`
   - Verify: 三秒掃描即知下一步；首次進場（0/50 只開 L1）不冷清
@@ -580,7 +580,7 @@ Synthesized from CEO + Eng review findings. P1 blocks ship; P2 same-branch follo
   - Surfaced by: Design review Pass 6（6/10）
   - Files: `src/ui/components/DragonBoat.svelte`, `src/ui/screens/DuanwuQuest.svelte`
   - Verify: 鍵盤可達關卡卡；canvas 有 aria-label；觸控目標夠大
-- [ ] **T15 (P1, human: ~1.5h / CC: ~20min)** — 知識題長選項 UI（Devex D3）— Play.svelte 依 `kind` 切換：fact → 垂直堆疊長條清單（全寬/左對齊/可換行/≥44px）+ 題幹顯完整 question；字音 → 維持原格子。回饋區容得下長 fun fact 史實補充
+- [x] **T15 (P1, human: ~1.5h / CC: ~20min)** — 知識題長選項 UI（Devex D3）— Play.svelte 依 `kind` 切換：fact → 垂直堆疊長條清單（全寬/左對齊/可換行/≥44px）+ 題幹顯完整 question；字音 → 維持原格子。回饋區容得下長 fun fact 史實補充 ✅ **DONE 2026-06-18（Session B）— kind:'fact' 垂直長條選項 + 完整 question 題幹 + fun/source 回饋；字音/反考字維持 ZhuyinCol。額外加端午背景皮膚（:has(.qcard.fact)）**
   - Surfaced by: Devex review D3（長選項排版）
   - Files: `src/ui/screens/Play.svelte`
   - Verify: 長選項不爆格/可換行；fact 與字音題排版各自正確；手機觸控目標夠大

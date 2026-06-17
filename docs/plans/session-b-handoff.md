@@ -17,6 +17,47 @@ PR #8（branch `feat/duanwu-dragonboat-arcade`）已含：
 
 ---
 
+## Session B 實際進度（2026-06-18 更新，逐項核實檔案後填）
+
+> 下面 catch-up prompt 的 B 段大半已完成。接手者**先看這張**，別重做已綠的項目。commit：`bf68bb1`(題庫+選題鏈)、`9ad7ff5`(spec 標記)、`34f1bd0`(UI)。
+
+### 已完成 ✅
+
+| 項目 | 狀態 | 備註 |
+|---|---|---|
+| 題庫 duanwu.js | ✅ **89 題**（非 50，超目標） | 3 輪審查 workflow 濃縮；報告 docs/superpowers/duanwu-bank-build/report.html |
+| index.js 註冊 + validate fact schema | ✅ | validate 加足量+隔離斷言；audit 跳過 fact |
+| toQuestion 支援 kind:'fact' (T4b) | ✅ | 字音/反考字分支零改動 |
+| EVENT_ONLY_CATEGORIES 隔離 (T8) | ✅ | daily/sprint 零洩漏，逆向驗證有鑑別力 |
+| selectQuestions chapter 過濾 + DUANWU_LEVELS (T9) | ✅ | duanwuLevelConfig escalate/calibrated:false；**修了 session.start 漏傳 chapter 的 bug** |
+| validate 足量斷言 (T5) | ✅ | 抓出 quyuan 1-2 僅 7 題 → 改 max 1→3 |
+| theme.css 端午 token (T11) | ✅ | reed/river/zong/cinnabar |
+| 手繪 SVG 圖標庫 | ✅ | DuanwuIcon.svelte 6 個(boat/reed/sachet/egg/zhongkui/wine) + FloatingDuanwu；對齊 Zongzi 品味，3 輪 agent-browser 審查+2 輪精雕 |
+| Home 端午王入口卡 | ✅ | reed hero 卡 + 進度感知 badge |
+| DuanwuQuest 畫面 (T6/T13) | ✅ | S 形江水地圖、進度鉤 hero、站點 snap path、CTA 脈動 |
+| Play fact 長選項 UI (T15) | ✅ | 垂直長條 + 完整問句 + fun/source + 端午背景皮膚 |
+| storage duanwu_progress read/write | ✅ | clearedLevels 形狀 |
+| 完成路徑不碰雲端 | ✅ **stub** | App.svelte finishDuanwu 不 submitRun/不 recordQuestionAttempts；進度 set 去重 inline |
+| 敘事框架「救屈原」拍板 | ✅ | spec §「敘事框架定案」+ 結局幕點睛文案規格 |
+
+### 還沒做 ❌（接手者的真實 TODO）
+
+| 項目 | 對應 spec task | 備註 |
+|---|---|---|
+| **registry 接線**（A 段） | — | DUANWU_LEVELS **沒有 game 欄位**；App.svelte 沒有 MINIGAMES map；目前 duanwu 答完直接 finishDuanwu 過關，**5 個 mini-game 完全沒接上**。L1 DragonBoat 還在 components/ 沒搬進 minigames/ |
+| **duanwu.svelte.js flow 模組** | T2 (Eng D1) | 不存在。目前流程狀態散在 App.svelte 的 startDuanwuLevel/finishDuanwu，spec 要求抽薄模組 |
+| **advanceDuanwuProgress 純函式** | T3 | 不存在（只在 App.svelte inline 了 set 去重邏輯）；缺 scripts/duanwu-progress-check.mjs 自檢 |
+| **SaveQuyuan 結局幕** | T7 | 不存在。救屈原達成目前只在 DuanwuQuest 進度鉤顯「你救出屈原了」，無結局幕（spec §5.3 記憶點幕 + 點睛文案） |
+| **DuanwuResult 本關結算** | T2b | 不存在。答完直接回 quest，無「這關全對/連擊/粽子+10」結算卡 + 分享 |
+| **完成路徑反向驗證 RED→GREEN** | T2b 驗收 | 未做（目前 stub 本就不上雲，但缺正式反向驗證測試） |
+| L4 poemData 真句 / L5 結局 fade | C 段 | Session A 的內容 TODO |
+
+### 關鍵接線缺口（最該先做）
+
+目前 duanwu **答完 10 題 → 直接 finishDuanwu 記進度過關**，跳過了 Session A 的 5 個 mini-game。spec 的完整流程是「答完一關 → 進該關 mini-game 採滿粽子 → 才過關」。registry 接線（A 段）是把這兩半接起來的唯一缺口。
+
+---
+
 ## Catch-up Prompt（整段貼給新 Session B agent）
 
 ```
