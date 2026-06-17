@@ -274,12 +274,51 @@ export const levelsCleared = (p) => p.clearedLevels.length;
 
 ### 5.3 救屈原結局「記憶點」幕（Design review D2，Pass 3）
 
-> save-quyuan 是整個 event 的情緒高潮（孩子磨 50 題 + 5 輪龍舟才到）。**不做純靜態最小版**，做一個有記憶點的 5 秒視覺高潮，全用現有 theme 的 pop/bounce keyframes（不加重依賴）：
+> save-quyuan 是整個 event 的情緒高潮（孩子磨 50 題 + 5 輪龍舟才到）。**不做純靜態最小版**，做一個有記憶點的 5 秒視覺高潮，全用現有 theme 的 pop/bounce keyframes（不加重依賴）。
 
-- **視覺高潮**（CSS keyframes，複用 theme 果凍彈跳）：龍舟駛近 → 粽子雨落下 → 屈原被接上岸的彈跳定格。艾草綠收束色。
+**美術參考（user 提供，`A_joyful_cinematic_first_perso.mp4` + 兩張截圖）**：第一人稱 POV，**屈原雙手緊握「你」的雙手，把你拉起來轉**（不只單向拉上岸，是互握帶轉的動感），開懷大笑露齒、飄逸長髮、**髮髻上插一片粽葉/菖蒲葉**（綠、超端午），白漢服＋綠草葉紋＋綠腰帶＋寬袖飄動；三角粽（粽葉＋綁繩，非糰子）大小不一往天空飛散，混粉色花瓣；陽光汨羅江（青藍）＋綠草坡＋大量野花＋遠山藍天，左遠處紅色看台/廟，廣角魚眼＋動態模糊。**此影片/截圖是美術參照（mood/構圖），不是資產**——用手繪 Q 版 SVG/CSS 重現「構圖與感覺」，貼糖果色×楷書×果凍彈跳調性（寫實 3D 與兒童遊戲調性不合；Q 版更可愛、零依賴、端午趕得上）。選型決策見 Design review D5（否決嵌影片）。
+
+> 必留的高識別細節（重現時別丟）：(1) **雙手互握、他拉你轉**的姿態（情緒核心）；(2) 屈原**髮髻插粽葉**（一眼端午）；(3) 三角粽＋綁繩（非糰子，對齊 §5.1 Q版粽子 SVG）；(4) 漢服**艾草綠緣**（對上 `--reed`，你的手臂袖口也是這個綠 → POV 一致）。
+
+**重現方式（純 SVG/CSS，分層）**：
+
+```
+  ┌──────────────────────────────────────┐
+  │  天空藍 + 暖陽光暈（CSS radial gradient）  │  背景層：汨羅江水(river青藍,左)+綠草坡(reed,右)
+  │      ☁      ☀     [遠山/紅看台]          │  + 野花點點 + 遠山，輕微 parallax
+  │     Q版屈原(置中偏上)                      │  主體：手繪 SVG，開懷笑臉、長髮往側飛、
+  │   髮髻插粽葉🌿  ＼笑／                     │        髮髻插粽葉、白漢服(reed綠緣+草葉紋+綠腰帶)
+  │      ╲手  握  手╱                        │  動作：屈原雙手往下緣伸，與「你的手」緊握
+  │   [你的手臂]🤝  🤝[你的手臂]               │  POV：下緣左右兩條「你的手臂」剪影(reed綠緣袖)
+  │                                        │        往上握住屈原 → 第一人稱「他拉你轉」
+  └──────────────────────────────────────┘
+   三角粽(Q版SVG,大小不一) + 粉花瓣 從中心往外放射飛散
+   （CSS staggered transform + 果凍彈跳，仿廣角魚眼的放射感）
+```
+
+- **視覺高潮**（CSS keyframes，複用 theme 果凍彈跳，約 5 秒一次性播放）：
+  1. 屈原從畫面遠處彈跳放大進場（pop-in scale + overshoot），雙手往下緣「你的手」伸來
+  2. **互握瞬間**：屈原手與你的手相接，整個畫面輕微 `rotate`（仿「拉你轉一圈」的旋轉動感）+ 屈原長髮/袖口往側飄（transform）
+  3. 三角粽（§5.1 Q 版粽子 SVG）＋粉花瓣從中心放射狀飛散（多個元素 staggered transform，仿參考的「四散飛舞」）
+  4. 微魚眼/放射感用 `scale` + 邊緣輕微 `rotate` 模擬廣角（不上 3D，純 transform）
+  5. 收束定格：屈原笑臉（髮髻粽葉）+ 「你救出屈原了！」楷書大字，艾草綠收束底
+- **POV 呼應**：畫面下緣左右放兩條「你的手臂」剪影（漢服 reed 綠緣袖，對上你穿的同色），往上與屈原雙手緊握——呼應參考第一人稱「他拉你起來轉」。Q 版扁平剪影，不寫實。
 - **成就文字**：一句讀者文 + 戰績數字（用了 N 天、最高連擊 X、答對率）。
-- **一鍵分享卡**：走 `src/lib/share.js` 海報（見 §2.2）。
+- **一鍵分享卡**：走 `src/lib/share.js` 海報（見 §2.2），海報構圖沿用這幕（Q 版屈原 + 飛散粽子 + 戰績）。
 - 時間視野：5 秒視覺（彈跳動畫）+ 5 分鐘行為（分享）+ 長期（這個 moment 是孩子記得這 event 的原因）。
+- **資產**：Q 版屈原 SVG 為本幕專屬新增（`src/ui/components/Quyuan.svelte` 或結局畫面內聯）——含開懷笑臉、**髮髻插粽葉**、白漢服 reed 綠緣 + 草葉紋 + 綠腰帶、**雙手前伸**姿態；粽子複用 §5.1 共用 Zongzi SVG。
+
+### 5.3a 結局呈現選型（Design review D5）
+
+> user 參考影片為 AI 生成電影級 3D（寫實、魚眼 POV、動態模糊、7MB mp4）。評估三案後選**手繪 Q 版 SVG/CSS 重現構圖**：
+
+| 方案 | 取捨 | 結論 |
+|---|---|---|
+| **A 手繪 Q 版 SVG/CSS（選用）** | 零依賴、零 build step、貼糖果色調、端午趕得上；視覺非電影級但更可愛、一致 | ✅ 採用 |
+| B 嵌預渲染 mp4 | 視覺最炸，但寫實 3D 脫節兒童糖果調、影片進 git/bundle 肥大(~7MB)、穩定品質的屈原影片非 2 天事、手機自動播放/頻寬限制要踩 | ❌ 否決 |
+| C 混合（SVG 主 + 背景輕量影片層） | 多一點電影感，但仍以手繪為主；背景影片層可列 Phase 2 | 暫不做（YAGNI，先 A） |
+
+對齊專案「純前端、無 build step 以外工具鏈」慣例與 ponytail（不為一個結局幕引入影片管線）。
 
 ### 5.4 互動狀態與空狀態（Pass 2）
 
@@ -324,6 +363,7 @@ export const levelsCleared = (p) => p.clearedLevels.length;
 |---|---|---|
 | `src/ui/components/DragonBoat.svelte` | 新增（Canvas arcade） | **A** |
 | `src/ui/components/Zongzi.svelte`（或 theme SVG symbol） | 新增（Q 版粽子 SVG，全 event 共用，arcade 也用） | **A**（資產，B 也引用） |
+| `src/ui/components/Quyuan.svelte` | 新增（Q 版屈原 SVG，結局幕用：髮髻粽葉/reed 綠緣漢服/雙手前伸） | B（結局幕） |
 | `src/ui/theme.css` | 加端午配色 token（reed/river/zong/cinnabar，§5.1） | B |
 | `src/data/bank/duanwu.js` | 新增（50 題，按難度區分配） | B |
 | `src/data/bank/index.js` | 註冊 duanwu 類別 | B |
@@ -416,10 +456,10 @@ Synthesized from CEO + Eng review findings. P1 blocks ship; P2 same-branch follo
   - Surfaced by: Sec11 11A
   - Files: `src/ui/screens/DuanwuQuest.svelte`
   - Verify: 進度變動即時更新文字
-- [ ] **T7 (P1, human: ~3h / CC: ~30min)** — 救屈原「記憶點」結局幕（Design D2）— 單畫面但有 5 秒果凍彈跳高潮（龍舟駛近→粽子雨→屈原上岸定格）+ 成就文字 + 分享卡，全用 theme pop/bounce keyframes
-  - Surfaced by: Design review D2（Pass 3 情緒弧 4/10）+ §5.3
-  - Files: `src/ui/screens/SaveQuyuan.svelte`
-  - Verify: 5 關全破觸發；彈跳動畫順；rescued flag idempotent；分享卡走 share.js
+- [ ] **T7 (P1, human: ~4h / CC: ~40min)** — 救屈原「記憶點」結局幕（Design D2/D5 + user 美術參考）— 第一人稱 POV 構圖：Q 版屈原雙手拉你轉、髮髻插粽葉、三角粽+花瓣放射飛散、汨羅江草坡背景，5 秒 CSS 果凍彈跳高潮 + 成就文字 + 分享卡。手繪 SVG/CSS 重現，**不嵌影片**（D5）
+  - Surfaced by: Design review D2（Pass 3 情緒弧 4/10）+ D5（否決嵌影片）+ §5.3 + user 提供 `A_joyful_cinematic_first_perso.mp4` 美術參考
+  - Files: `src/ui/screens/SaveQuyuan.svelte`, `src/ui/components/Quyuan.svelte`（Q 版屈原 SVG，髮髻粽葉/reed 綠緣漢服/雙手前伸）；粽子複用 Zongzi SVG
+  - Verify: 5 關全破觸發；雙手互握→轉→粽子飛散彈跳動畫順；rescued idempotent；分享卡走 share.js；零嵌影片/零新依賴
 - [ ] **T8 (P1, 阻擋項)** — duanwu 題庫隔離 — `selectQuestions` 加 `EVENT_ONLY_CATEGORIES` 預設排除，一般模式不抽到端午題（**ship blocker**）
   - Surfaced by: Codex #1（端午題全年亂入）= Eng D5
   - Files: `src/core/bank.js`
