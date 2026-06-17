@@ -30,11 +30,21 @@
 
 ## 1. 題庫：duanwu 類別
 
-- **新檔** `src/data/bank/duanwu.js`，沿用現有題目 schema：
-  `{ id, text, target, zhuyin, distractors[1-3], meaning, fun, tags[], difficulty(1-5), era }`
+- **新檔** `src/data/bank/duanwu.js`，schema 在現有基礎上**加一個 `chapter` 欄位**（Eng review D6）：
+  `{ id, text, target, zhuyin, distractors[1-3], meaning, fun, tags[], difficulty(1-5), era, chapter }`
+  `chapter` 值對應 5 關主題：`'quyuan' | 'boat' | 'zongzi' | 'poem' | 'king'`。**選題用 chapter 鎖主題，不只靠難度**（見 §2.1 與 D6 findings）。
 - **id 前綴 `dw`**，連號 `dw-001`～`dw-050`（格式對齊現有 `tk-001` 有 hyphen 慣例）
 - **註冊**：`src/data/bank/index.js` 的 `CATEGORIES` 加一筆 `duanwu: { label: '端午', icon: <注音>, items: duanwu }`
 - **先寫滿 50 題**（5 關各 10），event 上線即可玩滿全程
+
+### 題庫隔離：event-only 類別不進一般模式選池（Eng review D5，ship blocker）
+
+> Codex #1：daily/sprint/多數 levels 選題 `categories=null`（全選），duanwu 一進 `BANK` 就會在一般模式**全年亂入**（五月以外抽到屈原/龍舟/粽子題很出戲）。
+
+- `src/core/bank.js` 的 `selectQuestions` 加一層**預設排除 event-only 類別**：維護一份 `EVENT_ONLY_CATEGORIES = ['duanwu']`，`categories=null` 時母池排除這些類別；**只有顯式 `categories:['duanwu']`（duanwu 模式）才抽得到**。
+- 對齊既有「單一扁平 BANK」架構（duanwu 照樣進 BANK，不另開題池），只在選題層加排除規則。daily/sprint/levels 一行不改。
+- validate 加一條：BANK 中標 event-only 的類別，不出現在任一非 event 模式的預設選池抽樣裡。
+
 - **題目走 audit/validate**：簡編本權威層優先，與其他類別同規格。注音以教育部《國語辭典簡編本》為第一依據（見 `docs/audit-playbook.md`）
 
 ### 50 題的主題分佈（對應 5 關）
@@ -61,19 +71,19 @@
 
 ```js
 export const DUANWU_LEVELS = [
-  { n: 1, name: '汨羅江畔', min: 1, max: 2, count: 10 },
-  { n: 2, name: '划龍舟',   min: 2, max: 3, count: 10 },
-  { n: 3, name: '包粽子',   min: 2, max: 3, count: 10 },
-  { n: 4, name: '詩詞關',   min: 3, max: 4, count: 10 },
-  { n: 5, name: '端午王', min: 4, max: 5, count: 10, boss: true,
-    bossName: '端午王', bossHp: 10, hearts: 3, perQuestionSeconds: 12,
-    bossIntro: '...' }
+  // chapter 鎖主題（D6）；duanwu 關全部 escalate:false（D6）；第 5 關不當 boss（D7）
+  { n: 1, name: '汨羅江畔', chapter: 'quyuan', min: 1, max: 2, count: 10 },
+  { n: 2, name: '划龍舟',   chapter: 'boat',   min: 2, max: 3, count: 10 },
+  { n: 3, name: '包粽子',   chapter: 'zongzi', min: 2, max: 3, count: 10 },
+  { n: 4, name: '詩詞關',   chapter: 'poem',   min: 3, max: 4, count: 10 },
+  { n: 5, name: '端午王',   chapter: 'king',   min: 4, max: 5, count: 10 }  // 非 boss
 ];
 ```
 
-- 選題鎖定 `categories: ['duanwu']`（每關 config 帶入），確保只出端午題
-- 關卡 config 複用 `levelConfig()`（或加一個薄 wrapper 鎖 category），不另寫狀態機
-- BOSS 關沿用現有 boss 機制（血條、限時、hearts）
+- **選題鎖主題（Eng review D6）**：每關用 `chapter` 鎖題，不只靠難度。L2(boat)/L3(zongzi) 難度都是 2-3，光靠難度分不開主題 → 龍舟關可能抽到粽子題。需要 `selectQuestions` 支援 chapter 過濾（或關卡用 `onlyIds` 帶該章節題 id 清單）。`categories:['duanwu']` 仍帶（配 D5 隔離），但**主題分關靠 chapter**。
+- **端午關一律 `escalate: false`（Eng review D6）**：`levelConfig()` 對非 boss 關預設 `escalate:true`（`src/modes.js:123`），連對提難會把後續題換成同 category 更難題，但**不保證同 chapter** → 粽子關連對後冒出詩詞題。duanwu 關必須關掉 escalate（在 config 覆蓋 `escalate:false`，或 levelConfig 認 `level.chapter` 時自動關）。
+- **第 5 關不當 boss（Eng review D7）**：原設 `boss:true, bossHp:10` = 10 題全對才 `won`，與「答完進龍舟」流程矛盾（沒打贏怎麼算未定義），且 10/10 對小孩太硬。第 5 關跟 L1-4 同機制：答 10 題（難度 4-5）→ 進龍舟 → 採滿過關。「端午王」靠最高難度 + 主題包裝，不靠 boss 血條。
+- **`calibrated` 注意（Codex #5）**：`levelConfig` 預設 `calibrated:true`，受雲端錯率覆蓋影響。duanwu 是 event-only 類別、樣本少，校正意義不大；實作時確認 calibrated 對 duanwu 不會誤動難度（必要時 duanwu 關 `calibrated:false`）。
 
 ### 2.2 畫面流程（`src/App.svelte` + 新 screen）
 
@@ -84,15 +94,23 @@ home（端午王入口卡）
   → duanwu-quest（關卡選擇畫面，複製 Levels.svelte 結構）
     → play（QuizSession 跑該關 10 題，modeKey='duanwu'）
       → dragonboat（答完該關 → 龍舟 arcade 採 10 粽子）
-        → 採滿 → 記進度 → 回 duanwu-quest（解鎖下一關）
-  → 集滿 5 關 + 50 粽子 → save-quyuan（救屈原結局畫面）
+        → 採滿 → 記進度 → duanwu-result（本關結算 + 分享卡）→ 回 duanwu-quest（解鎖下一關）
+  → 集滿 5 關 + 50 粽子 → save-quyuan（救屈原結局畫面 + 最終分享卡）
 ```
 
 - `App.svelte` 加 `modeKey === 'duanwu'` 分支：答完一關不直接進 result，而是切到 `dragonboat` screen
 - 龍舟結束 callback 回寫進度，再切回 `duanwu-quest`
 - **入口**：Home 加一張端午王限定入口卡（節慶 tint），點進 `duanwu-quest`
 
+> **完成路徑與結算（Eng review D2 + D2b）**：端午 quiz 關**不可直接複用 `finishGame()`**（`src/App.svelte:251-323`）。現有 `finishGame` 在 `score > 0` 時無條件寫 `local_board` + `submitRun()` 上雲（:309-321）並 `screen='result'`（:323），與「event 不碰排行榜、答完進龍舟」衝突。
+> - 端午 quiz 走**獨立完成路徑**：可共用 `finishGame` 可抽出的小件（錯題本 `addMistake`/`clearMistake` + `addRecentIds`，端午題照樣餵全域錯題本），但**不呼叫 `submitRun()`、不寫 `local_board`、不跳 `result`**，改切 dragonboat。
+> - **也不呼叫 `recordQuestionAttempts()`（Codex #2）**：`finishGame:262-265` 除榜單外還上傳全體常錯榜資料到雲端，且該資料會回頭影響 `calibrated` 選題。端午完成路徑**連 `recordQuestionAttempts` 也不可呼叫**，否則 event 題的答題統計污染雲端、反過來干擾一般模式選題難度。「不碰雲端」= 不 submitRun + 不 recordQuestionAttempts。
+> - **結算畫面（你要的激勵分享）**：每關採滿粽子後過一個 **duanwu-result** 畫面（「這關全對/連擊 X/粽子 +10」），最終 5 關全破進 **save-quyuan**。兩者都掛**一鍵分享卡**。**分享走 `src/lib/share.js`（海報生成），不是 `challenge.js`（Codex #8）**：`challenge.js` 只解析 duel room / score URL，不是通用分享模組；端午分享卡若要帶 URL，需定義獨立 schema 並確保 `challenge.js` parser 不誤判端午 URL 為戰帖。
+> - **端午過關榜 = 純本地（D2b）**：成就感走「你救出屈原了！用了 N 天、最高連擊 X」這類**本地個人成就**展示，存 `duanwu_progress`，**不碰 Supabase / 不上雲端排行榜**（守 CEO review 原定調；雲端端午榜列 TODO，節後再評估）。
+
 > **架構決策（CEO review, Approach B）**：App.svelte 的 duanwu 串接寫成一段通用「節慶流程」wrapper（`quiz關 → arcade → 寫進度 → quest`），DUANWU_LEVELS 與 DragonBoat 當第一個實例填進去，而非寫死的 `modeKey==='duanwu'` 一次性特例。現在只多寫一個薄 wrapper，將來中秋/過年只需換題庫類別 + 換 arcade 元件，App.svelte 不再加第二個近乎重複的分支。**不做** festivals registry / 獨立 store（YAGNI，等真有第 2-3 個節慶且 pattern 穩了再抽）。對齊 §3 DragonBoat 介面凍結的同一紀律，往上延伸一層。
+
+> **流程狀態歸屬（Eng review D1）**：App.svelte 現已 14 個 `$state` + ~340 行轉換邏輯（7 畫面 + 對戰房生命週期），已是重 orchestrator。festival 流程本身是個迷你狀態機（在哪一關、quiz 答完沒、boat 結果），**不可**再以散落的 `$state` 欄位塞進 App.svelte（否則 App.svelte 變新 god file，重演 CEO review 對 Play.svelte 的告誡）。抽成一個薄模組 `src/core/duanwu.svelte.js`（與 `advanceDuanwuProgress` 純函式同住或相鄰），持「flow step + 當前關」狀態並暴露推進動作；App.svelte 只認一個 `duanwuStep`/screen 旗號 + 掛對應元件。模組存資料與 store action（`open`/`advance`/`reset`），**不存 caller callback**（對齊 coding-style：callback 走 JSX 邊界）。
 
 ### 2.3 跨場進度鉤（CEO review 11A，Phase 1 必做）
 
@@ -152,7 +170,7 @@ DuanwuQuest 畫面頂部常駐一條進度鉤：`🍡 {zongziTotal}/50 · 還差
 
 ### 果汁感（純 Canvas，零 3D）
 
-- sprite 用 emoji / inline SVG：🐉🛶 龍舟、🪨🌀 障礙、🍡 粽子
+- sprite：**核心碰撞物（粽子、障礙、龍舟）用 inline SVG/path，不用 emoji**（Codex #9）。emoji 跨平台外觀/尺寸/baseline/缺字不穩，拿來當碰撞物 hitbox 會漂、視覺不一致。emoji 只可用在非碰撞的純裝飾（背景點綴）。
 - 河面漸層波光（canvas gradient + 簡單正弦波動）
 - 撿粽子彈跳 particle、龍舟左右擺動 tween
 - 不做 3D model、相機、光照
@@ -164,44 +182,51 @@ DuanwuQuest 畫面頂部常駐一條進度鉤：`🍡 {zongziTotal}/50 · 還差
 1. **canvas context null 守衛**：`canvas.getContext('2d')` 可能回 null（極舊瀏覽器 / canvas 未掛載）。loop 啟動前檢查，null 則 early-return 並顯示 fallback 提示，不可讓 rAF 迴圈每幀 throw。
 2. **dt clamp（防 tab 切換 tunneling）**：用 `performance.now()` 自算每幀真實 dt（不信 rAF 傳入的 timestamp 一路累積），並 clamp 上限（如 ~50ms）。孩子切去別的 tab 再切回，rAF 暫停後恢復會產生巨大 dt → 物件瞬間飛一大段 → 碰撞檢測穿透（無端扣命或障礙被跳過）。clamp 後超過上限的幀當一幀跳，碰撞不穿透。與 `session.svelte.js` 已採的 deadline 時間戳紀律一致。
 3. **canvas resize / 手機轉向（CEO review 4A）**：canvas 尺寸連動容器（`ResizeObserver` 或 `resize`/`orientationchange` 事件重算），並依 `devicePixelRatio` 設 backing store 尺寸（免在 retina 螢幕糊掉）。道寬與所有物件座標用**相對比例**而非絕對像素，裝置轉向時畫面不爆版、龍舟不跑出畫面外。小孩主力在手機，這條是 event 第一印象。
+4. **input ownership（Codex outside voice）**：左右鍵/空白鍵要 `preventDefault()`（否則桌機空白鍵捲動頁面），canvas 容器設 `touch-action: none`（否則手機觸控操作會捲動頁面）。遊戲進行中接管這些輸入，遊戲結束後解除。列為驗收項。
 
 ---
 
 ## 4. 進度與解鎖（`src/core/storage.js`）
 
-複製現有 `getLevelStars` pattern，**獨立 key** 避免污染正規闖關：
+複製現有 `getLevelStars` pattern，**獨立 key** 避免污染正規闖關。進度以 `clearedLevels`（已過關關號集合）為唯一真相，其餘欄位皆由它推導（Eng review D3）：
 
 ```js
-getDuanwuProgress: () => get('duanwu_progress', { levelsCleared: 0, zongziTotal: 0, rescued: false }),
+// clearedLevels 是已通關關號陣列（去重），levelsCleared/zongziTotal/rescued 全由它推導
+getDuanwuProgress: () => get('duanwu_progress', { clearedLevels: [], rescued: false }),
 setDuanwuProgress: (p) => set('duanwu_progress', p),
 ```
 
-- **跨場累積**：答對題數（以通關數計）+ 粽子數存起來，可分幾次玩
-- **救屈原觸發**：`levelsCleared >= 5 && zongziTotal >= 50` → 顯示救屈原結局畫面
-- 結局畫面（`SaveQuyuan` / 一個 screen 或元件）：一張畫面 + 文字 + 簡單動畫（**最小版**，不做過場大片）
+- **跨場累積**：已過關關號存 `clearedLevels`，可分幾次玩
+- **救屈原觸發**：`clearedLevels.length >= 5` → 顯示救屈原結局畫面（5 關各 10 題、各 10 粽子，達成即 50/50）
+- 結局畫面（`SaveQuyuan`）：見 §2.2 完成路徑（本關結算 + 救屈原 + 分享卡，最小版動畫）
 
-### 進度推導純函式 + 自檢（CEO review 6A）
+### 進度推導純函式 + 自檢（CEO review 6A + Eng review D3）
 
-進度推導是本 event 唯一「算錯就壞」的邏輯（算錯 → 孩子永遠救不到屈原或提前觸發）。抽成純函式：
+進度推導是本 event 唯一「算錯就壞」的邏輯（算錯 → 孩子永遠救不到屈原或提前觸發）。函式**吃關號**，用 set 去重，**根治重玩已過關關卡的超累 bug**（盲 `+1` 會讓重玩第 1 關 5 次就誤觸 rescue）：
 
 ```js
-// 純函式：吃舊進度 + 本輪龍舟採到的粽子數，回新進度（不 mutate）
-export function advanceDuanwuProgress(prev, collected) {
-  if (collected < 10) return prev;                 // 不滿 10 不過關，原樣返回
-  const levelsCleared = prev.levelsCleared + 1;
+// 純函式：吃舊進度 + 剛打的關號 + 本輪龍舟採到的粽子數，回新進度（不 mutate）
+export function advanceDuanwuProgress(prev, levelN, collected) {
+  if (collected < 10) return prev;                          // 不滿 10 不過關，原樣返回
+  if (prev.clearedLevels.includes(levelN)) return prev;     // 重玩已過關卡：set 不變，數字不膨脹
+  const clearedLevels = [...prev.clearedLevels, levelN];    // 不 mutate，spread 回新陣列
   return {
-    levelsCleared,
-    zongziTotal: levelsCleared * 10,               // zongzi 由 cleared 推導，重跑不重複加
-    rescued: prev.rescued || (levelsCleared >= 5)  // 5 關全破即救出，且不退回
+    clearedLevels,
+    rescued: prev.rescued || (clearedLevels.length >= 5)    // 5 關全破即救出，且不退回
   };
 }
+
+// 衍生 getter（UI 用）：
+export const zongziTotal = (p) => p.clearedLevels.length * 10;   // 0,10,20...50
+export const levelsCleared = (p) => p.clearedLevels.length;
 ```
 
 配一個 assert-based 自檢（不加測試框架，沿用專案 validate/audit/smoke 調性；放 `scripts/` 或函式檔末的 `// @ts-check` demo）：
-- `advanceDuanwuProgress({levelsCleared:0,zongziTotal:0,rescued:false}, 10)` → `levelsCleared:1, zongziTotal:10`
-- `advanceDuanwuProgress({levelsCleared:1,...}, 7)` → 原樣返回（不過關）
-- 連跑 5 次採滿 → `levelsCleared:5, zongziTotal:50, rescued:true`
-- 過關後再跑（重玩同關情境）→ levelsCleared 不超過實際關數，zongziTotal 不重複膨脹
+- `advanceDuanwuProgress({clearedLevels:[],rescued:false}, 1, 10)` → `clearedLevels:[1]`，`zongziTotal=10`
+- `advanceDuanwuProgress({clearedLevels:[1],...}, 2, 7)` → 原樣返回（不滿 10 不過關）
+- `advanceDuanwuProgress({clearedLevels:[1],...}, 1, 10)` → 原樣返回（**重玩第 1 關不重複計入**）
+- 依序打 1-5 各採滿 → `clearedLevels:[1,2,3,4,5]`，`rescued:true`，`zongziTotal=50`
+- 打 1 關後重玩 5 次 → `clearedLevels:[1]`，`rescued:false`（**不會誤觸 rescue**，這是 D3 修的核心 case）
 
 ---
 
@@ -209,13 +234,15 @@ export function advanceDuanwuProgress(prev, collected) {
 
 > 今天 2026-06-17，端午節 2026-06-19/20。節慶 event 過了節點價值掃半。最費時的長杆是 50 題逐題過簡編本 audit（部分詞簡編本查無要退 moedict 覆核）。兩天未必跑得完整包 → 拆兩階段，arcade 與骨架不被 audit 卡住。
 
-- **Phase 1（節前，目標 6/19 前）— 能玩的最小可上線**：
-  - festival 骨架 + DragonBoat arcade + DuanwuQuest + storage + 進度純函式（全部不依賴題庫完整度）。
-  - 題庫先出**已過 audit 的題**，按難度區分配；若某關難度區暫時不足 10 題，**關卡 count 動態取「該區現有題數與 10 的較小值」**（不靜默截斷，UI 標示「題庫擴充中」），先有幾關玩幾關。孩子端午當天就玩得到龍舟+答題。
-  - 救屈原結局可先上，門檻仍是 5 關全破；題庫沒滿 5 關足量前，達不到也合理（孩子會回訪）。
-- **Phase 2（節後幾天）— 題庫補齊**：把剩餘題逐題過 audit 補滿 50 題/5 關足量，移除 Phase 1 的「題庫擴充中」動態降級，validate 2B 斷言轉為硬性（每關 ≥10）。
+> **修正（Eng review D8 + Codex #4/#7）**：原 Phase 1「題庫不足也先上、關卡動態降級」**作廢**。理由：(a) `selectQuestions` 題池不足會**靜默放寬難度/類別**，caller 拿不到「降級了」的訊號，動態 count 不可靠；(b)「降級先上」與「5 關全破=50 題救屈原」自相矛盾 → 孩子湊不到 5 關 = 看得到完不了的 event。**不以 workaround 當解法。**
 
-註：Phase 1 的動態降級是**過渡手段**，不是永久設計。Phase 2 必須恢復 2B 的足量硬斷言。
+- **Phase 1（節前，目標 6/19 前）— 完整可玩**：
+  - **題庫必須湊滿 5 關 × 10 題 = 50 題全過 audit** 才上線。這是硬門檻，不降級。
+  - 並行加速：arcade/骨架（Session A）與題庫（Session B）平行做；arcade 不被 audit 卡。題庫是長杆，全力衝 50 題過 audit。
+  - 救屈原門檻恆為 5 關全破，不掛鉤、不打折。
+- **Phase 2（節後，選配）— 打磨**：手感微調、結局動畫加強、雲端端午榜（若 D2b-mix TODO 採納）等非阻上線項。
+
+> 若 6/19 前 50 題真的趕不出來：**寧可晚一兩天上完整版，也不上「看得到完不了」的半成品**（對齊 user「不以 workaround 當解法」原則）。時機固然重要，但殘缺 event 的負面第一印象比晚兩天更傷。
 
 ## 不做（YAGNI）
 
@@ -285,43 +312,77 @@ export function advanceDuanwuProgress(prev, collected) {
 - `npm run validate` 題庫 schema 過 + 2B 足量斷言過（Phase 2 硬性；Phase 1 容許動態降級並標示）
 - `npm run audit` 注音對簡編本權威層過（或誤報入白名單並註明依據）
 - 進度推導純函式自檢（6A）通過
-- 手動走查：Home → 端午王 → 各關「答題 → 龍舟採 10 粽子」→ 進度鉤更新 → 5 關全破觸發救屈原結局
+- 手動走查：Home → 端午王 → 各關「答題 → 龍舟採 10 粽子 → 本關結算+分享卡」→ 進度鉤更新 → 5 關全破觸發救屈原結局+分享卡
 - 手機走查：轉向不爆版（4A）、切 tab 再回來碰撞不穿透（2A）
+- **REGRESSION（Eng review D2，鐵則必驗）**：玩完端午 event 後，**全域排行榜（local_board + 雲端）零筆 duanwu 紀錄** — 端午 quiz 完成路徑絕不可呼叫 `submitRun()` / `addLocalScore()`。反向驗證：暫時讓 duanwu 走 `finishGame` 確認榜上冒出 duanwu 筆數（RED），改回獨立路徑確認消失（GREEN）。
+- 進度自檢（6A+D3）：`node scripts/duanwu-progress-check.mjs` 全綠，含「重玩第 1 關 5 次不誤觸 rescue」case
 
 ## Implementation Tasks
-Synthesized from this CEO review's findings. P1 blocks ship; P2 same-branch follow-up.
+Synthesized from CEO + Eng review findings. P1 blocks ship; P2 same-branch follow-up.
 
-- [ ] **T1 (P1, human: ~1.5d / CC: ~25min)** — DragonBoat arcade（Session A）— Canvas 2D 3 道/切道/跳躍/障礙/粽子/3命/`onComplete(n)` 契約
-  - Surfaced by: Sec1 1A（完成合約）+ Sec2 2A（ctx null + dt clamp）+ Sec4 4A（resize/DPR）
+> 估算修正（Codex #11）：50 題逐題查簡編本 + 合理 distractors + 過 audit + 白名單，是**真實長杆**，非機械任務；Canvas mobile arcade 含手感調校也遠超 25min。下列 CC 估算已上修。
+
+- [ ] **T1 (P1, human: ~2d / CC: ~1.5h)** — DragonBoat arcade（Session A）— Canvas 2D 3 道/切道/跳躍/障礙/粽子/3命/`onComplete(n)` 契約 + SVG sprite + 手感調校
+  - Surfaced by: Sec1 1A + Sec2 2A（ctx null + dt clamp）+ Sec4 4A（resize/DPR）+ Codex #9（SVG sprite）+ input ownership
   - Files: `src/ui/components/DragonBoat.svelte`
-  - Verify: 獨立 demo 頁跑起來測手感；切 tab 回來碰撞不穿透；手機轉向不爆版
-- [ ] **T2 (P1, human: ~1d / CC: ~20min)** — festival 流程（Session B）— App.svelte Approach B wrapper（quiz關→arcade→寫進度），對 DragonBoat stub 開發
-  - Surfaced by: Sec1 architecture（Approach B）
-  - Files: `src/App.svelte`, `src/ui/screens/DuanwuQuest.svelte`, `src/ui/screens/Home.svelte`
-  - Verify: 用 stub（假裝採滿10）跑通整條流程
-- [ ] **T3 (P1, human: ~2h / CC: ~10min)** — 進度純函式 — `advanceDuanwuProgress` + assert 自檢
-  - Surfaced by: Sec6 6A + Sec1 1A
-  - Files: `src/core/storage.js`
-  - Verify: 自檢 4 案例（採滿過關/不滿不過/5關觸發rescue/重跑不重複加）全綠
-- [ ] **T4 (P1, human: ~2d / CC: ~1.5h)** — duanwu 題庫 — 50 題按 5 難度區分配，全過 audit，註冊類別
-  - Surfaced by: Sec2 2B
+  - Verify: 獨立 demo 頁測手感；切 tab 碰撞不穿透；手機轉向不爆版；空白鍵不捲頁/canvas touch-action:none
+- [ ] **T2 (P1, human: ~1d / CC: ~30min)** — festival 流程 + flow 模組（Session B）— Approach B wrapper（quiz關→arcade→結算→寫進度），流程狀態抽 `src/core/duanwu.svelte.js`（不堆進 App.svelte），對 DragonBoat stub 開發
+  - Surfaced by: Sec1 architecture（Approach B）+ Eng D1（flow 狀態歸屬）
+  - Files: `src/core/duanwu.svelte.js`(新增 flow 模組), `src/App.svelte`(只認 duanwuStep 旗號), `src/ui/screens/DuanwuQuest.svelte`, `src/ui/screens/Home.svelte`
+  - Verify: 用 stub（假裝採滿10）跑通整條流程；App.svelte 不新增散落 festival $state
+- [ ] **T2b (P1, human: ~3h / CC: ~25min)** — 端午完成路徑 + 結算/分享（Eng D2/D2b + Codex #2/#8）— 獨立完成路徑（不 submitRun / 不 addLocalScore / **不 recordQuestionAttempts** / 不跳 result），新增 duanwu-result + save-quyuan 分享卡，分享走 `share.js`
+  - Surfaced by: Sec2 D2 + D2b + Codex #2（recordQuestionAttempts 雲端污染）+ Codex #8（用 share.js 非 challenge.js）
+  - Files: `src/App.svelte`(完成路徑分流), `src/ui/screens/SaveQuyuan.svelte`, `src/ui/screens/DuanwuResult.svelte`(新增), `src/lib/share.js`(擴海報)
+  - Verify: REGRESSION — 玩完 event 後全域榜零 duanwu 筆數 + 雲端 question stats 零 duanwu（反向驗 RED→GREEN）
+- [ ] **T3 (P1, human: ~2h / CC: ~15min)** — 進度純函式（吃關號 set，Eng D3）— `advanceDuanwuProgress(prev, levelN, collected)` + `scripts/duanwu-progress-check.mjs` 自檢
+  - Surfaced by: Sec6 6A + Sec1 1A + Eng D3（盲 +1 重玩超累 bug）
+  - Files: `src/core/duanwu.js`(純函式), `src/core/storage.js`(clearedLevels key), `scripts/duanwu-progress-check.mjs`(自檢)
+  - Verify: 5 案例全綠，含「重玩第 1 關 5 次不誤觸 rescue」
+- [ ] **T4 (P1, human: ~3-4d / CC: ~3-4h)** — duanwu 題庫 — 50 題（5 chapter 各 10，按難度區分配），加 chapter 欄位，全過簡編本 audit，註冊類別。**長杆，event 上線時程的關鍵路徑**
+  - Surfaced by: Sec2 2B + Eng D6（chapter 欄位）+ Codex #11（估算修正）
   - Files: `src/data/bank/duanwu.js`, `src/data/bank/index.js`
-  - Verify: `npm run validate` + `npm run audit` 過
-- [ ] **T5 (P1, human: ~30min / CC: ~5min)** — validate 足量斷言 — 每關難度區 ≥ count（Phase 2 硬性 / Phase 1 動態降級）
-  - Surfaced by: Sec2 2B + Sec9 9A
-  - Files: `scripts/validate.mjs`(或現有 validate 入口), `src/modes.js`
-  - Verify: 題庫不足時 validate 紅
-- [ ] **T6 (P1, human: ~45min / CC: ~8min)** — 跨場進度鉤 — DuanwuQuest 頂部「🍡 N/50 · 還差 X 關救屈原」
+  - Verify: `npm run validate` + `npm run audit` 過；50 題各掛正確 chapter
+- [ ] **T5 (P1, human: ~45min / CC: ~10min)** — validate 斷言 — 每關 chapter 題數 ≥ count（硬性，無降級）+ event-only 類別不進一般模式選池
+  - Surfaced by: Sec2 2B + Eng D5（類別隔離）+ D8（取消動態降級）
+  - Files: `scripts/validate-bank.mjs`, `src/modes.js`
+  - Verify: 某 chapter 題不足時 validate 紅；duanwu 不出現在 daily/sprint 抽樣
+- [ ] **T6 (P1, human: ~45min / CC: ~10min)** — 跨場進度鉤 — DuanwuQuest 頂部「🍡 N/50 · 還差 X 關救屈原」
   - Surfaced by: Sec11 11A
   - Files: `src/ui/screens/DuanwuQuest.svelte`
   - Verify: 進度變動即時更新文字
-- [ ] **T7 (P2, human: ~1h / CC: ~12min)** — 救屈原結局 — 最小版單畫面+文字+簡單動畫
+- [ ] **T7 (P2, human: ~1.5h / CC: ~20min)** — 救屈原結局 — 最小版單畫面+文字+簡單動畫
   - Surfaced by: Sec11 design
   - Files: `src/ui/screens/SaveQuyuan.svelte`
   - Verify: 5 關全破觸發、rescued flag idempotent
-- [ ] **T8 (P1, 規劃項)** — 兩階段上線 — Phase 1 節前能玩（題庫分批）/ Phase 2 補滿 50 題
-  - Surfaced by: Sec9 9A
-  - Files: 本 spec（執行紀律，非 code）
-  - Verify: 6/19 前 Phase 1 可玩；節後 Phase 2 移除動態降級
+- [ ] **T8 (P1, 阻擋項)** — duanwu 題庫隔離 — `selectQuestions` 加 `EVENT_ONLY_CATEGORIES` 預設排除，一般模式不抽到端午題（**ship blocker**）
+  - Surfaced by: Codex #1（端午題全年亂入）= Eng D5
+  - Files: `src/core/bank.js`
+  - Verify: daily/sprint/levels 抽樣零 duanwu；duanwu 模式顯式抽得到
+- [ ] **T9 (P1, human: ~1h / CC: ~15min)** — 關卡主題鎖 + escalate 關 — DUANWU_LEVELS 加 chapter，selectQuestions 支援 chapter 過濾，端午關 escalate:false（+ 視情況 calibrated:false），第 5 關非 boss
+  - Surfaced by: Eng D6（主題分關 + escalate）+ Eng D7（第 5 關非 boss）+ Codex #3/#5/#6
+  - Files: `src/modes.js`, `src/core/bank.js`(chapter 過濾)
+  - Verify: 龍舟關只出 boat 題、粽子關只出 zongzi 題；連對後不冒出跨 chapter 題；第 5 關答完進龍舟不卡 boss
+- [ ] **T10 (P1, 規劃項)** — 上線時機 — Phase 1 = 50 題全過 audit 才上（無降級）；趕不上寧晚一兩天上完整版
+  - Surfaced by: Sec9 9A + Eng D8 + Codex #4/#7（取消動態降級的自相矛盾）
+  - Files: 本 spec（執行紀律）
+  - Verify: 不上「看得到完不了」的半成品
 
-_Sec3 (Security)、Sec5 (Quality)、Sec7 (Perf)、Sec8 (Observability)、Sec10 (Trajectory): No new tasks._
+_Sec3 (Security)、Sec5 (Quality)、Sec7 (Perf)、Sec8 (Observability)、Sec10 (Trajectory): No new tasks。_
+
+### 待你拍板（非阻擋，Codex #10）
+- **「救屈原」敘事**：歷史上粽子是投江餵魚蝦、護屈原遺體，非「撿 50 顆救活屈原」。當前用「救屈原」作遊戲化框架（非史實宣稱）。主打深度歷史下這敘事是否要改（如改「祭屈原/護屈原」），是你的 taste call，未改。
+
+## GSTACK REVIEW REPORT
+
+| Review | Trigger | Why | Runs | Status | Findings |
+|--------|---------|-----|------|--------|----------|
+| CEO Review | `/plan-ceo-review` | Scope & strategy | 1 | clean | SELECTIVE EXPANSION, 0 scope expansions, 7 findings resolved (1A/2A/2B/4A/6A/9A/11A) |
+| Codex Review | outside voice | Independent 2nd opinion | 1 | issues_found | 11 raised, 8 folded into spec, 1 deferred (narrative), 2 already-covered |
+| Eng Review | `/plan-eng-review` | Architecture & tests (required) | 1 | clean | 9 issues, 0 critical gaps (D1 flow module, D2/D2b completion path, D3 progress fn, + 5 Codex-driven) |
+| Design Review | `/plan-design-review` | UI/UX gaps | 0 | — | not run |
+| DX Review | `/plan-devex-review` | Developer experience gaps | 0 | — | not run |
+
+- **CODEX:** found the ship blocker both Claude passes missed — duanwu questions leak into daily/sprint/levels year-round (D5). Also caught the Phase-1 vs rescue contradiction (D8), BOSS/flow conflict (D7), theme-vs-difficulty modeling gap (D6), and cloud question-stats pollution (D2 ext). 8 of 11 folded in.
+- **CROSS-MODEL:** No tension — Codex did not contradict Claude findings; it found a layer underneath them (concrete code-level leaks the plan-level review abstracted over).
+- **UNRESOLVED:** 0 blocking. 1 deferred taste call (救屈原 narrative, your decision).
+- **VERDICT:** CEO + ENG CLEARED — ready to implement. 10 P1 tasks (T1-T10), 4 of them ship blockers (D5/T8 bank isolation, T4 bank-50, D2/T2b leaderboard isolation, D6/T9 theme lock).
