@@ -1,0 +1,915 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>端午王 event 題庫設計報告</title>
+<style>
+  :root{
+    --reed:#5BA86B; --reed-deep:#3E8A52; --river:#3FA7C4; --zong:#C97B3A; --cinnabar:#E5544A;
+    --ink:#3a2e22; --muted:#7a6a55; --paper:#fbf7ef; --card:#fff; --line:#e7ddc9;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
+    line-height:1.65;font-size:15px}
+  .wrap{max-width:960px;margin:0 auto;padding:32px 20px 80px}
+  header{text-align:center;padding:28px 0 8px}
+  h1{font-size:30px;margin:0 0 6px;color:var(--reed-deep)}
+  .lede{color:var(--muted);margin:0 auto;max-width:680px}
+  h2{font-size:21px;margin:44px 0 14px;padding-bottom:8px;border-bottom:2px solid var(--reed);color:var(--reed-deep)}
+  h3{font-size:16px;margin:24px 0 10px;color:var(--zong)}
+  .kpis{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:18px 0}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 22px;text-align:center;min-width:120px}
+  .kpi .big{font-size:28px;font-weight:800;color:var(--river)}
+  .kpi .lab{font-size:12px;color:var(--muted);margin-top:2px}
+  .funnel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  @media(max-width:680px){.grid2{grid-template-columns:1fr}}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+  .bar-row{display:flex;align-items:center;gap:10px;margin:7px 0;font-size:13px}
+  .bar-label{flex:0 0 120px;color:var(--muted)}
+  .bar-track{flex:1;background:#f0e8d8;border-radius:8px;height:18px;overflow:hidden}
+  .bar-fill{display:block;height:100%;border-radius:8px}
+  .bar-n{flex:0 0 32px;text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
+  .verdict-card{border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:10px 0;background:var(--card)}
+  .verdict-card.fix{border-left:4px solid var(--zong)}
+  .verdict-card.drop{border-left:4px solid var(--cinnabar)}
+  .vc-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:5px}
+  .verdict-card p{margin:0;font-size:13.5px;color:#52443490}
+  .verdict-card p{color:#4a3c2c}
+  code{background:#f0e8d8;border-radius:6px;padding:1px 7px;font-size:12.5px;color:var(--reed-deep)}
+  .tag{font-size:11px;font-weight:700;border-radius:20px;padding:2px 9px;color:#fff}
+  .tag-fix{background:var(--zong)} .tag-drop{background:var(--cinnabar)}
+  .tag-online{background:var(--river)} .tag-dup{background:var(--muted)}
+  .score{font-size:12px;color:var(--muted)}
+  details.chapter{background:var(--card);border:1px solid var(--line);border-radius:16px;margin:12px 0;overflow:hidden}
+  details.chapter summary{cursor:pointer;padding:14px 18px;font-size:15px;font-weight:700;list-style:none;display:flex;align-items:center;gap:10px}
+  details.chapter summary::-webkit-details-marker{display:none}
+  .chap-key{font-family:monospace;font-size:12px;background:var(--reed);color:#fff;border-radius:6px;padding:2px 8px}
+  .chap-n{margin-left:auto;font-size:12px;color:var(--muted);font-weight:500}
+  table.qtable{width:100%;border-collapse:collapse;font-size:13px}
+  .qtable th{background:#f4eedf;text-align:left;padding:8px 10px;font-size:12px;color:var(--muted);border-bottom:1px solid var(--line)}
+  .qtable td{padding:10px;border-bottom:1px solid #f0e8d8;vertical-align:top}
+  .qtable td.diff{font-weight:800;text-align:center;width:30px;border-radius:0}
+  .d1{color:#3FA7C4}.d2{color:#5BA86B}.d3{color:#C2922A}.d4{color:#D97A2F}.d5{color:#E5544A}
+  td.axis{width:74px;color:var(--muted);font-size:12px}
+  td.q b{color:var(--reed-deep)}
+  .opts{margin-top:5px;color:#6a5a44;font-size:12.5px}
+  .fun{margin-top:6px;background:#f4f8f2;border-radius:8px;padding:6px 10px;font-size:12.5px;color:#3c5a3c}
+  .src{margin-top:4px;font-size:11px;color:#9a8a72}
+  td.sc{width:54px;text-align:center;font-variant-numeric:tabular-nums;color:var(--muted);font-size:12px}
+  ul.notes{padding-left:20px}ul.notes li{margin:8px 0;font-size:13.5px}
+  .rationale{background:#f4f8f2;border-left:4px solid var(--reed);border-radius:0 12px 12px 0;padding:14px 18px;font-size:14px}
+  footer{text-align:center;color:var(--muted);font-size:12px;margin-top:50px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>端午王 event 題庫設計報告</h1>
+    <p class="lede">Session B 交付物。150 題廣建 → 三輪獨立審查濃縮 → 89 題定案。
+    全 <code>kind:'fact'</code> 端午史實 fun fact 知識題，品管走史實人工核（非字音 audit）。</p>
+  </header>
+
+  <div class="kpis">
+    <div class="kpi"><div class="big">150</div><div class="lab">原始池</div></div>
+    <div class="kpi"><div class="big">89</div><div class="lab">最終題數</div></div>
+    <div class="kpi"><div class="big">81</div><div class="lab">線上查證題（輪1）</div></div>
+    <div class="kpi"><div class="big">5</div><div class="lab">chapter（各 ≥10）</div></div>
+    <div class="kpi"><div class="big">8</div><div class="lab">取材軸全覆蓋</div></div>
+  </div>
+
+  <h2>1 · 三輪濃縮漏斗</h2>
+  <div class="funnel"><svg viewBox="0 0 800 404" width="100%" role="img" aria-label="題目濃縮漏斗：150→150→141→89">
+    <g>
+      <rect x="40.0" y="20" width="720.0" height="64" rx="14"
+            fill="#3FA7C4" opacity="0.92"/>
+      <text x="400.0" y="50" text-anchor="middle"
+            font-size="26" font-weight="700" fill="#fff">150 題</text>
+      <text x="400.0" y="72" text-anchor="middle"
+            font-size="13" fill="#fff" opacity="0.92">原始池 · 5 chapter 並行廣建</text>
+      <text x="400.0" y="102" text-anchor="middle" font-size="13" fill="#7a6a55">↓ 砍 0 題</text>
+    </g>
+    <g>
+      <rect x="40.0" y="116" width="720.0" height="64" rx="14"
+            fill="#5BA86B" opacity="0.92"/>
+      <text x="400.0" y="146" text-anchor="middle"
+            font-size="26" font-weight="700" fill="#fff">150 題</text>
+      <text x="400.0" y="168" text-anchor="middle"
+            font-size="13" fill="#fff" opacity="0.92">輪 1 史實後 · 145 pass · 5 fix · 0 cut</text>
+      <text x="400.0" y="198" text-anchor="middle" font-size="13" fill="#7a6a55">↓ 砍 9 題</text>
+    </g>
+    <g>
+      <rect x="61.6" y="212" width="676.8" height="64" rx="14"
+            fill="#C97B3A" opacity="0.92"/>
+      <text x="400.0" y="242" text-anchor="middle"
+            font-size="26" font-weight="700" fill="#fff">141 題</text>
+      <text x="400.0" y="264" text-anchor="middle"
+            font-size="13" fill="#fff" opacity="0.92">輪 2 品質後 · 113 keep · 28 polish · 9 drop</text>
+      <text x="400.0" y="294" text-anchor="middle" font-size="13" fill="#7a6a55">↓ 砍 52 題</text>
+    </g>
+    <g>
+      <rect x="186.4" y="308" width="427.2" height="64" rx="14"
+            fill="#E5544A" opacity="0.92"/>
+      <text x="400.0" y="338" text-anchor="middle"
+            font-size="26" font-weight="700" fill="#fff">89 題</text>
+      <text x="400.0" y="360" text-anchor="middle"
+            font-size="13" fill="#fff" opacity="0.92">最終題庫 · 輪 3 配額收斂</text>
+      
+    </g></svg></div>
+  <p class="lede" style="margin-top:12px">三輪皆獨立 fan-out 審查（multi-agent workflow）：輪 1 只查史實、輪 2 只評趣味與重複、輪 3 看全池配額收斂。每輪判定全程留存於 <code>workflow-result.json</code>。</p>
+
+  <h2>2 · 審查方法論</h2>
+  <div class="grid2">
+    <div class="panel">
+      <h3 style="margin-top:0;color:var(--reed-deep)">輪 1 — 史實查證</h3>
+      <p style="font-size:13.5px;margin:6px 0 10px;color:var(--muted)">目標：絕不教小孩錯史實。破迷思／跨時代／地理／台灣在地題實際 WebSearch/WebFetch 查官方來源。</p>
+      <div class="bar-row"><span class="bar-label">pass 史實正確</span>
+    <span class="bar-track"><span class="bar-fill" style="width:96.7%;background:#5BA86B"></span></span>
+    <span class="bar-n">145</span></div>
+      <div class="bar-row"><span class="bar-label">fix 修正事實錯誤</span>
+    <span class="bar-track"><span class="bar-fill" style="width:3.3%;background:#C97B3A"></span></span>
+    <span class="bar-n">5</span></div>
+      <div class="bar-row"><span class="bar-label">cut 誤傳砍除</span>
+    <span class="bar-track"><span class="bar-fill" style="width:0.0%;background:#E5544A"></span></span>
+    <span class="bar-n">0</span></div>
+      <div class="bar-row"><span class="bar-label">其中線上查證</span>
+    <span class="bar-track"><span class="bar-fill" style="width:54.0%;background:#3FA7C4"></span></span>
+    <span class="bar-n">81</span></div>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0;color:var(--reed-deep)">輪 2 — fun fact 品質＋去重</h3>
+      <p style="font-size:13.5px;margin:6px 0 10px;color:var(--muted)">史實已過，本輪只評「講給朋友會不會哦一聲」＋誘答有沒有梗＋是否重複。</p>
+      <div class="bar-row"><span class="bar-label">keep 好題直留</span>
+    <span class="bar-track"><span class="bar-fill" style="width:75.3%;background:#5BA86B"></span></span>
+    <span class="bar-n">113</span></div>
+      <div class="bar-row"><span class="bar-label">polish 打磨</span>
+    <span class="bar-track"><span class="bar-fill" style="width:18.7%;background:#C97B3A"></span></span>
+    <span class="bar-n">28</span></div>
+      <div class="bar-row"><span class="bar-label">drop 平庸/重複</span>
+    <span class="bar-track"><span class="bar-fill" style="width:6.0%;background:#E5544A"></span></span>
+    <span class="bar-n">9</span></div>
+      <div class="bar-row"><span class="bar-label">其中標記重複</span>
+    <span class="bar-track"><span class="bar-fill" style="width:4.7%;background:#7a6a55"></span></span>
+    <span class="bar-n">7</span></div>
+    </div>
+  </div>
+
+  <h3>輪 1 抓到並修正的史實錯誤（5 題）</h3>
+  <p style="font-size:13px;color:var(--muted)">這些正是 spec §1.2 警告的「冷知識易誤傳」陷阱——若靠記憶不查證會教錯小孩。</p>
+  <div class="verdict-card fix">
+    <div class="vc-head"><span class="tag tag-fix">FIX</span><code>gen-quyuan-05</code><span class="tag tag-online">線上查證</span></div>
+    <p>史實錯誤。題目與答案宣稱汨羅江是『湘江的支流』，但維基百科『汨羅江』條明載『汨羅江是洞庭湖濱湖區主要河流之一』，源於江西修水縣，於江口直接匯入洞庭湖，並非湘江支流。汨羅江與湘江同屬洞庭湖水系/長江流域但互相獨立，汨羅江是洞庭湖支流而非湘江支流。原四個選項（湘江/長江本流/珠江/黃河）無一正確（亦非長江本流直接支流，須經洞庭湖）。原題前提結構性錯誤。改寫為可查證且正確的『汨羅江最後注入哪個大湖』，答案洞庭湖。</p></div><div class="verdict-card fix">
+    <div class="vc-head"><span class="tag tag-fix">FIX</span><code>gen-boat-29</code><span class="tag tag-online">線上查證</span></div>
+    <p>內容（鄉民划船搶救屈原→演變為年年競渡）為流傳廣泛的通俗起源說，方向可用；但所引來源《續齊諧記》實為記載『角黍/粽子』起源（屈原託夢、五彩絲楝葉防蛟龍）的文獻，並非競渡搶救說的出處。競渡『救屈原』說多見於《荊楚歲時記》。僅修正來源引用以免誤導，題幹與選項不動。</p></div><div class="verdict-card fix">
+    <div class="vc-head"><span class="tag tag-fix">FIX</span><code>gen-poem-20</code><span class="tag tag-online">線上查證</span></div>
+    <p>答案（宋玉=美男子代名詞、屈原弟子、貌比潘安才比宋玉）查證正確：宋玉相傳為屈原學生，後世以『美如宋玉、貌若潘安』形容男子俊美。但 fun 有兩處錯誤：(1)引文誤植為『增之一分太長…增一分則太肥』，《登徒子好色賦》原文為『增之一分則太長，減之一分則太短』，無『太肥』；(2)『東家之子』描寫的是宋玉鄰家的美女（女性容貌），非宋玉本人之美，fun 把它當成形容宋玉俊美的例證屬張冠李戴。修正 fun 改用真正與宋玉俊美相關的『宋玉東牆』典故，並正確標明東家之子是美女不是宋玉自己。</p></div><div class="verdict-card fix">
+    <div class="vc-head"><span class="tag tag-fix">FIX</span><code>gen-king-17</code><span class="tag tag-online">線上查證</span></div>
+    <p>正解『王爺（代天巡狩/瘟王司瘟疫）』本身正確（內政部宗教知識、台灣光華雜誌：瘟神信仰演化為代天巡狩王爺）。但題目premise把『送王船/送瘟』綁在端午有誤：台灣最著名的送王船（東港迎王）為三年一科之王醮，並非端午節活動，會誤導小孩以為送王船在端午舉行。改寫為端午確實存在、且確實由王爺指示主事的鹿港海線『送肉粽（送煞）』驅煞儀式，正解仍為王爺，史實與時序皆站得住。</p></div><div class="verdict-card fix">
+    <div class="vc-head"><span class="tag tag-fix">FIX</span><code>gen-king-20</code><span class="tag tag-online">線上查證</span></div>
+    <p>正解『須在端午正午取水才算午時水』本身正確，但題目舉例『鹿港龍山寺辦取午時水活動』查無實據：鹿港龍山寺端午辦的是迎龍王尊神/龍舟開光點睛（彰化縣府、taiwangods 資料），非取午時水。台灣最具代表性的午時水聖地是大甲鐵砧山劍井（鄭成功插劍湧泉傳說，每年端午發放紀念瓶、民眾爭領，大紀元/維基『劍井』）。改用正確地點，正解不變。</p></div>
+
+  <h3>輪 2 剔除的弱題／重複（9 題）</h3>
+  <div class="verdict-card drop">
+    <div class="vc-head"><span class="tag tag-drop">DROP</span><code>gen-quyuan-04</code>
+      <span class="score">fun 2/5 · 誘答 2/5</span>
+      <span class="tag tag-dup">重複於 gen-quyuan-05</span></div>
+    <p>純地理默背題，「在哪一省」無梗。誘答台灣/海南島/西藏離題太遠近乎廢答案，缺乏似是而非。fun 欄位的跨省冷知識更適合 gen-quyuan-05 已涵蓋，本題與 05 概念高度重疊（同樣汨羅江地理+源頭跨省+洞庭湖），保留更 fun 的 05。</p></div><div class="verdict-card drop">
+    <div class="vc-head"><span class="tag tag-drop">DROP</span><code>gen-quyuan-21</code>
+      <span class="score">fun 2/5 · 誘答 3/5</span>
+      </div>
+    <p>「端午是農曆五月初五」是常識默背題,funScore 低。誘答(正月初一/八月十五/十二月三十)是其他節日尚可,但題目本身無梗。且與 quyuan-22(重午的午)概念相鄰、與 king 章天文別稱題群重疊。平庸默背題,刪。</p></div><div class="verdict-card drop">
+    <div class="vc-head"><span class="tag tag-drop">DROP</span><code>gen-quyuan-26</code>
+      <span class="score">fun 3/5 · 誘答 2/5</span>
+      <span class="tag tag-dup">重複於 gen-poem-08</span></div>
+    <p>「路漫漫其修遠兮是誰寫」近默背題,且與 poem-08(同句出自哪)幾乎完全重複——同一句名言問作者/出處。誘答李白/蘇東坡/杜甫是隨機名詩人、無梗。保留 poem-08(問出處比問作者略有層次),此題刪。</p></div><div class="verdict-card drop">
+    <div class="vc-head"><span class="tag tag-drop">DROP</span><code>gen-boat-05</code>
+      <span class="score">fun 4/5 · 誘答 3/5</span>
+      <span class="tag tag-dup">重複於 gen-boat-04</span></div>
+    <p>與 gen-boat-04 重複：同出聞一多《端午考》、同一知識點（龍舟源自南方百越祭龍），04 問『源自什麼儀式』、05 問『哪個民族』實為一體兩面，同關連出兩題會讓玩家覺得抄。04 fun 更強（『先有龍舟才掛屈原』）保留 04。</p></div><div class="verdict-card drop">
+    <div class="vc-head"><span class="tag tag-drop">DROP</span><code>gen-boat-09</code>
+      <span class="score">fun 3/5 · 誘答 3/5</span>
+      <span class="tag tag-dup">重複於 gen-boat-08</span></div>
+    <p>與 gen-boat-08 重複同一知識點（奪標=搶龍舟終點旗）。09 問詞源、08 問動作，但答案與梗完全相同，連出兩題玩家會覺得繞圈。08 的 fun 更具畫面（搶旗衝線），09 的『月考要奪標=去搶龍舟旗』雖俏皮仍屬同梗複述。保留 08。</p></div><div class="verdict-card drop">
+    <div class="vc-head"><span class="tag tag-drop">DROP</span><code>gen-boat-29</code>
+      <span class="score">fun 2/5 · 誘答 2/5</span>
+      <span class="tag tag-dup">重複於 gen-boat-02</span></div>
+    <p>默背題且重複。與 gen-boat-02(划船第一目的)、gen-boat-01(紀念屈原)、尤其概念上是『搶救屈原→演變競渡』的同一條因果,fun 欄位煽情但答案(年年端午龍舟競渡)太顯而易見,誘答(清明/中秋/元宵)是純送分廢答案。pool 已有更 fun 的起源題。</p></div><div class="verdict-card drop">
+    <div class="vc-head"><span class="tag tag-drop">DROP</span><code>gen-zongzi-11</code>
+      <span class="score">fun 2/5 · 誘答 3/5</span>
+      <span class="tag tag-dup">重複於 gen-zongzi-01</span></div>
+    <p>「為何吃粽紀念屈原餵魚」是最入門的默背題，難度1、funScore低，全池已有 gen-quyuan-06、gen-zongzi-01、gen-zongzi-30 多題從更有趣角度（餵魚動機、本名角黍、託夢蛟龍）講同一史實。重複且最平庸。</p></div><div class="verdict-card drop">
+    <div class="vc-head"><span class="tag tag-drop">DROP</span><code>gen-zongzi-18</code>
+      <span class="score">fun 2/5 · 誘答 2/5</span>
+      <span class="tag tag-dup">重複於 gen-king-06</span></div>
+    <p>「掛抓鬼神驅五毒是誰=鍾馗」太好猜，誘答土地公/月老/媽祖跟驅鬼語境差太遠近乎廢答案，distractorScore低。king 章已有 gen-king-06/07/16/24 四題講鍾馗且更深更有梗，此題最淺、重複。</p></div><div class="verdict-card drop">
+    <div class="vc-head"><span class="tag tag-drop">DROP</span><code>gen-zongzi-23</code>
+      <span class="score">fun 3/5 · 誘答 2/5</span>
+      </div>
+    <p>純記憶『菖蒲酒』叫什麼，默背題。誘答屈原酒/龍舟酒/五毒酒全是亂湊廢答案，毫無似是而非。fun 也只是補充事實，無哦一聲點。平庸。</p></div>
+
+  <h2>3 · 最終題庫分佈</h2>
+  <div class="grid2">
+    <div class="panel"><h3 style="margin-top:0">各關題數（每關 ≥10 確保選滿）</h3><div class="bar-row"><span class="bar-label">quyuan（汨羅江畔）</span>
+    <span class="bar-track"><span class="bar-fill" style="width:100.0%;background:#C97B3A"></span></span>
+    <span class="bar-n">19</span></div><div class="bar-row"><span class="bar-label">boat（划龍舟）</span>
+    <span class="bar-track"><span class="bar-fill" style="width:89.5%;background:#C97B3A"></span></span>
+    <span class="bar-n">17</span></div><div class="bar-row"><span class="bar-label">zongzi（包粽子＋避邪＋科學破迷思）</span>
+    <span class="bar-track"><span class="bar-fill" style="width:89.5%;background:#C97B3A"></span></span>
+    <span class="bar-n">17</span></div><div class="bar-row"><span class="bar-label">poem（詩詞關）</span>
+    <span class="bar-track"><span class="bar-fill" style="width:94.7%;background:#C97B3A"></span></span>
+    <span class="bar-n">18</span></div><div class="bar-row"><span class="bar-label">king（端午王）</span>
+    <span class="bar-track"><span class="bar-fill" style="width:94.7%;background:#C97B3A"></span></span>
+    <span class="bar-n">18</span></div></div>
+    <div class="panel"><h3 style="margin-top:0">難度＝驚奇度梯度</h3><div class="bar-row"><span class="bar-label">難度 1</span>
+    <span class="bar-track"><span class="bar-fill" style="width:20.0%;background:#5BA86B"></span></span>
+    <span class="bar-n">6</span></div><div class="bar-row"><span class="bar-label">難度 2</span>
+    <span class="bar-track"><span class="bar-fill" style="width:53.3%;background:#5BA86B"></span></span>
+    <span class="bar-n">16</span></div><div class="bar-row"><span class="bar-label">難度 3</span>
+    <span class="bar-track"><span class="bar-fill" style="width:83.3%;background:#5BA86B"></span></span>
+    <span class="bar-n">25</span></div><div class="bar-row"><span class="bar-label">難度 4</span>
+    <span class="bar-track"><span class="bar-fill" style="width:100.0%;background:#5BA86B"></span></span>
+    <span class="bar-n">30</span></div><div class="bar-row"><span class="bar-label">難度 5</span>
+    <span class="bar-track"><span class="bar-fill" style="width:40.0%;background:#5BA86B"></span></span>
+    <span class="bar-n">12</span></div></div>
+  </div>
+  <div class="panel" style="margin-top:24px"><h3 style="margin-top:0">取材軸覆蓋（8 軸全有代表）</h3>
+    <p style="font-size:13px;color:var(--muted);margin-top:0">同時代對照／科學破迷思／台灣在地三個 user 特別指定的軸都有足量題。</p>
+    <div class="bar-row"><span class="bar-label">習俗由來</span>
+    <span class="bar-track"><span class="bar-fill" style="width:100.0%;background:#3FA7C4"></span></span>
+    <span class="bar-n">29</span></div><div class="bar-row"><span class="bar-label">詩詞</span>
+    <span class="bar-track"><span class="bar-fill" style="width:58.6%;background:#3FA7C4"></span></span>
+    <span class="bar-n">17</span></div><div class="bar-row"><span class="bar-label">科學破迷思</span>
+    <span class="bar-track"><span class="bar-fill" style="width:44.8%;background:#3FA7C4"></span></span>
+    <span class="bar-n">13</span></div><div class="bar-row"><span class="bar-label">人物</span>
+    <span class="bar-track"><span class="bar-fill" style="width:41.4%;background:#3FA7C4"></span></span>
+    <span class="bar-n">12</span></div><div class="bar-row"><span class="bar-label">台灣在地</span>
+    <span class="bar-track"><span class="bar-fill" style="width:31.0%;background:#3FA7C4"></span></span>
+    <span class="bar-n">9</span></div><div class="bar-row"><span class="bar-label">同時代對照</span>
+    <span class="bar-track"><span class="bar-fill" style="width:17.2%;background:#3FA7C4"></span></span>
+    <span class="bar-n">5</span></div><div class="bar-row"><span class="bar-label">時間</span>
+    <span class="bar-track"><span class="bar-fill" style="width:10.3%;background:#3FA7C4"></span></span>
+    <span class="bar-n">3</span></div><div class="bar-row"><span class="bar-label">地理</span>
+    <span class="bar-track"><span class="bar-fill" style="width:3.4%;background:#3FA7C4"></span></span>
+    <span class="bar-n">1</span></div></div>
+
+  <h2>4 · 收斂取捨總述（輪 3）</h2>
+  <div class="rationale">最終取 89 題（80~100 內），每 chapter ≥10（quyuan 19、boat 17、zongzi 17、poem 18、king 18），給 selectQuestions count=10 足量挑選餘裕。收斂三原則：（1）優先保 funScore+distractorScore 高者，低分弱題（如 boat-24 與 boat-13 重疊、poem-26 競渡 2/2、king-13 詩人節 3/2、king-29 3/2）剔除；（2）取材軸多元——人物（屈原/楚懷王/孟嘗君/伍子胥/曹娥/宋玉/鍾馗/吳道子）、地理（汨羅江/洞庭湖/江西）、習俗（粽子角黍/龍舟點睛奪標/五毒/午時水）、詩詞（離騷/天問/九歌/楚辭兮字/名句）、同時代對照（亞里斯多德/孟子/莊子/亞運/世界龍舟）、科學破迷思（立蛋/雄黃含砷/澱粉老化/壁虎冤案/龍舟流體）、台灣在地（南北粽/二龍村/午時水劍井/王爺送肉粽/香包/粄粽）全有代表；（3）每關難度梯度對齊 spec 區間並全池 1-5 皆有分佈。難度全池：1=6、2≈16、3≈25、4≈30、5≈12。各關難度都覆蓋該關區間且有上下緩衝題補梯度。</div>
+  <h3>逐關覆蓋備註</h3>
+  <ul class="notes"><li>quyuan（入門關，偏難度1-2）：取19題。難度1有4（01/02/03/16含端午由來基石），難度2有3（06/08/29），難度3-5齊備。軸全：人物/地理/習俗/詩詞/同時代/破迷思，並補 32 午時水補台灣在地缺口。梯度與題量足。</li><li>boat（偏2-3）：取17題。難度1有2、難度2有4（03/07點睛/10鼓手/11舵手）、難度3有4（08奪標/18流體/25驅瘟/13團隊）、難度4有6（04起源破迷思/16二龍村/17水師/23粉紅龍舟/26伍子胥/27曹娥/22亞運）。人物軸靠伍子胥/曹娥補充紀念對象多元。無難度5（題池本身 boat 最高即4），仍對齊偏2-3區間。</li><li>zongzi（偏2-3）：取17題。難度2有5（03南北粽/04立蛋/10香包/24蛋黃/26立蛋民俗）、難度3有7（05雄黃/01餵魚/02角黍/06艾草/07菖蒲/13鹼粽/19五毒）、難度4有5（12長命縷/15點王/28澱粉老化/30蛟龍/21粄粽）。科學破迷思（立蛋/雄黃/糯米/澱粉）與台灣在地（南北粽/香包/粄粽）皆強。</li><li>poem（偏3-4）：取18題。難度3有5（01第一詩人/03香草美人/07兮/08名句/28詩人節）、難度4有9（04天問/05九歌/06騷體/11劉向/12蘇軾/13文天祥/19山鬼/20宋玉/23浪漫）、難度5有4（17名字制度/18懷沙/21亞里斯多德/25荷衣）。詩詞軸為主軸最豐，並含同時代對照（21亞里斯多德）與時間軸（28詩人節）。剔除 poem-26（funScore 2/distractor 2 偏弱）。</li><li>king（偏4-5）：取18題。為補低難度梯度，保留難度2有3（11香包/14艾草菖蒲/26別稱）、難度3有2（05五毒/20劍井），主力難度4有8（01端陽/03惡月/06鍾馗/17王爺送肉粽/23壁虎/25白蛇雄黃/28夏至/30總結）、難度5有5（04孟嘗君/10雄黃砷/15五毒符/21不舉五月子/27五黃）。BOSS關高難度足量，台灣在地（王爺送肉粽/劍井）與破迷思（壁虎/雄黃/立蛋邏輯）兼具。</li><li>全池難度1-5皆有分佈（1=6,2≈16,3≈25,4≈30,5≈12），符合『全池1-5都有』要求；高難度集中於 poem/king 兩個後段關，低難度集中於 quyuan/boat 前段關，整體梯度由前到後遞增。</li></ul>
+
+  <h2>5 · 最終題庫全覽（依關卡，難度排序）</h2>
+  <p class="lede" style="margin-bottom:6px">展開各關看入選題。fun/誘答欄為輪 2 評分（1-5）。粗體為正解，引擎洗牌後呈現。</p>
+  <details class="chapter" open>
+    <summary><span class="chap-key">quyuan</span> 汨羅江畔（屈原本人＋同時代對照） <span class="chap-n">19 題</span></summary>
+    <table class="qtable"><thead><tr><th>難</th><th>軸</th><th>題目 / 選項（粗體為正解）/ fun / 來源</th><th>fun/誘答</th></tr></thead>
+    <tbody><tr>
+    <td class="diff d1">1</td>
+    <td class="axis">人物</td>
+    <td class="q">端午節划龍舟、丟粽子，其實是在紀念哪一位古人投江？<div class="opts"><b>屈原</b> · 孔子 · 關羽 · 李白</div>
+      <div class="fun">屈原是戰國時代楚國的大詩人兼大官，傳說他在農曆五月初五跳進汨羅江，百姓划船去救、丟飯糰餵魚，後來就變成端午節的習俗。</div>
+      <div class="src">來源：教育部《重編國語辭典修訂本》「屈原」條；維基百科「屈原」</div></td>
+    <td class="sc">3/3</td>
+  </tr><tr>
+    <td class="diff d1">1</td>
+    <td class="axis">人物</td>
+    <td class="q">你知道嗎？屈原其實不是中國皇帝的臣子，他是哪一個「國」的人？<div class="opts"><b>楚國</b> · 秦國 · 美國 · 韓國</div>
+      <div class="fun">屈原是戰國時代「楚國」人。那時候中國還沒統一，分成好多個國家在搶地盤，楚國是南方最大的那一個。誘答放「韓國」純粹是讓你嚇一跳——戰國的韓國跟現在的南韓完全沒關係喔。</div>
+      <div class="src">來源：維基百科「屈原」；教育部教育百科「屈原」條</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d1">1</td>
+    <td class="axis">地理</td>
+    <td class="q">屈原最後跳進的那條江，叫什麼名字？<div class="opts"><b>汨羅江</b> · 淡水河 · 黃河 · 尼羅河</div>
+      <div class="fun">「汨」念ㄇㄧˋ，很多人會看成「汩」（ㄍㄨˇ）唸錯。汨羅江在現在的湖南省，是一條真實存在的河，每年端午還有人去江邊紀念屈原。</div>
+      <div class="src">來源：維基百科「汨羅江」；教育部《重編國語辭典修訂本》</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d1">1</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">傳說百姓在江上「划船」找屈原，後來演變成端午的哪一項活動？<div class="opts"><b>划龍舟</b> · 放天燈 · 打陀螺 · 踢毽子</div>
+      <div class="fun">傳說屈原投江後，村民急著划船去打撈，後來年年端午划船紀念，就變成今天的龍舟競賽。不過考古發現划龍舟可能比屈原還早就存在了——這是另一個冷知識！</div>
+      <div class="src">來源：南朝端午傳說；維基百科「賽龍舟」</div></td>
+    <td class="sc">3/3</td>
+  </tr><tr>
+    <td class="diff d2">2</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">傳說百姓划船丟飯糰下水，最早的原因其實是想做什麼？<div class="opts"><b>餵魚，讓魚別咬屈原的身體</b> · 餵屈原的寵物 · 比賽看誰丟得遠 · 祭拜河神求下雨</div>
+      <div class="fun">傳說百姓怕江裡的魚蝦咬壞屈原，就丟飯糰下水讓魚去吃飯糰，這就是粽子的由來之一。後來還用葉子把飯包起來，免得被江裡的龍搶走。</div>
+      <div class="src">來源：南朝《續齊諧記》端午角黍傳說；維基百科「粽」</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d2">2</td>
+    <td class="axis">人物</td>
+    <td class="q">屈原的「老闆」——那位一開始重用他、後來卻冷落他的楚國國君，是哪一位？<div class="opts"><b>楚懷王</b> · 秦始皇 · 唐太宗 · 成吉思汗</div>
+      <div class="fun">屈原的職場老闆是楚懷王。誘答放秦始皇超好笑——秦始皇統一天下時屈原早就死了快六十年，根本當不成他的老闆。楚懷王後來還被騙去秦國，回不來客死他鄉。</div>
+      <div class="src">來源：《史記·屈原賈生列傳》；維基百科「楚懷王」</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d2">2</td>
+    <td class="axis">時間</td>
+    <td class="q">屈原所在的戰國時代，後來是哪一個國家把大家都打敗、統一了天下？<div class="opts"><b>秦國</b> · 楚國 · 齊國 · 日本</div>
+      <div class="fun">最後是西邊的秦國（秦始皇）統一了天下。諷刺的是，屈原一輩子最反對的、最想阻止楚國去親近的就是秦國，而楚國正是被秦國滅掉的——他的擔心成真了。</div>
+      <div class="src">來源：維基百科「戰國時代」「秦朝」；《史記》</div></td>
+    <td class="sc">4/3</td>
+  </tr><tr>
+    <td class="diff d3">3</td>
+    <td class="axis">人物</td>
+    <td class="q">屈原在楚國當的官叫「三閭大夫」，他主要負責管什麼？<div class="opts"><b>管王室三大家族的事務和祭祀教育</b> · 管軍隊打仗 · 管全國的錢 · 管皇帝的廚房</div>
+      <div class="fun">「三閭大夫」的「三閭」指楚國王族的三大姓（昭、屈、景），屈原自己就姓屈，等於是管理王室親戚、主持祭祀、還要教貴族小孩讀書的官。</div>
+      <div class="src">來源：維基百科「三閭大夫」；《史記·屈原賈生列傳》</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d3">3</td>
+    <td class="axis">詩詞</td>
+    <td class="q">屈原最有名的長詩《離騷》，「離騷」兩個字大概是什麼意思？<div class="opts"><b>遭遇憂愁、滿腹牢騷</b> · 離家出走 · 離婚的騷動 · 美麗的歌謠</div>
+      <div class="fun">司馬遷說「離騷者，猶離憂也」——就是遭遇憂愁的意思。屈原被冷落、報國無門，把一肚子委屈寫成這首超長的詩，是中國文學史上最長的抒情詩之一。</div>
+      <div class="src">來源：《史記·屈原賈生列傳》「離騷者，猶離憂也」</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d3">3</td>
+    <td class="axis">同時代對照</td>
+    <td class="q">下面哪一位中國古代思想家，跟屈原是「幾乎同一個時代」的人？<div class="opts"><b>孟子</b> · 孔子 · 唐三藏 · 包青天</div>
+      <div class="fun">孟子（約前372–前289）跟屈原（約前340–前278）的人生幾乎完全重疊！誘答放孔子是陷阱——孔子比他們早了快兩百年（前551出生），不是同一代人。</div>
+      <div class="src">來源：維基百科「孟子」「屈原」生卒年比對</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d3">3</td>
+    <td class="axis">詩詞</td>
+    <td class="q">屈原的詩自成一派，後人把它和同類作品合稱為《楚辭》。《楚辭》最大的特色是句子裡常出現哪一個字？<div class="opts"><b>兮（ㄒㄧ）</b> · 的 · 了 · 嗎</div>
+      <div class="fun">《楚辭》裡到處都是「兮」字，像「路漫漫其修遠兮」。這個「兮」念ㄒㄧ，是楚地方言的語助詞，差不多等於現在說話拖長音的「啊～」「呀～」，唱起來特別有味道。</div>
+      <div class="src">來源：維基百科「楚辭」；《離騷》文本</div></td>
+    <td class="sc">5/5</td>
+  </tr><tr>
+    <td class="diff d3">3</td>
+    <td class="axis">台灣在地</td>
+    <td class="q">在台灣，有個端午習俗跟屈原一點關係都沒有，純粹是古人覺得「五月是毒月」要驅邪——是哪一件？<div class="opts"><b>正午取「午時水」存起來避邪</b> · 放鞭炮迎財神 · 吃月餅賞月 · 貼春聯換門神</div>
+      <div class="fun">台灣民俗相信端午正中午（午時）打的井水、泉水特別純淨，俗稱「午時水」，能化煞避邪。這跟紀念屈原無關，而是源自古人把農曆五月當「惡月」、要驅疫的老觀念。</div>
+      <div class="src">來源：台灣民俗「午時水」習俗記載；端午為古代「惡月」驅疫傳統</div></td>
+    <td class="sc">3/3</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">人物</td>
+    <td class="q">傳說屈原是哪個生肖出生的？（《離騷》裡他自己留了線索）<div class="opts"><b>虎</b> · 龍 · 豬 · 雞</div>
+      <div class="fun">《離騷》開頭寫「攝提貞于孟陬兮，惟庚寅吾以降」，古人王逸解讀成他生在「寅年」，寅就是生肖虎。不過宋朝朱熹覺得只能確定是寅月寅日、未必是寅年——連古人都吵過這題！</div>
+      <div class="src">來源：《離騷》「惟庚寅吾以降」；王逸《楚辭章句》注「太歲在寅」之說（朱熹存疑）</div></td>
+    <td class="sc">5/4</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">同時代對照</td>
+    <td class="q">同一個時間、地球的另一邊，古希臘有位哲學家正在當「亞歷山大大帝」的家教老師，他是誰？<div class="opts"><b>亞里斯多德</b> · 牛頓 · 愛因斯坦 · 達文西</div>
+      <div class="fun">亞里斯多德（約前384–前322）跟屈原（約前340–前278）幾乎同時代！屈原在楚國寫詩的那幾十年，亞里斯多德正在馬其頓教年輕的亞歷山大大帝。東西方兩個大人物，隔著大半個地球同時在歷史上活躍。</div>
+      <div class="src">來源：維基百科「亞里斯多德」（前343/342年起任亞歷山大之師）；「屈原」</div></td>
+    <td class="sc">5/4</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">人物</td>
+    <td class="q">屈原投江時，傳說他抱著什麼一起沉下去，表示「不回頭」的決心？<div class="opts"><b>一塊大石頭</b> · 一隻鴨子 · 一袋粽子 · 一把寶劍</div>
+      <div class="fun">《史記》記載屈原「懷石遂自沉汨羅以死」——抱著石頭跳江。古文裡「懷沙」的「沙」也有人解釋成抱沙石，表示他是下定決心、不打算被救起的。</div>
+      <div class="src">來源：《史記·屈原賈生列傳》「懷石遂自沉汨羅以死」</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">人物</td>
+    <td class="q">屈原姓「屈」，但其實他跟楚國王室是有血緣關係的。這代表他大概是什麼出身？<div class="opts"><b>貴族（王族的旁支）</b> · 農夫 · 外國來的商人 · 撿來的孤兒</div>
+      <div class="fun">屈原的「屈」是楚國王族三大姓之一（昭、屈、景），所以他是不折不扣的貴族出身。也因為這層身分，他才能年紀輕輕就受楚懷王重用、當上三閭大夫。</div>
+      <div class="src">來源：維基百科「屈原」「三閭大夫」（屈為楚王族三姓之一）</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d5">5</td>
+    <td class="axis">科學破迷思</td>
+    <td class="q">其實考古和古書顯示，「划龍舟」這件事可能早在什麼時候就有了？<div class="opts"><b>比屈原還早，屈原出生前就有龍舟</b> · 屈原死後一千年才發明 · 清朝才開始 · 其實是日本傳來的</div>
+      <div class="fun">蛤，真的假的？學者發現西周的《穆天子傳》就記載「乘鳥舟、龍舟」，比屈原早了六、七百年。划龍舟原本是古代百越族祭水神、送瘟疫的習俗，後來才跟屈原的故事結合在一起。</div>
+      <div class="src">來源：《穆天子傳》西周龍舟記載；聞一多端午考；維基百科「賽龍舟」；聯合新聞網「端午划龍舟包粽子真實年代比屈原早」</div></td>
+    <td class="sc">5/4</td>
+  </tr><tr>
+    <td class="diff d5">5</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">端午節又叫「重午節」，這個「重午」的「午」其實藏了一個小祕密，它指的是什麼？<div class="opts"><b>地支的「午」，農曆五月正好是午月</b> · 中午十二點 · 下午 · 唱歌的歌</div>
+      <div class="fun">古人用「地支」（子丑寅卯…）排月份，農曆五月正好是「午月」。五月五日，月和日都帶五、又逢午，所以叫「重午」「重五」。屈原據說也是寅年寅月寅日生，古人超愛這種數字巧合。</div>
+      <div class="src">來源：維基百科「端午節」別稱「重午」考；地支紀月</div></td>
+    <td class="sc">5/4</td>
+  </tr><tr>
+    <td class="diff d5">5</td>
+    <td class="axis">同時代對照</td>
+    <td class="q">如果把屈原、孟子、莊子、亞里斯多德這四個人放在一起，最神奇的事情是什麼？<div class="opts"><b>他們的人生時間幾乎都重疊，是同一個時代的人</b> · 他們是同一個人的四個名字 · 他們都活到一百歲 · 他們都是台灣人</div>
+      <div class="fun">蛤，真的假的？屈原（約前340–前278）、孟子（約前372–前289）、莊子（約前369–前286）、亞里斯多德（前384–前322）的人生通通重疊在西元前4世紀。東方百家爭鳴、西方希臘哲學黃金期，居然是同一段時間發生的事！</div>
+      <div class="src">來源：維基百科各人物生卒年比對（屈原/孟子/莊子/亞里斯多德）</div></td>
+    <td class="sc">5/4</td>
+  </tr></tbody></table>
+  </details><details class="chapter">
+    <summary><span class="chap-key">boat</span> 划龍舟（習俗由來） <span class="chap-n">17 題</span></summary>
+    <table class="qtable"><thead><tr><th>難</th><th>軸</th><th>題目 / 選項（粗體為正解）/ fun / 來源</th><th>fun/誘答</th></tr></thead>
+    <tbody><tr>
+    <td class="diff d1">1</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">端午划龍舟，最廣為人知的說法是為了紀念誰跳江？<div class="opts"><b>屈原</b> · 關公 · 媽祖 · 包公</div>
+      <div class="fun">傳說屈原投汨羅江後，鄉民划船去搶救、後來變成年年競渡紀念他——所以龍舟賽其實是一場兩千多年的『搜救演習』延續。</div>
+      <div class="src">來源：南朝梁《續齊諧記》、《荊楚歲時記》</div></td>
+    <td class="sc">3/4</td>
+  </tr><tr>
+    <td class="diff d2">2</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">傳說鄉民拼命划船到江上，其實第一個目的不是比賽，而是想做什麼？<div class="opts"><b>搶救落水的屈原</b> · 練習打仗 · 捕魚換錢 · 送神明回天庭</div>
+      <div class="fun">龍舟賽的起源是『救人』不是『競速』——大家搶著划去撈屈原，越划越快才慢慢變成比賽，輸贏是後來才加上去的。</div>
+      <div class="src">來源：南朝梁《續齊諧記》</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d2">2</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">除了紀念屈原，划龍舟還有一個『嚇魚蝦』的說法，到底是要嚇什麼？<div class="opts"><b>要嚇跑魚蝦，不讓牠們吃屈原的身體</b> · 要把魚趕進網裡 · 要叫醒睡著的河神 · 要嚇走偷粽子的小孩</div>
+      <div class="fun">一說划船打水、敲鑼打鼓就是要把江裡的魚蝦嚇跑，免得牠們去咬屈原——丟粽子餵魚也是同一個邏輯，等於幫魚『點外送』別吃人。</div>
+      <div class="src">來源：民間傳說（與投粽餵魚同源說）</div></td>
+    <td class="sc">4/3</td>
+  </tr><tr>
+    <td class="diff d2">2</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">龍舟下水比賽前，常有一個『龍頭點睛』的儀式，這是在做什麼？<div class="opts"><b>幫龍頭點上眼睛開光</b> · 幫龍舟測量重量 · 給選手抽籤決定水道 · 檢查船身有沒有破洞</div>
+      <div class="fun">沒點睛的龍是『睡龍』，要由貴賓用硃砂筆替龍頭點上眼睛，龍才算醒過來能下水——跟『畫龍點睛』那句成語根本同一個概念。</div>
+      <div class="src">來源：傳統龍舟點睛（開光）民俗</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d2">2</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">一艘標準龍舟上，除了划槳手，前面還坐著一個人專門做什麼？<div class="opts"><b>打鼓抓節奏，讓全船一起划</b> · 負責看風景 · 負責數對手有幾人 · 負責煮飯</div>
+      <div class="fun">龍舟最前面是『鼓手』，靠鼓聲統一全船划槳節奏——划得齊不齊比划得用不用力還重要，鼓手等於整船的心跳。</div>
+      <div class="src">來源：龍舟競渡標準編制</div></td>
+    <td class="sc">4/3</td>
+  </tr><tr>
+    <td class="diff d2">2</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">龍舟最尾巴那個人，工作其實不是划船，而是？<div class="opts"><b>掌舵控制方向</b> · 幫大家加油 · 記分數 · 保管粽子</div>
+      <div class="fun">船尾是『舵手』，用一支長舵控制龍舟直不直——划槳手再強，舵手歪一下整船就撞水道，所以舵手是『沉默的隊長』。</div>
+      <div class="src">來源：龍舟競渡標準編制</div></td>
+    <td class="sc">4/3</td>
+  </tr><tr>
+    <td class="diff d3">3</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">龍舟比賽終點常有一個人專門負責『搶』東西，他搶的是什麼？<div class="opts"><b>插在終點的錦標（旗子）</b> · 對手的船槳 · 河裡的粽子 · 裁判的哨子</div>
+      <div class="fun">古代龍舟賽終點插一面旗叫『標』，誰先搶到旗誰就贏——這就是『奪標』的由來，今天考第一名叫『奪標』也是從這來的。</div>
+      <div class="src">來源：傳統龍舟奪標習俗</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d3">3</td>
+    <td class="axis">科學破迷思</td>
+    <td class="q">龍舟一整船這麼多人，到底誰最重要？答案可能跟你想的不一樣——關鍵其實是？<div class="opts"><b>全船划得齊不齊</b> · 哪個選手手臂最粗 · 船有沒有漆成吉利的紅色 · 鼓敲得夠不夠大聲</div>
+      <div class="fun">龍舟物理學：二十個人不同步亂划，力會互相抵消、船還左右晃；划得整齊劃一才能把力全變成前進——所以龍舟比的是團隊默契，不是肌肉。</div>
+      <div class="src">來源：划船動力學（同步性原理）</div></td>
+    <td class="sc">4/3</td>
+  </tr><tr>
+    <td class="diff d3">3</td>
+    <td class="axis">科學破迷思</td>
+    <td class="q">龍舟為什麼做得又長又窄？這個形狀主要是為了什麼？<div class="opts"><b>減少水的阻力，讓船跑得更快</b> · 方便載很多粽子 · 看起來更像龍 · 比較不會翻</div>
+      <div class="fun">又長又窄的船身切水阻力小、速度快，但也因此超容易左右晃——所以龍舟好看又難駕馭，重心一歪整船就『下水餃』。</div>
+      <div class="src">來源：船舶流體力學（細長船型減阻）</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d3">3</td>
+    <td class="axis">同時代對照</td>
+    <td class="q">龍舟競渡這項運動，已經成為哪個國際綜合運動會的項目之一？<div class="opts"><b>亞洲運動會（亞運）</b> · 世界盃足球賽 · 環法自行車賽 · 美國職棒</div>
+      <div class="fun">龍舟早在2010廣州亞運就成為正式比賽項目，金牌一樣掛脖子上——一個紀念古人投江的習俗，居然進了國際運動殿堂，屈原本人應該想不到。</div>
+      <div class="src">來源：亞洲運動會龍舟項目（2010廣州亞運起）</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d3">3</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">有一種說法，划龍舟敲鑼打鼓、潑水這麼大陣仗，其實還想趕走什麼？<div class="opts"><b>瘟疫和邪氣（端午本是驅瘟避邪的日子）</b> · 蒼蠅 · 隔壁村的人 · 天上的雲</div>
+      <div class="fun">端午原本是『惡月惡日』要驅瘟避邪，划龍舟的喧鬧、鑼鼓、水花也被當成趕走疫病邪氣的手段——所以龍舟不只紀念屈原，還身兼『移動的驅邪儀式』。</div>
+      <div class="src">來源：端午驅瘟避邪民俗（惡月惡日說）</div></td>
+    <td class="sc">3/3</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">學者研究發現，划龍舟競渡其實可能比屈原還『老』——它最早可能源自什麼？<div class="opts"><b>古代南方民族祭水神／龍圖騰的儀式</b> · 秦始皇的閱兵典禮 · 唐朝的科舉慶典 · 佛教的浴佛節</div>
+      <div class="fun">屈原約活在西元前300年，但長江以南的越人早就有划船祭龍、祈求風調雨順的習俗——等於龍舟是先有了，後來才『掛』在屈原名下。</div>
+      <div class="src">來源：聞一多《端午考》（龍圖騰祭祀說）</div></td>
+    <td class="sc">5/4</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">台灣在地</td>
+    <td class="q">宜蘭二龍村的龍舟賽有個全台獨一無二的特色，是什麼？<div class="opts"><b>沒有裁判、沒發令槍，兩村自己對看喬好就開划</b> · 划完要游泳回岸 · 只能晚上划 · 船上不能坐人</div>
+      <div class="fun">二龍村競渡是台灣重要民俗，上下兩庄各划一艘，靠默契喊『開始』、不服就重來，可以一個下午划十幾趟——它比的是村庄情誼，不是名次。</div>
+      <div class="src">來源：宜蘭二龍村競渡（國家重要民俗）</div></td>
+    <td class="sc">4/3</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">古代龍舟競渡其實不只端午划，有些朝代還拿來做什麼正經用途？<div class="opts"><b>軍隊操練水師（練水戰）</b> · 收稅 · 送公文 · 抓逃犯</div>
+      <div class="fun">競渡在歷史上一度跟水軍操練綁在一起，划得快、轉得準的隊伍，在戰時就是能打仗的水師——龍舟賽某種程度是『古代海軍體能測驗』。</div>
+      <div class="src">來源：歷代競渡與水師操練記載</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">科學破迷思</td>
+    <td class="q">國外划龍舟還發展出一個很暖心的特殊用途，常見的是哪一種隊伍？<div class="opts"><b>乳癌康復者的龍舟隊（復健兼凝聚力）</b> · 只給億萬富翁划的隊 · 機器人划的隊 · 太空人訓練隊</div>
+      <div class="fun">加拿大醫師發現划龍舟的上肢運動對乳癌術後復健很有幫助，後來全球出現大量『粉紅龍舟』乳癌康復隊——龍舟從紀念悲劇，變成幫人重新站起來的運動。</div>
+      <div class="src">來源：國際乳癌康復龍舟運動（Abreast In A Boat 起源）</div></td>
+    <td class="sc">5/3</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">人物</td>
+    <td class="q">除了紀念屈原，江浙一帶還有一說，划龍舟是為了紀念另一位投江的忠臣，他是？<div class="opts"><b>伍子胥</b> · 岳飛 · 文天祥 · 諸葛亮</div>
+      <div class="fun">在蘇州一帶，端午競渡紀念的不是屈原而是伍子胥——他被吳王逼死、屍體投江。所以『龍舟到底紀念誰』各地答案不同，屈原只是最有名的那個版本。</div>
+      <div class="src">來源：《荊楚歲時記》、吳地伍子胥說</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">人物</td>
+    <td class="q">浙江一帶還有一個版本，說端午競渡是為了紀念一位投江尋父的孝女，她是？<div class="opts"><b>曹娥</b> · 花木蘭 · 孟姜女 · 祝英台</div>
+      <div class="fun">曹娥的父親溺江，她沿江哭找、最後投江尋父，後人立『曹娥江』紀念她——所以同一條龍舟，在不同地方可能是在紀念忠臣、孝女或屈原，看你問誰。</div>
+      <div class="src">來源：《後漢書·列女傳》曹娥條</div></td>
+    <td class="sc">4/4</td>
+  </tr></tbody></table>
+  </details><details class="chapter">
+    <summary><span class="chap-key">zongzi</span> 包粽子＋避邪＋科學破迷思 <span class="chap-n">17 題</span></summary>
+    <table class="qtable"><thead><tr><th>難</th><th>軸</th><th>題目 / 選項（粗體為正解）/ fun / 來源</th><th>fun/誘答</th></tr></thead>
+    <tbody><tr>
+    <td class="diff d2">2</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">傳說大家把粽子丟進江裡，其實不是給屈原吃，而是為了？<div class="opts"><b>餵飽魚蝦，讓牠們別啃屈原的身體</b> · 讓江神聞香消氣 · 幫屈原煮一鍋宵夜 · 把江水染香趕走蛟龍</div>
+      <div class="fun">民間傳說：百姓怕魚蝦咬屈原遺體，丟飯糰餵魚，後來怕被蛟龍搶走才用粽葉包起來綁繩——這就是粽子的雛形。</div>
+      <div class="src">來源：南朝《續齊諧記》端午角黍傳說</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d2">2</td>
+    <td class="axis">台灣在地</td>
+    <td class="q">南部粽和北部粽最大的差別，其實在於米的「下鍋方式」——下面哪個說法對？<div class="opts"><b>南部粽生米水煮、北部粽炒過再蒸</b> · 南部粽用糯米、北部粽用白米 · 南部粽包甜的、北部粽包鹹的 · 兩者完全一樣，只是名字不同</div>
+      <div class="fun">南部粽生糯米直接水煮，口感軟黏像粽；北部粽米先炒過再蒸，比較像油飯捏成粽形。北部粽常被南部人吐槽是「3D油飯」。</div>
+      <div class="src">來源：台灣飲食民俗，南北粽製法差異</div></td>
+    <td class="sc">5/4</td>
+  </tr><tr>
+    <td class="diff d2">2</td>
+    <td class="axis">科學破迷思</td>
+    <td class="q">端午正午立蛋立得起來，民俗說是陽氣最盛——但科學上真正的原因是？<div class="opts"><b>其實任何一天任何時刻都立得起來，靠蛋殼凸點和耐心</b> · 只有端午的地球磁場剛好變弱 · 正午太陽把蛋裡的蛋黃曬到正中央 · 陽氣讓蛋暫時變重心穩</div>
+      <div class="fun">蛋殼表面有很多小凸點，只要找到三個凸點當支撐、把重心對準，平常日子也立得起來。端午立蛋好玩，但跟節氣、陽氣一點關係都沒有。</div>
+      <div class="src">來源：物理學重心原理；NASA 等科普機構平日示範</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d2">2</td>
+    <td class="axis">台灣在地</td>
+    <td class="q">台灣小孩端午常戴的「香包」，裡面塞的可不是糖果，傳統上裝的是？<div class="opts"><b>艾草、雄黃等有香氣的中藥避邪</b> · 曬乾磨碎的粽米 · 寫了名字的平安符紙 · 可以吃的薄荷糖</div>
+      <div class="fun">古人版的「隨身防蚊片」就是它。香包裡塞艾草、雄黃、白芷等香料，靠味道把蚊蟲和瘟氣熏跑。現在多半變成卡通造型掛飾，但它的祖宗其實是一包行走的中藥。</div>
+      <div class="src">來源：台灣端午香包（香囊）民俗</div></td>
+    <td class="sc">3/3</td>
+  </tr><tr>
+    <td class="diff d2">2</td>
+    <td class="axis">台灣在地</td>
+    <td class="q">肉粽裡常見一顆鹹蛋黃，除了好吃，它在傳統上還有什麼象徵？<div class="opts"><b>象徵圓滿、團圓，金黃像太陽討吉利</b> · 象徵屈原的眼睛 · 用來幫粽子加重好沉到鍋底 · 完全沒有意義，純粹後來才加的</div>
+      <div class="fun">鹹蛋黃金黃渾圓，被視為圓滿、團圓的好兆頭，咬到流油的那口更是肉粽的高潮。一顆蛋黃，吃的是味道也是好彩頭。</div>
+      <div class="src">來源：台灣肉粽餡料民俗象徵</div></td>
+    <td class="sc">3/4</td>
+  </tr><tr>
+    <td class="diff d2">2</td>
+    <td class="axis">科學破迷思</td>
+    <td class="q">立蛋其實一年到頭都立得起來，那為什麼大家偏偏選端午這天玩？<div class="opts"><b>只是民俗習慣，把好玩的事配上節日一起做</b> · 因為端午地心引力比較小 · 因為只有端午買得到新鮮雞蛋 · 因為端午的蛋特別圓</div>
+      <div class="fun">立蛋任何一天都能成功，純粹是民俗把「立蛋」這件好玩的事掛在端午，變成大家一起玩的儀式。下次想立蛋，平常日子在家就能挑戰，不用等端午。</div>
+      <div class="src">來源：立蛋物理原理；端午立蛋為民俗習慣</div></td>
+    <td class="sc">5/4</td>
+  </tr><tr>
+    <td class="diff d3">3</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">你知道嗎？粽子在古代根本不叫粽子，它的本名其實是？<div class="opts"><b>角黍</b> · 江飯 · 屈米 · 龍糕</div>
+      <div class="fun">古人用菰葉（茭白葉）包黍米成尖角狀，所以叫「角黍」。後來才改叫粽子，吃了兩千多年還在改名。</div>
+      <div class="src">來源：東漢至晉代「角黍」記載，《風土記》</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d3">3</td>
+    <td class="axis">科學破迷思</td>
+    <td class="q">古人端午愛喝的雄黃酒，現代人卻多半「只塗不喝」，其實是因為？<div class="opts"><b>雄黃含砷，加熱或喝下去可能中毒</b> · 雄黃酒太貴只能省著用 · 雄黃酒會讓人睡不著 · 現代買不到真正的雄黃</div>
+      <div class="fun">雄黃的主成分是硫化砷，加熱後可能變成劇毒的砒霜成分。所以現代多半只在小孩額頭點一點「王」字避邪，不再真的拿來喝了。</div>
+      <div class="src">來源：雄黃（硫化砷）毒理；衛福部食藥署提醒</div></td>
+    <td class="sc">5/4</td>
+  </tr><tr>
+    <td class="diff d3">3</td>
+    <td class="axis">科學破迷思</td>
+    <td class="q">端午門口掛艾草，老人家說能驅邪。從科學角度看，艾草「驅蚊」這件事是？<div class="opts"><b>半真的——艾草確實含有驅蟲成分</b> · 完全假的，只是儀式 · 真的，蚊子聞到會立刻死掉 · 只有曬乾的艾草才有任何效果</div>
+      <div class="fun">艾草含桉葉油醇等揮發性精油，點燃或濃度高時對蚊蟲確有驅避效果。但門口掛一把乾艾草，香氣淡到蚊子根本不怕——所以「半真」。</div>
+      <div class="src">來源：艾草精油驅蟲成分研究</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d3">3</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">端午掛在門上的「菖蒲」，古人說它像一樣東西所以能避邪——像什麼？<div class="opts"><b>像一把寶劍</b> · 像一條龍 · 像一根筷子 · 像屈原的毛筆</div>
+      <div class="fun">菖蒲葉細長挺直像劍，古人叫它「水劍」，掛門口象徵斬除妖邪。所以端午門口常是「艾草＋菖蒲」一草一劍的組合。</div>
+      <div class="src">來源：端午菖蒲「蒲劍」民俗</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d3">3</td>
+    <td class="axis">科學破迷思</td>
+    <td class="q">鹼粽（粳粽）煮出來金黃透明又Q彈，這個顏色和口感其實是因為加了？<div class="opts"><b>鹼水（食用鹼）</b> · 黃色食用色素 · 蜂蜜 · 蛋黃</div>
+      <div class="fun">鹼粽加食用鹼，讓糯米澱粉糊化變得透明Q彈、顏色轉金黃。它幾乎沒味道，要沾糖或蜂蜜吃——是粽界少數「裸吃會後悔」的存在。</div>
+      <div class="src">來源：鹼粽製法，鹼與澱粉糊化原理</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d3">3</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">端午要驅的「五毒」是五種有毒生物，下面哪一組才是傳統的五毒？<div class="opts"><b>蛇、蠍、蜈蚣、壁虎、蟾蜍</b> · 蚊、蠅、蟑螂、老鼠、蒼蠅 · 虎、豹、豺、狼、熊 · 龍、蛟、鯊、鱷、章魚</div>
+      <div class="fun">傳統五毒指蛇、蠍子、蜈蚣、壁虎（一說守宮）、蟾蜍，正好都是夏天出沒的毒蟲。端午掛艾草、戴香包，其實是古代版的「防蟲大作戰」。</div>
+      <div class="src">來源：端午驅「五毒」民俗</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">傳說中綁粽子的「五彩繩」最初是用來綁粽子嗎？其實它另有用途——<div class="opts"><b>綁在小孩手腕避邪，叫長命縷</b> · 純粹裝飾沒有用途 · 用來分辨誰家的粽子 · 綁住江裡的蛟龍</div>
+      <div class="fun">端午用青赤黃白黑五色絲線繫在小孩手臂上，叫「長命縷」或「續命絲」，祈求避邪長壽。後來這個「五彩」概念也跑到粽子的綁繩上。</div>
+      <div class="src">來源：東漢端午「五色絲」「長命縷」民俗</div></td>
+    <td class="sc">5/4</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">古人端午會在小孩額頭用雄黃點一個字避邪，點的是哪個字？<div class="opts"><b>王</b> · 福 · 安 · 壽</div>
+      <div class="fun">在小孩額頭用雄黃畫「王」字，取老虎額頭花紋之意，借虎威鎮邪驅蟲。所以端午的小孩額頭上，常頂著一隻看不見的小老虎。</div>
+      <div class="src">來源：端午雄黃點額「畫王」民俗</div></td>
+    <td class="sc">5/3</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">台灣在地</td>
+    <td class="q">客家人的「粄粽」（粢粽）和一般糯米粽最大的不同是？<div class="opts"><b>外皮是用米磨成的粄糰，口感像麻糬</b> · 裡面包的是水果 · 用麵粉做皮 · 完全不用包餡</div>
+      <div class="fun">客家粄粽不是用整顆糯米，而是把米磨成漿做成粄糰當外皮，包餡後口感軟Q像麻糬。同樣是端午粽，客家版直接換了一套做法。</div>
+      <div class="src">來源：客家粄粽（粢粽）製法民俗</div></td>
+    <td class="sc">4/3</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">科學破迷思</td>
+    <td class="q">粽子放涼後再蒸熱會變更Q更好吃，這背後其實藏著一個澱粉現象，叫做？<div class="opts"><b>澱粉老化（回凝），重新加熱會再次糊化變軟Q</b> · 粽子發酵變酒 · 葉子的香氣加倍滲入 · 米吸收了空氣中的水</div>
+      <div class="fun">煮熟的糯米放涼會「澱粉老化」變硬，重新加熱又糊化變軟Q。所以隔夜粽子蒸過反而好吃——這跟隔夜飯炒過更香是同一個原理。</div>
+      <div class="src">來源：澱粉老化與再糊化（retrogradation）原理</div></td>
+    <td class="sc">5/4</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">傳說屈原託夢說丟下去的飯被蛟龍吃掉了，於是百姓改用兩樣東西讓蛟龍不敢碰——是哪兩樣？<div class="opts"><b>楝葉包飯、五彩絲線綁住</b> · 辣椒和大蒜 · 石頭和鐵鍊 · 符咒和蠟燭</div>
+      <div class="fun">傳說蛟龍最怕楝葉和五彩絲，於是百姓改用楝葉包飯、五色線纏綁，蛟龍就不敢搶。這個「防蛟龍配方」正是粽子用葉包、用繩綁的傳說由來。</div>
+      <div class="src">來源：南朝《續齊諧記》屈原託夢、楝葉五彩絲傳說</div></td>
+    <td class="sc">4/4</td>
+  </tr></tbody></table>
+  </details><details class="chapter">
+    <summary><span class="chap-key">poem</span> 詩詞關 <span class="chap-n">18 題</span></summary>
+    <table class="qtable"><thead><tr><th>難</th><th>軸</th><th>題目 / 選項（粗體為正解）/ fun / 來源</th><th>fun/誘答</th></tr></thead>
+    <tbody><tr>
+    <td class="diff d3">3</td>
+    <td class="axis">詩詞</td>
+    <td class="q">端午紀念的屈原，其實是中國文學史上第一位「留下名字」的詩人。在他之前我們讀的《詩經》，作者大多是？<div class="opts"><b>沒留名的無名氏（民間集體創作）</b> · 孔子一個人寫的 · 歷代皇帝寫的 · 屈原年輕時匿名投稿的</div>
+      <div class="fun">《詩經》三百篇幾乎都查不到作者，是集體民歌。屈原寫《離騷》署上自己的志向與名字，所以被稱為中國第一位「個人」詩人——端午其實也是在紀念華語第一位有名有姓的作家。</div>
+      <div class="src">來源：教育部《國語辭典》「離騷」「詩經」條；文學史通說</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d3">3</td>
+    <td class="axis">詩詞</td>
+    <td class="q">屈原寫詩超愛用香草和美人來比喻自己。詩裡的「香草」（蘭、蕙、芷）其實是在象徵什麼？<div class="opts"><b>高潔的品德與忠貞</b> · 他種來賣錢的農作物 · 端午要掛的艾草菖蒲 · 他暗戀的女生</div>
+      <div class="fun">這就是著名的「香草美人」傳統：香草=自己的好品德，美人=理想的君主。後世兩千年罵昏君不敢明講，就學屈原用花草美人「夾帶」抱怨——一套被抄了兩千年的暗號。</div>
+      <div class="src">來源：《楚辭》王逸注「香草美人」喻；文學史通說</div></td>
+    <td class="sc">5/4</td>
+  </tr><tr>
+    <td class="diff d3">3</td>
+    <td class="axis">詩詞</td>
+    <td class="q">屈原的詩裡有一個字出現超多次，幾乎變成楚辭的「招牌字」。你猜是哪個字？<div class="opts"><b>兮（語助詞，像現代的『啊～』）</b> · 的 · 了 · 龍</div>
+      <div class="fun">「兮」音同「西」，是楚辭最有辨識度的記號，作用接近現在的「啊」「呀」，唸起來會拖長尾音。「路漫漫其修遠兮，吾將上下而求索」——那個「兮」一出現，幾乎就是楚辭在跟你打招呼。</div>
+      <div class="src">來源：《楚辭》用字；教育部《國語辭典》「兮」條</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d3">3</td>
+    <td class="axis">詩詞</td>
+    <td class="q">「路漫漫其修遠兮，吾將上下而求索」這句被印在無數勵志海報上的名言，其實出自？<div class="opts"><b>屈原的《離騷》</b> · 孔子的《論語》 · 李白的唐詩 · 近代的廣告標語</div>
+      <div class="fun">意思是「路又長又遠啊，我會上上下下不停地去追尋」。兩千多年前屈原寫來自勉，現在變成考生、創業者、馬拉松跑者最愛的座右銘——一句橫跨兩千年的雞湯始祖。</div>
+      <div class="src">來源：《楚辭·離騷》</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d3">3</td>
+    <td class="axis">時間</td>
+    <td class="q">屈原被尊為「詩人之祖」，端午也被一些人稱作「詩人節」。在台灣，「詩人節」就是訂在哪一天？<div class="opts"><b>農曆五月初五端午節</b> · 屈原的西曆生日那天 · 農曆正月初一 · 李白的生日</div>
+      <div class="fun">為了紀念屈原這位「中國第一位詩人」，後人把端午同時當作「詩人節」。所以你吃粽子、看龍舟的同一天，其實也是全體華語詩人的節日——順便提醒一下：屈原確切的西曆生日早就考不出來了，別被「同生日」的傳言騙。</div>
+      <div class="src">來源：中華民國「詩人節」訂於端午；史傳通說</div></td>
+    <td class="sc">3/4</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">詩詞</td>
+    <td class="q">屈原有一篇很特別的作品叫《天問》，內容從頭到尾在幹嘛？<div class="opts"><b>一口氣連問一百多個問題，自己都不回答</b> · 教人怎麼觀星算命 · 向上天禱告求雨 · 記錄他每天問候楚王的對話</div>
+      <div class="fun">《天問》從天地怎麼來、太陽月亮為什麼會動，一路問到歷史人物，連發一百七十幾個問句——而且通篇只問不答。兩千多年前的「十萬個為什麼」，被稱為最早的科學追問之一。</div>
+      <div class="src">來源：《楚辭·天問》；文學史通說</div></td>
+    <td class="sc">5/4</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">詩詞</td>
+    <td class="q">屈原還有一組詩叫《九歌》，原本是用來幹嘛的？<div class="opts"><b>祭祀神明時唱跳的祭神歌</b> · 教小孩數數的兒歌 · 九首罵楚王的政治詩 · 划龍舟比賽的加油歌</div>
+      <div class="fun">《九歌》是屈原把楚國民間祭神的歌謠改寫潤色的，裡面有山鬼、河伯、雲中君等好多神。等於是兩千年前的「神明應援曲」，連歌帶舞——而且《九歌》其實有十一篇，不是九篇。</div>
+      <div class="src">來源：《楚辭·九歌》王逸注；文學史通說</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">詩詞</td>
+    <td class="q">屈原的詩跟《詩經》長得很不一樣，他開創的這種詩體後來被叫做？<div class="opts"><b>騷體（楚辭體）</b> · 唐詩 · 宋詞 · 三字經</div>
+      <div class="fun">因為代表作是《離騷》，這種句子裡常帶「兮」字、節奏自由奔放的南方詩體就被叫「騷體」。後世把「風」（詩經）跟「騷」（楚辭）並稱為中國詩的兩大源頭，「風騷」一詞就是這麼來的。</div>
+      <div class="src">來源：教育部《國語辭典》「騷體」「風騷」條；文學史通說</div></td>
+    <td class="sc">4/3</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">詩詞</td>
+    <td class="q">屈原的詩散落在各處，最後是誰把它們編成一整本《楚辭》流傳下來的？<div class="opts"><b>西漢的劉向</b> · 屈原自己生前出版的 · 唐朝的李白 · 清朝的乾隆皇帝</div>
+      <div class="fun">屈原西元前三世紀過世，作品零散流傳。一直到約兩百年後的西漢，學者劉向才把屈原、宋玉等人的作品整理輯成《楚辭》一書——等於是屈原死後兩百年才有人幫他出「全集」。</div>
+      <div class="src">來源：教育部《國語辭典》「楚辭」條；文學史通說（劉向輯）</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">詩詞</td>
+    <td class="q">宋朝大文豪蘇軾也寫過端午詞《浣溪沙·端午》，裡面提到端午要做的一件事，跟今天台灣人也很像。是哪件？<div class="opts"><b>用蘭草、香湯沐浴洗香香</b> · 放天燈 · 吃月餅 · 貼春聯</div>
+      <div class="fun">蘇軾寫「輕汗微微透碧紈…彩線輕纏紅玉臂」，描的是端午沐浴、繫五色線的習俗。端午古名「浴蘭節」就是因為這天要用香草煮水洗澡——所以端午本來也是個「洗香香節」。</div>
+      <div class="src">來源：蘇軾《浣溪沙·端午》；教育部《國語辭典》「浴蘭」相關</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">詩詞</td>
+    <td class="q">南宋名臣文天祥（寫「人生自古誰無死」那位）也寫過端午詩弔屈原。他自己後來的遭遇，跟屈原有個共通點是？<div class="opts"><b>都是為了忠於國家而以身殉國</b> · 都很會划龍舟 · 都當過皇帝 · 都活到一百歲</div>
+      <div class="fun">文天祥抗元被俘、寧死不降；屈原則因國破投江。所以文天祥寫端午弔屈原，根本是「忠臣對忠臣」的隔代共鳴——後人也常把這兩位放在一起講「氣節」。</div>
+      <div class="src">來源：文天祥《端午即事》《端午》詩；《宋史·文天祥傳》</div></td>
+    <td class="sc">4/3</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">詩詞</td>
+    <td class="q">《九歌》裡有一位很有名的角色叫「山鬼」。她其實是？<div class="opts"><b>山林中的女神</b> · 嚇人的厲鬼 · 屈原養的寵物 · 一種山產食材</div>
+      <div class="fun">別被「鬼」字騙了——《九歌·山鬼》寫的是一位披薜荔、戴女蘿、駕赤豹的美麗山中女神，等人不來的幽怨情詩。古文裡「鬼」常泛指山川精靈，不一定是恐怖的東西。</div>
+      <div class="src">來源：《楚辭·九歌·山鬼》</div></td>
+    <td class="sc">5/4</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">詩詞</td>
+    <td class="q">屈原的學生宋玉也是楚辭名家，他帥又有才，後世哪個說法是用他來形容男子俊美？<div class="opts"><b>貌若潘安、才比宋玉</b> · 貌比西施 · 才高八斗（指曹植） · 玉樹臨風（指衛玠）</div>
+      <div class="fun">宋玉相傳又帥又有才，後世用「美如宋玉、貌若潘安」形容男子俊美，「宋玉東牆」更成了俊男的代名詞。他的《登徒子好色賦》還寫了位「東家之子」美女——「增之一分則太長，減之一分則太短」，是「完美比例」這種審美寫法的祖師爺。屈原的徒弟，順手替華語發明了形容美的標準句型。</div>
+      <div class="src">來源：宋玉《登徒子好色賦》；教育部《國語辭典》「宋玉」「宋玉東牆」相關</div></td>
+    <td class="sc">4/3</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">詩詞</td>
+    <td class="q">屈原的詩裡常常出現「龍」「鳳」「雲霓」駕車飛天的場面。這種愛寫神遊天界、想像力爆棚的風格，後世稱為？<div class="opts"><b>浪漫主義（中國浪漫文學源頭）</b> · 寫實報導文學 · 推理小說 · 說明文</div>
+      <div class="fun">屈原動不動就駕龍乘鳳、上天下地求索，被視為中國浪漫主義文學的開山祖師。後來李白那種「飛流直下三千尺」的奔放想像，往上追源頭就會追到屈原這裡。</div>
+      <div class="src">來源：文學史通說（屈原為中國浪漫文學源頭）</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d5">5</td>
+    <td class="axis">人物</td>
+    <td class="q">屈原名「平」，字「原」。但他在《離騷》裡還給自己取了兩個美名「正則」和「靈均」。古人為什麼要一個人這麼多名字？<div class="opts"><b>名、字、別名各有用途，是當時文人的習慣</b> · 因為他失憶常忘記自己叫什麼 · 那是三個不同的人 · 為了躲債用的假名</div>
+      <div class="fun">古人「名」給長輩叫、「字」給平輩叫，文雅場合還能自取美名。屈原在詩裡自報「正則」「靈均」其實是把名跟字拆開玩文字遊戲——兩千年前的取藝名高手。</div>
+      <div class="src">來源：《楚辭·離騷》；古人名字制度通說</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d5">5</td>
+    <td class="axis">詩詞</td>
+    <td class="q">屈原投江的傳說裡，有一篇詩被認為是他的「絕筆」，寫完就投江了。這篇通常被認為是？<div class="opts"><b>《懷沙》</b> · 《靜夜思》 · 《滿江紅》 · 《登鸛雀樓》</div>
+      <div class="fun">《懷沙》收在《楚辭·九章》裡，司馬遷說屈原「乃作《懷沙》之賦」後懷石投江。「懷沙」一說是懷抱沙石沉江、一說是懷念長沙——一首被當成遺書讀了兩千年的詩。</div>
+      <div class="src">來源：《史記·屈原列傳》；《楚辭·九章·懷沙》</div></td>
+    <td class="sc">3/4</td>
+  </tr><tr>
+    <td class="diff d5">5</td>
+    <td class="axis">同時代對照</td>
+    <td class="q">和屈原幾乎同時代（戰國）的西方，有位哲學家也在寫一堆探討宇宙萬物的著作，還當過亞歷山大大帝的老師。他是？<div class="opts"><b>亞里斯多德</b> · 牛頓 · 愛因斯坦 · 莎士比亞</div>
+      <div class="fun">屈原約西元前340–前278年，亞里斯多德約前384–前322年——兩人時代重疊。當屈原在楚國寫《天問》連珠炮問宇宙怎麼來，地球另一邊的亞里斯多德正在教亞歷山大、寫他的自然哲學。東西方兩位「問問題狂人」竟是同代人。</div>
+      <div class="src">來源：屈原生卒約前340–前278；亞里斯多德前384–前322（史傳通說）</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d5">5</td>
+    <td class="axis">詩詞</td>
+    <td class="q">屈原的《離騷》裡有一句「制芰荷以為衣兮，集芙蓉以為裳」——他說要用荷葉做衣服、荷花做裙子。這在表達什麼？<div class="opts"><b>用花草自喻，象徵自己潔身自愛不同流俗</b> · 他真的沒錢買衣服 · 教人怎麼用荷葉做雨衣 · 端午要穿的傳統服裝</div>
+      <div class="fun">穿荷葉荷花當然不是真的——這是「香草美人」手法的延伸：拿乾淨的花草披在身上，象徵「我就是要保持乾淨，不跟你們髒在一起」。一種兩千年前的時尚宣言。</div>
+      <div class="src">來源：《楚辭·離騷》；王逸注「香草」喻潔</div></td>
+    <td class="sc">4/4</td>
+  </tr></tbody></table>
+  </details><details class="chapter">
+    <summary><span class="chap-key">king</span> 端午王（綜合最冷＋台灣在地） <span class="chap-n">18 題</span></summary>
+    <table class="qtable"><thead><tr><th>難</th><th>軸</th><th>題目 / 選項（粗體為正解）/ fun / 來源</th><th>fun/誘答</th></tr></thead>
+    <tbody><tr>
+    <td class="diff d2">2</td>
+    <td class="axis">台灣在地</td>
+    <td class="q">台灣小孩端午常掛的香包，傳統裡面塞的不是香水，而是裝了什麼？<div class="opts"><b>艾草、雄黃等中藥香料，靠氣味驅蟲避邪</b> · 糖果讓小孩開心 · 一張平安符紙 · 曬乾的粽葉</div>
+      <div class="fun">香包是古代版「隨身防蚊驅蟲包」——五月蟲多瘟病多，把帶香味的中藥裝進小布袋掛身上，等於把驅五毒做成可愛配件給小孩戴。</div>
+      <div class="src">來源：大紀元〈插蒲艾佩香包辟邪毒〉：香包內裝雄黃、艾草等香料以辟邪驅蟲</div></td>
+    <td class="sc">4/3</td>
+  </tr><tr>
+    <td class="diff d2">2</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">端午門口插的「艾草」和「菖蒲」，古人挑這兩種植物可不是隨便——主要看上它們什麼？<div class="opts"><b>有特殊氣味、被認為能驅蚊蟲瘟疫，菖蒲葉還像劍</b> · 開的花最漂亮 · 可以拿來包粽子 · 是屈原最愛的植物</div>
+      <div class="fun">菖蒲那把「綠劍」被想像成斬妖的寶劍、艾草氣味薰蚊蟲——端午掛草本質是給家門裝一套天然的「氣味＋造型」防蟲驅邪組。</div>
+      <div class="src">來源：大紀元〈天中五瑞·插蒲艾辟邪毒〉：艾草菖蒲氣味驅蟲避瘟，菖蒲形似劍</div></td>
+    <td class="sc">4/3</td>
+  </tr><tr>
+    <td class="diff d2">2</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">端午節別稱多到誇張：龍舟節、菖蒲節、五黃節、詩人節……下面哪一個其實不是端午的別稱？<div class="opts"><b>中元節（這是農曆七月的鬼節，跟端午無關）</b> · 天中節 · 重午節 · 端陽節</div>
+      <div class="fun">端午的別稱多到能寫滿一張紙：龍舟節、菖蒲節、艾節、五黃節、詩人節、粽子節、天中節、重午節、端陽節……一個節日被吃的、玩的、紀念的各角度取名，活成一本綽號大全。但中元節是農曆七月的鬼節，可別認錯親戚。</div>
+      <div class="src">來源：維基百科「端午節」別稱列表含粽子節、龍舟節、菖蒲節、五黃節等數十種</div></td>
+    <td class="sc">3/3</td>
+  </tr><tr>
+    <td class="diff d3">3</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">端午常聽到要「避五毒」，這「五毒」到底是哪五種動物？（有一個是你想不到的）<div class="opts"><b>蛇、蠍子、蜈蚣、蟾蜍、壁虎</b> · 蛇、老鼠、蚊子、蒼蠅、蟑螂 · 蜘蛛、毒蜂、水母、河豚、毒蛙 · 老虎、狼、蛇、鷹、鯊魚</div>
+      <div class="fun">很多人猜蟑螂蚊子，其實名單裡有隻無辜的壁虎——古人覺得牠有毒（其實沒有），照樣被列進黑名單，跟蛇蠍蜈蚣一起被貼在牆上鎮壓。</div>
+      <div class="src">來源：中新網〈端午五毒指5種動物〉、維基百科「五毒」：蜈蚣、毒蛇、蝎子、壁虎、蟾蜍</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d3">3</td>
+    <td class="axis">台灣在地</td>
+    <td class="q">台灣最有名的午時水聖地是台中大甲鐵砧山「劍井」，相傳這口井會湧泉，是因為哪位歷史人物在此插了一把劍？<div class="opts"><b>鄭成功（傳說缺水時插劍入地、拔劍湧泉，端午午時鄉民爭相來汲水）</b> · 劉備 · 關公 · 媽祖</div>
+      <div class="fun">大甲鐵砧山的午時水聖地，傳說是當年鄭成功被困缺水、一劍插地就湧出泉水——一口「插劍湧泉」的井，配上端午正午這一刻，難怪每年都擠滿搶水的人。</div>
+      <div class="src">來源：Trip.com/104職場力〈午時水〉：須於端午午時（11-13時）取水方為午時水；大紀元〈鐵砧山劍井午時水〉、維基「劍井」：大甲鐵砧山劍井為台灣最具代表性午時水聖地，鄭成功插劍湧泉傳說</div></td>
+    <td class="sc">3/3</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">端午又叫「端陽節」，這個「陽」字其實藏了一個天文梗——它在說什麼？<div class="opts"><b>五月是地支的「午」月、午又是一天裡陽氣最盛的時辰，雙陽疊滿所以叫端陽</b> · 因為這天要曬太陽消毒驅蟲，故名端陽 · 紀念一位姓陽的古代名醫 · 太陽這天離地球最近所以特別熱</div>
+      <div class="fun">「端」其實就是「初」的意思，端五＝初五；五又通午，所以同一個節日能叫端午、端陽、重午、重五一大串名字，全是同一套字在繞。</div>
+      <div class="src">來源：教育百科「端午節」條、人間福報〈端午節別稱及起源說〉：五月為午月、午時為陽辰故稱端陽</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">你知道嗎，在古代的漢朝人眼中，農曆五月根本不是好月份，他們叫它什麼？<div class="opts"><b>惡月（五月初五是惡日，要全力驅瘟避邪）</b> · 財月（五月最容易賺錢） · 壽月（五月出生的人最長壽） · 喜月（最適合辦婚事的月份）</div>
+      <div class="fun">五月天氣濕熱、蚊蟲瘟疫爆發，古人覺得這是一年最危險的月份，所有掛艾草、佩香包、喝雄黃的招數，本質都是在「過關躲災」，不是慶祝。</div>
+      <div class="src">來源：人民網〈不為人知的另一種端午：古代凶日惡日〉、大紀元〈五月五日為何被稱為惡月惡日〉</div></td>
+    <td class="sc">4/4</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">人物</td>
+    <td class="q">端午門上常掛的捉鬼神「鍾馗」，傳說他這份驅鬼工作，是哪位皇帝「做夢夢出來」的？<div class="opts"><b>唐玄宗（夢見鍾馗捉小鬼，醒來病就好了）</b> · 秦始皇 · 漢武帝 · 乾隆皇帝</div>
+      <div class="fun">傳說唐玄宗生病夢見一個醜大叔幫他抓鬼，自稱落榜進士鍾馗，醒來病居然好了，就叫畫聖吳道子把他畫下來——一位捉鬼天神，是從皇帝的一場夢和一張畫開始的。</div>
+      <div class="src">來源：《天中記》引《唐逸史》、維基百科「鍾馗」：唐玄宗夢鍾馗捉鬼，命吳道子繪其像</div></td>
+    <td class="sc">5/3</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">台灣在地</td>
+    <td class="q">台灣鹿港一帶端午前後若有人吊死，會辦驅煞的「送肉粽」儀式，這種押走煞氣的法事，主事與下令的常是哪位神明？<div class="opts"><b>王爺（代天巡狩，民俗相信能押走煞氣瘟疫，送肉粽日期由王爺指示）</b> · 土地公 · 月老 · 媽祖的徒弟千里眼</div>
+      <div class="fun">端午本是「驅瘟過關」的節，台灣沿海的王爺信仰正好接上這條線——鹿港的「送肉粽」就是請王爺指示、由法師把吊死的煞氣一路押到海邊送走，是把古代驅五毒升級成在地的大型驅煞法事。</div>
+      <div class="src">來源：內政部宗教知識+〈王爺、代天巡狩〉、台灣光華雜誌〈瘟神漂白記〉：王爺司瘟疫驅瘟煞；維基「送肉粽」、國史館台灣文獻館：鹿港送肉粽（送煞）由王爺指示、道壇法師主事押煞送海</div></td>
+    <td class="sc">4/3</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">科學破迷思</td>
+    <td class="q">「五毒」名單裡有一隻其實對人幾乎無害，純粹是被古人冤枉的——是哪一個？<div class="opts"><b>壁虎（台灣常見的牠其實無毒，卻被列進五毒）</b> · 蛇 · 蠍子 · 蜈蚣</div>
+      <div class="fun">家裡牆上那隻幫你吃蚊子的壁虎，在古代竟被當成五大毒物之一掛上門鎮壓——背了上千年黑鍋，其實是益蟲不是毒蟲。</div>
+      <div class="src">來源：維基百科「五毒」（含壁虎）；現代生物學：台灣常見壁虎無毒，被古人誤列五毒</div></td>
+    <td class="sc">5/4</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">科學破迷思</td>
+    <td class="q">白蛇傳裡白娘子端午喝了雄黃酒就現出蛇形。撇開神話，雄黃在現實中對「蟲蛇」真有那麼一手嗎？<div class="opts"><b>雄黃確有一定驅蟲避蛇的作用，古人經驗有其道理，但含砷對人也有毒</b> · 完全沒用，純粹是故事虛構 · 雄黃其實會吸引蛇靠近 · 雄黃只對白蛇有效對其他蛇沒用</div>
+      <div class="fun">白蛇傳不是亂編——雄黃氣味確實有驅蟲蛇的效果，古人拿來防五毒有經驗依據；只是它含砷，驅得了蟲也傷得了人，是把雙面刃。</div>
+      <div class="src">來源：維基百科「雄黃」：雄黃（硫化砷）有驅蟲避蛇之俗用，但含砷有毒；《白蛇傳》端午飲雄黃酒現形橋段</div></td>
+    <td class="sc">5/4</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">時間</td>
+    <td class="q">端午接近一年中白晝的轉折，這個「轉折」指的是哪個節氣？也是天中節名稱的由來。<div class="opts"><b>夏至（白晝最長、太陽最高，之後日照漸短）</b> · 冬至 · 春分 · 立秋</div>
+      <div class="fun">端午卡在夏至附近，太陽爬到全年最高點——古人在陽氣最旺的關口又怕陽極生災，於是又慶祝又驅邪，端午這份「既旺又危」的矛盾感全來自這個天文位置。</div>
+      <div class="src">來源：維基百科「端午節」、教育百科：端午近夏至，太陽位置最高，為天中節名稱由來</div></td>
+    <td class="sc">5/4</td>
+  </tr><tr>
+    <td class="diff d4">4</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">把端午所有習俗串起來，會發現一條共同主線。這條主線最貼切的描述是？<div class="opts"><b>五月是惡月、要驅瘟避邪過難關，吃喝掛佩全為這個目的服務</b> · 全部都是為了紀念屈原一個人 · 純粹是夏天到了大家找理由放假玩水 · 都是為了祈求農作物豐收</div>
+      <div class="fun">紀念屈原是後來加上的故事；端午的底層程式碼其實是「驅瘟避邪過惡月」——艾草、雄黃、五毒符、鍾馗、香包、午時水，每一樣都是在幫人安全度過一年最毒的這個月。</div>
+      <div class="src">來源：人民網、大紀元：端午本為驅瘟避疫的惡月惡日節俗，紀念屈原為後世層累附加的傳說</div></td>
+    <td class="sc">5/4</td>
+  </tr><tr>
+    <td class="diff d5">5</td>
+    <td class="axis">人物</td>
+    <td class="q">古代有個迷信誇張到——五月初五出生的小孩被認為會「剋父母」，差點被丟掉，結果這嬰兒長大變成戰國四公子之一。他是誰？<div class="opts"><b>孟嘗君（田文）</b> · 屈原 · 秦始皇 · 項羽</div>
+      <div class="fun">《史記》記載孟嘗君五月五日生，父親叫媽媽別養他，媽媽偷偷把他帶大，後來門下養了三千食客——差點因為一個迷信，戰國就少一位風雲人物。</div>
+      <div class="src">來源：《史記·孟嘗君列傳》：田文以五月五日生，父田嬰令勿舉，其母竊舉生之</div></td>
+    <td class="sc">5/4</td>
+  </tr><tr>
+    <td class="diff d5">5</td>
+    <td class="axis">科學破迷思</td>
+    <td class="q">端午喝的「雄黃酒」，其實藏了一個現代人不太敢碰的真相，是什麼？<div class="opts"><b>雄黃主成分是硫化砷，加熱會變致癌的砒霜成分，現代醫界建議別喝</b> · 雄黃酒其實沒有酒精，小孩可以喝 · 雄黃酒是用真的黃金泡的所以很貴 · 雄黃只是食用色素染黃的米酒</div>
+      <div class="fun">白蛇傳裡白娘子喝雄黃酒就現出蛇形——故事用它驅妖，但現實裡雄黃含砷，喝下去傷的可能是人自己，現在多半改成抹一點或純擺著。</div>
+      <div class="src">來源：良醫健康網、維基百科「五毒/雄黃」：雄黃為硫化砷，含砷有毒，加熱生成三氧化二砷（砒霜），不宜飲用</div></td>
+    <td class="sc">5/4</td>
+  </tr><tr>
+    <td class="diff d5">5</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">古人端午用「五毒符」貼門上，做法很狠——除了畫五種毒蟲，還會在上面加什麼？<div class="opts"><b>用五根針刺在五毒圖上，象徵把毒蟲鎮死</b> · 灑上香水讓牠們不敢來 · 寫上每隻毒蟲的名字 · 貼上金箔祈求平安</div>
+      <div class="fun">這是一種「以毒制毒」的視覺巫術——把蛇蠍蜈蚣畫出來再用針釘住，等於對著圖片宣示「你們進不來」，比掛符咒還帶點狠勁。</div>
+      <div class="src">來源：良醫健康網、避五毒（百度百科）：屋中貼五毒圖，以紅紙印畫毒物，用五根針刺於五毒之上</div></td>
+    <td class="sc">5/4</td>
+  </tr><tr>
+    <td class="diff d5">5</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">古人對五月初五出生的小孩有多忌諱？傳說中認為男女嬰各會「剋」到誰？<div class="opts"><b>相傳男剋父、女剋母，所以才有「不舉五月子」的狠話</b> · 男剋兄弟、女剋姊妹 · 都會剋祖父母 · 都會剋自己活不過五歲</div>
+      <div class="fun">「不舉五月子」就是不養五月生的孩子——孟嘗君正是踩中這條迷信差點被丟掉。一個今天闔家歡的節日，在漢朝其實是嬰兒的劫難日。</div>
+      <div class="src">來源：《風俗通》《論衡》〈四諱〉：俗說五月五日生子，男害父女害母，故不舉五月子</div></td>
+    <td class="sc">5/3</td>
+  </tr><tr>
+    <td class="diff d5">5</td>
+    <td class="axis">習俗由來</td>
+    <td class="q">江浙一帶端午要吃「五黃」湊滿五種黃色食物。下面哪一樣才是正牌五黃成員？<div class="opts"><b>黃鱔（另有黃魚、黃瓜、鹹鴨蛋黃、雄黃酒）</b> · 黃金 · 黃豆 · 黃椒</div>
+      <div class="fun">五黃是黃鱔、黃魚、黃瓜、鹹鴨蛋黃、雄黃酒——古人覺得端午吃齊五樣黃的能補陽氣驅毒，連顏色都要對齊「午月屬陽」這套邏輯，講究到飯桌上。</div>
+      <div class="src">來源：中新網／民俗資料：江浙端午食五黃，指黃魚、黃鱔、黃瓜、鹹鴨蛋黃、雄黃酒</div></td>
+    <td class="sc">4/4</td>
+  </tr></tbody></table>
+  </details>
+
+  <footer>
+    由 build-duanwu-bank workflow（26 agents）生成 · 資料源 workflow-result.json ·
+    端午王 event 設計 spec：docs/superpowers/specs/2026-06-17-duanwu-king-event-design.md
+  </footer>
+</div>
+</body>
+</html>

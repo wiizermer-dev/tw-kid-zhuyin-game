@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>屈原角色形象展示間 (Ghibli Style)</title>
+    <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+    <script src="https://unpkg.com/framer-motion@11.11.13/dist/framer-motion.js"></script>
+    <style>
+        :root {
+            --bg: oklch(99% 0.002 240);
+            --surface: oklch(100% 0 0);
+            --fg: oklch(18% 0.012 250);
+            --muted: oklch(54% 0.012 250);
+            --border: oklch(92% 0.005 250);
+            --accent: oklch(58% 0.18 255);
+            --tw-reed: #5BA86B;
+            --tw-cinnabar: #E5544A;
+            --font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+            --font-body: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: var(--fg);
+            font-family: var(--font-body);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .showcase-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            max-width: 800px;
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        header { text-align: center; }
+        h1 { margin: 0; color: var(--tw-reed); font-family: var(--font-display); }
+        .badge { display: inline-block; padding: 4px 12px; background: var(--bg); border-radius: 20px; font-size: 0.8rem; margin-top: 10px; border: 1px solid var(--border); }
+
+        .stage {
+            height: 350px;
+            background: linear-gradient(180deg, var(--bg) 0%, white 100%);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quyuan-img { width: 220px; height: auto; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15)) contrast(1.1) saturate(1.1); }
+
+        .controls { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        button { padding: 16px; border-radius: 16px; border: 1px solid var(--border); background: var(--bg); cursor: pointer; font-size: 1rem; transition: 0.2s; }
+        button.active { background: var(--tw-reed); color: white; }
+        
+        .shadow-ground { width: 100px; height: 10px; background: rgba(0,0,0,0.1); border-radius: 50%; position: absolute; bottom: 60px; }
+        .sparkle { position: absolute; pointer-events: none; font-size: 24px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState } = React;
+        const { motion, AnimatePresence } = window.Motion;
+
+        const Showcase = () => {
+            const [pose, setPose] = useState('wave');
+            
+            const poses = [
+                { id: 'wave', label: '👋 打招呼', img: 'public/quyuan-wave.png' },
+                { id: 'cheer', label: '✨ 加油', img: 'public/quyuan-cheer.png' },
+                { id: 'help', label: '🆘 緊張', img: 'public/quyuan-help.png' },
+                { id: 'think', label: '💡 提示', img: 'public/quyuan-help.png' }
+            ];
+
+            return (
+                <div className="showcase-card">
+                    <header>
+                        <h1>吉卜力屈原形象展示</h1>
+                        <div className="badge">VERSION 2.0 • HIGH VIBRANT</div>
+                    </header>
+
+                    <div className="stage">
+                        <AnimatePresence mode="wait">
+                            <motion.div 
+                                key={pose}
+                                initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.9, y: -10 }}
+                                transition={{ type: "spring", damping: 12 }}
+                                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+                            >
+                                <motion.div
+                                    animate={pose === 'help' ? { rotate: [-2, 2, -2] } : { y: [-10, 0, -10] }}
+                                    transition={{ duration: pose === 'help' ? 0.2 : 3, repeat: Infinity, ease: "easeInOut" }}
+                                >
+                                    <img src={`${poses.find(p => p.id === pose).img}`} className="quyuan-img" />
+                                    {pose === 'cheer' && [...Array(5)].map((_, i) => (
+                                        <motion.span 
+                                            key={i} 
+                                            className="sparkle"
+                                            initial={{ opacity: 0, y: 0 }}
+                                            animate={{ opacity: [0, 1, 0], y: -100, x: (i-2)*30 }}
+                                            transition={{ duration: 1, repeat: Infinity, delay: i*0.2 }}
+                                            style={{ left: '50%' }}
+                                        >✨</motion.span>
+                                    ))}
+                                </motion.div>
+                                <motion.div 
+                                    className="shadow-ground"
+                                    animate={{ scale: [1, 0.8, 1], opacity: [0.15, 0.05, 0.15] }}
+                                    transition={{ duration: 3, repeat: Infinity }}
+                                />
+                            </motion.div>
+                        </AnimatePresence>
+                    </div>
+
+                    <div className="controls">
+                        {poses.map(p => (
+                            <button 
+                                key={p.id} 
+                                className={pose === p.id ? 'active' : ''}
+                                onClick={() => setPose(p.id)}
+                            >
+                                {p.label}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<Showcase />);
+    </script>
+</body>
+</html>

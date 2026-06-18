@@ -17,6 +17,14 @@
   --card: #FFFFFF;
   --shadow: 61, 44, 41;
 
+  /* 端午 event 專屬配色（§5.1）— 每色綁一個端午元素，塞進 candy 系統不打架 */
+  --reed: #5BA86B;        /* 艾草／菖蒲綠（掛門驅邪）— event 主 tint */
+  --reed-deep: #3E8A52;   /* 深艾草 — jelly 按鈕下緣陰影 */
+  --river: #3FA7C4;       /* 汨羅江青藍（龍舟競渡）— arcade 河面、地圖水路 */
+  --river-deep: #2E8AA6;  /* 深江水 — 水路陰影 */
+  --zong: #C97B3A;        /* 粽葉烤糯米褐 — 粽子尖角、綁繩、進度鉤 */
+  --cinnabar: #E5544A;    /* 雄黃酒／硃砂避邪 — 扣命/限定徽章 accent */
+
   /* 字 */
   --font-kai: 'TW-Kai', 'BiauKai', 'Kaiti TC', 'DFKai-SB', serif;
   --font-round: 'Nunito', 'PingFang TC', 'Microsoft JhengHei', system-ui, sans-serif;

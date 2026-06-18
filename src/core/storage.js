@@ -31,6 +31,11 @@ export const storage = {
   getLevelBest: () => get('level_best', {}),
   setLevelBest: (best) => set('level_best', best),
 
+  /** 端午 event 進度：clearedLevels 為已過關關號（去重）、唯一真相；
+   *  zongziTotal/levelsCleared/rescued 全由它推導（純函式 advanceDuanwuProgress 在 T3）。 */
+  getDuanwuProgress: () => get('duanwu_progress', { clearedLevels: [], rescued: false }),
+  setDuanwuProgress: (p) => set('duanwu_progress', p),
+
   /** 闖關跨關卡連擊：上一關結束時的連擊，下一關接著燒；答錯自然歸零 */
   getLevelCombo: () => get('level_combo', 0),
   setLevelCombo: (n) => set('level_combo', n),

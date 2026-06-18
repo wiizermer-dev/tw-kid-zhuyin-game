@@ -10,6 +10,7 @@ import modern from './modern.js';
 import classical from './classical.js';
 import lyrics from './lyrics.js';
 import pickchar from './pickchar.js';
+import duanwu from './duanwu.js';
 
 export const CATEGORIES = {
   tricky: { label: '易讀錯', icon: 'ㄘ', items: tricky },
@@ -19,7 +20,8 @@ export const CATEGORIES = {
   modern: { label: '現代梗', icon: 'ㄇ', items: modern },
   classical: { label: '古文詩詞', icon: 'ㄍ', items: classical },
   lyrics: { label: '流行歌詞', icon: 'ㄎ', items: lyrics },
-  pickchar: { label: '錯別字', icon: 'ㄗ', items: pickchar }
+  pickchar: { label: '錯別字', icon: 'ㄗ', items: pickchar },
+  duanwu: { label: '端午', icon: 'ㄉ', items: duanwu } // event-only：見 bank.js EVENT_ONLY_CATEGORIES（T8）
 };
 
 export const BANK = Object.entries(CATEGORIES).flatMap(([key, cat]) =>
