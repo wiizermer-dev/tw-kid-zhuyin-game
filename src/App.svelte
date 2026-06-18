@@ -1,7 +1,7 @@
 <script>
   import './ui/theme.css';
   import FloatingBg from './ui/components/FloatingBg.svelte';
-  import FloatingDuanwu from './ui/components/FloatingDuanwu.svelte';
+  import DuanwuScene from './ui/components/DuanwuScene.svelte';
   import Home from './ui/screens/Home.svelte';
   import Play from './ui/screens/Play.svelte';
   import Result from './ui/screens/Result.svelte';
@@ -387,7 +387,7 @@
 </script>
 
 {#if screen === 'duanwu-quest' || screen === 'duanwu-arcade' || (screen === 'play' && modeKey === 'duanwu')}
-  <FloatingDuanwu />
+  <DuanwuScene />
 {:else}
   <FloatingBg />
 {/if}

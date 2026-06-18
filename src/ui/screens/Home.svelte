@@ -4,6 +4,7 @@
   import { dailySeed } from '../../core/rng.js';
   import ZhuyinGlyph from '../components/ZhuyinGlyph.svelte';
   import DuanwuIcon from '../components/DuanwuIcon.svelte';
+  import Quyuan from '../components/Quyuan.svelte';
 
   let { onPlay, onLevels, onBoard, onReview, onDuanwu, challenge = null, invalidChallenge = false, onAcceptChallenge, onDeclineChallenge } = $props();
 
@@ -123,7 +124,7 @@
   <nav class="modes">
     <button class="card duanwu-hero bounce-in" onclick={pickDuanwu}>
       <span class="dh-glow" aria-hidden="true"></span>
-      <span class="dh-icon"><DuanwuIcon name="boat" size={56} /></span>
+      <span class="dh-icon"><Quyuan size={52} pose="wave" /></span>
       <span class="dh-body">
         <span class="dh-badge">端午限定</span>
         <b class="dh-title">端午王</b>
@@ -287,8 +288,9 @@
     text-align: left;
     overflow: hidden;
     background:
-      radial-gradient(120% 140% at 12% 18%, color-mix(in srgb, var(--reed) 22%, white) 0%, transparent 60%),
-      linear-gradient(135deg, color-mix(in srgb, var(--reed) 14%, white) 0%, color-mix(in srgb, var(--river) 10%, white) 100%);
+      radial-gradient(150% 92% at 50% 138%, #8fcf72 0%, #a9da82 32%, rgba(169,218,130,0) 56%),
+      radial-gradient(circle at 87% 20%, rgba(255,238,180,0.95) 0%, rgba(255,238,180,0) 44%),
+      linear-gradient(180deg, #a9dcef 0%, #d4ecda 58%, #e8f5db 100%);
     border: 2.5px solid color-mix(in srgb, var(--reed) 55%, white);
     box-shadow: 0 6px 0 color-mix(in srgb, var(--reed-deep) 60%, white), var(--shadow-card);
     transition: transform 0.14s ease, box-shadow 0.14s ease;
@@ -306,11 +308,12 @@
   .dh-icon {
     flex-shrink: 0;
     width: 64px; height: 64px;
-    display: grid; place-items: center;
+    display: grid; place-items: end center;
     border-radius: 18px;
-    background: color-mix(in srgb, var(--river) 16%, white);
-    box-shadow: inset 0 -3px 8px color-mix(in srgb, var(--river) 18%, transparent);
-    animation: wiggle 4s ease-in-out infinite;
+    overflow: visible;
+    background: radial-gradient(120% 80% at 50% 120%, #a9da82 0%, rgba(169,218,130,0) 60%),
+                linear-gradient(180deg, #bfe6f2 0%, #eaf6dd 100%);
+    box-shadow: inset 0 -3px 8px color-mix(in srgb, var(--reed) 18%, transparent);
   }
   .dh-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.12rem; }
   .dh-badge {

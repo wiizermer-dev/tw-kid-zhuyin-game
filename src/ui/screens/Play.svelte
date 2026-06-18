@@ -3,6 +3,7 @@
   import { QuizSession } from '../../core/session.svelte.js';
   import ZhuyinCol from '../components/ZhuyinCol.svelte';
   import LiveBoard from '../components/LiveBoard.svelte';
+  import Zongzi from '../components/Zongzi.svelte';
   import { playCorrectSound, playWrongSound, playComboSound, playLevelUpSound } from '../../lib/audio.js';
 
   let { config: configProp, meta, onFinish, onQuit } = $props();
@@ -15,6 +16,16 @@
 
   const isSprint = !!config.timeLimit;
   const isBoss = (config.bossHp ?? 0) > 0;
+
+  // 端午答題背景漂浮粽子（決定性排布，低調裝飾，只在 fact 題顯示）
+  const floatZongzi = Array.from({ length: 6 }, (_, i) => ({
+    left: (i * 53 + 8) % 90,
+    top: (i * 37 + 6) % 84,
+    size: 30 + ((i * 11) % 24),
+    rot: ((i * 43) % 50) - 25,
+    delay: i * -1.3,
+    dur: 5 + (i % 4),
+  }));
   const isLive = !!meta.liveState;   // 即時對戰：限時答題 + 全房同步換題
 
   let wrongFlash = $state(false);
@@ -184,6 +195,16 @@
 </script>
 
 <div class="screen play" class:wrong-flash={wrongFlash}>
+  {#if q?.kind === 'fact'}
+    <div class="float-zongzi" aria-hidden="true">
+      {#each floatZongzi as z}
+        <span style:left="{z.left}%" style:top="{z.top}%" style:--rot="{z.rot}deg"
+              style:animation-delay="{z.delay}s" style:animation-duration="{z.dur}s">
+          <Zongzi size={z.size} />
+        </span>
+      {/each}
+    </div>
+  {/if}
   {#if showIntro}
     <div class="intro-overlay">
       <div class="card intro pop-in">
@@ -622,10 +643,17 @@
   /* 鋪一層淡端午漸層蓋過全域粉橘 body，把端午身分釘進答題畫面（spec §5.5：大色塊用端午色，本文仍 --ink） */
   .play:has(.qcard.fact)::after {
     content: '';
-    position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    position: fixed; inset: 0; z-index: -2; pointer-events: none;
     background: linear-gradient(165deg,
       color-mix(in srgb, var(--reed) 12%, var(--paper)) 0%,
       color-mix(in srgb, var(--river) 10%, var(--paper)) 100%);
+  }
+  /* 漂浮粽子：墊在端午漸層之上、答題卡之下 */
+  .float-zongzi { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+  .float-zongzi span {
+    position: absolute; opacity: 0.18;
+    animation: float-slow var(--dur, 6s) ease-in-out infinite;
+    filter: drop-shadow(0 4px 5px rgba(61,44,41,0.1));
   }
   .play:has(.qcard.fact) .qcard { box-shadow: 0 0 0 2.5px color-mix(in srgb, var(--reed) 28%, white), var(--shadow-card); }
   .play:has(.qcard.fact) .meter > i { background: linear-gradient(90deg, var(--river), var(--reed)); }

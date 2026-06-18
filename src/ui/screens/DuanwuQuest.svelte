@@ -6,6 +6,7 @@
   import { storage } from '../../core/storage.js';
   import DuanwuIcon from '../components/DuanwuIcon.svelte';
   import Zongzi from '../components/Zongzi.svelte';
+  import Quyuan from '../components/Quyuan.svelte';
 
   let { onPick, onHome } = $props();
 
@@ -25,6 +26,7 @@
   const NODE_X = [26, 72, 26, 72, 50];          // 左右交錯，第 5 站置中收束
   const ROW_H = 116;                            // 每站垂直間距(px)
   const PATH_TOP = 70;                          // 第一站 y(px)
+  const FINALE_GAP = 64;                         // 終點屈原額外下推（避免擋住第 5 站標籤）
 
   function isCleared(level) { return cleared.includes(level.n); }
   function isUnlocked(level) {
@@ -41,11 +43,13 @@
     toastTimer = setTimeout(() => { shakeN = 0; toastMsg = ''; }, 1600);
   }
 
-  // 地圖總高度（含終點站）
-  const mapHeight = $derived(PATH_TOP + DUANWU_LEVELS.length * ROW_H + 40);
+  // 終點屈原圓心 y（站 5 之下再加 FINALE_GAP，留足空間不擋標籤）
+  const finaleY = PATH_TOP + DUANWU_LEVELS.length * ROW_H + FINALE_GAP;
+  // 地圖總高度（含終點屈原獎章 + 標籤的下方留白）
+  const mapHeight = $derived(finaleY + 110);
   // S 形江水 path 字串（依 NODE_X 用 cubic bezier 蛇行串起各站 + 終點）
   const xs = [...NODE_X, 50];
-  const ys = DUANWU_LEVELS.map((_, i) => PATH_TOP + i * ROW_H).concat(PATH_TOP + DUANWU_LEVELS.length * ROW_H);
+  const ys = DUANWU_LEVELS.map((_, i) => PATH_TOP + i * ROW_H).concat(finaleY);
   const riverPath = xs.map((x, i) => {
     if (i === 0) return `M ${x} ${ys[i]}`;
     const px = xs[i - 1], py = ys[i - 1];
@@ -101,7 +105,11 @@
         <span class="st-medal">
           {#if level.chapter === 'zongzi'}<Zongzi size={52} />{:else}<DuanwuIcon name={STATION_ICON[level.chapter]} size={54} />{/if}
           {#if done}<span class="st-check" aria-hidden="true">✓</span>{/if}
-          {#if !unlocked}<span class="st-lock" aria-hidden="true">🔒</span>{/if}
+          {#if !unlocked}
+            <span class="st-lock" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="15" height="15"><path d="M7 11V8a5 5 0 0 1 10 0v3" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><rect x="5" y="11" width="14" height="9" rx="2.4" fill="#fff"/><circle cx="12" cy="15" r="1.5" fill="#9a8b6a"/></svg>
+            </span>
+          {/if}
         </span>
         <span class="st-label">
           <b>{level.n}・{level.name}</b>
@@ -112,9 +120,9 @@
 
     <!-- 終點：救屈原（圓心對齊 path 終點 x=50%） -->
     <div class="station finale" class:reached={clearedCount >= 5}
-         style:left="50%" style:top="{PATH_TOP + DUANWU_LEVELS.length * ROW_H}px">
+         style:left="50%" style:top="{finaleY}px">
       <span class="st-medal finale-medal">
-        <span class="finale-glyph">屈</span>
+        <Quyuan size={48} pose={clearedCount >= 5 ? 'rescued' : 'help'} float={clearedCount >= 5} />
       </span>
       <span class="st-label"><b>救屈原</b><small>{clearedCount >= 5 ? '達成！' : '5 關全破解鎖'}</small></span>
     </div>
@@ -123,10 +131,22 @@
 
 <style>
   .top { display: flex; align-items: center; gap: 0.8rem; }
-  .top h2 { font-family: var(--font-kai); margin: 0; color: var(--reed-deep); }
+  .top h2 {
+    font-family: var(--font-kai); margin: 0;
+    font-size: 1.5rem; font-weight: 900;
+    color: #fff;
+    padding: 0.25rem 1.1rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--reed), var(--reed-deep));
+    box-shadow: 0 4px 0 color-mix(in srgb, var(--reed-deep) 80%, var(--ink)),
+                0 6px 14px rgba(62,138,82,0.35);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.18);
+    letter-spacing: 0.05em;
+  }
   .back {
-    background: #fff; width: 38px; height: 38px; border-radius: 50%;
-    font-size: 1.1rem; color: var(--ink-soft); box-shadow: var(--shadow-card);
+    background: #fffdf6; width: 38px; height: 38px; border-radius: 50%;
+    font-size: 1.1rem; color: var(--reed-deep); font-weight: 900;
+    box-shadow: 0 3px 0 color-mix(in srgb, var(--reed) 35%, white), var(--shadow-card);
   }
 
   /* ① 進度鉤 hero */
@@ -171,9 +191,10 @@
     width: 72px; height: 72px;
     display: grid; place-items: center;
     border-radius: 50%;
-    background: #fff;
-    border: 3px solid color-mix(in srgb, var(--reed) 45%, white);
-    box-shadow: 0 5px 0 color-mix(in srgb, var(--reed-deep) 25%, white), var(--shadow-card);
+    background: radial-gradient(circle at 38% 32%, #fffdf5 0%, #fbf0d8 100%);
+    border: 3px solid color-mix(in srgb, var(--zong) 38%, white);
+    box-shadow: 0 5px 0 color-mix(in srgb, var(--zong) 30%, white),
+                0 8px 18px rgba(61,44,41,0.16);
     transition: transform 0.15s ease;
   }
   .station:hover:not(.locked) .st-medal { transform: translate(-50%, -50%) translateY(-3px); }
@@ -195,7 +216,13 @@
     background: var(--reed); color: #fff; font-size: 0.85rem; font-weight: 900;
     display: grid; place-items: center; box-shadow: var(--shadow-card);
   }
-  .st-lock { position: absolute; right: -2px; bottom: -2px; font-size: 0.95rem; }
+  .st-lock {
+    position: absolute; right: -4px; bottom: -4px;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: color-mix(in srgb, var(--ink-soft) 70%, #9a8b6a);
+    display: grid; place-items: center;
+    box-shadow: var(--shadow-card);
+  }
   /* label 絕對定位掛 medal 下方（medal 半徑 36 + 間距），不撐開錨點、不偏移圓心 */
   .st-label {
     position: absolute;
@@ -204,8 +231,14 @@
     width: 108px;
     text-align: center; line-height: 1.2;
   }
-  .st-label b { font-family: var(--font-kai); font-size: 0.95rem; color: var(--ink); display: block; }
-  .st-label small { font-size: 0.76rem; color: var(--ink-soft); }
+  .st-label b {
+    font-family: var(--font-kai); font-size: 0.97rem; font-weight: 900; color: var(--ink); display: block;
+    text-shadow: 0 1px 3px rgba(255,253,245,0.95), 0 0 6px rgba(255,253,245,0.8);
+  }
+  .st-label small {
+    font-size: 0.76rem; color: var(--reed-deep); font-weight: 700;
+    text-shadow: 0 1px 2px rgba(255,253,245,0.9);
+  }
   .station.current .st-label small { color: var(--reed-deep); font-weight: 800; }
   .station.locked .st-label { opacity: 0.6; }
 
